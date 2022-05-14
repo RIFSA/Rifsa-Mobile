@@ -10,7 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RifsaMobile">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.authetication.signup.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.authetication.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.onboarding.OnBoarding"
+            android:exported="false" />
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.splashscreen.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

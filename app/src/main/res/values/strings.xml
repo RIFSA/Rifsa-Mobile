@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">Rifsa-Mobile</string>
+
+    <string name="Login_title">Selamat Datang !</string>
+    <string name="login_subtitle">Kami hadir untuk membantu aktivitas pertanian anda</string>
+
+    <string name="tv_email_title">Email</string>
+    <string name="tv_password_title">Password</string>
+    <string name="btn_enter_title">Masuk</string>
+    <string name="btn_signup_title">Daftar</string>
+    <string name="signup_title">Daftar Sekarang !</string>
+    <string name="signup_subtitle">Buat akun untuk bisa bergabung bersama kami</string>
+    <string name="tv_nama_title">Nama</string>
+
+
+    <string-array name="title_pic">
+        <item>@drawable/onboard_pic1</item>
+        <item>@drawable/onboard_pic2</item>
+        <item>@drawable/onboard_pic3</item>
+    </string-array>
+
+    <string-array name="title">
+        <item>Semua Jadi Mudah</item>
+        <item>Pantau Perkembangan</item>
+        <item>Inventaris</item>
+    </string-array>
+
+    <string-array name="subTitle">
+        <item>
+            Mari atur semua rencana pertanian anda dengan mudah dalam satu genggaman
+        </item>
+        <item>
+            Membantu anda dalam memantau perkembangan pertanian anda
+        </item>
+        <item>
+            Mempermudah pengaturan inventaris milik anda
+        </item>
+    </string-array>
+
 </resources>

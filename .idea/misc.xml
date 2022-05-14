@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/bg_corner_stroke.xml" value="0.3195" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/bg_layoutcorner_fill.xml" value="0.3195" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.3195" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_hidepass.xml" value="0.3195" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_showpass.xml" value="0.3195" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_on_boarding.xml" value="0.33" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_splash_screen.xml" value="0.296195652173913" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/itemcard_onboarding.xml" value="0.5" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
