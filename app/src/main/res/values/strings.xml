@@ -1,3 +1,110 @@
 <resources>
-    <string name="app_name">Rifsa-Mobile</string>
+    <string name="app_name">RIFSA</string>
+
+    <string name="Login_title">Selamat Datang !</string>
+    <string name="login_subtitle">Kami hadir untuk membantu aktivitas \n pertanian anda</string>
+
+    <string name="tv_email_title">Email</string>
+    <string name="tv_password_title">Password</string>
+    <string name="btn_enter_title">Masuk</string>
+    <string name="btn_signup_title">Daftar</string>
+    <string name="signup_title">Daftar Sekarang !</string>
+    <string name="signup_subtitle">Buat akun untuk bisa bergabung \n bersama kami</string>
+    <string name="tv_nama_title">Nama</string>
+
+    <string-array name="type_finance">
+        <item>Pengeluaran</item>
+        <item>Pemasukan</item>
+    </string-array>
+
+    <string-array name="title_pic">
+        <item>@drawable/onboard_pic1</item>
+        <item>@drawable/onboard_pic2</item>
+        <item>@drawable/onboard_pic3</item>
+    </string-array>
+
+    <string-array name="title">
+        <item>Semua Jadi Mudah</item>
+        <item>Pantau Perkembangan</item>
+        <item>Inventaris</item>
+    </string-array>
+
+    <string-array name="subTitle">
+        <item>
+            Mari atur semua rencana pertanian anda \n dengan mudah dalam satu genggaman
+        </item>
+        <item>
+            Membantu anda dalam memantau \n perkembangan pertanian anda
+        </item>
+        <item>
+            Mempermudah pengaturan inventari \n milik anda
+        </item>
+    </string-array>
+
+
+    <string-array name="hasil_mock">
+        <item>Beras</item>
+        <item>Beras</item>
+        <item>Beras</item>
+        <item>Beras</item>
+        <item>Beras</item>
+        <item>Beras</item>
+    </string-array>
+
+    <string-array name="berat_mock">
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+    </string-array>
+
+    <string-array name="tanggal_mock">
+        <item>20 May 2020</item>
+        <item>20 May 2020</item>
+        <item>20 May 2020</item>
+        <item>20 May 2020</item>
+        <item>20 May 2020</item>
+        <item>20 May 2020</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_picture">profile_picture</string>
+    <string name="home_harvestres_title">Hasil Panen</string>
+    <string name="back">back</string>
+    <string name="lewati">Lewati</string>
+    <string name="subtitle">subtitle</string>
+    <string name="title">title</string>
+    <string name="image">image</string>
+    <string name="name">Nama</string>
+    <string name="rumah">Rumah</string>
+    <string name="keuangan">Keuangan</string>
+    <string name="deteksi">Deteksi</string>
+    <string name="inventaris">Inventaris</string>
+    <string name="profile">Profile</string>
+    <string name="nama_dummy">Nama Dummy</string>
+    <string name="apa_itu_rifsa">Apa itu Rifsa?</string>
+    <string name="desc_card_home">Rifsa merupakan aplikasi untuk \nmemudahkan petani dalam memantau \nperkembangan tanamannya.</string>
+    <string name="lihat_semua">Lihat semua</string>
+    <string name="finance_out">finance out</string>
+    <string name="add">add</string>
+    <string name="save">save</string>
+    <string name="jenis_panen">Jenis Panen</string>
+    <string name="berat">Berat (kg)</string>
+    <string name="hasil_jual">Hasil Jual (Rp)</string>
+    <string name="catatan">Catatan</string>
+    <string name="detail_keuangan">Detail Keuangan</string>
+    <string name="detail_panen">Detail Panen</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="pengeluaran_pemasukan">Pengeluaran / Pemasukan</string>
+    <string name="kegiatan">Kegiatan</string>
+    <string name="harga">Harga (Rp)</string>
+    <string name="hapus">Hapus</string>
+    <string name="keluar">Keluar</string>
+    <string name="detail_inventaris">Detail Inventaris</string>
+    <string name="foto">Foto</string>
+    <string name="jumlah">Jumlah</string>
+    <string name="button_camera">button camera</string>
+
 </resources>

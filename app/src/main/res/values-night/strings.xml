@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Login_title">Selamat Datang !</string>
+    <string name="tv_email_title">Email</string>
+    <string name="tv_password_title">Password</string>
+    <string name="login_subtitle">Kami hadir untuk membantu aktivitas pertanian anda</string>
+    <string name="btn_enter_title">Masuk</string>
+    <string name="btn_signup_title">Daftar</string>
+    <string name="signup_title">Daftar Sekarang !</string>
+    <string name="tv_nama_title">Nama</string>
+    <string name="profile_picture">profile_picture</string>
+    <string name="home_harvestres_title">Hasil Panen</string>
+    <string name="back">back</string>
+</resources>
