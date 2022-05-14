@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityLoginBinding
+import com.example.rifsa_mobile.view.MainActivity
 import com.example.rifsa_mobile.view.authetication.signup.SignUpActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -21,10 +22,16 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this,SignUpActivity::class.java))
         }
 
+        binding.btnLoginEnter.setOnClickListener {
+            login()
+        }
+
     }
 
     //todo 1.2 Login checker
     private fun login(){
-
+        if (binding.tvLoginEmail.text!!.isNotEmpty() && binding.tvLoginPassword.text!!.isNotEmpty()){
+            startActivity(Intent(this,MainActivity::class.java))
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.onboarding.entity
+package com.example.rifsa_mobile.model.local.entity.onboard
 
 data class OnBoardRef(
     val pic : Int,
