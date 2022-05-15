@@ -10,4 +10,5 @@
     <string name="tv_nama_title">Nama</string>
     <string name="profile_picture">profile_picture</string>
     <string name="home_harvestres_title">Hasil Panen</string>
+    <string name="back">back</string>
 </resources>
