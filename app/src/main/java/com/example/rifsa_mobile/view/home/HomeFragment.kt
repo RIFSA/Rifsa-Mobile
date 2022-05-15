@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-
+        binding.imageView2.setImageResource(R.drawable.mockprofile)
         arrayList.addAll(setHarvestMockUp)
         showResult()
         return binding.root

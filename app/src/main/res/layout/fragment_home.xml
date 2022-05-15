@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="56dp"
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:contentInsetEnd="0dp"
@@ -31,22 +31,22 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="71dp"
+                android:layout_width="56dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
+                android:contentDescription="@string/profile_picture"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.512"
-                tools:src="@tools:sample/avatars"
-                android:contentDescription="@string/profile_picture" />
+                tools:src="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/dmsans_regular"
                 android:includeFontPadding="false"
                 android:text="@string/Login_title"
@@ -90,7 +90,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="140dp"
             android:background="#D6FAED">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
