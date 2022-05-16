@@ -54,6 +54,7 @@ class OnBoarding : AppCompatActivity() {
             binding.rvOnboarding.smoothScrollToPosition(lastItem + 1)
             if (lastItem == 2){
                 startActivity(Intent(this, LoginActivity::class.java))
+                finishAffinity()
             }
 
         }

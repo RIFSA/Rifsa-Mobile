@@ -5,17 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment
 import com.example.rifsa_mobile.view.fragment.home.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private var arrayList = ArrayList<HarvestResult>()
     override fun onCreateView(
@@ -26,6 +29,10 @@ class HomeFragment : Fragment() {
         binding.imageView2.setImageResource(R.drawable.mockprofile)
         arrayList.addAll(setHarvestUp)
         showResult()
+
+        authViewModel.getUserName().observe(viewLifecycleOwner){
+            binding.tvhomeName.text = it
+        }
 
         binding.btnHomeHasil.setOnClickListener {
             requireActivity().supportFragmentManager

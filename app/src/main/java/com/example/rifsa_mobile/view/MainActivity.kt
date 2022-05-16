@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityMainBinding
 import com.example.rifsa_mobile.view.fragment.home.HomeFragment
+import com.example.rifsa_mobile.view.fragment.inventory.InventoryFragment
+import com.example.rifsa_mobile.view.fragment.profile.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -17,11 +19,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
+        binding.mainBottommenu.visibility = View.VISIBLE
 
         binding.mainBottommenu.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.rumah->{
                     setFragment(HomeFragment())
+                }
+                R.id.inventaris->{
+                    setFragment(InventoryFragment())
+                }
+                R.id.profile->{
+                    setFragment(ProfileFragment())
                 }
             }
             true
