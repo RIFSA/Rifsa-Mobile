@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/bg_tvcorner_stroke_green">
+
+    <TextView
+        android:id="@+id/tvcard_finance_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/dmsans_bold"
+        android:includeFontPadding="false"
+
+        android:text="asdasd"
+        android:textColor="#0A0A0A"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvcard_finance_price"
+        tools:ignore="SmallSp"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+
+        android:fontFamily="@font/dmsans_regular"
+        android:gravity="center|start"
+        android:includeFontPadding="false"
+        android:text="asdasd"
+        android:textColor="#818181"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvcard_finance_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

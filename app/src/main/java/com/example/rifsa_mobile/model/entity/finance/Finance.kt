@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.entity.keuangan
+package com.example.rifsa_mobile.model.entity.finance
 
 data class Finance(
     val id_finance : Int,

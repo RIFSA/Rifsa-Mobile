@@ -12,6 +12,10 @@
     <string name="signup_subtitle">Buat akun untuk bisa bergabung bersama kami</string>
     <string name="tv_nama_title">Nama</string>
 
+    <string-array name="type_finance">
+        <item>Penjualan</item>
+        <item>Pemasukan</item>
+    </string-array>
 
     <string-array name="title_pic">
         <item>@drawable/onboard_pic1</item>
