@@ -16,7 +16,7 @@ class FinanceRvAdapter(var dataList : List<Finance>): RecyclerView.Adapter<Finan
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
-        holder.binding.tvcardFinancePrice.text = item.amount.toString()
+        holder.binding.tvcardFinancePrice.text = "Rp "+item.amount.toString()
         holder.binding.tvcardFinanceTitle.text = item.title
     }
 

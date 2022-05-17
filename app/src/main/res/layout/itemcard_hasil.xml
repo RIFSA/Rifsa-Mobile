@@ -34,7 +34,7 @@
         android:includeFontPadding="false"
 
         android:textColor="#0A0A0A"
-        android:textSize="10sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/tv_cardhasil_date"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +48,10 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/dmsans_regular"
-        android:gravity="center"
+        android:gravity="end"
         android:includeFontPadding="false"
         android:textColor="#818181"
-        android:textSize="10sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_cardhasil_title"
         tools:ignore="SmallSp" />
