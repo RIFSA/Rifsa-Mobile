@@ -10,6 +10,7 @@
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/bg_tvcorner_stroke_green.xml" value="0.3195" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.3195" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_hidepass.xml" value="0.3195" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_home_test.xml" value="0.265" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_inventory.xml" value="0.3195" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_money.xml" value="0.3195" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/ic_penyakit.xml" value="0.3195" />
@@ -19,7 +20,7 @@
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_on_boarding.xml" value="0.33" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_splash_screen.xml" value="0.296195652173913" />
-        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_camera.xml" value="0.33" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_camera.xml" value="0.18" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_disase.xml" value="0.25651988029072254" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_harvest_insert_detail.xml" value="0.5" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_harvet_result.xml" value="0.33" />
