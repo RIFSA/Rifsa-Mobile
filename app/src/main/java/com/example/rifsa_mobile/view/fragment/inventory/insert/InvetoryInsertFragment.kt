@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.inventory
+package com.example.rifsa_mobile.view.fragment.inventory.insert
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -6,11 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentContainerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertBinding
 import com.example.rifsa_mobile.view.fragment.camera.CameraFragment
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 

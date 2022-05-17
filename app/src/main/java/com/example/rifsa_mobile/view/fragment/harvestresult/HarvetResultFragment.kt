@@ -43,9 +43,12 @@ class HarvetResultFragment : Fragment() {
             val listMock = ArrayList<HarvestResult>()
             for (i in title.indices){
                 val temp = HarvestResult(
+                    i,
+                    date[i],
                     title[i],
                     weight[i],
-                    date[i]
+                    100,
+                    "adsad"
                 )
                 listMock.add(temp)
             }

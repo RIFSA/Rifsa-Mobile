@@ -5,8 +5,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class HarvestResult(
+    val id_harvest : Int,
+    val date : String,
     val title : String,
     val weight : String,
-    val date : String
+    val jual : Int,
+    val catatan : String
 ): Parcelable
 

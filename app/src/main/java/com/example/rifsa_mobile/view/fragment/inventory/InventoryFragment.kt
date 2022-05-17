@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
+import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment
 
 
 class InventoryFragment : Fragment() {
@@ -21,7 +22,7 @@ class InventoryFragment : Fragment() {
         binding.fabinventoryAdd.setOnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.mainnav_framgent,InvetoryInsertFragment())
+                .replace(R.id.mainnav_framgent, InvetoryInsertFragment())
                 .addToBackStack(null)
                 .commit()
         }
