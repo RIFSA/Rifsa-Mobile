@@ -1,13 +1,16 @@
 package com.example.rifsa_mobile.view.fragment.camera
 
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -15,11 +18,14 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.view.fragment.inventory.InventoryFragment
 import com.example.rifsa_mobile.view.fragment.inventory.InvetoryInsertFragment
+import com.example.rifsa_mobile.view.fragment.inventory.InvetoryInsertFragment.Companion.camera_key
+import com.example.rifsa_mobile.view.fragment.inventory.InvetoryInsertFragment.Companion.invetory_camera_key
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 
@@ -29,7 +35,16 @@ class CameraFragment : Fragment() {
     private var imageCapture : ImageCapture? = null
 
 
+    private var type = ""
+    private lateinit var fragment : Fragment
 
+    private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
+        if (respon.resultCode == Activity.RESULT_OK){
+            val uriImage : Uri = respon.data?.data as Uri
+            val file = Utils.uriToFile(uriImage,requireContext())
+            showImageCapture(file)
+        }
+    }
     private fun allPermissionGranted() = required_permission.all {
         ContextCompat.checkSelfPermission(requireContext(),it) == PackageManager.PERMISSION_GRANTED
     }
@@ -51,13 +66,20 @@ class CameraFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCameraBinding.inflate(layoutInflater)
 
-        if (!allPermissionGranted()){
-            ActivityCompat.requestPermissions(requireActivity(), required_permission,
-                REQUEST_CODE_PERMISSIONS)
+        type = requireArguments().getString(camera_key).toString()
+        if (type == "inventory"){
+            fragment = InvetoryInsertFragment()
+        }else{
+
         }
+
+        if (!allPermissionGranted()){
+            ActivityCompat.requestPermissions(requireActivity(), required_permission, REQUEST_CODE_PERMISSIONS)
+        }
+
         startCamera()
 
         binding.btncameraCapture.setOnClickListener {
@@ -65,6 +87,12 @@ class CameraFragment : Fragment() {
         }
 
 
+        binding.btnGallery.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            launchIntentGallery.launch(intent)
+        }
 
         return binding.root
     }
@@ -95,7 +123,7 @@ class CameraFragment : Fragment() {
                     e.message.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.d("camera fragment",e.message.toString())
+                Log.d(camera_fragment,e.message.toString())
             }
 
         },ContextCompat.getMainExecutor(requireContext()))
@@ -125,10 +153,9 @@ class CameraFragment : Fragment() {
 
     private fun showImageCapture(data : File){
         val bundle = Bundle()
-        val fragment = InvetoryInsertFragment()
         val imageFiles = ArrayList<File>()
         imageFiles.add(data)
-        bundle.putSerializable("camera_pic",imageFiles)
+        bundle.putSerializable(invetory_camera_key,imageFiles)
         fragment.arguments = bundle
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.mainnav_framgent,fragment)
@@ -136,6 +163,7 @@ class CameraFragment : Fragment() {
             .commit()
 
     }
+
     private fun showToast(title : String){
         Toast.makeText(requireContext(),title,Toast.LENGTH_SHORT).show()
     }
@@ -143,6 +171,7 @@ class CameraFragment : Fragment() {
     companion object{
         private val required_permission = arrayOf(android.Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        private const val camera_fragment = "camera_fragment"
     }
 
 

@@ -24,16 +24,11 @@ class InvetoryInsertFragment : Fragment() {
     ): View? {
         binding = FragmentInvetoryInsertBinding.inflate(layoutInflater)
 
-
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
         binding.imgInventory.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.mainnav_framgent,CameraFragment())
-                .addToBackStack(null)
-                .commit()
+            setFragmentCamera()
         }
 
         try {
@@ -42,16 +37,31 @@ class InvetoryInsertFragment : Fragment() {
 
         }
 
-
-
         return binding.root
     }
 
     private fun showCameraImage(){
-        val arrayFile = requireArguments().getSerializable("camera_pic") as ArrayList<*>
+        val arrayFile = requireArguments().getSerializable(invetory_camera_key) as ArrayList<*>
         val file = arrayFile[0] as File
         val result = BitmapFactory.decodeFile(file.path)
         binding.imgInventory.setImageBitmap(result)
+    }
+
+    private fun setFragmentCamera(){
+        val bundle = Bundle()
+        val fragment = CameraFragment()
+        bundle.putString(camera_key, camera_key)
+        fragment.arguments = bundle
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.mainnav_framgent,fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    companion object{
+        const val invetory_camera_key = "camera_pic"
+        const val camera_key = "inventory"
     }
 
 
