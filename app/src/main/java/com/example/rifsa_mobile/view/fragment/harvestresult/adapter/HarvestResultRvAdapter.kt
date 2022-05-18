@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.home.adapter
+package com.example.rifsa_mobile.view.fragment.harvestresult.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

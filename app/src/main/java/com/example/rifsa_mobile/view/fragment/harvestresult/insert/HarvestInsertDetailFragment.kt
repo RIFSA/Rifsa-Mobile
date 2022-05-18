@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.harvestresult
+package com.example.rifsa_mobile.view.fragment.harvestresult.insert
 
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.utils.Utils
+import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment
 import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment.Companion.detail_result
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -61,6 +62,8 @@ class HarvestInsertDetailFragment : Fragment() {
         return binding.root
     }
 
+
+    //jika termasuk detail maka tombol delete akan ditampilkan
     private fun showDetail(data : HarvestResult){
         binding.apply {
             tvharvestInsertName.setText(data.title)

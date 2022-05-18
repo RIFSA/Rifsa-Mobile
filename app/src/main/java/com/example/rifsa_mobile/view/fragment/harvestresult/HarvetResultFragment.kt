@@ -5,15 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
-import com.example.rifsa_mobile.view.fragment.home.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
-import kotlinx.coroutines.launch
 
 
 class HarvetResultFragment : Fragment() {
@@ -33,7 +32,7 @@ class HarvetResultFragment : Fragment() {
             requireActivity().supportFragmentManager
                 .beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.mainnav_framgent,HarvestInsertDetailFragment())
+                .replace(R.id.mainnav_framgent, HarvestInsertDetailFragment())
                 .commit()
         }
         return binding.root
