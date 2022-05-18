@@ -14,7 +14,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/Tv_Board_Title"
@@ -26,8 +27,9 @@
         android:fontFamily="@font/dmsans_bold"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="title"
-        android:textSize="25sp"
+        android:text="@string/title"
+        android:textSize="24sp"
+        android:textColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Tv_Board_pic" />
@@ -39,11 +41,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="10dp"
-        android:fontFamily="@font/dmsans_bold"
+        android:fontFamily="@font/dmsans_regular"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="subtitle"
-        android:textColor="#101010"
+        android:text="@string/subtitle"
+        android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -19,16 +19,13 @@ class InventoryFragment : Fragment() {
     ): View {
         binding = FragmentInventoryBinding.inflate(layoutInflater)
 
-        binding.fabinventoryAdd.setOnClickListener {
+        binding.fabInventoryAdd.setOnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainnav_framgent, InvetoryInsertFragment())
                 .addToBackStack(null)
                 .commit()
         }
-
-
-
 
         return binding.root
     }

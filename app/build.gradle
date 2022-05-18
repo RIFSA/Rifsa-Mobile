@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.rifsa_mobile"
-        minSdk 26
+        minSdk 21
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -67,15 +67,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.13.1'
 
     //cameraX
-    implementation "androidx.camera:camera-camera2:1.1.0-rc01"
-    implementation "androidx.camera:camera-lifecycle:1.1.0-rc01"
-    implementation "androidx.camera:camera-view:1.1.0-rc01"
-
-    //room
-    implementation 'androidx.room:room-ktx:2.5.0-alpha01'
-    kapt 'androidx.room:room-compiler:2.5.0-alpha01'
-    implementation "androidx.room:room-runtime:2.4.2"
-    implementation "androidx.room:room-ktx:2.4.2"
-    androidTestImplementation "androidx.room:room-testing:2.4.2"
-
+    implementation "androidx.camera:camera-camera2:1.1.0-beta03"
+    implementation "androidx.camera:camera-lifecycle:1.1.0-beta03"
+    implementation "androidx.camera:camera-view:1.1.0-beta03"
 }

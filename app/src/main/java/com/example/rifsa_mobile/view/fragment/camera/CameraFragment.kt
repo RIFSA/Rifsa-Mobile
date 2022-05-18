@@ -22,10 +22,8 @@ import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.view.fragment.disase.DisaseDetailFragment
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key
-import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key_inventory
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.invetory_camera_key
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
@@ -74,7 +72,7 @@ class CameraFragment : Fragment() {
         if (type == "inventory"){
             fragment = InvetoryInsertFragment()
         }else{
-            fragment = DisaseDetailFragment()
+
         }
 
         if (!allPermissionGranted()){

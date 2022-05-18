@@ -18,7 +18,6 @@ class OnBoardAdapter(var data : List<OnBoardRef>) : RecyclerView.Adapter<OnBoard
         holder.binding.TvBoardPic.setImageResource(item.pic)
         holder.binding.TvBoardTitle.text = item.title
         holder.binding.tvBoardSubtitle.text = item.subTitle
-
     }
 
     override fun getItemCount(): Int = data.size
