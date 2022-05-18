@@ -48,7 +48,7 @@ class InvetoryInsertFragment : Fragment() {
     private fun setFragmentCamera(){
         val bundle = Bundle()
         val fragment = CameraFragment()
-        bundle.putString(camera_key, camera_key)
+        bundle.putString(camera_key, camera_key_inventory)
         fragment.arguments = bundle
         requireActivity().supportFragmentManager
             .beginTransaction()
@@ -59,7 +59,8 @@ class InvetoryInsertFragment : Fragment() {
 
     companion object{
         const val invetory_camera_key = "camera_pic"
-        const val camera_key = "inventory"
+        const val camera_key_inventory = "inventory"
+        const val camera_key = "camera"
     }
 
 

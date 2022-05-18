@@ -20,15 +20,15 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private var arrayList = ArrayList<HarvestResult>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         binding.imageView2.setImageResource(R.drawable.mockprofile)
-        arrayList.addAll(setHarvestUp)
-        showResult()
+
+
 
         authViewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvhomeName.text = it
@@ -46,31 +46,10 @@ class HomeFragment : Fragment() {
     }
 
 
-    private val setHarvestUp : ArrayList<HarvestResult>
-        get() {
-            val title = resources.getStringArray(R.array.hasil_mock)
-            val weight = resources.getStringArray(R.array.berat_mock)
-            val date = resources.getStringArray(R.array.tanggal_mock)
-            val listMock = ArrayList<HarvestResult>()
-            for (i in title.indices){
-                val temp = HarvestResult(
-                    i,
-                    date[i],
-                    title[i],
-                    weight[i],
-                    100,
-                    "adsad"
-                )
-                listMock.add(temp)
-            }
-            return listMock
-        }
-
-
-    private fun showResult(){
-        val recview = binding.rvHomeHarvest
-        recview.adapter = HarvestResultRvAdapter(arrayList)
-        recview.layoutManager = LinearLayoutManager(requireContext())
-    }
+//    private fun showResult(){
+//        val recview = binding.rvHomeHarvest
+//        recview.adapter = HarvestResultRvAdapter(arrayList)
+//        recview.layoutManager = LinearLayoutManager(requireContext())
+//    }
 
 }

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityMainBinding
+import com.example.rifsa_mobile.view.fragment.disase.DisaseFragment
 import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment
 import com.example.rifsa_mobile.view.fragment.home.HomeFragment
 import com.example.rifsa_mobile.view.fragment.inventory.InventoryFragment
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.inventaris->{
                     setFragment(InventoryFragment())
+                }
+                R.id.penyakit->{
+                    setFragment(DisaseFragment())
                 }
                 R.id.profile->{
                     setFragment(ProfileFragment())

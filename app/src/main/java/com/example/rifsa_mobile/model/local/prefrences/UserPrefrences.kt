@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.local
+package com.example.rifsa_mobile.model.local.prefrences
 
 import android.content.Context
 import androidx.datastore.core.DataStore

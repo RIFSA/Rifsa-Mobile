@@ -13,6 +13,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.streams.asSequence
 
 object Utils {
 
@@ -64,4 +65,15 @@ object Utils {
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(timeStamp, ".jpg", storageDir)
     }
+
+    //generate random number id
+    private const val source = "123456789"
+
+    fun randomId(): String{
+        return Random().ints(10, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString("")
+    }
+
 }
