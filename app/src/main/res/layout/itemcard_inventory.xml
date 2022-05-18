@@ -16,8 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/image" />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvcard_invent_title"
@@ -27,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/dmsans_bold"
-        android:text="@string/title"
+        android:text="Title"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +42,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/dmsans_regular"
-        android:text="@string/subtitle"
+        android:text="Jumlah"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imgcard_invent"

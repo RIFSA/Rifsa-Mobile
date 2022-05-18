@@ -9,7 +9,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        window.statusBarColor = ContextCompat.getColor(this,R.color.green)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.main_color)
 
     }
 

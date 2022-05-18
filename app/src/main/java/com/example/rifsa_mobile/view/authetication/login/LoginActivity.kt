@@ -20,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ContextCompat.getColor(this,R.color.green)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.main_color)
 
         binding.btnLoginSignup.setOnClickListener {
             startActivity(Intent(this,SignUpActivity::class.java))

@@ -7,20 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.rifsa_mobile.R
-import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
+import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertBinding
 import com.example.rifsa_mobile.view.fragment.camera.CameraFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 
 
 class InvetoryInsertFragment : Fragment() {
-    private lateinit var binding : FragmentInvetoryInsertDetailBinding
+    private lateinit var binding : FragmentInvetoryInsertBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInvetoryInsertDetailBinding.inflate(layoutInflater)
+        binding = FragmentInvetoryInsertBinding.inflate(layoutInflater)
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
@@ -48,7 +48,7 @@ class InvetoryInsertFragment : Fragment() {
     private fun setFragmentCamera(){
         val bundle = Bundle()
         val fragment = CameraFragment()
-        bundle.putString(camera_key, camera_key)
+        bundle.putString(camera_key, camera_key_inventory)
         fragment.arguments = bundle
         requireActivity().supportFragmentManager
             .beginTransaction()
@@ -59,7 +59,8 @@ class InvetoryInsertFragment : Fragment() {
 
     companion object{
         const val invetory_camera_key = "camera_pic"
-        const val camera_key = "inventory"
+        const val camera_key_inventory = "inventory"
+        const val camera_key = "camera"
     }
 
 

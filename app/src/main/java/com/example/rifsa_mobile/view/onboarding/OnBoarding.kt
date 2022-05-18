@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.view.onboarding
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,12 +21,12 @@ class OnBoarding : AppCompatActivity() {
         setContentView(binding.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
+
         listOnBoarding.addAll(getOnBoarding)
         showOnBoarding()
     }
 
     private val getOnBoarding: ArrayList<OnBoardRef>
-        @SuppressLint("Recycle")
         get(){
             val photo = resources.obtainTypedArray(R.array.title_pic)
             val title = resources.getStringArray(R.array.title)
