@@ -27,9 +27,7 @@ class HarvetResultFragment : Fragment() {
         binding = FragmentHarvetResultBinding.inflate(layoutInflater)
         localViewModel = ObtainViewModel(requireActivity())
 
-
         showResult()
-
 
         binding.fabHarvestToinsert.setOnClickListener {
             requireActivity().supportFragmentManager
