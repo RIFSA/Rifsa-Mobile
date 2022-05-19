@@ -46,7 +46,7 @@ class HarvetResultFragment : Fragment() {
             val recview = binding.rvHarvestresult
             recview.adapter = adapter
             recview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.onDetailCallBack(object : HarvestResultRvAdapter.onDetailCallback{
+            adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: HarvestResult) {
                     val bundle = Bundle()
                     val fragment = HarvestInsertDetailFragment()

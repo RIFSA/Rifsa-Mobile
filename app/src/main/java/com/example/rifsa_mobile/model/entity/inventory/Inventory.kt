@@ -11,7 +11,7 @@ data class Inventory(
     @PrimaryKey(autoGenerate = true)
     val id_sort : Int,
 
-    val id_inventories : Int,
+    val id_inventories : String,
     val name : String,
     val amount : Int,
     val urlPhoto : String,

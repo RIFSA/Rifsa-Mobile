@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardHasilBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 
-class HarvestResultRvAdapter(var dataList : List<HarvestResult>): RecyclerView.Adapter<HarvestResultRvAdapter.ViewHolder>() {
+class HarvestResultRvAdapter(private var dataList : List<HarvestResult>): RecyclerView.Adapter<HarvestResultRvAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardHasilBinding): RecyclerView.ViewHolder(binding.root)
 
-    private lateinit var itemCallBak : onDetailCallback
+    private lateinit var itemCallBak : OnDetailCallback
 
-    fun onDetailCallBack(callback : onDetailCallback){
+    fun onDetailCallBack(callback : OnDetailCallback){
         this.itemCallBak = callback
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,7 +32,7 @@ class HarvestResultRvAdapter(var dataList : List<HarvestResult>): RecyclerView.A
     override fun getItemCount(): Int = dataList.size
 
 
-    interface onDetailCallback{
+    interface OnDetailCallback{
         fun onDetailCallback(data : HarvestResult)
     }
 }

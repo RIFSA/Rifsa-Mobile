@@ -43,7 +43,7 @@ class CameraFragment : Fragment() {
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri
             val file = Utils.uriToFile(uriImage,requireContext())
-            showImageCapture(file)
+            showImageCapture(uriImage)
         }
     }
     private fun allPermissionGranted() = required_permission.all {
@@ -141,7 +141,7 @@ class CameraFragment : Fragment() {
             object : ImageCapture.OnImageSavedCallback{
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     showToast("berhasil mengambil gambar")
-                    showImageCapture(imageFile)
+//                    showImageCapture(imageFile)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -152,13 +152,16 @@ class CameraFragment : Fragment() {
         )
     }
 
-    private fun showImageCapture(data : File){
+    //todo 1.5 back stack
+    private fun showImageCapture(data : Uri){
         val bundle = Bundle()
-        val imageFiles = ArrayList<File>()
+        val imageFiles = ArrayList<Uri>()
         imageFiles.add(data)
         bundle.putSerializable(invetory_camera_key,imageFiles)
         fragment.arguments = bundle
-        requireActivity().supportFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager
+
+            .beginTransaction()
             .replace(R.id.mainnav_framgent,fragment)
             .addToBackStack(null)
             .commit()
