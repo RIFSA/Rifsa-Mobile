@@ -1,11 +1,10 @@
 package com.example.rifsa_mobile.view.fragment.finance
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
@@ -53,11 +52,10 @@ class FinanceFragment : Fragment() {
 
             adapter.onItemCallBack(object : FinanceRvAdapter.ItemDetailCallback{
                 override fun onItemCallback(data: Finance) {
-                    Log.d("detail finance",data.title)
                     val bundle = Bundle()
                     val fragment = FinanceInsertDetailFragment()
                     bundle.putParcelable(detail_finance,data)
-                    bundle.putString(page_key, page_detail)
+                    bundle.putString(page_key, page_detail_finance)
                     fragment.arguments = bundle
                     requireActivity().supportFragmentManager
                         .beginTransaction()
@@ -72,7 +70,7 @@ class FinanceFragment : Fragment() {
 
     companion object{
         const val page_key = "insert_key"
-        const val page_detail = "detail"
+        const val page_detail_finance = "detail"
         const val detail_finance = "detail_finance"
     }
 }

@@ -45,8 +45,11 @@ class HarvestInsertDetailFragment : Fragment() {
             }
         }catch (e : Exception){ }
 
+        return binding.root
+    }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.btnHarvestSave.setOnClickListener {
             lifecycleScope.launch {
                 insertHarvestLocally()
@@ -58,8 +61,6 @@ class HarvestInsertDetailFragment : Fragment() {
                 deleteHarvestLocal()
             }
         }
-
-        return binding.root
     }
 
 
