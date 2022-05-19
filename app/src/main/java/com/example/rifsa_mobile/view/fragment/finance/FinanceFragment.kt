@@ -19,7 +19,6 @@ class FinanceFragment : Fragment() {
     private lateinit var binding : FragmentFinanceBinding
     private lateinit var viewModel : LocalViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +35,6 @@ class FinanceFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-
-
 
         return binding.root
     }
@@ -65,7 +62,6 @@ class FinanceFragment : Fragment() {
                 }
             })
         }
-
     }
 
     companion object{
