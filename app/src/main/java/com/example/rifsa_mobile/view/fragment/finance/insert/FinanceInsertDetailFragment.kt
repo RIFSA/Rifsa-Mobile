@@ -27,7 +27,6 @@ class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
     private lateinit var viewModel : LocalViewModel
 
-
     private var formatDate = SimpleDateFormat("dd-MMM-yyy", Locale.ENGLISH)
 
     private var randomId = Utils.randomId()
@@ -148,13 +147,6 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun setFragment(fragment : Fragment){
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainnav_framgent,fragment)
-            .addToBackStack(null)
-            .commit()
-    }
 
     private fun datePicker(){
         val instance = Calendar.getInstance()
@@ -172,6 +164,14 @@ class FinanceInsertDetailFragment : Fragment() {
             instance.get(Calendar.DAY_OF_MONTH)
         )
         datePicker.show()
+    }
+
+    private fun setFragment(fragment : Fragment){
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.mainnav_framgent,fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun showToast(title : String){
