@@ -1,3 +1,1 @@
-Rifsa-Mobile
-
-Update
+RIFSA
