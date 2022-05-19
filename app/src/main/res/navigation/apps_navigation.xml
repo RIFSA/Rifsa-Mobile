@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_harvetResultFragment_to_harvestInsertDetailFragment"
             app:destination="@id/harvestInsertDetailFragment" />
+        <action
+            android:id="@+id/action_harvetResultFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/financeInsertDetailFragment"
