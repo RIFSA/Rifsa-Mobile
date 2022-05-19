@@ -11,12 +11,9 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment
-import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment.Companion.detail_result
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import kotlinx.coroutines.launch
@@ -62,10 +59,17 @@ class HarvestInsertDetailFragment : Fragment() {
                 deleteHarvestLocal()
             }
         }
+
+        binding.btnHarvestdetailBackhome.setOnClickListener {
+            findNavController()
+                .navigate(
+                    HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment()
+                )
+        }
     }
 
 
-    //jika termasuk detail maka tombol delete akan ditampilkan
+    //showing delete button
     private fun showDetail(data : HarvestResult){
         binding.apply {
             tvharvestInsertName.setText(data.title)

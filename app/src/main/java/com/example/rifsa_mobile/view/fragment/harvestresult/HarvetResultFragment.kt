@@ -1,17 +1,15 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
-import com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 
@@ -29,11 +27,23 @@ class HarvetResultFragment : Fragment() {
 
         showResult()
 
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.fabHarvestToinsert.setOnClickListener {
             findNavController()
                 .navigate(HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(null))
         }
-        return binding.root
+
+        binding.btnHarvestBackhome.setOnClickListener {
+            findNavController()
+                .navigate(
+                    HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
+                )
+        }
     }
 
 
@@ -53,9 +63,5 @@ class HarvetResultFragment : Fragment() {
         }
     }
 
-    companion object{
-        const val page_key = "insert_key"
-        const val page_detail = "detail"
-        const val detail_result = "detail_result"
-    }
+
 }
