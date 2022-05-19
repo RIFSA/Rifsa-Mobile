@@ -2,25 +2,25 @@ package com.example.rifsa_mobile.view.fragment.inventory.insert
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
-import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertBinding
+import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
 import com.example.rifsa_mobile.view.fragment.camera.CameraFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 
 
 class InvetoryInsertFragment : Fragment() {
-    private lateinit var binding : FragmentInvetoryInsertBinding
+    private lateinit var binding : FragmentInvetoryInsertDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInvetoryInsertBinding.inflate(layoutInflater)
+        binding = FragmentInvetoryInsertDetailBinding.inflate(layoutInflater)
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE

@@ -1,9 +1,20 @@
 package com.example.rifsa_mobile.model.entity.inventory
 
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+@Entity(tableName = "Inventory_Table")
 data class Inventory(
-    val id_inventaris : Int,
+    @PrimaryKey(autoGenerate = true)
+    val id_sort : Int,
+
+    val id_inventories : Int,
     val name : String,
     val amount : Int,
     val urlPhoto : String,
-    val catatan : String
-)
+    val noted : String,
+    val isUploaded : Boolean
+): Parcelable

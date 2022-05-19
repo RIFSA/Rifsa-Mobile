@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.inventory.Inventory
 import com.example.rifsa_mobile.model.repository.MainRepository
 
 class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
@@ -29,6 +30,18 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun deleteFinanceLocal(id : String){
         mainRepository.deleteLocalFinance(id)
     }
+
+    fun readInventoryLocal(): LiveData<List<Inventory>> =
+        mainRepository.readLocalInventory()
+
+    suspend fun insertInventoryLocal(data : Inventory){
+        mainRepository.insertLocalInventory(data)
+    }
+
+    suspend fun deleteInventoryLocal(id: String){
+        mainRepository.deleteLocalInventory(id)
+    }
+
 
 
 

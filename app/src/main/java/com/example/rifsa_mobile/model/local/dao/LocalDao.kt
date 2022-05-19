@@ -4,27 +4,38 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.inventory.Inventory
 
 @Dao
 interface LocalDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHarvest(data : HarvestResult)
+    suspend fun insertHarvestLocal(data : HarvestResult)
 
     @Query("select * from Harvest_Table")
-    fun getHarvestResult(): LiveData<List<HarvestResult>>
+    fun getHarvestLocal(): LiveData<List<HarvestResult>>
 
     @Query("delete from Harvest_Table where id_harvest like :id")
-    suspend fun deleteHarvest(id : String)
-
+    suspend fun deleteHarvestLocal(id : String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFinance(data : Finance)
+    suspend fun insertFinanceLocal(data : Finance)
 
     @Query("select * from Finance_Table")
-    fun getFinance(): LiveData<List<Finance>>
+    fun getFinanceLocal(): LiveData<List<Finance>>
 
     @Query("delete from Finance_Table where id_finance like :id")
-    suspend fun deleteFinance(id : String)
+    suspend fun deleteFinanceLocal(id : String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertInventoryLocal(data : Inventory)
+
+    @Query("select * from Inventory_Table")
+    fun getInventoryLocal(): LiveData<List<Inventory>>
+
+    @Query("delete from Inventory_Table where id_inventories like :id")
+    suspend fun deleteInventoryLocal(id : String)
+
+
 
 }

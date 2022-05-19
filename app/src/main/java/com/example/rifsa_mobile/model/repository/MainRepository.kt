@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
-import com.example.rifsa_mobile.model.local.dao.LocalDao
+import com.example.rifsa_mobile.model.entity.inventory.Inventory
 import com.example.rifsa_mobile.model.local.databaseconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
-import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MainRepository(
     database : DatabaseConfig,
@@ -19,27 +16,39 @@ class MainRepository(
     private val dao = database.localDao()
 
     suspend fun insertLocalHarvest(data : HarvestResult){
-        dao.insertHarvest(data)
+        dao.insertHarvestLocal(data)
     }
 
     suspend fun deleteLocalHarvest(id : String){
-        dao.deleteHarvest(id)
+        dao.deleteHarvestLocal(id)
     }
 
     fun readLocalHarvest(): LiveData<List<HarvestResult>> =
-        dao.getHarvestResult()
+        dao.getHarvestLocal()
 
 
     fun readLocalFinance(): LiveData<List<Finance>> =
-        dao.getFinance()
+        dao.getFinanceLocal()
 
     suspend fun insertLocalFinance(data : Finance){
-        dao.insertFinance(data)
+        dao.insertFinanceLocal(data)
     }
 
     suspend fun deleteLocalFinance(id: String){
-        dao.deleteFinance(id)
+        dao.deleteFinanceLocal(id)
     }
+
+    fun readLocalInventory(): LiveData<List<Inventory>> =
+        dao.getInventoryLocal()
+
+    suspend fun insertLocalInventory(data : Inventory){
+        dao.insertInventoryLocal(data)
+    }
+
+    suspend fun deleteLocalInventory(id: String){
+        dao.deleteInventoryLocal(id)
+    }
+
 
     fun getOnBoardStatus(): LiveData<Boolean> = userPrefrences.getOnBoardKey().asLiveData()
     fun getUserName(): LiveData<String> = userPrefrences.getNameKey().asLiveData()
