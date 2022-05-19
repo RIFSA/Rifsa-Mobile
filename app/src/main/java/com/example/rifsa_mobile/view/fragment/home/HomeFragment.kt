@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
+import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -30,7 +32,6 @@ class HomeFragment : Fragment() {
         viewModel = ObtainViewModel(requireActivity())
 
         binding.imageView2.setImageResource(R.drawable.mockprofile)
-
 
         showResult()
 
@@ -52,11 +53,33 @@ class HomeFragment : Fragment() {
 
     private fun showResult(){
         viewModel.readHarvestLocal().observe(viewLifecycleOwner){ responList ->
+            val adapter = HarvestResultRvAdapter(responList)
             val recview = binding.rvHomeHarvest
-            recview.adapter = HarvestResultRvAdapter(responList)
+            recview.adapter = adapter
             recview.layoutManager = LinearLayoutManager(requireContext())
+            adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
+                override fun onDetailCallback(data: HarvestResult) {
+                    val bundle = Bundle()
+                    val fragment = HarvestInsertDetailFragment()
+                    bundle.putParcelable(HarvetResultFragment.detail_result,data)
+                    bundle.putString(
+                        HarvetResultFragment.page_key,
+                        HarvetResultFragment.page_detail
+                    )
+                    fragment.arguments = bundle
+                    requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.mainnav_framgent,fragment)
+                        .commit()
+                }
+            })
         }
-
     }
 
+    companion object{
+        const val page_key = "insert_key"
+        const val page_detail = "detail"
+        const val detail_result = "detail_result"
+    }
 }

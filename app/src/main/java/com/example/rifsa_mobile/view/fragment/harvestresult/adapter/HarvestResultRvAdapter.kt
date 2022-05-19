@@ -14,6 +14,7 @@ class HarvestResultRvAdapter(private var dataList : List<HarvestResult>): Recycl
     fun onDetailCallBack(callback : OnDetailCallback){
         this.itemCallBak = callback
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemcardHasilBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
