@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="Rumah"
-        android:id="@+id/rumah"
+        android:id="@+id/homeFragment"
         android:visible="true"
         android:enabled="true"
         android:icon="@drawable/ic_home_test"
@@ -10,7 +10,7 @@
     </item>
     <item
         android:title="Keuangan"
-        android:id="@+id/keuangan"
+        android:id="@+id/financeFragment"
         android:visible="true"
         android:enabled="true"
         android:icon="@drawable/ic_money"
@@ -18,7 +18,7 @@
     </item>
     <item
         android:title="Deteksi"
-        android:id="@+id/penyakit"
+        android:id="@+id/disaseFragment"
         android:visible="true"
         android:enabled="true"
         android:icon="@drawable/ic_penyakit"
@@ -26,7 +26,7 @@
     </item>
     <item
         android:title="Inventaris"
-        android:id="@+id/inventaris"
+        android:id="@+id/inventoryFragment"
         android:visible="true"
         android:enabled="true"
         android:icon="@drawable/ic_inventory"
@@ -34,7 +34,7 @@
     </item>
     <item
         android:title="Profile"
-        android:id="@+id/profile"
+        android:id="@+id/profileFragment"
         android:visible="true"
         android:enabled="true"
         android:icon="@drawable/ic_people"

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/apps_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.rifsa_mobile.view.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_harvetResultFragment"
+            app:destination="@id/harvetResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/financeFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.finance.FinanceFragment"
+        android:label="fragment_finance"
+        tools:layout="@layout/fragment_finance" >
+        <action
+            android:id="@+id/action_financeFragment_to_financeInsertDetailFragment"
+            app:destination="@id/financeInsertDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/disaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disase.DisaseFragment"
+        android:label="fragment_disase"
+        tools:layout="@layout/fragment_disase" >
+        <action
+            android:id="@+id/action_disaseFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.inventory.InventoryFragment"
+        android:label="fragment_inventory"
+        tools:layout="@layout/fragment_inventory" >
+        <action
+            android:id="@+id/action_inventoryFragment_to_invetoryInsertFragment"
+            app:destination="@id/invetoryInsertFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/harvetResultFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment"
+        android:label="fragment_harvet_result"
+        tools:layout="@layout/fragment_harvet_result" >
+        <action
+            android:id="@+id/action_harvetResultFragment_to_harvestInsertDetailFragment"
+            app:destination="@id/harvestInsertDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/financeInsertDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.finance.insert.FinanceInsertDetailFragment"
+        android:label="fragment_finance_insert_detail"
+        tools:layout="@layout/fragment_finance_insert_detail" >
+        <argument
+            android:name="detail_finance"
+            app:argType="com.example.rifsa_mobile.model.entity.finance.Finance"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_financeInsertDetailFragment_to_financeFragment"
+            app:destination="@id/financeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/harvestInsertDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment"
+        android:label="fragment_harvest_insert_detail"
+        tools:layout="@layout/fragment_harvest_insert_detail" >
+        <argument
+            android:name="detail_result"
+            app:argType="com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_harvestInsertDetailFragment_to_harvetResultFragment"
+            app:destination="@id/harvetResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/invetoryInsertFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment"
+        android:label="fragment_invetory_insert_detail"
+        tools:layout="@layout/fragment_invetory_insert_detail" >
+        <action
+            android:id="@+id/action_invetoryInsertFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+        <argument
+            android:name="detail_inventory"
+            app:argType="com.example.rifsa_mobile.model.entity.inventory.Inventory"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_invetoryInsertFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_invetoryInsertFragment"
+            app:destination="@id/invetoryInsertFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_disaseDetailFragment"
+            app:destination="@id/disaseDetailFragment" />
+        <argument
+            android:name="Page_Key"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/disaseDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disase.DisaseDetailFragment"
+        android:label="fragment_disase_detail"
+        tools:layout="@layout/fragment_disase_detail" >
+        <action
+            android:id="@+id/action_disaseDetailFragment_to_disaseFragment"
+            app:destination="@id/disaseFragment" />
+        <argument
+            android:name="Photo_Disase"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+</navigation>

@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.inventory.Inventory
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.view.fragment.camera.CameraFragment
-import com.example.rifsa_mobile.view.fragment.inventory.InventoryFragment.Companion.detail_inventory
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +26,7 @@ class InvetoryInsertFragment : Fragment() {
     private lateinit var viewModel: LocalViewModel
 
 
+    private var detail : Inventory? = null
     private lateinit var currentImage : Uri
     private var randomId = Utils.randomId()
     private var isDetail = false
@@ -48,7 +48,8 @@ class InvetoryInsertFragment : Fragment() {
         }
 
         try {
-            val data = requireArguments().getParcelable<Inventory>(detail_inventory)
+            val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
+            detail = data
             if (data != null){
                 val pic = Uri.parse(data.urlPhoto)
                 showImage(pic)
@@ -73,11 +74,13 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun showCameraImage(){
-        val arrayFile = requireArguments().getSerializable(invetory_camera_key) as ArrayList<*>
-        val file = arrayFile[0] as Uri
 
-        currentImage = file
-        showImage(file)
+        val file = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
+
+        if (file != null) {
+            currentImage = file
+            showImage(file)
+        }
 
     }
 
@@ -91,15 +94,9 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun setFragmentCamera(){
-        val bundle = Bundle()
-        val fragment = CameraFragment()
-        bundle.putString(camera_key, camera_key_inventory)
-        fragment.arguments = bundle
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainnav_framgent,fragment)
-            .addToBackStack(null)
-            .commit()
+        findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToCameraFragment(
+            camera_key)
+        )
     }
 
     private suspend fun insertInventoryLocal(){
@@ -118,6 +115,7 @@ class InvetoryInsertFragment : Fragment() {
         try {
             viewModel.insertInventoryLocal(tempInsert)
             showToast("Berhasil menambahkan")
+            findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
             showToast(e.message.toString())
         }
@@ -135,10 +133,8 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     companion object{
-        const val invetory_camera_key = "camera_pic"
         const val camera_key_inventory = "inventory"
-        const val camera_key = "camera"
-
+        const val camera_key = "back"
     }
 
 

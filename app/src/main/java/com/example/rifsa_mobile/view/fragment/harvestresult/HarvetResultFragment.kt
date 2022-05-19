@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
@@ -29,11 +30,8 @@ class HarvetResultFragment : Fragment() {
         showResult()
 
         binding.fabHarvestToinsert.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.mainnav_framgent, HarvestInsertDetailFragment())
-                .commit()
+            findNavController()
+                .navigate(HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(null))
         }
         return binding.root
     }
@@ -48,16 +46,8 @@ class HarvetResultFragment : Fragment() {
             recview.layoutManager = LinearLayoutManager(requireContext())
             adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: HarvestResult) {
-                    val bundle = Bundle()
-                    val fragment = HarvestInsertDetailFragment()
-                    bundle.putParcelable(detail_result,data)
-                    bundle.putString(page_key, page_detail)
-                    fragment.arguments = bundle
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.mainnav_framgent,fragment)
-                        .commit()
+                    findNavController().navigate(HarvetResultFragmentDirections
+                        .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))
                 }
             })
         }

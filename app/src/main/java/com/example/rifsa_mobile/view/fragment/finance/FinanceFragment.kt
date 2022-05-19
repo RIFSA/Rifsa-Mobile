@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
@@ -29,11 +30,8 @@ class FinanceFragment : Fragment() {
         showFinanceList()
 
         binding.fabFiannceInsert.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.mainnav_framgent, FinanceInsertDetailFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(
+                FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
 
         return binding.root
@@ -49,16 +47,8 @@ class FinanceFragment : Fragment() {
 
             adapter.onItemCallBack(object : FinanceRvAdapter.ItemDetailCallback{
                 override fun onItemCallback(data: Finance) {
-                    val bundle = Bundle()
-                    val fragment = FinanceInsertDetailFragment()
-                    bundle.putParcelable(detail_finance,data)
-                    bundle.putString(page_key, page_detail_finance)
-                    fragment.arguments = bundle
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.mainnav_framgent,fragment)
-                        .commit()
+                    findNavController().navigate(
+                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
                 }
             })
         }
