@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
@@ -36,7 +37,7 @@ class HarvestInsertDetailFragment : Fragment() {
         localViewModel = ObtainViewModel(requireActivity())
 
         try {
-            val data = arguments?.getParcelable<HarvestResult>(detail_result)
+            val data = HarvestInsertDetailFragmentArgs.fromBundle(requireArguments()).detailResult
             if (data != null) {
                 showDetail(data)
                 isDetail = true
@@ -99,7 +100,8 @@ class HarvestInsertDetailFragment : Fragment() {
         try {
             localViewModel.insertHarvestlocal(tempInsert)
             showToast("Berhasil menambahkan")
-            setFragment(HarvetResultFragment())
+            findNavController()
+                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
         }catch (e : Exception){
             showToast(e.message.toString())
             Log.d(detail_harvest,e.message.toString())
@@ -110,7 +112,8 @@ class HarvestInsertDetailFragment : Fragment() {
         try {
             localViewModel.deleteHarvestLocal(detailId)
             showToast("terhapus")
-            setFragment(HarvetResultFragment())
+            findNavController()
+                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
         }catch (e : Exception){
             showToast(e.message.toString())
         }
@@ -120,13 +123,7 @@ class HarvestInsertDetailFragment : Fragment() {
         Toast.makeText(requireContext(),title,Toast.LENGTH_SHORT).show()
     }
 
-    private fun setFragment(fragment : Fragment){
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainnav_framgent,fragment)
-            .addToBackStack(null)
-            .commit()
-    }
+
 
     companion object{
         const val detail_harvest = "harvest detail"

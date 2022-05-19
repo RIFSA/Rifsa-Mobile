@@ -9,12 +9,14 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment
 import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment.Companion.detail_finance
+import com.example.rifsa_mobile.view.fragment.finance.FinanceFragmentDirections
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import kotlinx.coroutines.launch
@@ -46,7 +48,7 @@ class FinanceInsertDetailFragment : Fragment() {
         viewModel = ObtainViewModel(requireActivity())
 
         try {
-            val data = arguments?.getParcelable<Finance>(detail_finance)
+            val data = FinanceInsertDetailFragmentArgs.fromBundle(requireArguments()).detailFinance
             if (data != null){
                 setDetail(data)
                 isDetail = true
@@ -119,6 +121,7 @@ class FinanceInsertDetailFragment : Fragment() {
         try {
             viewModel.insertFinanceLocal(tempInsert)
             showToast("sukses menambahkan")
+            findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
         }catch (e : Exception){
             showToast(e.message.toString())
         }
@@ -141,7 +144,8 @@ class FinanceInsertDetailFragment : Fragment() {
         try {
             viewModel.deleteFinanceLocal(detailId)
             showToast("Berhasil terhapus")
-            setFragment(FinanceFragment())
+            findNavController().navigate(
+                FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
         }catch (e : Exception){
             showToast(e.message.toString())
         }
@@ -166,13 +170,6 @@ class FinanceInsertDetailFragment : Fragment() {
         datePicker.show()
     }
 
-    private fun setFragment(fragment : Fragment){
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainnav_framgent,fragment)
-            .addToBackStack(null)
-            .commit()
-    }
 
     private fun showToast(title : String){
         Toast.makeText(requireContext(),title,Toast.LENGTH_SHORT).show()
