@@ -19,6 +19,7 @@ import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment.Companion.
 import com.example.rifsa_mobile.view.fragment.finance.FinanceFragmentDirections
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -46,6 +47,8 @@ class FinanceInsertDetailFragment : Fragment() {
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
         viewModel = ObtainViewModel(requireActivity())
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
+        bottomMenu.visibility = View.GONE
 
         try {
             val data = FinanceInsertDetailFragmentArgs.fromBundle(requireArguments()).detailFinance
@@ -98,6 +101,12 @@ class FinanceInsertDetailFragment : Fragment() {
             lifecycleScope.launch {
                 deleteFinanceLocal()
             }
+        }
+
+        binding.btnHarvestdetailBackhome.setOnClickListener {
+            findNavController().navigate(
+                FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment()
+            )
         }
 
 

@@ -14,6 +14,7 @@ import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRvAdapt
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class InventoryFragment : Fragment() {
@@ -26,6 +27,8 @@ class InventoryFragment : Fragment() {
     ): View {
         binding = FragmentInventoryBinding.inflate(layoutInflater)
         viewModel = ObtainViewModel(requireActivity())
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
+        bottomMenu.visibility = View.VISIBLE
 
         binding.fabInventoryAdd.setOnClickListener {
             findNavController().navigate(

@@ -41,10 +41,15 @@ class InvetoryInsertFragment : Fragment() {
         viewModel = ObtainViewModel(requireActivity())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
-        bottomMenu.visibility = View.VISIBLE
+        bottomMenu.visibility = View.GONE
 
         binding.imgInventory.setOnClickListener {
             setFragmentCamera()
+        }
+        binding.btnHarvestdetailBackhome.setOnClickListener {
+            findNavController().navigate(
+                InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
+            )
         }
 
         try {

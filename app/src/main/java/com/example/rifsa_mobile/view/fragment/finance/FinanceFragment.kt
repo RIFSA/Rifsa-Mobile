@@ -14,6 +14,7 @@ import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRvAdapter
 import com.example.rifsa_mobile.view.fragment.finance.insert.FinanceInsertDetailFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class FinanceFragment : Fragment() {
@@ -26,6 +27,8 @@ class FinanceFragment : Fragment() {
     ): View {
         binding = FragmentFinanceBinding.inflate(layoutInflater)
         viewModel = ObtainViewModel(requireActivity())
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
+        bottomMenu.visibility = View.VISIBLE
 
         showFinanceList()
 

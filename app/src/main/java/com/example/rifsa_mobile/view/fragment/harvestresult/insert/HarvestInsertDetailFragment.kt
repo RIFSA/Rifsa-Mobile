@@ -11,11 +11,13 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -32,6 +34,8 @@ class HarvestInsertDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
         localViewModel = ObtainViewModel(requireActivity())
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
+        bottomMenu.visibility = View.GONE
 
         try {
             val data = HarvestInsertDetailFragmentArgs.fromBundle(requireArguments()).detailResult

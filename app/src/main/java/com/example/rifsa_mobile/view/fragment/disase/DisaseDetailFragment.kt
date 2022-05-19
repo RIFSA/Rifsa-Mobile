@@ -19,6 +19,9 @@ class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
     private lateinit var viewModel: LocalViewModel
 
+
+
+    //todo 1.0 detail dissase scroll
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

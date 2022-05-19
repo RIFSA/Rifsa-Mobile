@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class HarvetResultFragment : Fragment() {
@@ -24,6 +26,8 @@ class HarvetResultFragment : Fragment() {
     ): View {
         binding = FragmentHarvetResultBinding.inflate(layoutInflater)
         localViewModel = ObtainViewModel(requireActivity())
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
+        bottomMenu.visibility = View.VISIBLE
 
         showResult()
 
