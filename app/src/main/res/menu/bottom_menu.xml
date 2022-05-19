@@ -5,7 +5,7 @@
         android:id="@+id/homeFragment"
         android:visible="true"
         android:enabled="true"
-        android:icon="@drawable/ic_home_test"
+        android:icon="@drawable/ic_home"
         >
     </item>
     <item
@@ -29,7 +29,7 @@
         android:id="@+id/inventoryFragment"
         android:visible="true"
         android:enabled="true"
-        android:icon="@drawable/ic_inventory"
+        android:icon="@drawable/ic_wallet"
         >
     </item>
     <item
