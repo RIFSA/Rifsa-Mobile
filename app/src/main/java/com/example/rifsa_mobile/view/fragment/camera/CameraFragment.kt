@@ -33,7 +33,7 @@ class CameraFragment : Fragment() {
 
     private var type = ""
 
-    //todo 1.5 data in URI Format (only for while)
+    //todo 1.1 data in URI Format (only for while)
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri
@@ -131,7 +131,8 @@ class CameraFragment : Fragment() {
             object : ImageCapture.OnImageSavedCallback{
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     showToast("berhasil mengambil gambar")
-//                    showImageCapture(imageFile)
+                    val uriCapture = Uri.fromFile(imageFile)
+                    showImageToPage(uriCapture)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -153,7 +154,8 @@ class CameraFragment : Fragment() {
         }else{
             findNavController().navigate(
                 CameraFragmentDirections.actionCameraFragmentToDisaseDetailFragment(
-                    data.toString()
+                    data.toString(),
+                    null
                 )
             )
         }

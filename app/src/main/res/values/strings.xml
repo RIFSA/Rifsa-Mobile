@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RIFSA</string>
 
+
     <string name="Login_title">Selamat Datang !</string>
     <string name="login_subtitle">Kami hadir untuk membantu aktivitas \n pertanian anda</string>
 

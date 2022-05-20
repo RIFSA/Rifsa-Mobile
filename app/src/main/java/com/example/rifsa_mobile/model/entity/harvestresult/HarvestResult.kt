@@ -3,7 +3,6 @@ package com.example.rifsa_mobile.model.entity.harvestresult
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
 
 @kotlinx.parcelize.Parcelize
 @Entity(tableName = "Harvest_Table")

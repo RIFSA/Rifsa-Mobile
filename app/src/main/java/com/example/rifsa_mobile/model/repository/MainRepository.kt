@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.model.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.example.rifsa_mobile.model.entity.disase.Disease
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.inventory.Inventory
@@ -47,6 +48,17 @@ class MainRepository(
 
     suspend fun deleteLocalInventory(id: String){
         dao.deleteInventoryLocal(id)
+    }
+
+    fun readDisease(): LiveData<List<Disease>> =
+        dao.getDiseaseLocal()
+
+    suspend fun insertDiseaseLocal(data : Disease){
+        dao.insertDiseaseLocal(data)
+    }
+
+    suspend fun deleteDiseaseLocal(id: String){
+        dao.deleteDiseaseLocal(id)
     }
 
 

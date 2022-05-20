@@ -90,12 +90,7 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun showImage(data : Uri){
-        Glide.with(requireActivity())
-            .asBitmap()
-            .load(data)
-            .diskCacheStrategy(DiskCacheStrategy.DATA)
-            .into(binding.imgInventory)
-
+        binding.imgInventory.setImageURI(data)
     }
 
     private fun setFragmentCamera(){

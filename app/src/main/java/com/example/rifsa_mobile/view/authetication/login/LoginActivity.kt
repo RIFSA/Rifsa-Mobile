@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    //todo 1.2 Login checker
+    //todo 1.2 Login main with authentication
     private fun login(){
         if (binding.tvLoginEmail.text!!.isNotEmpty() && binding.tvLoginPassword.text!!.isNotEmpty()){
             saveLoginSession(true,binding.tvLoginEmail.text.toString())

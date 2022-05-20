@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.model.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.rifsa_mobile.model.entity.disase.Disease
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.inventory.Inventory
@@ -35,6 +36,20 @@ interface LocalDao {
 
     @Query("delete from Inventory_Table where id_inventories like :id")
     suspend fun deleteInventoryLocal(id : String)
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDiseaseLocal(data : Disease)
+
+
+    @Query("select * from Disease_Table")
+    fun getDiseaseLocal(): LiveData<List<Disease>>
+
+    @Query("delete from Disease_Table where id_disease like :id")
+    suspend fun deleteDiseaseLocal(id: String)
+
+
+
 
 
 

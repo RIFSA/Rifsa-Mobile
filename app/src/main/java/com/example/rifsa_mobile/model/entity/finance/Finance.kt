@@ -17,5 +17,6 @@ data class Finance(
     val type : String,
     val note : String,
     val amount : Int,
+
     val isUploaded : Boolean
 ): Parcelable

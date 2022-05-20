@@ -13,8 +13,7 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
-
-    //todo 1.3 Sign up main
+    //todo 1.0 Sign up main with authentication
     private fun signup(){
 
     }

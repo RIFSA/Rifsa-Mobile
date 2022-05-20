@@ -2,10 +2,14 @@ package com.example.rifsa_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.rifsa_mobile.model.entity.disase.Disease
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.inventory.Inventory
 import com.example.rifsa_mobile.model.repository.MainRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
 
@@ -23,8 +27,10 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
     fun readFinanceLocal(): LiveData<List<Finance>> =
         mainRepository.readLocalFinance()
 
-    suspend fun insertFinanceLocal(data : Finance){
-        mainRepository.insertLocalFinance(data)
+    fun insertFinanceLocal(data : Finance){
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.insertLocalFinance(data)
+        }
     }
 
     suspend fun deleteFinanceLocal(id : String){
@@ -40,6 +46,21 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
 
     suspend fun deleteInventoryLocal(id: String){
         mainRepository.deleteLocalInventory(id)
+    }
+
+    fun readDiseaseLocal(): LiveData<List<Disease>> =
+        mainRepository.readDisease()
+
+    fun insertDiseaseLocal(data : Disease){
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.insertDiseaseLocal(data)
+        }
+    }
+
+    suspend fun deleteDiseaseLocal(id: String){
+        viewModelScope.launch {
+            mainRepository.deleteLocalInventory(id)
+        }
     }
 
 

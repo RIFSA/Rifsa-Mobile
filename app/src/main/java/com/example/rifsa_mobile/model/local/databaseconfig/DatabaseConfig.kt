@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.rifsa_mobile.model.entity.disase.Disease
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.inventory.Inventory
@@ -13,9 +14,10 @@ import com.example.rifsa_mobile.model.local.dao.LocalDao
     entities = [
         HarvestResult::class,
         Finance::class,
-        Inventory::class
+        Inventory::class,
+        Disease::class
     ],
-    version = 4, exportSchema = false
+    version = 6, exportSchema = false
 )
 abstract class DatabaseConfig : RoomDatabase() {
     abstract fun localDao() : LocalDao

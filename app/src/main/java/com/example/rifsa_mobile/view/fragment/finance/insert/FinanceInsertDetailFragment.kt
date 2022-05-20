@@ -92,9 +92,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnHarvestSave.setOnClickListener {
-            lifecycleScope.launch {
-                insertFinanceLocally()
-            }
+            insertFinanceLocally()
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
@@ -112,7 +110,7 @@ class FinanceInsertDetailFragment : Fragment() {
 
     }
 
-    private suspend fun insertFinanceLocally(){
+    private fun insertFinanceLocally(){
 
         if (isDetail){ randomId = detailId }
 
