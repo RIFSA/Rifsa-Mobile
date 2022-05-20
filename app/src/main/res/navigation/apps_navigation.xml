@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_harvetResultFragment"
             app:destination="@id/harvetResultFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_disaseFragment"
+            app:destination="@id/disaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/financeFragment"

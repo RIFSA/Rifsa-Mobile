@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,12 +31,15 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ObtainViewModel(requireActivity())
+        binding.mainHomeLayout.fullScroll(ScrollView.FOCUS_UP)
 
         binding.imageView2.setImageResource(R.drawable.mockprofile)
+
 
         showResult()
 
         diseaseCount()
+
 
         return binding.root
     }
@@ -87,6 +91,12 @@ class HomeFragment : Fragment() {
 
                 val count = respon.size.toString()
                 binding.tvhomeDisasecount.text = count
+
+                binding.tvhomeDisasecount.setOnClickListener {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDisaseFragment()
+                    )
+                }
             }
         }
     }
