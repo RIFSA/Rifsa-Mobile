@@ -19,6 +19,8 @@ class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
+
+    //todo 1.6 Delete local data when logout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,6 +29,9 @@ class ProfileFragment : Fragment() {
 
         authViewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvprofileName.text = it
+            binding.tvSignupName.setText(it)
+            binding.tvSignupEmail.setText(it)
+            binding.tvSignupPassword.setText(it)
         }
 
         binding.btnprofileLogout.setOnClickListener {

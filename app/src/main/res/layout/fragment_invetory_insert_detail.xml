@@ -60,7 +60,7 @@
                     app:tint="@color/black" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/btnHarvest_save"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="24dp"
@@ -90,7 +90,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img_inventory" />
 
         <EditText
-            android:id="@+id/tvharvest_insert_name2"
+            android:id="@+id/tvinventaris_insert_name"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginStart="32dp"
@@ -123,7 +123,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_name2" />
+            app:layout_constraintTop_toBottomOf="@+id/tvinventaris_insert_name" />
 
         <TextView
             android:id="@+id/textView19"
@@ -142,7 +142,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar7" />
 
         <EditText
-            android:id="@+id/tvharvest_insert_name3"
+            android:id="@+id/tvinventaris_insert_amount"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginStart="32dp"
@@ -168,7 +168,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:src="@drawable/image_placeholder"
+            android:src="@android:drawable/ic_menu_camera"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -189,10 +189,10 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_name3" />
+            app:layout_constraintTop_toBottomOf="@+id/tvinventaris_insert_amount" />
 
         <EditText
-            android:id="@+id/tvharvest_insert_name5"
+            android:id="@+id/tvinventaris_insert_note"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginStart="32dp"
@@ -211,23 +211,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView21"
             tools:ignore="LabelFor"
             android:inputType="text" />
-
-        <Button
-            android:id="@+id/btn_delete_finance"
-            android:layout_width="0dp"
-            android:layout_height="68dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:backgroundTint="@color/red"
-            android:fontFamily="@font/dmsans_bold"
-            android:includeFontPadding="false"
-            android:text="@string/hapus"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_name5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

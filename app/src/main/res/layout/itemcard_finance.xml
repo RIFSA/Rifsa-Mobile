@@ -17,25 +17,24 @@
         android:includeFontPadding="false"
         android:text="@string/title"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvcard_finance_price"
-        android:layout_width="0dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/dmsans_regular"
         android:gravity="center|start"
         android:includeFontPadding="false"
         android:text="@string/subtitle"
-        android:textColor="#818181"
-        android:textSize="10sp"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SmallSp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView5"

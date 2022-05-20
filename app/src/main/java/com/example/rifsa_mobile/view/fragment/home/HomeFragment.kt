@@ -6,28 +6,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
+import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment.Companion.page_key
 import com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment
-import com.example.rifsa_mobile.view.fragment.home.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment
+import com.example.rifsa_mobile.view.fragment.home.HomeFragment.Companion.detail_result
+import com.example.rifsa_mobile.view.fragment.home.HomeFragment.Companion.page_key
+import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var viewModel : LocalViewModel
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private var arrayList = ArrayList<HarvestResult>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        viewModel = ObtainViewModel(requireActivity())
+
         binding.imageView2.setImageResource(R.drawable.mockprofile)
-        arrayList.addAll(setHarvestUp)
+
         showResult()
 
         authViewModel.getUserName().observe(viewLifecycleOwner){
@@ -35,42 +44,43 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnHomeHasil.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.mainnav_framgent,HarvetResultFragment())
-                .commit()
+
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHarvetResultFragment())
         }
 
         return binding.root
     }
 
 
-    private val setHarvestUp : ArrayList<HarvestResult>
-        get() {
-            val title = resources.getStringArray(R.array.hasil_mock)
-            val weight = resources.getStringArray(R.array.berat_mock)
-            val date = resources.getStringArray(R.array.tanggal_mock)
-            val listMock = ArrayList<HarvestResult>()
-            for (i in title.indices){
-                val temp = HarvestResult(
-                    i,
-                    date[i],
-                    title[i],
-                    weight[i],
-                    100,
-                    "adsad"
-                )
-                listMock.add(temp)
-            }
-            return listMock
-        }
-
-
     private fun showResult(){
-        val recview = binding.rvHomeHarvest
-        recview.adapter = HarvestResultRvAdapter(arrayList)
-        recview.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.readHarvestLocal().observe(viewLifecycleOwner){ responList ->
+            val adapter = HarvestResultRvAdapter(responList)
+            val recview = binding.rvHomeHarvest
+            recview.adapter = adapter
+            recview.layoutManager = LinearLayoutManager(requireContext())
+            adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
+                override fun onDetailCallback(data: HarvestResult) {
+                    val bundle = Bundle()
+                    val fragment = HarvestInsertDetailFragment()
+                    bundle.putParcelable(detail_result,data)
+                    bundle.putString(
+                        page_key,
+                       page_detail
+                    )
+                    fragment.arguments = bundle
+                    requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.mainnav_framgent,fragment)
+                        .commit()
+                }
+            })
+        }
     }
 
+    companion object{
+        const val page_key = "insert_key"
+        const val page_detail = "detail"
+        const val detail_result = "detail_result"
+    }
 }

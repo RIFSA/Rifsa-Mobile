@@ -10,7 +10,6 @@ class UserPrefrencesViewModel
     (private val repository : MainRepository): ViewModel() {
 
     fun getOnBoardStatus(): LiveData<Boolean> = repository.getOnBoardStatus()
-
     fun getUserName(): LiveData<String> = repository.getUserName()
 
     fun saveUserPrefrences(onBoard : Boolean,userName : String){
@@ -18,4 +17,5 @@ class UserPrefrencesViewModel
             repository.savePrefrences(onBoard, userName)
         }
     }
+
 }

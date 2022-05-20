@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RIFSA</string>
 
+
     <string name="Login_title">Selamat Datang !</string>
     <string name="login_subtitle">Kami hadir untuk membantu aktivitas \n pertanian anda</string>
 
@@ -106,5 +107,7 @@
     <string name="foto">Foto</string>
     <string name="jumlah">Jumlah</string>
     <string name="button_camera">button camera</string>
+    <string name="rekam_penyakit">Rekam Penyakit</string>
+    <string name="maps">maps</string>
 
 </resources>

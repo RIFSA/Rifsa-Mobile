@@ -1,73 +1,65 @@
 package com.example.rifsa_mobile.view.fragment.finance
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRvAdapter
-import com.example.rifsa_mobile.view.fragment.finance.insert.FinanceInsertFragment
+import com.example.rifsa_mobile.view.fragment.finance.insert.FinanceInsertDetailFragment
+import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class FinanceFragment : Fragment() {
     private lateinit var binding : FragmentFinanceBinding
+    private lateinit var viewModel : LocalViewModel
 
-    private var arrayList = ArrayList<Finance>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFinanceBinding.inflate(layoutInflater)
-
-        binding.fabFiannceInsert.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.mainnav_framgent, FinanceInsertFragment())
-                .addToBackStack(null)
-                .commit()
-        }
-
-        arrayList.addAll(financeMock)
+        viewModel = ObtainViewModel(requireActivity())
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
+        bottomMenu.visibility = View.VISIBLE
 
         showFinanceList()
 
+        binding.fabFiannceInsert.setOnClickListener {
+            findNavController().navigate(
+                FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
+        }
 
         return binding.root
     }
 
 
-
-
-    private val financeMock : ArrayList<Finance>
-        get() {
-            val title = resources.getStringArray(R.array.hasil_mock)
-            val date = resources.getStringArray(R.array.tanggal_mock)
-            val listMock = ArrayList<Finance>()
-            for (i in title.indices){
-                val temp = Finance(
-                    i,
-                    date[i],
-                    title[i],
-                    "test",
-                    "aaaa",
-                    10000
-                )
-                listMock.add(temp)
-            }
-            return listMock
-        }
-
     private fun showFinanceList(){
-        val adapter = FinanceRvAdapter(arrayList)
-        val recview = binding.rvFinance
-        recview.adapter = adapter
-        recview.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.readFinanceLocal().observe(viewLifecycleOwner){ responList ->
+            val adapter = FinanceRvAdapter(responList)
+            val recview = binding.rvFinance
+            recview.adapter = adapter
+            recview.layoutManager = LinearLayoutManager(requireContext())
 
-
+            adapter.onItemCallBack(object : FinanceRvAdapter.ItemDetailCallback{
+                override fun onItemCallback(data: Finance) {
+                    findNavController().navigate(
+                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
+                }
+            })
+        }
     }
 
+    companion object{
+        const val page_key = "insert_key"
+        const val page_detail_finance = "detail"
+        const val detail_finance = "detail_finance"
+    }
 }

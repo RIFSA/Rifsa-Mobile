@@ -19,29 +19,25 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment
-import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key
-import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.invetory_camera_key
+import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key_inventory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.io.File
 
 
 class CameraFragment : Fragment() {
     private lateinit var binding : FragmentCameraBinding
     private var imageCapture : ImageCapture? = null
 
-
     private var type = ""
-    private lateinit var fragment : Fragment
 
+    //todo 1.1 data in URI Format (only for while)
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri
-            val file = Utils.uriToFile(uriImage,requireContext())
-            showImageCapture(file)
+            showImageToPage(uriImage)
         }
     }
     private fun allPermissionGranted() = required_permission.all {
@@ -68,12 +64,8 @@ class CameraFragment : Fragment() {
     ): View {
         binding = FragmentCameraBinding.inflate(layoutInflater)
 
-        type = requireArguments().getString(camera_key).toString()
-        if (type == "inventory"){
-            fragment = InvetoryInsertFragment()
-        }else{
+        type = CameraFragmentArgs.fromBundle(requireArguments()).pageKey.toString()
 
-        }
 
         if (!allPermissionGranted()){
             ActivityCompat.requestPermissions(requireActivity(), required_permission, REQUEST_CODE_PERMISSIONS)
@@ -139,7 +131,8 @@ class CameraFragment : Fragment() {
             object : ImageCapture.OnImageSavedCallback{
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     showToast("berhasil mengambil gambar")
-                    showImageCapture(imageFile)
+                    val uriCapture = Uri.fromFile(imageFile)
+                    showImageToPage(uriCapture)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -150,16 +143,22 @@ class CameraFragment : Fragment() {
         )
     }
 
-    private fun showImageCapture(data : File){
-        val bundle = Bundle()
-        val imageFiles = ArrayList<File>()
-        imageFiles.add(data)
-        bundle.putSerializable(invetory_camera_key,imageFiles)
-        fragment.arguments = bundle
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.mainnav_framgent,fragment)
-            .addToBackStack(null)
-            .commit()
+
+    private fun showImageToPage(data : Uri){
+        if (type == "back"){
+            findNavController()
+                .previousBackStackEntry?.savedStateHandle
+                ?.set(camera_key_inventory,data)
+            findNavController()
+                .popBackStack()
+        }else{
+            findNavController().navigate(
+                CameraFragmentDirections.actionCameraFragmentToDisaseDetailFragment(
+                    data.toString(),
+                    null
+                )
+            )
+        }
 
     }
 

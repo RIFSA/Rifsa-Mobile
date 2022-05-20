@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.harvestresult.HarvestInsertDetailFragment">
+    tools:context=".view.fragment.harvestresult.insert.HarvestInsertDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     app:tint="@color/black" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/btnHarvest_save"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="24dp"
@@ -220,12 +220,13 @@
             app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_berat" />
 
         <Button
-            android:id="@+id/btn_harvest_insert_delete"
+            android:id="@+id/btnharvest_insert_delete"
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:visibility="gone"
             android:backgroundTint="@color/red"
             android:fontFamily="@font/dmsans_bold"
             android:includeFontPadding="false"

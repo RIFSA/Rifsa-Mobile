@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.finance.insert.FinanceInsertFragment">
+    tools:context=".view.fragment.finance.insert.FinanceInsertDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     app:tint="@color/black" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/btnHarvest_save"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="24dp"
@@ -121,7 +121,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerfinance_insert" />
 
         <TextView
             android:id="@+id/tvfinance_insert_date"
@@ -138,6 +138,8 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="@color/black"
+            android:gravity="center|start"
+            android:drawablePadding="16dp"
             app:drawableStartCompat="@drawable/ic_baseline_calendar_month_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,13 +148,13 @@
             app:drawableTint="@color/black" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinnerfinance_insert"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
-            android:paddingStart="16dp"
+            android:paddingStart="10dp"
             android:paddingEnd="16dp"
             android:background="@drawable/bg_tvcorner_stroke_gray"
             android:entries="@array/type_finance"
@@ -255,19 +257,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tvfinance_insert_harga" />
 
         <Button
-            android:id="@+id/btn_delete_finance"
+            android:id="@+id/btnfinance_insert_delete"
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:includeFontPadding="false"
-            android:text="@string/hapus"
-            android:textAllCaps="false"
-            android:textSize="16sp"
+            android:layout_marginEnd="32dp"
             android:backgroundTint="@color/red"
+            android:text="@string/hapus"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvfinance_insert_catatan" />
 
