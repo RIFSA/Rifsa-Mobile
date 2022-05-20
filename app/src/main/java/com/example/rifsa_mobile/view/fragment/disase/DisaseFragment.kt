@@ -56,6 +56,10 @@ class DisaseFragment : Fragment() {
             recview.adapter = adapter
             recview.layoutManager = LinearLayoutManager(requireContext())
 
+            if (respon.isEmpty()){
+                binding.diseaseEmptyState.emptyState.visibility =
+                    View.VISIBLE
+            }
         }
     }
 

@@ -54,12 +54,12 @@ class FinanceFragment : Fragment() {
                         FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
                 }
             })
+            if (responList.isEmpty()){
+                binding.financeEmptyState.emptyState.visibility =
+                    View.VISIBLE
+            }
         }
     }
 
-    companion object{
-        const val page_key = "insert_key"
-        const val page_detail_finance = "detail"
-        const val detail_finance = "detail_finance"
-    }
+
 }

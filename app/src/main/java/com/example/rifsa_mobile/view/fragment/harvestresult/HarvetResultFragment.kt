@@ -50,8 +50,6 @@ class HarvetResultFragment : Fragment() {
         }
     }
 
-
-
     private fun showResult(){
         localViewModel.readHarvestLocal().observe(viewLifecycleOwner){ respon ->
             val adapter = HarvestResultRvAdapter(respon)
@@ -64,6 +62,9 @@ class HarvetResultFragment : Fragment() {
                         .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))
                 }
             })
+            if (respon.isEmpty()){
+                binding.harvestEmptyState.emptyState.visibility = View.VISIBLE
+            }
         }
     }
 

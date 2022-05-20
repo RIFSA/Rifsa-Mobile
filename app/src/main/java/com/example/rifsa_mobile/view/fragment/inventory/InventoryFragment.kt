@@ -57,6 +57,11 @@ class InventoryFragment : Fragment() {
                             InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data))
                 }
             })
+
+            if (responList.isEmpty()){
+                binding.inventoryEmptyState.emptyState.visibility =
+                    View.VISIBLE
+            }
         }
     }
 
