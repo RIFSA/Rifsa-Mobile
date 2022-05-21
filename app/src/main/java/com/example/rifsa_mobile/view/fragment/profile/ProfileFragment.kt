@@ -27,12 +27,12 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
-        authViewModel.getUserName().observe(viewLifecycleOwner){
-            binding.tvprofileName.text = it
-            binding.tvSignupName.setText(it)
-            binding.tvSignupEmail.setText(it)
-            binding.tvSignupPassword.setText(it)
-        }
+//        authViewModel.getUserName().observe(viewLifecycleOwner){
+//            binding.tvprofileName.text = it
+//            binding.tvSignupName.setText(it)
+//            binding.tvSignupEmail.setText(it)
+//            binding.tvSignupPassword.setText(it)
+//        }
 
         binding.btnprofileLogout.setOnClickListener {
             authViewModel.saveUserPrefrences(

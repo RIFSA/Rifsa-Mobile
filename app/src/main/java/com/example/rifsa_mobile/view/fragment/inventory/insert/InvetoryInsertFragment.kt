@@ -90,7 +90,11 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun showImage(data : Uri){
-        binding.imgInventory.setImageURI(data)
+        Glide.with(requireContext())
+            .asBitmap()
+            .load(data)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(binding.imgInventory)
     }
 
     private fun setFragmentCamera(){
@@ -126,6 +130,7 @@ class InvetoryInsertFragment : Fragment() {
         binding.tvinventarisInsertName.setText(data.name)
         binding.tvinventarisInsertAmount.setText(amount)
         binding.tvinventarisInsertNote.setText(data.noted)
+        binding.tvInventoryInsertdetail.text = "Detail data"
     }
 
     private fun showToast(title : String){

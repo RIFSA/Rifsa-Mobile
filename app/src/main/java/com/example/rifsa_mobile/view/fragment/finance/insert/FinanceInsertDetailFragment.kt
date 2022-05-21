@@ -37,7 +37,6 @@ class FinanceInsertDetailFragment : Fragment() {
     private var sortId = 0
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +55,9 @@ class FinanceInsertDetailFragment : Fragment() {
                 sortId = data.id_sort
                 type = data.type
             }
-        }catch (e : Exception){ }
+        }catch (e : Exception){
+
+        }
 
         return binding.root
     }
@@ -141,6 +142,7 @@ class FinanceInsertDetailFragment : Fragment() {
             tvfinanceInsertHarga.setText(amount)
             tvfinanceInsertCatatan.setText(data.note)
             btnfinanceInsertDelete.visibility = View.VISIBLE
+            tvFinanceInsertdetail.text = "Detail data"
         }
     }
 

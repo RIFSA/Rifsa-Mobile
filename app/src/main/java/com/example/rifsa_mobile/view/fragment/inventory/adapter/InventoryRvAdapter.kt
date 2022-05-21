@@ -27,9 +27,8 @@ class InventoryRvAdapter(private val dataList : List<Inventory>): RecyclerView.A
 
         //todo 1.7 inventory bug
         Glide.with(holder.itemView.context)
-            .asBitmap()
             .load(item.urlPhoto)
-            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .dontAnimate()
             .into(holder.binding.imgcardInvent)
 
 
