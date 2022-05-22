@@ -25,13 +25,10 @@ class InventoryRvAdapter(private val dataList : List<Inventory>): RecyclerView.A
         holder.binding.tvcardInventTitle.text = item.name
         holder.binding.tvcardInventAmount.text = item.amount.toString()
 
-        //todo 1.7 inventory bug
         Glide.with(holder.itemView.context)
             .load(item.urlPhoto)
             .dontAnimate()
             .into(holder.binding.imgcardInvent)
-
-
 
         holder.itemView.setOnClickListener {
             itemCallback.onDetailCallback(item)
