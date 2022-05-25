@@ -55,8 +55,12 @@ class MapsDiseaseFragment : Fragment() {
                     val dummyMarker = LatLng(-7.1001066327587745, 112.46945935192291)
                     val diseaseMarker = LatLng(loc.latitude,loc.longitude)
                     googleMap.apply {
+                        uiSettings.isZoomControlsEnabled = true
+                        uiSettings.isMapToolbarEnabled = true
+                        uiSettings.isCompassEnabled = true
+                        uiSettings.isMyLocationButtonEnabled = true
                         addMarker(MarkerOptions().position(dummyMarker).title("Sawah anda"))
-                        addMarker(MarkerOptions().position(diseaseMarker).title("penyakit"))
+                        addMarker(MarkerOptions().position(diseaseMarker).title("Penyakit"))
                         moveCamera(CameraUpdateFactory.newLatLng(dummyMarker))
                         animateCamera(CameraUpdateFactory.newLatLngZoom(dummyMarker,19f))
                         mapType = GoogleMap.MAP_TYPE_SATELLITE

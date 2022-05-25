@@ -106,8 +106,18 @@
     <string name="detail_inventaris">Data Baru</string>
     <string name="foto">Foto</string>
     <string name="jumlah">Jumlah</string>
-    <string name="button_camera">button camera</string>
+    <string name="button_camera">Button Camera</string>
     <string name="rekam_penyakit">Rekam Penyakit</string>
-    <string name="maps">maps</string>
+    <string name="maps">Maps</string>
+    <string name="_0">0</string>
+    <string name="penyakit_terdeteksi">Penyakit Terdeteksi</string>
+    <string name="tidak_ada_data">Oops.! \nTidak ada data</string>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="pemasukan">Pemasukan</string>
+    <string name="jumlah_barang">Jumlah Barang</string>
+    <string name="detail_penyakit">Detail Penyakit</string>
+    <string name="indikasi">Indikasi</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="solusi">Solusi</string>
 
 </resources>

@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_disaseFragment"
             app:destination="@id/disaseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_harvestInsertDetailFragment"
+            app:destination="@id/harvestInsertDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/financeFragment"

@@ -13,7 +13,6 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
-import com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -66,19 +65,8 @@ class HomeFragment : Fragment() {
             recview.layoutManager = LinearLayoutManager(requireContext())
             adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: HarvestResult) {
-                    val bundle = Bundle()
-                    val fragment = HarvestInsertDetailFragment()
-                    bundle.putParcelable(detail_result,data)
-                    bundle.putString(
-                        page_key,
-                       page_detail
-                    )
-                    fragment.arguments = bundle
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.mainnav_framgent,fragment)
-                        .commit()
+                    findNavController().navigate(HomeFragmentDirections
+                        .actionHomeFragmentToHarvestInsertDetailFragment(data))
                 }
             })
         }
@@ -99,11 +87,5 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    companion object{
-        const val page_key = "insert_key"
-        const val page_detail = "detail"
-        const val detail_result = "detail_result"
     }
 }

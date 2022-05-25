@@ -136,7 +136,7 @@ class DisaseDetailFragment : Fragment() {
 
         try {
             viewModel.insertDiseaseLocal(tempInsert)
-            showToast("Berhasil disimpan")
+            showToast("Berhasil Disimpan")
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
