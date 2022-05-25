@@ -51,11 +51,11 @@
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/btn_harvestdetail_backhome"
+                        app:layout_constraintStart_toEndOf="@+id/btn_disease_backhome"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/btn_harvestdetail_backhome"
+                        android:id="@+id/btn_disease_backhome"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="24dp"
@@ -67,7 +67,7 @@
                         app:tint="@color/black" />
 
                     <ImageView
-                        android:id="@+id/btnHarvest_save"
+                        android:id="@+id/btn_Disease_save"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="24dp"

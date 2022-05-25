@@ -100,11 +100,11 @@ class DisaseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnHarvestSave.setOnClickListener {
+        binding.btnDiseaseSave.setOnClickListener {
             insertDiseaseLocal()
         }
 
-        binding.btnHarvestdetailBackhome.setOnClickListener {
+        binding.btnDiseaseBackhome.setOnClickListener {
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )

@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.inventory.insert
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,7 +26,6 @@ class InvetoryInsertFragment : Fragment() {
     private lateinit var binding : FragmentInvetoryInsertDetailBinding
     private lateinit var viewModel: LocalViewModel
 
-
     private var detail : Inventory? = null
     private lateinit var currentImage : Uri
     private var randomId = Utils.randomId()
@@ -46,7 +46,7 @@ class InvetoryInsertFragment : Fragment() {
         binding.imgInventory.setOnClickListener {
             setFragmentCamera()
         }
-        binding.btnHarvestdetailBackhome.setOnClickListener {
+        binding.btnInventoryBackhome.setOnClickListener {
             findNavController().navigate(
                 InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
             )
@@ -69,7 +69,7 @@ class InvetoryInsertFragment : Fragment() {
 
         }
 
-        binding.btnHarvestSave.setOnClickListener {
+        binding.btnInventorySave.setOnClickListener {
             lifecycleScope.launch {
                 insertInventoryLocal()
             }
@@ -125,6 +125,7 @@ class InvetoryInsertFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showDetail(data : Inventory){
         val amount = data.amount.toString()
         binding.tvinventarisInsertName.setText(data.name)

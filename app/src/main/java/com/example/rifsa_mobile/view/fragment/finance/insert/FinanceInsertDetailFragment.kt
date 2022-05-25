@@ -89,7 +89,7 @@ class FinanceInsertDetailFragment : Fragment() {
             datePicker()
         }
 
-        binding.btnHarvestSave.setOnClickListener {
+        binding.btnFinanceSave.setOnClickListener {
             insertFinanceLocally()
         }
 
@@ -99,7 +99,7 @@ class FinanceInsertDetailFragment : Fragment() {
             }
         }
 
-        binding.btnHarvestdetailBackhome.setOnClickListener {
+        binding.btnFinanceBackhome.setOnClickListener {
             findNavController().navigate(
                 FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment()
             )

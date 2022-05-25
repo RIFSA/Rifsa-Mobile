@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/harvest_insert_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +16,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar4"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="50dp"
             android:contentInsetStart="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
@@ -64,11 +65,11 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="24dp"
+                    android:contentDescription="@string/save"
                     android:src="@drawable/ic_vector_save"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/save" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,7 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -135,7 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -149,7 +150,7 @@
         <EditText
             android:id="@+id/tvharvest_insert_catatan"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
@@ -191,7 +192,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -207,7 +208,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -223,15 +224,15 @@
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
-            android:visibility="gone"
             android:backgroundTint="@color/red"
             android:fontFamily="@font/dmsans_bold"
             android:includeFontPadding="false"
             android:text="@string/hapus"
             android:textAllCaps="false"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_catatan" />

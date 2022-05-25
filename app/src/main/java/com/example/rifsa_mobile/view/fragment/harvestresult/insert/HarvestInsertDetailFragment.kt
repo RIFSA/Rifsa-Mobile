@@ -33,7 +33,9 @@ class HarvestInsertDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
+
         localViewModel = ObtainViewModel(requireActivity())
+
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
 

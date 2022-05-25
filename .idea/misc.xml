@@ -3,26 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/drawable/bg_card_stroke_green.xml" value="0.2025" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.2025" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/drawable/ic_penyakit.xml" value="0.2025" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/drawable/ic_vector_save.xml" value="0.2025" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/activity_main.xml" value="0.16259057971014493" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_disase.xml" value="0.16259057971014493" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_disase_detail.xml" value="0.2" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_finance.xml" value="0.2151268115942029" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_finance_insert_detail.xml" value="0.264" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_harvest_insert_detail.xml" value="0.16259057971014493" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_harvet_result.xml" value="0.16259057971014493" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_home.xml" value="0.47689075630252103" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_inventory.xml" value="0.2341485507246377" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_invetory_insert_detail.xml" value="0.16259057971014493" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/fragment_profile.xml" value="0.2846394984326019" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/itemcard_disase.xml" value="0.2151268115942029" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/itemcard_finance.xml" value="0.4" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/itemcard_hasil.xml" value="0.264" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/itemcard_onboarding.xml" value="0.16259057971014493" />
-        <entry key="..\:/KULIAH/SEMESTER 6/BANGKIT/Capstone/RIFSA/app/src/main/res/layout/layout_empty.xml" value="0.2151268115942029" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/bg_corner_stroke.xml" value="0.3195" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/bg_corner_stroke_gray.xml" value="0.3195" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/drawable/bg_layoutcorner_fill.xml" value="0.3195" />
@@ -42,11 +22,11 @@
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/activity_splash_screen.xml" value="0.296195652173913" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_camera.xml" value="0.18" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_disase.xml" value="0.25" />
-        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_disase_detail.xml" value="0.22" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_disase_detail.xml" value="0.5" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_finance.xml" value="0.33" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_finance_insert.xml" value="0.33" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_finance_insert_detail.xml" value="0.25" />
-        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_harvest_insert_detail.xml" value="0.25" />
+        <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_harvest_insert_detail.xml" value="0.33" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_harvet_result.xml" value="0.25" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/alsto/AndroidStudioProjects/RifsaMobile/app/src/main/res/layout/fragment_inventory.xml" value="0.18272425249169436" />
