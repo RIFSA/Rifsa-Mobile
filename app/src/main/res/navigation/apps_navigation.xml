@@ -113,6 +113,9 @@
         <action
             android:id="@+id/action_invetoryInsertFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_invetoryInsertFragment_to_inventoryFragment2"
+            app:destination="@id/inventoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"

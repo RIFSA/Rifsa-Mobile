@@ -22,7 +22,7 @@ class UserActivityTest {
         ActivityScenario.launch(MainActivity::class.java)
     }
 
-
+    @Test
     fun harvestResultAct(){
         onView(withId(R.id.main_home_layout))
             .check(matches(isDisplayed()))
@@ -94,7 +94,6 @@ class UserActivityTest {
 
     }
 
-
     @Test
     fun financeResultAct(){
         onView(withId(R.id.financeFragment))
@@ -145,14 +144,17 @@ class UserActivityTest {
 
         onView(withText("Interface testingupdate"))
             .check(matches(isDisplayed()))
+            .perform(click())
 
 
         //delete data
+        onView(withId(R.id.btnfinance_insert_delete))
+            .perform(scrollTo())
+            .perform(click())
 
     }
 
-
-
+    @Test
     fun inventoryAct(){
         onView(withId(R.id.inventoryFragment))
             .perform(click())
@@ -178,22 +180,80 @@ class UserActivityTest {
 
         Thread.sleep(10000)
 
+        //insert new data
         onView(withId(R.id.inventory_insert_detail))
             .check(matches(isDisplayed()))
 
         onView(withId(R.id.tvinventaris_insert_name))
-            .perform(typeText("Interface Testing"))
+            .perform(typeText("Interface testing"))
         onView(isRoot()).perform(closeSoftKeyboard())
 
         onView(withId(R.id.tvinventaris_insert_amount))
+            .perform(scrollTo())
             .perform(typeText("2"))
         onView(isRoot()).perform(closeSoftKeyboard())
 
         onView(withId(R.id.tvinventaris_insert_note))
-            .perform(typeText("Interface Testing"))
+            .perform(scrollTo())
+            .perform(typeText("Interface testing"))
         onView(isRoot()).perform(closeSoftKeyboard())
 
+        onView(withId(R.id.btn_Inventory_save))
+            .perform(scrollTo())
+            .perform(click())
+
+
+        //update data
+        onView(withText("Interface testing"))
+            .check(matches(isDisplayed()))
+            .perform(click())
+
+        onView(withId(R.id.inventory_insert_detail))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.tvinventaris_insert_name))
+            .perform(typeText("update"))
+        onView(isRoot()).perform(closeSoftKeyboard())
+
+        onView(withId(R.id.btn_Inventory_save))
+            .perform(scrollTo())
+            .perform(click())
+
+        onView(withText("Interface testingupdate"))
+            .check(matches(isDisplayed()))
+            .perform(click())
+
+        onView(withId(R.id.btninventory_insert_delete))
+            .perform(scrollTo())
+            .perform(click())
     }
 
+    @Test
+    fun diseaseAct(){
+        onView(withId(R.id.disaseFragment))
+            .perform(click())
+
+        onView(withId(R.id.disaseFragment))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.fab_scan_disase))
+            .perform(click())
+
+        //scan new disease
+        onView(withId(R.id.camera_fragment))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.btncamera_capture))
+            .perform(click())
+
+        Thread.sleep(10000)
+
+        onView(withId(R.id.disease_detail_layout))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.btn_Disease_save))
+            .perform(click())
+
+    }
 
 }

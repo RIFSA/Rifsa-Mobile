@@ -44,8 +44,10 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
         mainRepository.insertLocalInventory(data)
     }
 
-    suspend fun deleteInventoryLocal(id: String){
-        mainRepository.deleteLocalInventory(id)
+    fun deleteInventoryLocal(id: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.deleteLocalInventory(id)
+        }
     }
 
     fun readDiseaseLocal(): LiveData<List<Disease>> =

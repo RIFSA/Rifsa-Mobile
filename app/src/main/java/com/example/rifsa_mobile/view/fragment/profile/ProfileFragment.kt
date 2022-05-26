@@ -20,7 +20,7 @@ class ProfileFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
 
-    //todo 1.6 Delete local data when logout
+    //todo 1.5 Delete local data when logout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

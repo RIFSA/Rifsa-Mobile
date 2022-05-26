@@ -47,7 +47,7 @@ class DisaseDetailFragment : Fragment() {
     private lateinit var locationRequest :
             LocationRequest
 
-    //todo 1.6 reminder for do healing
+    //todo 1.4 reminder for do healing
 
     //launch after permit granted
     private var requestPermissionLauncher =

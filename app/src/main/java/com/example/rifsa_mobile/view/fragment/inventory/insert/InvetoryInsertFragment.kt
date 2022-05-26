@@ -51,6 +51,10 @@ class InvetoryInsertFragment : Fragment() {
                 InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
             )
         }
+        binding.btninventoryInsertDelete.setOnClickListener {
+            deleteInventory()
+        }
+
 
         try {
             val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
@@ -63,6 +67,7 @@ class InvetoryInsertFragment : Fragment() {
                 detailId = data.id_inventories
                 sortId = data.id_sort
                 currentImage = pic
+                binding.btninventoryInsertDelete.visibility = View.VISIBLE
             }
             showCameraImage()
         }catch (e : Exception){
@@ -119,6 +124,16 @@ class InvetoryInsertFragment : Fragment() {
         try {
             viewModel.insertInventoryLocal(tempInsert)
             showToast("Berhasil menambahkan")
+            findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+        }catch (e : Exception){
+            showToast(e.message.toString())
+        }
+    }
+
+    private fun deleteInventory(){
+        try {
+            viewModel.deleteInventoryLocal(detailId)
+            showToast("Item telah dihapus")
             findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
             showToast(e.message.toString())

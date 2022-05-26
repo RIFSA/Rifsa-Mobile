@@ -43,6 +43,7 @@ class InventoryFragment : Fragment() {
         return binding.root
     }
 
+
     private fun showListInventory(){
         viewModel.readInventoryLocal().observe(viewLifecycleOwner){responList->
             val adapter = InventoryRvAdapter(responList)
