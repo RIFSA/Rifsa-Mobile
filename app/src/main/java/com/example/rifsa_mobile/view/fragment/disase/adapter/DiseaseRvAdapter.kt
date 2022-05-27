@@ -26,7 +26,7 @@ class DiseaseRvAdapter(private var dataList : List<Disease>): RecyclerView.Adapt
             tvDiseaseSubtitle.text = item.date
             tvDiseaseTitle.text = item.indication
 
-            if (item.reminder){
+            if (item.reminderID != null){
                 holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)
             }
         }

@@ -142,7 +142,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_description" />
 
-            <TextView
+            <!--edit text as testing-->
+            <EditText
                 android:id="@+id/tvdisasae_detail_indication"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

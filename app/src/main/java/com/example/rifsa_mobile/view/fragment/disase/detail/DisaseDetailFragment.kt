@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.disase.detail
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -15,19 +16,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.disase.Disease
+import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
 import java.util.concurrent.TimeUnit
 
-//todo 1.4 reminder for do healing
+//todo 1.4 reminder for do healing | done
+//todo (bug) location request
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
     private lateinit var viewModel: LocalViewModel
+
+    private lateinit var alarmReceive : AlarmReceiver
+    private var alarmID = (1..1000).random()
 
     private var randomId = Utils.randomId()
     private var image = ""
@@ -78,11 +86,11 @@ class DisaseDetailFragment : Fragment() {
     ): View {
         binding = FragmentDisaseDetailBinding.inflate(layoutInflater)
         viewModel = ObtainViewModel(requireActivity())
-
+        alarmReceive = AlarmReceiver()
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
-
+        createLocationRequest()
 
         try {
             showImage()
@@ -90,6 +98,7 @@ class DisaseDetailFragment : Fragment() {
             if (detail != null){
                 isDetail = true
                 randomId = detail.id_disease
+                alarmID  = detail.reminderID
                 sortId = detail.id_sort
                 binding.btnDiseaseComplete.visibility = View.VISIBLE
             }
@@ -101,7 +110,6 @@ class DisaseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnDiseaseSave.setOnClickListener {
-            createLocationRequest()
             lifecycleScope.launch {
                 insertDiseaseLocal()
             }
@@ -113,6 +121,7 @@ class DisaseDetailFragment : Fragment() {
             )
         }
         binding.btnDiseaseComplete.setOnClickListener {
+            stopAlarm()
             deleteDisease()
         }
     }
@@ -123,7 +132,7 @@ class DisaseDetailFragment : Fragment() {
     }
 
     private suspend fun insertDiseaseLocal(){
-        delay(5000)
+        delay(2000)
         val date = LocalDate.now().toString()
 
         val tempInsert = Disease(
@@ -136,13 +145,14 @@ class DisaseDetailFragment : Fragment() {
             curLatitude,
             curLongitude,
             binding.tvdisasaeDetailDescription.text.toString(),
-            true,
-            false
+            alarmID,
+            isUploaded = false
         )
 
 
         try {
             viewModel.insertDiseaseLocal(tempInsert)
+            setReminder()
             showToast("Berhasil Disimpan")
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
@@ -196,6 +206,19 @@ class DisaseDetailFragment : Fragment() {
         }
     }
 
+    private fun setReminder(){
+        val time = Date()
+        val currentTime = timeFormat.format(time)
+
+        alarmReceive.setRepeatReminder(
+            requireContext(),
+            AlarmReceiver.type_alarm,
+            currentTime,
+            binding.tvdisasaeDetailIndication.text.toString(),
+            alarmID
+        )
+    }
+
     private fun deleteDisease(){
         try {
             viewModel.deleteDiseaseLocal(randomId)
@@ -210,6 +233,10 @@ class DisaseDetailFragment : Fragment() {
 
     }
 
+    private fun stopAlarm(){
+        alarmReceive.cancelAlarm(requireContext(),alarmID)
+    }
+
 
     private fun showToast(title : String){
         Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
@@ -217,6 +244,7 @@ class DisaseDetailFragment : Fragment() {
 
     companion object{
         const val page_key = "Disease_detail"
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
     }
 
 

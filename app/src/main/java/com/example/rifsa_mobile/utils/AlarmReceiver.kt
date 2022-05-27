@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.utils
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -19,9 +20,19 @@ import java.util.*
 //todo 1.6 implemet alarm in disease
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val type = intent.getStringExtra(type_alarm)
         val message = intent.getStringExtra(extra_message)
         val id = intent.getIntExtra(extra_id,0)
+        val randomNotifID = UUID.randomUUID().toString()
+
+        showAlarmNotification(
+            context,
+            type_alarm,
+            message.toString(),
+            id,
+            randomNotifID
+        )
+
+
     }
 
     fun setRepeatReminder(
@@ -43,7 +54,7 @@ class AlarmReceiver: BroadcastReceiver() {
         intent.putExtra(extra_type,type)
         intent.putExtra(extra_id,id)
 
-        Log.d("alarm start from : ",time)
+        Log.d("alarm start from ",time)
 
         val timeArray =
             time.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -70,39 +81,65 @@ class AlarmReceiver: BroadcastReceiver() {
         Toast.makeText(context,"Repeat alarm setup $id",Toast.LENGTH_SHORT).show()
     }
 
+    fun cancelAlarm(
+        context: Context,
+        alarmId : Int
+    ){
+        val alarmManager =
+            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent =
+            Intent(context,AlarmReceiver::class.java)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            alarmId,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        pendingIntent.cancel()
+        alarmManager.cancel(pendingIntent)
+
+        Toast.makeText(context, "alarm $alarmId cancel", Toast.LENGTH_SHORT).show()
+
+
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
     private fun showAlarmNotification(
         context: Context,
         title : String,
         message : String,
-        notifID : Int,
-        uuid : String
+        notificationID : Int,
+        randomNotificationID : String
     ){
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val builder =
-            NotificationCompat.Builder(context,uuid)
+            NotificationCompat.Builder(context,randomNotificationID)
                 .setSmallIcon(R.drawable.ic_warning)
                 .setContentTitle(title)
-                .setContentText(message)
+                .setContentText("Jangan lupa untuk mengobati $message")
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
-                    uuid,
-                    uuid,
+                    randomNotificationID,
+                    randomNotificationID,
                     NotificationManager.IMPORTANCE_DEFAULT
                 )
 
             channel.enableLights(true)
-            builder.setChannelId(uuid)
+            builder.setChannelId(randomNotificationID)
             notificationManager.createNotificationChannel(channel)
         }
 
         val notification = builder.build()
-        notificationManager.notify(notifID,notification)
+        notificationManager.notify(notificationID,notification)
     }
 
     private fun isFormatInvalid(type : String,format : String): Boolean{
@@ -120,7 +157,7 @@ class AlarmReceiver: BroadcastReceiver() {
     companion object{
         const val log_key = "AlarmReceiver"
         const val time_format = "HH:mm"
-        const val type_alarm = "repeat_alarm"
+        const val type_alarm = "Disease Alarm"
 
         const val extra_message = "Message"
         const val extra_type = "type"

@@ -20,6 +20,6 @@ data class Disease(
     var longitude : Double,
     var description : String,
 
-    var reminder : Boolean,
+    var reminderID : Int,
     var isUploaded : Boolean
 ): Parcelable
