@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center"
@@ -157,11 +157,24 @@
             <ProgressBar
                 android:id="@+id/pgbar_login"
                 style="?android:attr/progressBarStyle"
-                android:layout_width="123dp"
-                android:layout_height="101dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/btn_login_enter"
+                app:layout_constraintBottom_toBottomOf="@+id/pgtitle_login"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/pgtitle_login"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/pgtitle_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="Proses"
+                android:textColor="#0B0B0B"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

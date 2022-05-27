@@ -54,31 +54,44 @@ class LoginActivity : AppCompatActivity() {
             binding.tvLoginEmail.text.toString(),
             binding.tvLoginPassword.text.toString()
         )
-        remoteViewModel.postLogin(tempForm).observe(this){
-            when(it){
+        remoteViewModel.postLogin(tempForm).observe(this){ respon ->
+            when(respon){
                 is FetchResult.Loading->{
                     binding.pgbarLogin.visibility = View.VISIBLE
+                    showLoadingStatus(null)
                 }
                 is FetchResult.Success->{
                     binding.pgbarLogin.visibility = View.GONE
                     saveLoginSession(
                         true,
                         binding.tvLoginEmail.text.toString(),
-                        it.data.token
+                        respon.data.token
                     )
+                    showLoadingStatus(respon.data.message)
                     showToast("Selamat datang")
                     startActivity(Intent(this,MainActivity::class.java))
                     finishAffinity()
                 }
                 is FetchResult.Error->{
                     binding.pgbarLogin.visibility = View.GONE
-                    showToast(it.error)
+                    showLoadingStatus("Coba lagi")
+                    showToast(respon.error)
                 }
             }
+
+
         }
 
     }
 
+    private fun showLoadingStatus(title : String?){
+        binding.apply {
+            if (title != null){
+                pgtitleLogin.visibility = View.VISIBLE
+                pgtitleLogin.text = title
+            }
+        }
+    }
     private fun showToast(title : String){
         Toast.makeText(this,title,Toast.LENGTH_SHORT).show()
     }

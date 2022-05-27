@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.model.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
@@ -26,14 +27,13 @@ class MainRepository(
     //Remote
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> = liveData {
         emit(FetchResult.Loading)
-        try {
-            emit(FetchResult.Success(
-                apiService.postLogin(data)
-            ))
-        }catch (e : Exception){
-            emit(FetchResult.Error(e.message.toString()))
-        }
-
+            try {
+                apiService.postLogin(data).apply {
+                    emit(FetchResult.Success(this))
+                }
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
     }
 
 

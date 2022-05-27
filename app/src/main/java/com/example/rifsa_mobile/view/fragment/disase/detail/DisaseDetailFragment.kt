@@ -63,10 +63,14 @@ class DisaseDetailFragment : Fragment() {
         ){ permission ->
             when{
                 permission[fineLocation] ?: false -> {
-                    getCurrentLocation()
+                    lifecycleScope.launch {
+                        getCurrentLocation()
+                    }
                 }
                 permission[coarseLocation] ?: false ->{
-                    getCurrentLocation()
+                    lifecycleScope.launch {
+                        getCurrentLocation()
+                    }
                 }
                 else ->{}
             }
@@ -79,6 +83,8 @@ class DisaseDetailFragment : Fragment() {
             permission
         ) == PackageManager.PERMISSION_GRANTED
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -177,7 +183,9 @@ class DisaseDetailFragment : Fragment() {
         val client: SettingsClient = LocationServices.getSettingsClient(requireActivity())
         client.checkLocationSettings(builder.build())
             .addOnSuccessListener {
-                getCurrentLocation()
+                lifecycleScope.launch {
+                    getCurrentLocation()
+                }
             }
             .addOnFailureListener {
                 Log.d(page_key,it.message.toString())
@@ -185,15 +193,17 @@ class DisaseDetailFragment : Fragment() {
 
     }
 
-    private fun getCurrentLocation(){
+    private suspend fun getCurrentLocation(){
+        delay(10000)
         if (checkPermission(fineLocation) && checkPermission(coarseLocation)){
             fusedLocation.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null){
                         curLatitude = location.latitude
                         curLongitude = location.longitude
-                        Log.d(page_key,curLatitude.toString())
+                        Log.d("disease",curLatitude.toString())
                     }
+
                 }
                 .addOnFailureListener {
                     Log.d(page_key,it.message.toString())
