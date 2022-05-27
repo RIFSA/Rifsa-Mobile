@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.model.repository.Injection
 import com.example.rifsa_mobile.model.repository.MainRepository
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -20,6 +21,9 @@ class ViewModelFactory private constructor(
             }
             modelClass.isAssignableFrom(LocalViewModel::class.java)->{
                 LocalViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(RemoteViewModel::class.java)->{
+                RemoteViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

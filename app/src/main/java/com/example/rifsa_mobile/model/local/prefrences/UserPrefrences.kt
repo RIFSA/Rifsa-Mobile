@@ -16,6 +16,7 @@ val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "u
 class UserPrefrences(private val dataStore : DataStore<Preferences>) {
     private val onBoardKey  = booleanPreferencesKey("onBoard_key")
     private val nameKey = stringPreferencesKey("name_key")
+    private val tokenKey = stringPreferencesKey("token_key")
 
 
     fun getOnBoardKey(): Flow<Boolean>{
@@ -30,10 +31,17 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
         }
     }
 
-    suspend fun savePrefrences(onBoard : Boolean,name : String){
+    fun getTokenKey(): Flow<String>{
+        return dataStore.data.map {
+            it[tokenKey] ?: ""
+        }
+    }
+
+    suspend fun savePrefrences(onBoard : Boolean,name : String, token : String){
         dataStore.edit {
             it[onBoardKey] = onBoard
             it[nameKey] = name
+            it[tokenKey] = token
         }
     }
 

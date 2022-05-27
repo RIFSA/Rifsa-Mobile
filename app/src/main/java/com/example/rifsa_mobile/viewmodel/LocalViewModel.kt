@@ -59,9 +59,9 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
         }
     }
 
-    suspend fun deleteDiseaseLocal(id: String){
-        viewModelScope.launch {
-            mainRepository.deleteLocalInventory(id)
+    fun deleteDiseaseLocal(id: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.deleteDiseaseLocal(id)
         }
     }
 

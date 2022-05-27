@@ -37,6 +37,7 @@ class ProfileFragment : Fragment() {
         binding.btnprofileLogout.setOnClickListener {
             authViewModel.saveUserPrefrences(
                 true,
+                "",
                 ""
             )
             startActivity(Intent(requireContext(),LoginActivity::class.java))

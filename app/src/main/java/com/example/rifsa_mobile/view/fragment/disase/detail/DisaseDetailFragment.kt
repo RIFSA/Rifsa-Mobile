@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.disase.Disease
@@ -18,19 +19,19 @@ import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.google.android.gms.location.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
-
+//todo 1.4 reminder for do healing
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
     private lateinit var viewModel: LocalViewModel
 
-
     private var randomId = Utils.randomId()
     private var image = ""
     private var isDetail = false
-    private var detailId = ""
     private var sortId = 0
 
     private var curLatitude = 0.0
@@ -46,8 +47,6 @@ class DisaseDetailFragment : Fragment() {
 
     private lateinit var locationRequest :
             LocationRequest
-
-    //todo 1.4 reminder for do healing
 
     //launch after permit granted
     private var requestPermissionLauncher =
@@ -83,7 +82,7 @@ class DisaseDetailFragment : Fragment() {
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
-        createLocationRequest()
+
 
         try {
             showImage()
@@ -92,6 +91,7 @@ class DisaseDetailFragment : Fragment() {
                 isDetail = true
                 randomId = detail.id_disease
                 sortId = detail.id_sort
+                binding.btnDiseaseComplete.visibility = View.VISIBLE
             }
         }catch (e : Exception){ }
 
@@ -101,13 +101,19 @@ class DisaseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnDiseaseSave.setOnClickListener {
-            insertDiseaseLocal()
+            createLocationRequest()
+            lifecycleScope.launch {
+                insertDiseaseLocal()
+            }
         }
 
         binding.btnDiseaseBackhome.setOnClickListener {
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
+        }
+        binding.btnDiseaseComplete.setOnClickListener {
+            deleteDisease()
         }
     }
 
@@ -116,7 +122,8 @@ class DisaseDetailFragment : Fragment() {
         binding.imgDisaseDetail.setImageURI(image.toUri())
     }
 
-    private fun insertDiseaseLocal(){
+    private suspend fun insertDiseaseLocal(){
+        delay(5000)
         val date = LocalDate.now().toString()
 
         val tempInsert = Disease(
@@ -187,6 +194,20 @@ class DisaseDetailFragment : Fragment() {
                 coarseLocation
             ))
         }
+    }
+
+    private fun deleteDisease(){
+        try {
+            viewModel.deleteDiseaseLocal(randomId)
+            Log.d("Diseasedetail",randomId)
+            showToast("Penyakit telah teratasi")
+            findNavController().navigate(
+                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+            )
+        }catch (e : Exception){
+            showToast(e.message.toString())
+        }
+
     }
 
 

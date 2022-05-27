@@ -64,7 +64,9 @@ class DisaseFragment : Fragment() {
 
             adapter.onDiseaseDetailCallback(object : DiseaseRvAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: Disease) {
-
+                    findNavController().navigate(
+                        DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(null,data)
+                    )
                 }
             })
         }

@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_disaseFragment_to_mapsDiseaseFragment"
             app:destination="@id/mapsDiseaseFragment" />
+        <action
+            android:id="@+id/action_disaseFragment_to_disaseDetailFragment"
+            app:destination="@id/disaseDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/inventoryFragment"

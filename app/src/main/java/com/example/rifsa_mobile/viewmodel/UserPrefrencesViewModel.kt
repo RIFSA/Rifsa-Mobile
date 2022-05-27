@@ -12,9 +12,9 @@ class UserPrefrencesViewModel
     fun getOnBoardStatus(): LiveData<Boolean> = repository.getOnBoardStatus()
     fun getUserName(): LiveData<String> = repository.getUserName()
 
-    fun saveUserPrefrences(onBoard : Boolean,userName : String){
+    fun saveUserPrefrences(onBoard : Boolean,userName : String,token : String){
         viewModelScope.launch {
-            repository.savePrefrences(onBoard, userName)
+            repository.savePrefrences(onBoard, userName,token)
         }
     }
 
