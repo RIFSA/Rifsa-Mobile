@@ -3,16 +3,16 @@ package com.example.rifsa_mobile.model.remote.response.signup
 
 import com.google.gson.annotations.SerializedName
 
-data class SignUpResponse(
+data class RegisterResponse(
  @SerializedName("data")
- val `data`: Data,
+ val registerData: RegisterData,
  @SerializedName("message")
  val message: String,
  @SerializedName("status")
  val status: Int
 )
 
-data class Data(
+data class RegisterData(
  @SerializedName("createdAt")
  val createdAt: String,
  @SerializedName("email")
@@ -32,4 +32,8 @@ data class RegisterBody(
   val name: String,
   @SerializedName("email")
   val email: String,
+  @SerializedName("password")
+  val password : String,
+  @SerializedName("rePassword")
+  val rePassword : String
 )

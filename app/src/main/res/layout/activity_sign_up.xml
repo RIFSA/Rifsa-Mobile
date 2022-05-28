@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center"
@@ -41,7 +41,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/pgtitle_register" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -172,6 +172,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_signup_password" />
+
+            <TextView
+                android:id="@+id/pgtitle_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="TextView"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/pgbar_register"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:layout_marginEnd="20dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/pgtitle_register"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/pgtitle_register" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

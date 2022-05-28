@@ -142,7 +142,7 @@ class FinanceInsertDetailFragment : Fragment() {
             tvfinanceInsertHarga.setText(amount)
             tvfinanceInsertCatatan.setText(data.note)
             btnfinanceInsertDelete.visibility = View.VISIBLE
-            tvFinanceInsertdetail.text = "Detail data"
+            tvFinanceInsertdetail.text = "Detail registerData"
         }
     }
 

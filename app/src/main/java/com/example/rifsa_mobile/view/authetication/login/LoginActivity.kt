@@ -1,11 +1,10 @@
 package com.example.rifsa_mobile.view.authetication.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.rifsa_mobile.R
@@ -36,18 +35,25 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLoginEnter.setOnClickListener {
-            login()
-        }
-
-    }
-
-    //todo 1.2 Login main with authentication
-    private fun login(){
-        if (binding.tvLoginEmail.text!!.isNotEmpty() && binding.tvLoginPassword.text!!.isNotEmpty()){
             lifecycleScope.launch {
                 postLogin()
             }
         }
+
+    }
+
+    //todo Login main with authentication | done
+    private fun boxChecker(): Boolean{
+        val email = binding.tvLoginEmail.text.toString()
+        val password = binding.tvLoginPassword.text.toString()
+
+        when{
+            email.isEmpty() -> return true
+            password.isEmpty() -> return true
+            else ->
+                (email.isNotEmpty() && password.isNotEmpty())
+        }
+        return false
     }
 
     private suspend fun postLogin(){
@@ -55,46 +61,42 @@ class LoginActivity : AppCompatActivity() {
             binding.tvLoginEmail.text.toString(),
             binding.tvLoginPassword.text.toString()
         )
-        remoteViewModel.postLogin(tempForm).observe(this){ respon ->
-            when(respon){
-                is FetchResult.Loading->{
-                    binding.pgbarLogin.visibility = View.VISIBLE
-                    showLoadingStatus(null)
-                }
-                is FetchResult.Success->{
-                    binding.pgbarLogin.visibility = View.GONE
-                    saveLoginSession(
-                        true,
-                        binding.tvLoginEmail.text.toString(),
-                        respon.data.token
-                    )
-                    showLoadingStatus(respon.data.message)
-                    showToast("Selamat datang")
-                    startActivity(Intent(this,MainActivity::class.java))
-                    finishAffinity()
-                }
-                is FetchResult.Error->{
-                    binding.pgbarLogin.visibility = View.GONE
-                    showLoadingStatus("Coba lagi")
-                    showToast(respon.error)
+
+        if (!boxChecker()){
+            remoteViewModel.postLogin(tempForm).observe(this){ respon ->
+                when(respon){
+                    is FetchResult.Loading->{
+                        binding.pgbarLogin.visibility = View.VISIBLE
+                    }
+                    is FetchResult.Success->{
+                        binding.pgbarLogin.visibility = View.GONE
+                        saveLoginSession(
+                            onBoard = true,
+                            binding.tvLoginEmail.text.toString(),
+                            respon.data.token
+                        )
+                        showStatus("Selamat datang")
+                        startActivity(Intent(this,MainActivity::class.java))
+                        finishAffinity()
+                    }
+                    is FetchResult.Error->{
+                        binding.pgbarLogin.visibility = View.GONE
+                        showStatus("Coba lagi")
+                    }
                 }
             }
-
-
+        }else{
+            showStatus("box masih kosong")
         }
+
 
     }
 
-    private fun showLoadingStatus(title : String?){
+    private fun showStatus(title : String){
         binding.apply {
-            if (title != null){
-                pgtitleLogin.visibility = View.VISIBLE
-                pgtitleLogin.text = title
-            }
+            pgtitleLogin.visibility = View.VISIBLE
+            pgtitleLogin.text = title
         }
-    }
-    private fun showToast(title : String){
-        Toast.makeText(this,title,Toast.LENGTH_SHORT).show()
     }
 
     private fun saveLoginSession(onBoard : Boolean,name : String,token : String){

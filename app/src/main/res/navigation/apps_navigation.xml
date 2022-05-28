@@ -126,7 +126,10 @@
             app:destination="@id/inventoryFragment" />
         <action
             android:id="@+id/action_invetoryInsertFragment_to_inventoryFragment2"
-            app:destination="@id/inventoryFragment" />
+            app:destination="@id/inventoryFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/apps_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -158,7 +161,10 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_disaseDetailFragment_to_disaseFragment2"
-            app:destination="@id/disaseFragment" />
+            app:destination="@id/disaseFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/apps_navigation"
+            app:popUpToInclusive="true" />
         <argument
             android:name="Disease_detail"
             app:argType="com.example.rifsa_mobile.model.entity.disase.Disease"

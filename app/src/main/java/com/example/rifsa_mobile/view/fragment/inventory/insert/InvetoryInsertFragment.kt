@@ -146,7 +146,7 @@ class InvetoryInsertFragment : Fragment() {
         binding.tvinventarisInsertName.setText(data.name)
         binding.tvinventarisInsertAmount.setText(amount)
         binding.tvinventarisInsertNote.setText(data.noted)
-        binding.tvInventoryInsertdetail.text = "Detail data"
+        binding.tvInventoryInsertdetail.text = "Detail registerData"
     }
 
     private fun showToast(title : String){

@@ -43,7 +43,7 @@ class UserActivityTest {
         onView(withId(R.id.harvest_insert_layout))
             .check(matches(isDisplayed()))
 
-        //insert new data
+        //insert new registerData
         onView(withId(R.id.tvharvest_insert_name))
             .perform(typeText("Interface testing"))
         onView(isRoot()).perform(closeSoftKeyboard())
@@ -63,7 +63,7 @@ class UserActivityTest {
         onView(withId(R.id.btnHarvest_save))
             .perform(click())
 
-        //update data
+        //update registerData
         onView(withText("Interface testing"))
             .check(matches(isDisplayed()))
             .perform(click())
@@ -81,7 +81,7 @@ class UserActivityTest {
         onView(withId(R.id.rv_harvestresult))
             .check(matches(isDisplayed()))
 
-        //delete data
+        //delete registerData
         onView(withText("Interface testingupdate"))
             .check(matches(isDisplayed()))
             .perform(click())
@@ -109,7 +109,7 @@ class UserActivityTest {
         onView(withId(R.id.financeInsertPage))
             .check(matches(isDisplayed()))
 
-        //insert data
+        //insert registerData
         onView(withId(R.id.tvfinance_insert_nama))
             .perform(typeText("Interface testing"))
         onView(isRoot()).perform(closeSoftKeyboard())
@@ -125,7 +125,7 @@ class UserActivityTest {
         onView(withId(R.id.btn_Finance_save))
             .perform(click())
 
-        //update data
+        //update registerData
         onView(withText("Interface testing"))
             .check(matches(isDisplayed()))
             .perform(click())
@@ -148,7 +148,7 @@ class UserActivityTest {
             .perform(click())
 
 
-        //delete data
+        //delete registerData
         onView(withId(R.id.btnfinance_insert_delete))
             .perform(scrollTo())
             .perform(click())
@@ -181,7 +181,7 @@ class UserActivityTest {
 
         Thread.sleep(10000)
 
-        //insert new data
+        //insert new registerData
         onView(withId(R.id.inventory_insert_detail))
             .check(matches(isDisplayed()))
 
@@ -204,7 +204,7 @@ class UserActivityTest {
             .perform(click())
 
 
-        //update data
+        //update registerData
         onView(withText("Interface testing"))
             .check(matches(isDisplayed()))
             .perform(click())

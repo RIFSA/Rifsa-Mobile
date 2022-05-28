@@ -33,7 +33,7 @@ class CameraFragment : Fragment() {
 
     private var type = ""
 
-    //todo 1.3 data in URI Format (only for while)
+    //todo 1.3 registerData in URI Format (only for while)
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri

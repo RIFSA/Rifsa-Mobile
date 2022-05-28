@@ -13,8 +13,10 @@ import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.model.remote.response.login.LoginBody
 import com.example.rifsa_mobile.model.remote.response.login.LoginResponse
+import com.example.rifsa_mobile.model.remote.response.signup.RegisterBody
+import com.example.rifsa_mobile.model.remote.response.signup.RegisterResponse
 import com.example.rifsa_mobile.utils.FetchResult
-import java.lang.Exception
+import kotlin.Exception
 
 class MainRepository(
     database : DatabaseConfig,
@@ -36,7 +38,16 @@ class MainRepository(
             }
     }
 
-
+    suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> = liveData {
+        emit(FetchResult.Loading)
+        try {
+            apiService.postRegister(data).apply {
+                emit(FetchResult.Success(this))
+            }
+        }catch (e : Exception){
+            emit(FetchResult.Error(e.message.toString()))
+        }
+    }
 
 
 
