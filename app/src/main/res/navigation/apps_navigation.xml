@@ -70,7 +70,9 @@
         tools:layout="@layout/fragment_harvet_result" >
         <action
             android:id="@+id/action_harvetResultFragment_to_harvestInsertDetailFragment"
-            app:destination="@id/harvestInsertDetailFragment" />
+            app:destination="@id/harvestInsertDetailFragment"
+            app:popUpTo="@id/harvetResultFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_harvetResultFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -86,7 +88,10 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_financeInsertDetailFragment_to_financeFragment"
-            app:destination="@id/financeFragment" />
+            app:destination="@id/financeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/apps_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/harvestInsertDetailFragment"
@@ -99,7 +104,10 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_harvestInsertDetailFragment_to_harvetResultFragment"
-            app:destination="@id/harvetResultFragment" />
+            app:destination="@id/harvetResultFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/apps_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/invetoryInsertFragment"

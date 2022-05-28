@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(this) }
+
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
