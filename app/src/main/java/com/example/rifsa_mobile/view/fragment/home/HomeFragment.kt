@@ -79,6 +79,7 @@ class HomeFragment : Fragment() {
         viewModel.readDiseaseLocal().observe(viewLifecycleOwner){ respon ->
             if (respon.isNotEmpty()){
                 binding.cardViewTwo.visibility = View.VISIBLE
+                binding.cardViewOne.visibility = View.GONE
 
                 val count = respon.size.toString()
                 binding.tvhomeDisasecount.text = count
