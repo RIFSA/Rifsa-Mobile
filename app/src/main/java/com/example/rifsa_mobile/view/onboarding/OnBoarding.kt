@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.onboarding
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.view.onboarding.adapter.OnBoardAdapter
 import com.example.rifsa_mobile.model.entity.onboard.OnBoardRef
 
+@Suppress("DEPRECATION")
 class OnBoarding : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
     private var listOnBoarding = ArrayList<OnBoardRef>()
@@ -19,7 +21,7 @@ class OnBoarding : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.also { window.decorView.systemUiVisibility = it }
 
 
         listOnBoarding.addAll(getOnBoarding)
@@ -27,6 +29,7 @@ class OnBoarding : AppCompatActivity() {
     }
 
     private val getOnBoarding: ArrayList<OnBoardRef>
+        @SuppressLint("Recycle")
         get(){
             val photo = resources.obtainTypedArray(R.array.title_pic)
             val title = resources.getStringArray(R.array.title)

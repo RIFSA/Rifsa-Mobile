@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.finance.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ class FinanceRvAdapter(private var dataList : List<Finance>): RecyclerView.Adapt
         return ViewHolder(ItemcardFinanceBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.tvcardFinanceTitle.text = item.title

@@ -11,7 +11,6 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
 import com.example.rifsa_mobile.model.entity.finance.Finance
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRvAdapter
-import com.example.rifsa_mobile.view.fragment.finance.insert.FinanceInsertDetailFragment
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView

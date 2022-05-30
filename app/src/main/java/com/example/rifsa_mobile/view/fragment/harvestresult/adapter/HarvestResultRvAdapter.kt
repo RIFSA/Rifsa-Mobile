@@ -23,7 +23,7 @@ class HarvestResultRvAdapter(private var dataList : List<HarvestResult>): Recycl
         val item = dataList[position]
         holder.binding.tvCardhasilTitle.text = item.title
         holder.binding.tvCardhasilDate.text = item.date
-        holder.binding.tvCardhasilWeight.text = item.weight.toString() + " Kg"
+        (item.weight.toString() + " Kg").also { holder.binding.tvCardhasilWeight.text = it }
 
         holder.binding.tvCardhasilTitle.setOnClickListener {
             itemCallBak.onDetailCallback(item)

@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.finance.insert
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -134,10 +135,11 @@ class FinanceInsertDetailFragment : Fragment() {
 
 
 
+    @SuppressLint("SetTextI18n")
     private fun setDetail(data : Finance){
         val amount = data.amount.toString()
         binding.apply {
-            tvfinanceInsertDate.setText(data.date)
+            tvfinanceInsertDate.text = data.date
             tvfinanceInsertNama.setText(data.title)
             tvfinanceInsertHarga.setText(amount)
             tvfinanceInsertCatatan.setText(data.note)

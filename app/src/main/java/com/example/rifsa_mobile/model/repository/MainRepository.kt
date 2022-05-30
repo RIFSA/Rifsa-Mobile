@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.model.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
@@ -16,7 +15,6 @@ import com.example.rifsa_mobile.model.remote.response.login.LoginResponse
 import com.example.rifsa_mobile.model.remote.response.signup.RegisterBody
 import com.example.rifsa_mobile.model.remote.response.signup.RegisterResponse
 import com.example.rifsa_mobile.utils.FetchResult
-import kotlin.Exception
 
 class MainRepository(
     database : DatabaseConfig,

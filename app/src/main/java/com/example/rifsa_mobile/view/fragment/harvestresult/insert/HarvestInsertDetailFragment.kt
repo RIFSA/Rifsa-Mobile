@@ -83,7 +83,7 @@ class HarvestInsertDetailFragment : Fragment() {
             tvharvestInsertCatatan.setText(data.noted)
             tvharvestInsertHasil.setText(data.sellingPrice.toString())
             btnharvestInsertDelete.visibility = View.VISIBLE
-            tvHarvestresultInsertdetail.text = "Detail RegisterData"
+            "Detail RegisterData".also { tvHarvestresultInsertdetail.text = it }
         }
     }
 

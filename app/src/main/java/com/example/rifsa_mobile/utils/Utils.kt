@@ -43,6 +43,8 @@ object Utils {
         return File(outputDirectory, "$timeStamp.jpg")
     }
 
+
+    //todo uri to file for upload photo
     fun uriToFile(image : Uri,context: Context): File{
         val contentResolver: ContentResolver = context.contentResolver
         val myFile = createTempFile(context)

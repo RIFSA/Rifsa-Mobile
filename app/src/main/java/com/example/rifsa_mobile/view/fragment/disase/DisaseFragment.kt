@@ -11,7 +11,6 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
 import com.example.rifsa_mobile.model.entity.disase.Disease
 import com.example.rifsa_mobile.view.fragment.disase.adapter.DiseaseRvAdapter
-import com.example.rifsa_mobile.view.fragment.disase.detail.DisaseDetailFragmentDirections
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
