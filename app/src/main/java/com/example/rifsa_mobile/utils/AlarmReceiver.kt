@@ -77,8 +77,6 @@ class AlarmReceiver: BroadcastReceiver() {
             10000, //todo alarm set to 10 s for testing
             pendingIntent
         )
-
-        Toast.makeText(context,"Repeat alarm setup $id",Toast.LENGTH_SHORT).show()
     }
 
     fun cancelAlarm(
@@ -100,10 +98,6 @@ class AlarmReceiver: BroadcastReceiver() {
 
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)
-
-        Toast.makeText(context, "alarm $alarmId cancel", Toast.LENGTH_SHORT).show()
-
-
     }
 
     @SuppressLint("ObsoleteSdkInt")

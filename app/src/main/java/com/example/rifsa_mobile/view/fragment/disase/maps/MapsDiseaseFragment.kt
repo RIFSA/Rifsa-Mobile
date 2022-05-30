@@ -22,11 +22,6 @@ class MapsDiseaseFragment : Fragment(){
     private lateinit var viewModel : LocalViewModel
     private lateinit var binding : FragmentMapsDiseaseBinding
 
-    private lateinit var gMap : GoogleMap
-
-    private var longtitude = 0.0
-    private var lattidue = 0.0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

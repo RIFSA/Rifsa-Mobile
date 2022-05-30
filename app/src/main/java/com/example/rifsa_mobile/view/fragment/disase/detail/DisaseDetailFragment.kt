@@ -116,6 +116,7 @@ class DisaseDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
+                showStatus("Proses")
                 insertDiseaseLocal()
             }
         }
@@ -158,11 +159,12 @@ class DisaseDetailFragment : Fragment() {
         try {
             viewModel.insertDiseaseLocal(tempInsert)
             setReminder()
-            showToast("Berhasil Disimpan")
+            showStatus("Berhasil Disimpan")
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
         }catch (e : Exception){
+            showStatus("gagal")
             showToast(e.message.toString())
         }
     }
@@ -192,7 +194,7 @@ class DisaseDetailFragment : Fragment() {
 
     }
 
-    private suspend fun getCurrentLocation(){
+    private fun getCurrentLocation(){
         if (checkPermission(fineLocation) && checkPermission(coarseLocation)){
             fusedLocation.lastLocation
                 .addOnSuccessListener { location ->
@@ -244,6 +246,14 @@ class DisaseDetailFragment : Fragment() {
 
     private fun stopAlarm(){
         alarmReceive.cancelAlarm(requireContext(),alarmID)
+    }
+
+    private fun showStatus(title: String){
+        binding.apply {
+            pgdiseaseTitle.text = title
+            pgdiseaseBar.visibility = View.VISIBLE
+            pgdiseaseTitle.visibility = View.VISIBLE
+        }
     }
 
 
