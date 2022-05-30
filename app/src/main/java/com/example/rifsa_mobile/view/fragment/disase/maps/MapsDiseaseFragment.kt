@@ -32,8 +32,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
     private lateinit var gMap : GoogleMap
 
 
-    private var fine_location = android.Manifest.permission.ACCESS_FINE_LOCATION
-    private var coarse_location = android.Manifest.permission.ACCESS_COARSE_LOCATION
+    private var fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     private val dummyMarker = LatLng(-7.1001066327587745, 112.46945935192291)
 
     private var requestPermissionLaunch =
@@ -108,7 +107,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
     }
 
     private fun getCurrentLocation(){
-        if (ContextCompat.checkSelfPermission(requireContext(),fine_location) ==
+        if (ContextCompat.checkSelfPermission(requireContext(),fineLocation) ==
              PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.lastLocation
                 .addOnSuccessListener { maps ->
@@ -129,7 +128,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                     showStatus(it.message.toString())
                 }
         }else{
-            requestPermissionLaunch.launch(fine_location)
+            requestPermissionLaunch.launch(fineLocation)
         }
     }
 
