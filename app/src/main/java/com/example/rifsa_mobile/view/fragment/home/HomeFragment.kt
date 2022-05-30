@@ -89,6 +89,8 @@ class HomeFragment : Fragment() {
                         HomeFragmentDirections.actionHomeFragmentToDisaseFragment()
                     )
                 }
+            }else{
+                binding.cardViewOne.visibility = View.VISIBLE
             }
         }
     }
