@@ -17,7 +17,7 @@ import com.example.rifsa_mobile.model.local.dao.LocalDao
         Inventory::class,
         Disease::class
     ],
-    version = 7, exportSchema = false
+    version = 9, exportSchema = false
 )
 abstract class DatabaseConfig : RoomDatabase() {
     abstract fun localDao() : LocalDao

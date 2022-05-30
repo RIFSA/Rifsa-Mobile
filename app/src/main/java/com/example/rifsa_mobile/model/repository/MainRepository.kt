@@ -74,6 +74,10 @@ class MainRepository(
         dao.deleteFinanceLocal(id)
     }
 
+    fun calculateFinanceLocal(type : String): LiveData<List<Finance>>{
+        return dao.calculateFinanceLocal(type)
+    }
+
     fun readLocalInventory(): LiveData<List<Inventory>> =
         dao.getInventoryLocal()
 

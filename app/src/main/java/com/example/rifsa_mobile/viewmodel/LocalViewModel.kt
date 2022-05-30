@@ -24,6 +24,7 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
         mainRepository.deleteLocalHarvest(id)
     }
 
+
     fun readFinanceLocal(): LiveData<List<Finance>> =
         mainRepository.readLocalFinance()
 
@@ -32,10 +33,16 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
             mainRepository.insertLocalFinance(data)
         }
     }
-
-    suspend fun deleteFinanceLocal(id : String){
-        mainRepository.deleteLocalFinance(id)
+     fun deleteFinanceLocal(id : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.deleteLocalFinance(id)
+        }
     }
+
+    suspend fun calculateFinanceLocal(type : String): LiveData<List<Finance>>{
+        return mainRepository.calculateFinanceLocal(type)
+    }
+
 
     fun readInventoryLocal(): LiveData<List<Inventory>> =
         mainRepository.readLocalInventory()

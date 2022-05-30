@@ -296,14 +296,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
                 <TextView
-                    android:id="@+id/textView38"
+                    android:id="@+id/tvsum_harvest_harga"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="Rp 100"
+                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView37"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -311,7 +311,7 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/textView34"
+                    android:id="@+id/tvsum_harvest_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
@@ -325,7 +325,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView33" />
 
                 <TextView
-                    android:id="@+id/textView36"
+                    android:id="@+id/tvsum_harvest_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
@@ -387,28 +387,28 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView40" />
 
                 <TextView
-                    android:id="@+id/textView41"
+                    android:id="@+id/tvsum_finance_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="Rp 100"
+                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView40"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView40" />
 
                 <TextView
-                    android:id="@+id/textView43"
+                    android:id="@+id/tvsum_finance_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="Rp 100"
+                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView42"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -479,14 +479,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
                 <TextView
-                    android:id="@+id/textView46"
+                    android:id="@+id/tvsum_inventory_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="Rp 100"
+                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView45"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -10,6 +10,7 @@ import com.example.rifsa_mobile.model.entity.inventory.Inventory
 @Dao
 interface LocalDao {
 
+    //harvest result
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHarvestLocal(data : HarvestResult)
 
@@ -20,6 +21,7 @@ interface LocalDao {
     suspend fun deleteHarvestLocal(id : String)
 
 
+    //finance
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFinanceLocal(data : Finance)
 
@@ -29,7 +31,12 @@ interface LocalDao {
     @Query("delete from Finance_Table where id_finance like :id")
     suspend fun deleteFinanceLocal(id : String)
 
+    @Query("select * from Finance_Table where type like :type")
+    fun calculateFinanceLocal(type : String): LiveData<List<Finance>>
 
+
+
+    //inventory
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInventoryLocal(data : Inventory)
 
@@ -41,6 +48,8 @@ interface LocalDao {
 
 
 
+
+    //disease
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDiseaseLocal(data : Disease)
 
