@@ -22,7 +22,7 @@ class ProfileFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private lateinit var viewModel :LocalViewModel
 
-    //todo 1.5 Delete local registerData when logout
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +37,7 @@ class ProfileFragment : Fragment() {
             binding.tvSignupPassword.setText(it)
         }
 
+        //todo 1.5 Delete local registerData when logout
         binding.btnprofileLogout.setOnClickListener {
             authViewModel.saveUserPrefrences(
                 true,
