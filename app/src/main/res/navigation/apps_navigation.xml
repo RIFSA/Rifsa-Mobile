@@ -48,9 +48,8 @@
         <action
             android:id="@+id/action_disaseFragment_to_mapsDiseaseFragment"
             app:destination="@id/mapsDiseaseFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/apps_navigation"
-            app:popUpToInclusive="true" />
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_disaseFragment_to_disaseDetailFragment"
             app:destination="@id/disaseDetailFragment"
@@ -174,8 +173,9 @@
         <action
             android:id="@+id/action_disaseDetailFragment_to_disaseFragment2"
             app:destination="@id/disaseFragment"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
+            app:launchSingleTop="true"
+            app:popUpTo="@id/apps_navigation"
+            app:popUpToInclusive="true" />
         <argument
             android:name="Disease_detail"
             app:argType="com.example.rifsa_mobile.model.entity.disase.Disease"
