@@ -74,7 +74,7 @@ class SignUpActivity : AppCompatActivity() {
                         binding.pgbarRegister.visibility = View.VISIBLE
                     }
                     is FetchResult.Success ->{
-                        showStatus("berhasil")
+                        showStatus("Akun Berhasil Terbuat")
                         Log.d("Register page",it.data.message)
                         lifecycleScope.launch {
                             loginAccount(email, password)
@@ -86,7 +86,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
         }else{
-            showStatus("box masih kosong")
+            showStatus("Oops! Box masih kosong")
         }
     }
 

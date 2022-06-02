@@ -75,18 +75,18 @@ class LoginActivity : AppCompatActivity() {
                             binding.tvLoginEmail.text.toString(),
                             respon.data.token
                         )
-                        showStatus("Selamat datang")
+                        showStatus("Login Berhasil")
                         startActivity(Intent(this,MainActivity::class.java))
                         finishAffinity()
                     }
                     is FetchResult.Error->{
                         binding.pgbarLogin.visibility = View.GONE
-                        showStatus("Coba lagi")
+                        showStatus("Terjadi kesalahan! Silahkan coba lagi dengan Email dan Password yang benar")
                     }
                 }
             }
         }else{
-            showStatus("box masih kosong")
+            showStatus("Oops! Box masih kosong")
         }
 
 
