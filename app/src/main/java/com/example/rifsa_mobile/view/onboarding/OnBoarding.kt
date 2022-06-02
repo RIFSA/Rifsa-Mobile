@@ -23,7 +23,6 @@ class OnBoarding : AppCompatActivity() {
         setContentView(binding.root)
         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.also { window.decorView.systemUiVisibility = it }
 
-
         listOnBoarding.addAll(getOnBoarding)
         showOnBoarding()
     }
@@ -60,6 +59,11 @@ class OnBoarding : AppCompatActivity() {
                 finishAffinity()
             }
 
+        }
+
+        binding.btnOnboardSkip.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finishAffinity()
         }
 
         binding.btnOnboardBack.setOnClickListener {
