@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityLoginBinding
-import com.example.rifsa_mobile.model.remote.response.login.LoginBody
+import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.MainActivity
 import com.example.rifsa_mobile.view.authetication.signup.SignUpActivity

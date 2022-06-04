@@ -11,10 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -147,11 +144,15 @@ class CameraFragment : Fragment() {
 
     private fun showImageToPage(data : Uri){
         if (type == "back"){
+
+
             findNavController()
                 .previousBackStackEntry?.savedStateHandle
                 ?.set(camera_key_inventory,data)
             findNavController()
                 .popBackStack()
+
+
         }else{
             findNavController().navigate(
                 CameraFragmentDirections.actionCameraFragmentToDisaseDetailFragment(
@@ -159,6 +160,8 @@ class CameraFragment : Fragment() {
                     null
                 )
             )
+
+
         }
 
     }

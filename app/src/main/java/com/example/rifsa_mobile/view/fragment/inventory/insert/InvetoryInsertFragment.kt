@@ -3,28 +3,39 @@ package com.example.rifsa_mobile.view.fragment.inventory.insert
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.util.Util
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 
 class InvetoryInsertFragment : Fragment() {
     private lateinit var binding : FragmentInvetoryInsertDetailBinding
-    private lateinit var viewModel: LocalViewModel
+
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private lateinit var localViewModel: LocalViewModel
 
     private var detail : Inventory? = null
     private lateinit var currentImage : Uri
@@ -38,7 +49,7 @@ class InvetoryInsertFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInvetoryInsertDetailBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
+        localViewModel = ObtainViewModel(requireActivity())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
@@ -59,6 +70,7 @@ class InvetoryInsertFragment : Fragment() {
         try {
             val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
             detail = data
+
             if (data != null){
                 val pic = Uri.parse(data.urlPhoto)
                 showImage(pic)
@@ -69,29 +81,28 @@ class InvetoryInsertFragment : Fragment() {
                 currentImage = pic
                 binding.btninventoryInsertDelete.visibility = View.VISIBLE
             }
+
             showCameraImage()
         }catch (e : Exception){
 
         }
 
         binding.btnInventorySave.setOnClickListener {
-            lifecycleScope.launch {
-                insertInventoryLocal()
-            }
+//            lifecycleScope.launch {
+//                insertInventoryLocal()
+//            }
+            insertInventoryRemote()
         }
 
         return binding.root
     }
 
     private fun showCameraImage(){
-
-        val file = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
-
-        if (file != null) {
-            currentImage = file
-            showImage(file)
+        val uriImage = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
+        if (uriImage != null) {
+            currentImage = uriImage
+            showImage(uriImage)
         }
-
     }
 
     private fun showImage(data : Uri){
@@ -122,7 +133,7 @@ class InvetoryInsertFragment : Fragment() {
         )
 
         try {
-            viewModel.insertInventoryLocal(tempInsert)
+            localViewModel.insertInventoryLocal(tempInsert)
             showToast("Berhasil menambahkan")
             findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
@@ -130,9 +141,38 @@ class InvetoryInsertFragment : Fragment() {
         }
     }
 
+    private fun insertInventoryRemote(){
+        val image = Utils.uriToFile(currentImage,requireContext())
+        val typeFile = image.asRequestBody("image/jpg".toMediaTypeOrNull())
+        val multiPart : MultipartBody.Part = MultipartBody.Part.createFormData(
+            "inventory",
+            image.name,
+            typeFile
+        )
+
+        val name = binding.tvinventarisInsertName.text.toString()
+        val amount = binding.tvinventarisInsertAmount.text.toString().toInt()
+        val note = binding.tvinventarisInsertNote.text.toString()
+
+        lifecycleScope.launch {
+            remoteViewModel.postInventory(name,multiPart,amount,note).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success->{
+                        showToast(it.data.message)
+                    }
+                    is FetchResult.Error->{
+                        showToast(it.error)
+                        Log.d("Insert inventory",it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     private fun deleteInventory(){
         try {
-            viewModel.deleteInventoryLocal(detailId)
+            localViewModel.deleteInventoryLocal(detailId)
             showToast("Item telah dihapus")
             findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){

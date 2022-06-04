@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
-import com.example.rifsa_mobile.model.entity.disase.Disease
+import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.view.fragment.disase.adapter.DiseaseRvAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -65,6 +65,7 @@ class DisaseFragment : Fragment() {
                 override fun onDetailCallback(data: Disease) {
                     findNavController().navigate(
                         DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(null,data)
+
                     )
                 }
             })

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardFinanceBinding
-import com.example.rifsa_mobile.model.entity.finance.Finance
+import com.example.rifsa_mobile.model.entity.local.finance.Finance
 
 class FinanceRvAdapter(private var dataList : List<Finance>): RecyclerView.Adapter<FinanceRvAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardFinanceBinding): RecyclerView.ViewHolder(binding.root)

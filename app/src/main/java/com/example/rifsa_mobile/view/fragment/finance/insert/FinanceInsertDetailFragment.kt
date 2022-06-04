@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.finance.Finance
+import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -60,8 +60,11 @@ class FinanceInsertDetailFragment : Fragment() {
 
         }
 
+
         return binding.root
     }
+
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

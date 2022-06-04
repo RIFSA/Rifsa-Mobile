@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
-import com.example.rifsa_mobile.model.entity.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 
 class InventoryRvAdapter(private val dataList : List<Inventory>): RecyclerView.Adapter<InventoryRvAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)

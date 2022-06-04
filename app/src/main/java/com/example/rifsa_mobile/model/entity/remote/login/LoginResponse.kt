@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.remote.response.login
+package com.example.rifsa_mobile.model.entity.remote.login
 
 import com.google.gson.annotations.SerializedName
 

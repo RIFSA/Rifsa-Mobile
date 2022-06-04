@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -107,5 +108,16 @@ object Utils {
         DrawableCompat.setTint(vectorDrawable, color)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    fun internetChecker(context: Context): Boolean{
+        val connected : Boolean
+        val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectionManager.activeNetworkInfo
+
+        connected = networkInfo != null && networkInfo.isConnected
+
+        return connected
+
     }
 }

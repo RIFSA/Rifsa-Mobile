@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
-import com.example.rifsa_mobile.model.entity.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRvAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel

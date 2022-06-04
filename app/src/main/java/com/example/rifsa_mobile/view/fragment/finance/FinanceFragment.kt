@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
-import com.example.rifsa_mobile.model.entity.finance.Finance
+import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRvAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -35,6 +35,7 @@ class FinanceFragment : Fragment() {
             findNavController().navigate(
                 FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
+
 
         return binding.root
     }

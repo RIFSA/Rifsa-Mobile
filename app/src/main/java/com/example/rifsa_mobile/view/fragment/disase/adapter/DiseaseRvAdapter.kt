@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
-import com.example.rifsa_mobile.model.entity.disase.Disease
+import com.example.rifsa_mobile.model.entity.local.disase.Disease
 
 class DiseaseRvAdapter(private var dataList : List<Disease>): RecyclerView.Adapter<DiseaseRvAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)

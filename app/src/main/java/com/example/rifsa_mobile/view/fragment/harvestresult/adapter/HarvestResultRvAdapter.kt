@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardHasilBinding
-import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 
 class HarvestResultRvAdapter(private var dataList : List<HarvestResult>): RecyclerView.Adapter<HarvestResultRvAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardHasilBinding): RecyclerView.ViewHolder(binding.root)

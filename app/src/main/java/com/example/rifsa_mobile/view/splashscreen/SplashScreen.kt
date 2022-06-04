@@ -27,10 +27,9 @@ class SplashScreen : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
            sessionChecker()
             finishAffinity()
-        },2000)
+        },1000)
     }
 
-    //cek session login dari userprefrences
     private fun sessionChecker(){
         authViewModel.getOnBoardStatus().observe(this){
             if (it){

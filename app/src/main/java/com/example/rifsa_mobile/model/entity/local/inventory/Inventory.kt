@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.entity.inventory
+package com.example.rifsa_mobile.model.entity.local.inventory
 
 import android.os.Parcelable
 import androidx.room.Entity

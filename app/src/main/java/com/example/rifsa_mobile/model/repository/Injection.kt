@@ -13,6 +13,5 @@ object Injection {
             ApiConfig.setApiService(),
             UserPrefrences.getInstance(context.dataStore)
         )
-
     }
 }

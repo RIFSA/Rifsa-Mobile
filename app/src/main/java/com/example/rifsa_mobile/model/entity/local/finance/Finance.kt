@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.entity.finance
+package com.example.rifsa_mobile.model.entity.local.finance
 
 import android.os.Parcelable
 import androidx.room.Entity

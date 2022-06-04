@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.entity.disase
+package com.example.rifsa_mobile.model.entity.local.disase
 
 import android.os.Parcelable
 import androidx.room.Entity

@@ -3,6 +3,7 @@ package com.example.rifsa_mobile.view.fragment.disase.maps
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,23 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
             }
         }
 
+//        gMap.apply {
+//            addMarker(MarkerOptions()
+//                .position(dummyMarker).title("Sawah anda")
+//                .icon(vectorToBitmap(
+//                    R.drawable.ic_own_field,
+//                    Color.parseColor("#56CCF2")
+//                    ,requireContext())
+//                )
+//            )
+//        }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // directly go to owned field position
         binding.textView34.setOnClickListener {
             gMap.apply {
@@ -67,10 +85,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                     dummyMarker, 19f))
             }
         }
-
-        return binding.root
     }
-
 
 
     override fun onMapReady(maps: GoogleMap) {
@@ -102,7 +117,6 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
             setOnMapClickListener {
 
             }
-
         }
     }
 
@@ -119,9 +133,6 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                             LatLng(maps.latitude,maps.longitude),19f
                         ))
-                        showStatus("ladang")
-                    }else{
-                        showStatus("lokasi gagal")
                     }
                 }
                 .addOnFailureListener {

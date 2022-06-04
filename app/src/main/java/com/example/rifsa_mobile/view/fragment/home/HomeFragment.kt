@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
-import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel

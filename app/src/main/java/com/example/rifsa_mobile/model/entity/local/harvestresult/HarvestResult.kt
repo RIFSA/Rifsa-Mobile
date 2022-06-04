@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.entity.harvestresult
+package com.example.rifsa_mobile.model.entity.local.harvestresult
 
 import android.os.Parcelable
 import androidx.room.Entity

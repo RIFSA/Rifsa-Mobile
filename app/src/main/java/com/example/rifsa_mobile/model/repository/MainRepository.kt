@@ -3,18 +3,22 @@ package com.example.rifsa_mobile.model.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.example.rifsa_mobile.model.entity.disase.Disease
-import com.example.rifsa_mobile.model.entity.finance.Finance
-import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
-import com.example.rifsa_mobile.model.entity.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.local.disase.Disease
+import com.example.rifsa_mobile.model.entity.local.finance.Finance
+import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
+import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
+import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
+import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
+import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.local.databaseconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
 import com.example.rifsa_mobile.model.remote.ApiService
-import com.example.rifsa_mobile.model.remote.response.login.LoginBody
-import com.example.rifsa_mobile.model.remote.response.login.LoginResponse
-import com.example.rifsa_mobile.model.remote.response.signup.RegisterBody
-import com.example.rifsa_mobile.model.remote.response.signup.RegisterResponse
 import com.example.rifsa_mobile.utils.FetchResult
+import okhttp3.MultipartBody
 
 class MainRepository(
     database : DatabaseConfig,
@@ -25,10 +29,23 @@ class MainRepository(
 
 
     //Remote
-    suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> = liveData {
-        emit(FetchResult.Loading)
+    suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+                try {
+                    apiService.postLogin(data).apply {
+                        emit(FetchResult.Success(this))
+                    }
+                }catch (e : Exception){
+                    emit(FetchResult.Error(e.message.toString()))
+                }
+    }
+
+    suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
             try {
-                apiService.postLogin(data).apply {
+                apiService.postRegister(data).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -36,17 +53,49 @@ class MainRepository(
             }
     }
 
-    suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> = liveData {
-        emit(FetchResult.Loading)
-        try {
-            apiService.postRegister(data).apply {
-                emit(FetchResult.Success(this))
+
+    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                apiService.postHarvestResult(data).apply {
+                    emit(FetchResult.Success(this))
+                }
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
             }
-        }catch (e : Exception){
-            emit(FetchResult.Error(e.message.toString()))
-        }
     }
 
+    suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(apiService.getHarvestResult()))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+    }
+
+    suspend fun updateHarvestLocal(uploadedStatus : Boolean, idSort : Int){
+        dao.updateHarvestLocal(uploadedStatus, idSort)
+    }
+
+    suspend fun postInventoryRemote(
+        name : String,
+        file : MultipartBody.Part,
+        jumlah : Int,
+        catatan : String
+    ): LiveData<FetchResult<InventoryRespon>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                apiService.postInventory(name, file, jumlah, catatan).apply {
+                    emit(FetchResult.Success(this))
+                }
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+    }
 
 
 

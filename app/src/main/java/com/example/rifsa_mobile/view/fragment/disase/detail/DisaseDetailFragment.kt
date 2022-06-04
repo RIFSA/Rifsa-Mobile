@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
-import com.example.rifsa_mobile.model.entity.disase.Disease
+import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel

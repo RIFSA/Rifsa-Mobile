@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.remote.response.signup
+package com.example.rifsa_mobile.model.entity.remote.signup
 
 
 import com.google.gson.annotations.SerializedName
@@ -26,6 +26,8 @@ data class RegisterData(
  @SerializedName("updatedAt")
  val updatedAt: String
 )
+
+
 
 data class RegisterBody(
   @SerializedName("name")
