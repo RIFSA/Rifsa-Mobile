@@ -22,8 +22,10 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
         }
     }
 
-    suspend fun deleteHarvestLocal(id : String){
-        mainRepository.deleteLocalHarvest(id)
+    fun deleteHarvestLocal(id : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.deleteLocalHarvest(id)
+        }
     }
 
     suspend fun updateHarvestLocal(uploadedStatus : Boolean,idSort : Int){

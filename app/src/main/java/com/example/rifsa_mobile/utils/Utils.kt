@@ -1,8 +1,10 @@
 package com.example.rifsa_mobile.utils
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.ConnectivityManager
@@ -54,7 +56,7 @@ object Utils {
     }
 
 
-    //todo uri to file for upload photo
+    //todo | uri to file image format
     fun uriToFile(image : Uri,context: Context): File{
         val contentResolver: ContentResolver = context.contentResolver
         val myFile = createTempFile(context)
@@ -118,6 +120,8 @@ object Utils {
         connected = networkInfo != null && networkInfo.isConnected
 
         return connected
-
     }
+
+
+
 }

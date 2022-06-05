@@ -1,5 +1,8 @@
 package com.example.rifsa_mobile.view.fragment.disase.maps
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -12,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsDiseaseBinding
+import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -31,6 +35,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var gMap : GoogleMap
+    private var status = false
 
 
     private var fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -92,6 +97,10 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                 dummyMarker))
             animateCamera(CameraUpdateFactory.newLatLngZoom(
                 dummyMarker, 19f))
+            setOnMapClickListener {
+                setOwnedField(it)
+            }
+
         }
     }
 
@@ -109,9 +118,6 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                 .position(LatLng(lattidue, longtidue)).title(title)
             )
 
-            setOnMapClickListener {
-
-            }
         }
     }
 
@@ -138,7 +144,29 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
+    private fun setOwnedField(data : LatLng){
+        AlertDialog.Builder(requireActivity()).apply {
+            setTitle("Lokasi lahan")
+            setMessage("atur sebagai titik lahan ?")
+            apply {
+                setPositiveButton("ya",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User clicked OK button
+                    })
+                setNegativeButton("tidak",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                    })
+            }
+            create()
+            show()
+        }
+    }
+
     private fun showStatus(title: String){
         binding.textView34.text = title
     }
+
+
+
 }

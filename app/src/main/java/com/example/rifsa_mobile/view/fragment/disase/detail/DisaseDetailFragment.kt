@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.disase.detail
 
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -127,8 +128,21 @@ class DisaseDetailFragment : Fragment() {
             )
         }
         binding.btnDiseaseComplete.setOnClickListener {
-            stopAlarm()
-            deleteDisease()
+            AlertDialog.Builder(requireActivity()).apply {
+                setTitle("Selesai teratasi")
+                setMessage("apakah penyakit telah teratasi ?")
+                apply {
+                    setPositiveButton("ya") { _, _ ->
+                        stopAlarm()
+                        deleteDisease()
+                    }
+                    setNegativeButton("tidak") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                }
+                create()
+                show()
+            }
         }
     }
 

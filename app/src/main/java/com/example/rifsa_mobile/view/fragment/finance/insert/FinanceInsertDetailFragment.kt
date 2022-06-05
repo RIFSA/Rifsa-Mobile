@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.finance.insert
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -98,8 +99,19 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
-            lifecycleScope.launch {
-                deleteFinanceLocal()
+            AlertDialog.Builder(requireActivity()).apply {
+                setTitle("Hapus data")
+                setMessage("apakah anda ingin menghapus data ini ?")
+                apply {
+                    setPositiveButton("ya") { _, _ ->
+                        deleteFinanceLocal()
+                    }
+                    setNegativeButton("tidak") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                }
+                create()
+                show()
             }
         }
 
@@ -151,7 +163,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private suspend fun deleteFinanceLocal(){
+    private fun deleteFinanceLocal(){
         try {
             viewModel.deleteFinanceLocal(detailId)
             showToast("Berhasil terhapus")

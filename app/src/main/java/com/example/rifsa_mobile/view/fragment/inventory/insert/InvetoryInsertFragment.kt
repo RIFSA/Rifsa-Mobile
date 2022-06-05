@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.inventory.insert
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -63,7 +64,20 @@ class InvetoryInsertFragment : Fragment() {
             )
         }
         binding.btninventoryInsertDelete.setOnClickListener {
-            deleteInventory()
+            AlertDialog.Builder(requireActivity()).apply {
+                setTitle("Hapus data")
+                setMessage("apakah anda ingin menghapus data ini ?")
+                apply {
+                    setPositiveButton("ya") { _, _ ->
+                        deleteInventory()
+                    }
+                    setNegativeButton("tidak") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                }
+                create()
+                show()
+            }
         }
 
 

@@ -1,5 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult.insert
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -80,8 +82,19 @@ class HarvestInsertDetailFragment : Fragment() {
 
         //TODO | delete remote
         binding.btnharvestInsertDelete.setOnClickListener {
-            lifecycleScope.launch {
-                deleteHarvestLocal()
+            AlertDialog.Builder(requireActivity()).apply {
+                setTitle("Hapus data")
+                setMessage("apakah anda ingin menghapus data ini ?")
+                apply {
+                    setPositiveButton("ya") { _, _ ->
+                        deleteHarvestLocal()
+                    }
+                    setNegativeButton("tidak") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                }
+                create()
+                show()
             }
         }
 
@@ -166,18 +179,18 @@ class HarvestInsertDetailFragment : Fragment() {
         }
     }
 
-    private suspend fun deleteHarvestLocal(){
-        try {
-            localViewModel.deleteHarvestLocal(detailId)
-            status = "data terhapus"
-            showToast()
-            findNavController()
-                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
-        }catch (e : Exception){
-            status = "gagal terhapus"
-            showToast()
-            Log.d(detail_harvest,e.message.toString())
-        }
+    private fun deleteHarvestLocal(){
+            try {
+                localViewModel.deleteHarvestLocal(detailId)
+                status = "data terhapus"
+                showToast()
+                findNavController()
+                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+            }catch (e : Exception){
+                status = "gagal terhapus"
+                showToast()
+                Log.d(detail_harvest,e.message.toString())
+            }
     }
 
     private fun showToast(){
