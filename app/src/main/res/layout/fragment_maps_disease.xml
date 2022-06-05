@@ -35,7 +35,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
-                android:text="@string/title_maps_fragment"
+                android:text="Peta sebaran penyakit"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"

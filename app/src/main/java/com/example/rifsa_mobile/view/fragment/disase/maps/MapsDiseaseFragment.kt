@@ -59,33 +59,12 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
             }
         }
 
-//        gMap.apply {
-//            addMarker(MarkerOptions()
-//                .position(dummyMarker).title("Sawah anda")
-//                .icon(vectorToBitmap(
-//                    R.drawable.ic_own_field,
-//                    Color.parseColor("#56CCF2")
-//                    ,requireContext())
-//                )
-//            )
-//        }
+
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        // directly go to owned field position
-        binding.textView34.setOnClickListener {
-            gMap.apply {
-                moveCamera(CameraUpdateFactory.newLatLng(
-                    dummyMarker))
-                animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    dummyMarker, 19f))
-            }
-        }
-    }
 
 
     override fun onMapReady(maps: GoogleMap) {
@@ -97,6 +76,22 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
             isMapToolbarEnabled = true
             isCompassEnabled = true
             isMyLocationButtonEnabled = true
+        }
+
+        // directly go to owned field position
+        gMap.apply {
+            addMarker(MarkerOptions()
+                .position(dummyMarker).title("Sawah anda")
+                .icon(vectorToBitmap(
+                    R.drawable.ic_own_field,
+                    Color.parseColor("#56CCF2")
+                    ,requireContext())
+                )
+            )
+            moveCamera(CameraUpdateFactory.newLatLng(
+                dummyMarker))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(
+                dummyMarker, 19f))
         }
     }
 

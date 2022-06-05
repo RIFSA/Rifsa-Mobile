@@ -33,11 +33,9 @@ class HarvestInsertDetailFragment : Fragment() {
     private var detailId = ""
     private var sortId = 0
 
-
     private var isConnected = false
     private var isUploaded = false
     private var status = ""
-
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
 
