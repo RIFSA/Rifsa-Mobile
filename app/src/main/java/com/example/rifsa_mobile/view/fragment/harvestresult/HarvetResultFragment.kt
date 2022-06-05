@@ -80,6 +80,8 @@ class HarvetResultFragment : Fragment() {
             if (respon.isEmpty()){
                 binding.harvestEmptyState.emptyState.visibility = View.VISIBLE
             }
+
+            //TODO | upload checker when internet on
             uploadChecker(respon)
         }
     }
@@ -143,7 +145,6 @@ class HarvetResultFragment : Fragment() {
 
     private fun insertHarvestRemote(current : HarvestPostBody,idSort: Int){
 
-
         lifecycleScope.launch {
             remoteViewModel.postHarvest(current).observe(viewLifecycleOwner){
                 when(it){
@@ -156,7 +157,6 @@ class HarvetResultFragment : Fragment() {
                     //TODO | after upload update local data from remote response
                     is FetchResult.Error ->{
                         showToast(it.error)
-                        updateLocal(true,idSort)
                         Log.d("Test update",it.error)
                     }
                     else -> {}

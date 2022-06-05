@@ -16,6 +16,7 @@ data class HarvestResult(
     val weight : Int,
     val sellingPrice : Int,
     val noted : String,
+
     val isUploaded : Boolean
 ): Parcelable
 

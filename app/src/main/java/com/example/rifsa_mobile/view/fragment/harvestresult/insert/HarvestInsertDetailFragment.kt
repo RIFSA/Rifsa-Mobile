@@ -1,13 +1,11 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult.insert
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +34,9 @@ class HarvestInsertDetailFragment : Fragment() {
     private var sortId = 0
 
 
+    private var isConnected = false
     private var isUploaded = false
+    private var status = ""
 
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
@@ -46,7 +46,7 @@ class HarvestInsertDetailFragment : Fragment() {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
 
         localViewModel = ObtainViewModel(requireActivity())
-        isUploaded = Utils.internetChecker(requireContext())
+        isConnected = Utils.internetChecker(requireContext())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
@@ -58,6 +58,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 isDetail = true
                 detailId = data.id_harvest
                 sortId = data.id_sort
+                isUploaded = data.isUploaded
             }
         }catch (e : Exception){ }
 
@@ -68,15 +69,18 @@ class HarvestInsertDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //TODO | update remote
         binding.btnHarvestSave.setOnClickListener {
-            if (isUploaded){
+            if (isConnected){
                 insertHarvestRemote()
-                insertHarvestLocally()
             }else{
                 insertHarvestLocally()
+                status = "data tersimpan lokal"
             }
         }
 
+        //TODO | delete remote
         binding.btnharvestInsertDelete.setOnClickListener {
             lifecycleScope.launch {
                 deleteHarvestLocal()
@@ -119,10 +123,14 @@ class HarvestInsertDetailFragment : Fragment() {
             remoteViewModel.postHarvest(tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success ->{
-                        showToast(it.data.message)
+                        status = "data tersimpan"
+                        isUploaded = true
+                        insertHarvestLocally()
                     }
                     is FetchResult.Error ->{
-                        showToast(it.error)
+                        status = "masalah teknis data tersimpan lokal"
+                        isUploaded = false
+                        insertHarvestLocally()
                         Log.d("insert hasil",it.error)
                     }
                     else -> {}
@@ -151,11 +159,11 @@ class HarvestInsertDetailFragment : Fragment() {
 
         try {
             localViewModel.insertHarvestlocal(tempInsert)
-            showToast("Berhasil menambahkan")
+            showToast()
             findNavController()
                 .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
         }catch (e : Exception){
-            showToast(e.message.toString())
+            showToast()
             Log.d(detail_harvest,e.message.toString())
         }
     }
@@ -163,16 +171,19 @@ class HarvestInsertDetailFragment : Fragment() {
     private suspend fun deleteHarvestLocal(){
         try {
             localViewModel.deleteHarvestLocal(detailId)
-            showToast("terhapus")
+            status = "data terhapus"
+            showToast()
             findNavController()
                 .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
         }catch (e : Exception){
-            showToast(e.message.toString())
+            status = "gagal terhapus"
+            showToast()
+            Log.d(detail_harvest,e.message.toString())
         }
     }
 
-    private fun showToast(title : String){
-        Toast.makeText(requireContext(),title,Toast.LENGTH_SHORT).show()
+    private fun showToast(){
+        Toast.makeText(requireContext(),status,Toast.LENGTH_SHORT).show()
     }
 
 
