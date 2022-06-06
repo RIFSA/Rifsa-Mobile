@@ -23,15 +23,25 @@ interface ApiService {
         @Body body: RegisterBody
     ): RegisterResponse
 
-    //TODO | harvest update, delete
+    //TODO | harvest add, update, delete
     @POST("hasilpanen")
     suspend fun postHarvestResult(
         @Body body: HarvestPostBody
     ): HarvestResultRespon
 
+    @PUT("hasilpanen/{id}")
+    suspend fun updateHarvestResult(
+        @Path("id") id : Int,
+        @Body body: HarvestPostBody
+    ): HarvestResultRespon
+
+    @DELETE("hasilpanen/{id}")
+    suspend fun deleteHarvestResult(
+        @Path("id") id : Int
+    ): HarvestResultRespon
+
     @GET("hasilpanen")
     suspend fun getHarvestResult(): HarvestResultRespon
-
 
     //TODO | inventory update, delete
 

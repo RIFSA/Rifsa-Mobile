@@ -25,6 +25,12 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
         mainRepository.postHarvest(data)
 
+    suspend fun updateHarvest(id: Int, data: HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+        mainRepository.updateHarvest(id,data)
+
+    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestResultRespon>> =
+        mainRepository.deleteHarvest(id)
+
     suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =
         mainRepository.getHarvest()
 

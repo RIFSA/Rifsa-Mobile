@@ -62,8 +62,6 @@ class HarvestInsertDetailFragment : Fragment() {
             }
         }catch (e : Exception){ }
 
-
-
         return binding.root
     }
 
@@ -74,6 +72,7 @@ class HarvestInsertDetailFragment : Fragment() {
         binding.btnHarvestSave.setOnClickListener {
             if (isConnected){
                 insertHarvestRemote()
+                updateHarvestRemote()
             }else{
                 insertHarvestLocally()
                 status = "data tersimpan lokal"
@@ -87,6 +86,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
+                        deleteHarvestRemote()
                         deleteHarvestLocal()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
@@ -193,11 +193,62 @@ class HarvestInsertDetailFragment : Fragment() {
             }
     }
 
+    private fun deleteHarvestRemote(){
+            lifecycleScope.launch {
+                remoteViewModel.deleteHarvest(detailId.toInt()).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success ->{
+                            status = it.data.message
+                            showToast()
+                            Log.d("Test delete", "Berhasil")
+                            findNavController()
+                                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+                        }
+
+                        //TODO | after upload update local data from remote response
+                        is FetchResult.Error ->{
+                            showToast()
+                            status = it.error
+                            Log.d("Test update",it.error)
+                        }
+                        else -> {}
+                    }
+                }
+            }
+    }
+
+    private fun updateHarvestRemote(){
+        val date = LocalDate.now().toString()
+
+        val tempData = HarvestPostBody(
+            date,
+            binding.tvharvestInsertName.text.toString(),
+            binding.tvharvestInsertBerat.text.toString(),
+            binding.tvharvestInsertHasil.text.toString(),
+            binding.tvharvestInsertCatatan.text.toString(),
+        )
+
+        lifecycleScope.launch {
+            remoteViewModel.updateHarvest(detailId.toInt(), tempData).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success ->{
+                        status = it.data.message
+                        isUploaded = true
+                    }
+                    is FetchResult.Error ->{
+                        status = it.error
+                        isUploaded = false
+                        Log.d("insert hasil",it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     private fun showToast(){
         Toast.makeText(requireContext(),status,Toast.LENGTH_SHORT).show()
     }
-
-
 
     companion object{
         const val detail_harvest = "harvest detail"

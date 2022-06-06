@@ -76,6 +76,30 @@ class MainRepository(
             }
     }
 
+    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestResultRespon>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                apiService.deleteHarvestResult(id).apply {
+                    emit(FetchResult.Success(this))
+                }
+            } catch (e: Exception) {
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
+    suspend fun updateHarvest(id: Int, data:HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                apiService.updateHarvestResult(id,data).apply {
+                    emit(FetchResult.Success(this))
+                }
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
     suspend fun updateHarvestLocal(uploadedStatus : Boolean, idSort : Int){
         dao.updateHarvestLocal(uploadedStatus, idSort)
     }
