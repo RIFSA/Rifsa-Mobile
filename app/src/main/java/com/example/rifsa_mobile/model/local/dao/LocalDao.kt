@@ -20,8 +20,8 @@ interface LocalDao {
     @Query("delete from Harvest_Table where id_harvest like :id")
     suspend fun deleteHarvestLocal(id : String)
 
-    @Query("update Harvest_Table SET isUploaded=:uploadedStatus where id_sort=:idSort ")
-    suspend fun updateHarvestLocal(uploadedStatus : Boolean, idSort : Int)
+    @Query("update Harvest_Table SET valueStatus=:uploadedStatus where id_sort=:idSort ")
+    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int)
 
 
     //finance

@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult.insert
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,7 +35,7 @@ class HarvestInsertDetailFragment : Fragment() {
     private var sortId = 0
 
     private var isConnected = false
-    private var isUploaded = false
+    private var valueStatus = ""
     private var status = ""
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
@@ -58,7 +57,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 isDetail = true
                 detailId = data.id_harvest
                 sortId = data.id_sort
-                isUploaded = data.isUploaded
+                status = data.valueStatus
             }
         }catch (e : Exception){ }
 
@@ -68,25 +67,23 @@ class HarvestInsertDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO | update remote
+
         binding.btnHarvestSave.setOnClickListener {
-            if (isConnected){
-                insertHarvestRemote()
-                updateHarvestRemote()
+            if (isDetail){
+                updateHarvestRemote() //TODO | memperbarui data
             }else{
-                insertHarvestLocally()
-                status = "data tersimpan lokal"
+                insertHarvestRemote() //TODO | menyimpan data
             }
         }
 
-        //TODO | delete remote
+
         binding.btnharvestInsertDelete.setOnClickListener {
             AlertDialog.Builder(requireActivity()).apply {
                 setTitle("Hapus data")
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteHarvestRemote()
+                        deleteHarvestRemote()  //TODO | menghapus data
                         deleteHarvestLocal()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
@@ -135,13 +132,13 @@ class HarvestInsertDetailFragment : Fragment() {
                 when(it){
                     is FetchResult.Success ->{
                         status = "data tersimpan"
-                        isUploaded = true
-                        insertHarvestLocally()
+                        valueStatus = "done" //TODO | set status telah selesai
+                        insertUpdateHarvestLocally()
                     }
                     is FetchResult.Error ->{
                         status = "masalah teknis data tersimpan lokal"
-                        isUploaded = false
-                        insertHarvestLocally()
+                        valueStatus = "POST" //TODO | set status perlu di post pada remote checker
+                        insertUpdateHarvestLocally()
                         Log.d("insert hasil",it.error)
                     }
                     else -> {}
@@ -150,7 +147,7 @@ class HarvestInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun insertHarvestLocally(){
+    private fun insertUpdateHarvestLocally(){
         val date = LocalDate.now().toString()
 
         if (isDetail){
@@ -165,7 +162,7 @@ class HarvestInsertDetailFragment : Fragment() {
             binding.tvharvestInsertBerat.text.toString().toInt(),
             binding.tvharvestInsertHasil.text.toString().toInt(),
             binding.tvharvestInsertCatatan.text.toString(),
-            isUploaded
+            valueStatus //TODO | berdasarkan status remote apakah berhasil
         )
 
         try {
@@ -205,7 +202,6 @@ class HarvestInsertDetailFragment : Fragment() {
                                 .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
                         }
 
-                        //TODO | after upload update local data from remote response
                         is FetchResult.Error ->{
                             showToast()
                             status = it.error
@@ -233,12 +229,14 @@ class HarvestInsertDetailFragment : Fragment() {
                 when(it){
                     is FetchResult.Success ->{
                         status = it.data.message
-                        isUploaded = true
+                        valueStatus = "DONE" //TODO | set status telah terupdate remote
+                        insertUpdateHarvestLocally()
                     }
                     is FetchResult.Error ->{
                         status = it.error
-                        isUploaded = false
-                        Log.d("insert hasil",it.error)
+                        valueStatus = "UPDATE" //TODO | set status perlu di update pada remote
+                        Log.d("update hasil",it.error)
+                        insertUpdateHarvestLocally()
                     }
                     else -> {}
                 }

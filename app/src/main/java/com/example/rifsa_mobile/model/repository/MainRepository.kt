@@ -100,7 +100,7 @@ class MainRepository(
             }
         }
 
-    suspend fun updateHarvestLocal(uploadedStatus : Boolean, idSort : Int){
+    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int){
         dao.updateHarvestLocal(uploadedStatus, idSort)
     }
 

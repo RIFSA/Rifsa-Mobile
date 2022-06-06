@@ -149,14 +149,12 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
             setTitle("Lokasi lahan")
             setMessage("atur sebagai titik lahan ?")
             apply {
-                setPositiveButton("ya",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User clicked OK button
-                    })
-                setNegativeButton("tidak",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
+                setPositiveButton("ya") { _, _ ->
+                    // User clicked OK button
+                }
+                setNegativeButton("tidak") { dialog, _ ->
+                    dialog.dismiss()
+                }
             }
             create()
             show()

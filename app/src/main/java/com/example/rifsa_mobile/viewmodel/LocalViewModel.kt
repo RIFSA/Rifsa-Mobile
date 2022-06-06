@@ -28,7 +28,7 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
         }
     }
 
-    suspend fun updateHarvestLocal(uploadedStatus : Boolean,idSort : Int){
+    suspend fun updateHarvestLocal(uploadedStatus : String,idSort : Int){
         mainRepository.updateHarvestLocal(uploadedStatus, idSort)
     }
 

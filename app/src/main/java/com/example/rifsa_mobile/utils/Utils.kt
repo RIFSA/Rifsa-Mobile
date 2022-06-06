@@ -90,7 +90,7 @@ object Utils {
     }
 
 
-    //vector bitmap
+    // convert ic vector to bitmap
     fun vectorToBitmap(@DrawableRes id : Int, @ColorInt color : Int, context : Context): BitmapDescriptor {
         val vectorDrawable = ResourcesCompat.getDrawable(context.resources,id,null)
 
