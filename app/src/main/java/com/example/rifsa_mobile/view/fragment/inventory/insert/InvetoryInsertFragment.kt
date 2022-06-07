@@ -102,9 +102,6 @@ class InvetoryInsertFragment : Fragment() {
         }
 
         binding.btnInventorySave.setOnClickListener {
-//            lifecycleScope.launch {
-//                insertInventoryLocal()
-//            }
             insertInventoryRemote()
         }
 
@@ -171,6 +168,9 @@ class InvetoryInsertFragment : Fragment() {
         lifecycleScope.launch {
             remoteViewModel.postInventory(name,multiPart,amount,note).observe(viewLifecycleOwner){
                 when(it){
+                    is FetchResult.Loading ->{
+
+                    }
                     is FetchResult.Success->{
                         showToast(it.data.message)
                     }

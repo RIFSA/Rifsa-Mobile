@@ -33,7 +33,7 @@ class MainRepository(
     private val dao = database.localDao()
 
 
-    //Remote
+    //Remote database
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
         liveData {
             emit(FetchResult.Loading)

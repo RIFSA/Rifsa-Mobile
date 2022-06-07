@@ -36,13 +36,13 @@ class HarvestInsertDetailFragment : Fragment() {
 
     private var isConnected = false
     private var valueStatus = ""
-    private var status = ""
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
+
 
         localViewModel = ObtainViewModel(requireActivity())
         isConnected = Utils.internetChecker(requireContext())
@@ -84,7 +84,6 @@ class HarvestInsertDetailFragment : Fragment() {
                 apply {
                     setPositiveButton("ya") { _, _ ->
                         deleteHarvestRemote()  //TODO | menghapus data
-                        deleteHarvestLocal()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -117,6 +116,59 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun insertHarvestRemote(){
+        lifecycleScope.launch {
+            val date = LocalDate.now().toString()
+
+            val tempData = HarvestPostBody(
+                date,
+                binding.tvharvestInsertName.text.toString(),
+                binding.tvharvestInsertBerat.text.toString(),
+                binding.tvharvestInsertHasil.text.toString(),
+                binding.tvharvestInsertCatatan.text.toString(),
+            )
+
+            remoteViewModel.postHarvest(tempData).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success ->{
+                        valueStatus = "DONE" //TODO | set status telah selesai
+                        showStatus(it.data.message)
+                        insertUpdateHarvestLocally()
+                    }
+                    is FetchResult.Error ->{
+                        valueStatus = "POST" //TODO | set status perlu di post pada remote checker
+                        showStatus(it.error)
+                        insertUpdateHarvestLocally()
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun deleteHarvestRemote(){
+        lifecycleScope.launch {
+            if(valueStatus == "DONE"){
+                remoteViewModel.deleteHarvest(detailId.toInt()).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success ->{
+                            showStatus(it.data.message)
+                            deleteHarvestLocal()
+                            findNavController()
+                                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+                        }
+
+                        is FetchResult.Error ->{
+                            showStatus(it.error)
+                        }
+                        else -> {}
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun updateHarvestRemote(){
         val date = LocalDate.now().toString()
 
         val tempData = HarvestPostBody(
@@ -128,24 +180,27 @@ class HarvestInsertDetailFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            remoteViewModel.postHarvest(tempData).observe(viewLifecycleOwner){
+            remoteViewModel.updateHarvest(detailId.toInt(), tempData).observe(viewLifecycleOwner){
                 when(it){
+                    is FetchResult.Loading ->{
+                        binding.pgbarStatus.visibility = View.VISIBLE
+                    }
                     is FetchResult.Success ->{
-                        status = "data tersimpan"
-                        valueStatus = "DONE" //TODO | set status telah selesai
+                        valueStatus = "DONE" //TODO | set status telah terupdate remote
+                        showStatus(it.data.message)
                         insertUpdateHarvestLocally()
                     }
                     is FetchResult.Error ->{
-                        status = "data lokal"
-                        valueStatus = "POST" //TODO | set status perlu di post pada remote checker
+                        valueStatus = "UPDATE" //TODO | set status perlu di update pada remote
+                        showStatus(it.error)
                         insertUpdateHarvestLocally()
-                        Log.d("insert hasil",it.error)
                     }
                     else -> {}
                 }
             }
         }
     }
+
 
     private fun insertUpdateHarvestLocally(){
         val date = LocalDate.now().toString()
@@ -167,88 +222,34 @@ class HarvestInsertDetailFragment : Fragment() {
 
         try {
             localViewModel.insertHarvestlocal(tempInsert)
-            showToast()
+            showStatus("Tersimpan")
             findNavController()
                 .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
         }catch (e : Exception){
-            showToast()
-            Log.d(detail_harvest,e.message.toString())
+            showStatus(e.message.toString())
         }
     }
 
     private fun deleteHarvestLocal(){
             try {
                 localViewModel.deleteHarvestLocal(detailId)
-                status = "data terhapus"
-                showToast()
+                showStatus("Terhapus")
                 findNavController()
                     .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
             }catch (e : Exception){
-                status = "gagal terhapus"
-                showToast()
+                showStatus("Gagal")
                 Log.d(detail_harvest,e.message.toString())
             }
     }
 
-    private fun deleteHarvestRemote(){
-            lifecycleScope.launch {
-                if(valueStatus == "DONE"){
-                    remoteViewModel.deleteHarvest(detailId.toInt()).observe(viewLifecycleOwner){
-                        when(it){
-                            is FetchResult.Success ->{
-                                status = it.data.message
-                                showToast()
-                                Log.d("Test delete", "Berhasil")
-                                findNavController()
-                                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
-                            }
-
-                            is FetchResult.Error ->{
-                                showToast()
-                                status = it.error
-                                Log.d("Test update",it.error)
-                            }
-                            else -> {}
-                        }
-                    }
-
-                }
-            }
-    }
-
-    private fun updateHarvestRemote(){
-        val date = LocalDate.now().toString()
-
-        val tempData = HarvestPostBody(
-            date,
-            binding.tvharvestInsertName.text.toString(),
-            binding.tvharvestInsertBerat.text.toString(),
-            binding.tvharvestInsertHasil.text.toString(),
-            binding.tvharvestInsertCatatan.text.toString(),
-        )
-
-        lifecycleScope.launch {
-            remoteViewModel.updateHarvest(detailId.toInt(), tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success ->{
-                        status = it.data.message
-                        valueStatus = "DONE" //TODO | set status telah terupdate remote
-                        insertUpdateHarvestLocally()
-                    }
-                    is FetchResult.Error ->{
-                        status = it.error
-                        valueStatus = "UPDATE" //TODO | set status perlu di update pada remote
-                        Log.d("update hasil",it.error)
-                        insertUpdateHarvestLocally()
-                    }
-                    else -> {}
-                }
-            }
+    private fun showStatus(title : String){
+        if (title.isNotEmpty()){
+            binding.pgbarStatus.visibility = View.GONE
+            binding.pgbarTitle.visibility = View.VISIBLE
         }
-    }
+        binding.pgbarTitle.text = title
 
-    private fun showToast(){
-        Toast.makeText(requireContext(),status,Toast.LENGTH_SHORT).show()
+        Log.d(detail_harvest,"status $title")
     }
 
     companion object{

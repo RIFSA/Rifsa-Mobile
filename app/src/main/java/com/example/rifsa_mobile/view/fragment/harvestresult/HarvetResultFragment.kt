@@ -202,6 +202,7 @@ class HarvetResultFragment : Fragment() {
                         }
                         is FetchResult.Error ->{
                             Log.d(updateKey,it.error)
+                            showToast(it.error)
                         }
                         else -> {}
                     }

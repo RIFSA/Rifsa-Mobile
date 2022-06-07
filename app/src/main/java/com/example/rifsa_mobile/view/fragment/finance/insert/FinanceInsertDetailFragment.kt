@@ -149,10 +149,14 @@ class FinanceInsertDetailFragment : Fragment() {
         lifecycleScope.launch {
             remoteViewModel.postFinance(tempData).observe(viewLifecycleOwner){
                 when(it){
+                    is FetchResult.Loading ->{
+
+                    }
                     is FetchResult.Success ->{
                         status = "Data tersimpan"
                         showToast("Sukses Menambahkan")
-                        findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                        findNavController().navigate(
+                            FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                     }
                     is FetchResult.Error ->{
                         status = "data lokal"
