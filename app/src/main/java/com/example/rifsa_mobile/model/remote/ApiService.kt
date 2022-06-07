@@ -1,15 +1,13 @@
 package com.example.rifsa_mobile.model.remote
 
-import androidx.lifecycle.LiveData
-import androidx.room.Update
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryPostResponse
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
@@ -69,7 +67,12 @@ interface ApiService {
         @Body body: FinancePostBody
     ): FinancePostResponse
 
+
     //TODO | inventory update, delete
+
+    @GET("inventaris")
+    suspend fun getInventory(): InventoryResultRespon
+
 
     @Multipart
     @POST("inventaris")
@@ -78,6 +81,6 @@ interface ApiService {
         @Part file : MultipartBody.Part,
         @Part("jumlah") jumlah : Int,
         @Part("catatan") catatan : String
-    ): InventoryRespon
+    ): InventoryPostResponse
 
 }

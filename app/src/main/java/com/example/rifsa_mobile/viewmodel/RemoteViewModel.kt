@@ -2,16 +2,14 @@ package com.example.rifsa_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryPostResponse
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
@@ -52,11 +50,15 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun updateFinance(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.updateFinanceRemote(id,data)
 
+
+    suspend fun getInventory(): LiveData<FetchResult<InventoryResultRespon>> =
+        mainRepository.getInventoryRemote()
+
     suspend fun postInventory(
         name : String,
         file : MultipartBody.Part,
         jumlah : Int,
         catatan : String
-    ): LiveData<FetchResult<InventoryRespon>> =
+    ): LiveData<FetchResult<InventoryPostResponse>> =
         mainRepository.postInventoryRemote(name, file, jumlah, catatan)
 }

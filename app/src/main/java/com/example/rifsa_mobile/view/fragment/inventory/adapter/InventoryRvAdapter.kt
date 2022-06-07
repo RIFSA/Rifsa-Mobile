@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
-import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 
-class InventoryRvAdapter(private val dataList : List<Inventory>): RecyclerView.Adapter<InventoryRvAdapter.ViewHolder>() {
+class InventoryRvAdapter(private val dataList : List<InventoryResultResponData>): RecyclerView.Adapter<InventoryRvAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallback : OnDetailItemCallback
@@ -21,11 +21,11 @@ class InventoryRvAdapter(private val dataList : List<Inventory>): RecyclerView.A
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        val item = dataList[position]
-        holder.binding.tvcardInventTitle.text = item.name
-        holder.binding.tvcardInventAmount.text = item.amount.toString()
+        holder.binding.tvcardInventTitle.text = item.nama
+        holder.binding.tvcardInventAmount.text = item.jumlah
 
         Glide.with(holder.itemView.context)
-            .load(item.urlPhoto)
+            .load(item.url)
             .dontAnimate()
             .into(holder.binding.imgcardInvent)
 
@@ -37,7 +37,7 @@ class InventoryRvAdapter(private val dataList : List<Inventory>): RecyclerView.A
     override fun getItemCount(): Int = dataList.size
 
     interface OnDetailItemCallback{
-        fun onDetailCallback(data : Inventory)
+        fun onDetailCallback(data : InventoryResultResponData)
     }
 
 }

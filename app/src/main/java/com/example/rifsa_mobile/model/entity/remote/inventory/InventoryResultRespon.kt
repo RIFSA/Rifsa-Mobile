@@ -3,16 +3,16 @@ package com.example.rifsa_mobile.model.entity.remote.inventory
 
 import com.google.gson.annotations.SerializedName
 
-data class InventoryRespon(
+data class InventoryResultRespon(
  @SerializedName("data")
- val inventoryResponData: List<InventoryResponData>,
+ val InventoryResultResponData: List<InventoryResultResponData>,
  @SerializedName("message")
  val message: String,
  @SerializedName("status")
  val status: Int
 )
 
-data class InventoryResponData(
+data class InventoryResultResponData(
  @SerializedName("catatan")
  val catatan: String,
  @SerializedName("createdAt")

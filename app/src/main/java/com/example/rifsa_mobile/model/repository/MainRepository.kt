@@ -12,9 +12,9 @@ import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryPostResponse
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
@@ -149,12 +149,23 @@ class MainRepository(
             }
         }
 
+    suspend fun getInventoryRemote():LiveData<FetchResult<InventoryResultRespon>> = liveData{
+        emit(FetchResult.Loading)
+        try {
+            emit(FetchResult.Success(
+                apiService.getInventory()
+            ))
+        }catch (e : Exception){
+            emit(FetchResult.Error(e.message.toString()))
+        }
+
+    }
     suspend fun postInventoryRemote(
         name : String,
         file : MultipartBody.Part,
         jumlah : Int,
         catatan : String
-    ): LiveData<FetchResult<InventoryRespon>> =
+    ): LiveData<FetchResult<InventoryPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {

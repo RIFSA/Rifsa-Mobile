@@ -130,6 +130,8 @@ class InvetoryInsertFragment : Fragment() {
                     }
                     is FetchResult.Success->{
                         showToast(it.data.message)
+                        findNavController()
+                            .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
                     }
                     is FetchResult.Error->{
                         showToast(it.error)
