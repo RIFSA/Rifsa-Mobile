@@ -92,7 +92,7 @@
         tools:layout="@layout/fragment_finance_insert_detail" >
         <argument
             android:name="detail_finance"
-            app:argType="com.example.rifsa_mobile.model.entity.local.finance.Finance"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData"
             app:nullable="true" />
         <action
             android:id="@+id/action_financeInsertDetailFragment_to_financeFragment"

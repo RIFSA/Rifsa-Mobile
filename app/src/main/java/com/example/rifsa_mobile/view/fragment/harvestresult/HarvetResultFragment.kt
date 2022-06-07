@@ -141,7 +141,6 @@ class HarvetResultFragment : Fragment() {
         }
     }
 
-
     //TODO | cek data local apakah sudah ada di remote
     private fun remoteChecker(data : HarvestResult){
         when(data.valueStatus){
@@ -216,7 +215,6 @@ class HarvetResultFragment : Fragment() {
             localViewModel.updateHarvestLocal("DONE", idSort)
         }
     }
-
 
     private fun showToast(title : String){
         Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()

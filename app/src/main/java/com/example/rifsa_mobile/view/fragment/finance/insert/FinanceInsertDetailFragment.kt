@@ -4,20 +4,27 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.local.finance.Finance
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -28,6 +35,7 @@ import java.util.*
 class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
     private lateinit var viewModel : LocalViewModel
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
     private var formatDate = SimpleDateFormat("dd-MMM-yyy", Locale.ENGLISH)
 
@@ -38,6 +46,9 @@ class FinanceInsertDetailFragment : Fragment() {
     private var detailId = ""
     private var sortId = 0
 
+    private var isConnected = false
+    private var status = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +56,9 @@ class FinanceInsertDetailFragment : Fragment() {
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
         viewModel = ObtainViewModel(requireActivity())
+
+        isConnected = Utils.internetChecker(requireContext())
+
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
 
@@ -53,9 +67,9 @@ class FinanceInsertDetailFragment : Fragment() {
             if (data != null){
                 setDetail(data)
                 isDetail = true
-                detailId = data.id_finance
-                sortId = data.id_sort
-                type = data.type
+//                detailId = data.id_finance
+//                sortId = data.id_sort
+//                type = data.type
             }
         }catch (e : Exception){
 
@@ -64,9 +78,6 @@ class FinanceInsertDetailFragment : Fragment() {
 
         return binding.root
     }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,7 +106,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnFinanceSave.setOnClickListener {
-            insertFinanceLocally()
+            postFinance()
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
@@ -120,8 +131,33 @@ class FinanceInsertDetailFragment : Fragment() {
                 FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment()
             )
         }
+    }
 
+    private fun postFinance(){
+        val tempData = FinancePostBody(
+            currentDate,
+            binding.tvfinanceInsertNama.text.toString(),
+            type,
+            binding.tvfinanceInsertHarga.text.toString(),
+            binding.tvfinanceInsertCatatan.text.toString()
+        )
 
+        lifecycleScope.launch {
+            remoteViewModel.postFinance(tempData).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success ->{
+                        status = "Data tersimpan"
+                        showToast("Sukses Menambahkan")
+                        findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                    }
+                    is FetchResult.Error ->{
+                        status = "data lokal"
+                        Log.d("Insert finance",it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun insertFinanceLocally(){
@@ -151,15 +187,16 @@ class FinanceInsertDetailFragment : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun setDetail(data : Finance){
-        val amount = data.amount.toString()
+    private fun setDetail(data : FinanceResponseData){
+        val amount = data.jumlah.toString()
         binding.apply {
-            tvfinanceInsertDate.text = data.date
-            tvfinanceInsertNama.setText(data.title)
+            tvfinanceInsertDate.text = data.tanggal
+            tvfinanceInsertNama.setText(data.kegiatan)
             tvfinanceInsertHarga.setText(amount)
-            tvfinanceInsertCatatan.setText(data.note)
+            tvfinanceInsertCatatan.setText(data.catatan)
             btnfinanceInsertDelete.visibility = View.VISIBLE
             tvFinanceInsertdetail.text = "Detail registerData"
+//            spinnerfinanceInsert.selectedItem = data.jenis
         }
     }
 

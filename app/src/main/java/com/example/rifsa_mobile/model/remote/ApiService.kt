@@ -1,6 +1,9 @@
 package com.example.rifsa_mobile.model.remote
 
 import androidx.lifecycle.LiveData
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
@@ -44,6 +47,15 @@ interface ApiService {
 
     @GET("hasilpanen")
     suspend fun getHarvestResult(): HarvestResultRespon
+
+    //TODO | finance add, update, delete
+    @POST("keuangan")
+    suspend fun postFinance(
+        @Body body: FinancePostBody
+    ): FinancePostResponse
+
+    @GET("keuangan")
+    suspend fun getFinanceResult() : FinanceResultResponse
 
     //TODO | inventory update, delete
 

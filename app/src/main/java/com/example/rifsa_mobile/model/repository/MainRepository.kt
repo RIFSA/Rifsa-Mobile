@@ -7,6 +7,9 @@ import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
@@ -101,9 +104,26 @@ class MainRepository(
             }
         }
 
-    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int){
-        dao.updateHarvestLocal(uploadedStatus, idSort)
-    }
+    suspend fun postFinanceRemote(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(apiService.postFinance(data)))
+
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
+    suspend fun getFinanceRemote(): LiveData<FetchResult<FinanceResultResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(apiService.getFinanceResult()))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
 
     suspend fun postInventoryRemote(
         name : String,
@@ -131,6 +151,10 @@ class MainRepository(
 
     suspend fun deleteLocalHarvest(id : String){
         dao.deleteHarvestLocal(id)
+    }
+
+    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int){
+        dao.updateHarvestLocal(uploadedStatus, idSort)
     }
 
     fun readLocalHarvest(): LiveData<List<HarvestResult>> =

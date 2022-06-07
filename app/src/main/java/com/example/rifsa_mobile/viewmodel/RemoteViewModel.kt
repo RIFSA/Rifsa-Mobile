@@ -3,6 +3,10 @@ package com.example.rifsa_mobile.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
@@ -35,6 +39,12 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
 
     suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =
         mainRepository.getHarvest()
+
+    suspend fun postFinance(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+        mainRepository.postFinanceRemote(data)
+
+    suspend fun getFinance(): LiveData<FetchResult<FinanceResultResponse>> =
+        mainRepository.getFinanceRemote()
 
     suspend fun postInventory(
         name : String,
