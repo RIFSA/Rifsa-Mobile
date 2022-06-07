@@ -106,7 +106,11 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnFinanceSave.setOnClickListener {
-            postFinance()
+            if (isDetail){
+                updateFinance()
+            }else{
+                postFinance()
+            }
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
@@ -175,6 +179,32 @@ class FinanceInsertDetailFragment : Fragment() {
                         showToast("Gagal Menghapus")
                         status = it.error
                         Log.d("Test delete", it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun updateFinance(){
+        val tempData = FinancePostBody(
+            currentDate,
+            binding.tvfinanceInsertNama.text.toString(),
+            type,
+            binding.tvfinanceInsertHarga.text.toString(),
+            binding.tvfinanceInsertCatatan.text.toString()
+        )
+
+        lifecycleScope.launch {
+            remoteViewModel.updateFinance(detailId, tempData).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success ->{
+                        status = it.data.message
+                        findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                    }
+                    is FetchResult.Error ->{
+                        status = it.error
+                        Log.d("Update finance",it.error)
                     }
                     else -> {}
                 }

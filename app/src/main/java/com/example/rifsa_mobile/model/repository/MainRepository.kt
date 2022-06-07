@@ -137,6 +137,18 @@ class MainRepository(
             }
         }
 
+    suspend fun updateFinanceRemote(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                apiService.updateFinance(id,data).apply {
+                    emit(FetchResult.Success(this))
+                }
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
     suspend fun postInventoryRemote(
         name : String,
         file : MultipartBody.Part,

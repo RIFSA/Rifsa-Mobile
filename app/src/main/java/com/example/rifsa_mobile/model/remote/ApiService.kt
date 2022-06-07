@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.model.remote
 
 import androidx.lifecycle.LiveData
+import androidx.room.Update
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -60,6 +61,12 @@ interface ApiService {
     @DELETE("keuangan/{id}")
     suspend fun deleteFinance(
         @Path("id") id : Int
+    ): FinancePostResponse
+
+    @PUT("keuangan/{id}")
+    suspend fun updateFinance(
+        @Path("id") id: Int,
+        @Body body: FinancePostBody
     ): FinancePostResponse
 
     //TODO | inventory update, delete

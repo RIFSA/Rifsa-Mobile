@@ -49,6 +49,9 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun deleteFinance(id: Int): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.deleteFinanceRemote(id)
 
+    suspend fun updateFinance(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+        mainRepository.updateFinanceRemote(id,data)
+
     suspend fun postInventory(
         name : String,
         file : MultipartBody.Part,
