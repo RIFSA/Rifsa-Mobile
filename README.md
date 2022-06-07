@@ -93,8 +93,8 @@ Reviewing the activities of local residents who are farmers, they often complain
  - [x] Detect Page
  - [x] Room DB config
  - [x] Insert to Local
- - [ ] Auth Remote
- - [ ] insert data to remote
+ - [x] Auth Remote
+ - [x] insert data to remote
  - [ ] machine learning
 <!-- CONTRIBUTING -->
 ## Contributing
