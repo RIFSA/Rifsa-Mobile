@@ -79,4 +79,5 @@ interface ApiService {
         @Part("jumlah") jumlah : Int,
         @Part("catatan") catatan : String
     ): InventoryRespon
+
 }

@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.util.Util
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
@@ -55,8 +54,31 @@ class InvetoryInsertFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
 
+
+        try {
+            val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
+            detail = data
+            if (data != null){
+                val pic = Uri.parse(data.urlPhoto)
+                showImage(pic)
+                showDetail(data)
+                isDetail = true
+                detailId = data.id_inventories
+                sortId = data.id_sort
+                currentImage = pic
+                binding.btninventoryInsertDelete.visibility = View.VISIBLE
+            }
+            showCameraImage()
+        }catch (e : Exception){ }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.imgInventory.setOnClickListener {
-            setFragmentCamera()
+            gotoCameraFragment()
         }
         binding.btnInventoryBackhome.setOnClickListener {
             findNavController().navigate(
@@ -69,7 +91,7 @@ class InvetoryInsertFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteInventory()
+                        deleteInventoryLocal()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -81,82 +103,17 @@ class InvetoryInsertFragment : Fragment() {
         }
 
 
-        try {
-            val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
-            detail = data
-
-            if (data != null){
-                val pic = Uri.parse(data.urlPhoto)
-                showImage(pic)
-                showDetail(data)
-                isDetail = true
-                detailId = data.id_inventories
-                sortId = data.id_sort
-                currentImage = pic
-                binding.btninventoryInsertDelete.visibility = View.VISIBLE
-            }
-
-            showCameraImage()
-        }catch (e : Exception){
-
-        }
-
         binding.btnInventorySave.setOnClickListener {
             insertInventoryRemote()
         }
 
-        return binding.root
-    }
-
-    private fun showCameraImage(){
-        val uriImage = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
-        if (uriImage != null) {
-            currentImage = uriImage
-            showImage(uriImage)
-        }
-    }
-
-    private fun showImage(data : Uri){
-        Glide.with(requireContext())
-            .asBitmap()
-            .load(data)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(binding.imgInventory)
-    }
-
-    private fun setFragmentCamera(){
-        findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToCameraFragment(
-            camera_key)
-        )
-    }
-
-    private suspend fun insertInventoryLocal(){
-        val amount = binding.tvinventarisInsertAmount.text.toString()
-
-        val tempInsert = Inventory(
-            sortId,
-            randomId,
-            binding.tvinventarisInsertName.text.toString(),
-            amount.toInt(),
-            currentImage.toString(),
-            binding.tvinventarisInsertNote.text.toString(),
-            false
-        )
-
-        try {
-            localViewModel.insertInventoryLocal(tempInsert)
-            showToast("Berhasil menambahkan")
-            findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-        }catch (e : Exception){
-            showToast(e.message.toString())
-        }
     }
 
     private fun insertInventoryRemote(){
         val image = Utils.uriToFile(currentImage,requireContext())
         val typeFile = image.asRequestBody("image/jpg".toMediaTypeOrNull())
         val multiPart : MultipartBody.Part = MultipartBody.Part.createFormData(
-            "inventory",
+            "file",
             image.name,
             typeFile
         )
@@ -184,7 +141,29 @@ class InvetoryInsertFragment : Fragment() {
         }
     }
 
-    private fun deleteInventory(){
+    private suspend fun insertUpdateInventoryLocal(){
+        val amount = binding.tvinventarisInsertAmount.text.toString()
+
+        val tempInsert = Inventory(
+            sortId,
+            randomId,
+            binding.tvinventarisInsertName.text.toString(),
+            amount.toInt(),
+            currentImage.toString(),
+            binding.tvinventarisInsertNote.text.toString(),
+            false
+        )
+
+        try {
+            localViewModel.insertInventoryLocal(tempInsert)
+            showToast("Berhasil menambahkan")
+            findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+        }catch (e : Exception){
+            showToast(e.message.toString())
+        }
+    }
+
+    private fun deleteInventoryLocal(){
         try {
             localViewModel.deleteInventoryLocal(detailId)
             showToast("Item telah dihapus")
@@ -194,6 +173,23 @@ class InvetoryInsertFragment : Fragment() {
         }
     }
 
+
+    private fun showCameraImage(){
+        val uriImage = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
+        if (uriImage != null) {
+            currentImage = uriImage
+            showImage(uriImage)
+        }
+    }
+
+    private fun gotoCameraFragment(){
+        findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToCameraFragment(
+            camera_key)
+        )
+    }
+
+
+
     @SuppressLint("SetTextI18n")
     private fun showDetail(data : Inventory){
         val amount = data.amount.toString()
@@ -202,6 +198,15 @@ class InvetoryInsertFragment : Fragment() {
         binding.tvinventarisInsertNote.setText(data.noted)
         binding.tvInventoryInsertdetail.text = "Detail registerData"
     }
+
+    private fun showImage(data : Uri){
+        Glide.with(requireContext())
+            .asBitmap()
+            .load(data)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(binding.imgInventory)
+    }
+
 
     private fun showToast(title : String){
         Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()

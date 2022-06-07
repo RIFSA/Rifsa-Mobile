@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -107,9 +106,9 @@ class FinanceInsertDetailFragment : Fragment() {
 
         binding.btnFinanceSave.setOnClickListener {
             if (isDetail){
-                updateFinance()
+                updateFinanceRemote()
             }else{
-                postFinance()
+                insertFinanceRemote()
             }
         }
 
@@ -119,7 +118,7 @@ class FinanceInsertDetailFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteFinance()
+                        deleteFinanceRemote()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -137,7 +136,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun postFinance(){
+    private fun insertFinanceRemote(){
         val tempData = FinancePostBody(
             currentDate,
             binding.tvfinanceInsertNama.text.toString(),
@@ -153,14 +152,12 @@ class FinanceInsertDetailFragment : Fragment() {
 
                     }
                     is FetchResult.Success ->{
-                        status = "Data tersimpan"
-                        showToast("Sukses Menambahkan")
+                        showStatus(it.data.message)
                         findNavController().navigate(
                             FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                     }
                     is FetchResult.Error ->{
-                        status = "data lokal"
-                        Log.d("Insert finance",it.error)
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
@@ -168,21 +165,17 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun deleteFinance(){
+    private fun deleteFinanceRemote(){
         lifecycleScope.launch {
             remoteViewModel.deleteFinance(detailId).observe(viewLifecycleOwner){
                 when(it) {
                     is FetchResult.Success -> {
-                        status = it.data.message
-                        showToast("Berhasil Terhapus")
-                        Log.d("Test delete", "Berhasil")
+                        showStatus(it.data.message)
                         findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                     }
 
                     is FetchResult.Error -> {
-                        showToast("Gagal Menghapus")
-                        status = it.error
-                        Log.d("Test delete", it.error)
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
@@ -190,7 +183,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun updateFinance(){
+    private fun updateFinanceRemote(){
         val tempData = FinancePostBody(
             currentDate,
             binding.tvfinanceInsertNama.text.toString(),
@@ -203,12 +196,11 @@ class FinanceInsertDetailFragment : Fragment() {
             remoteViewModel.updateFinance(detailId, tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success ->{
-                        status = it.data.message
+                        showStatus(it.data.message)
                         findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                     }
                     is FetchResult.Error ->{
-                        status = it.error
-                        Log.d("Update finance",it.error)
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
@@ -218,8 +210,7 @@ class FinanceInsertDetailFragment : Fragment() {
 
     private fun insertFinanceLocally(){
 
-        if (isDetail){ randomId = detailId.toString()
-        }
+        if (isDetail){ randomId = detailId.toString() }
 
         val tempInsert = Finance(
             sortId,
@@ -234,10 +225,10 @@ class FinanceInsertDetailFragment : Fragment() {
 
         try {
             viewModel.insertFinanceLocal(tempInsert)
-            showToast("sukses menambahkan")
+            showStatus("Tersimpan")
             findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
         }catch (e : Exception){
-            showToast(e.message.toString())
+            showStatus(e.message.toString())
         }
     }
 
@@ -257,11 +248,11 @@ class FinanceInsertDetailFragment : Fragment() {
     private fun deleteFinanceLocal(){
         try {
             viewModel.deleteFinanceLocal(detailId.toString())
-            showToast("Berhasil terhapus")
+            showStatus("Terhapus")
             findNavController().navigate(
                 FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
         }catch (e : Exception){
-            showToast(e.message.toString())
+            showStatus(e.message.toString())
         }
     }
 
@@ -285,8 +276,19 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
 
-    private fun showToast(title : String){
-        Toast.makeText(requireContext(),title,Toast.LENGTH_SHORT).show()
+    private fun showStatus(title : String){
+
+        if(title.isNotEmpty()){
+            binding.pgbFinanceStatus.visibility = View.GONE
+            binding.pgbFinanceTitle.visibility = View.VISIBLE
+        }
+
+        binding.pgbFinanceTitle.text = title
+        Log.d(finance_key,"status $title")
+    }
+
+    companion object{
+        const val finance_key = "FinanceInsertUpdateDetail"
     }
 
 }
