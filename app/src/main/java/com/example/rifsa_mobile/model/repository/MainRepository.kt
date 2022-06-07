@@ -8,6 +8,8 @@ import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
@@ -54,13 +56,12 @@ class MainRepository(
     }
 
 
-    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.postHarvestResult(data).apply {
-                    emit(FetchResult.Success(this))
-                }
+                emit(FetchResult.Success(apiService.postHarvestResult(data)))
+
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
             }
@@ -76,7 +77,7 @@ class MainRepository(
             }
     }
 
-    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
@@ -88,7 +89,7 @@ class MainRepository(
             }
         }
 
-    suspend fun updateHarvest(id: Int, data:HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun updateHarvest(id: Int, data:HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {

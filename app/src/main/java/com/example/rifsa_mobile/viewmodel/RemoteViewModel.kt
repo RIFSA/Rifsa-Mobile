@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
@@ -22,13 +24,13 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> =
         mainRepository.postRegister(data)
 
-    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         mainRepository.postHarvest(data)
 
-    suspend fun updateHarvest(id: Int, data: HarvestPostBody): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun updateHarvest(id: Int, data: HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         mainRepository.updateHarvest(id,data)
 
-    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
         mainRepository.deleteHarvest(id)
 
     suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =

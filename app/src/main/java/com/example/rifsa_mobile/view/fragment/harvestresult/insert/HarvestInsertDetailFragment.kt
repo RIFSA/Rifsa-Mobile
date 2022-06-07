@@ -57,7 +57,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 isDetail = true
                 detailId = data.id_harvest
                 sortId = data.id_sort
-                status = data.valueStatus
+                valueStatus = data.valueStatus
             }
         }catch (e : Exception){ }
 
@@ -132,11 +132,11 @@ class HarvestInsertDetailFragment : Fragment() {
                 when(it){
                     is FetchResult.Success ->{
                         status = "data tersimpan"
-                        valueStatus = "done" //TODO | set status telah selesai
+                        valueStatus = "DONE" //TODO | set status telah selesai
                         insertUpdateHarvestLocally()
                     }
                     is FetchResult.Error ->{
-                        status = "masalah teknis data tersimpan lokal"
+                        status = "data lokal"
                         valueStatus = "POST" //TODO | set status perlu di post pada remote checker
                         insertUpdateHarvestLocally()
                         Log.d("insert hasil",it.error)
@@ -192,23 +192,26 @@ class HarvestInsertDetailFragment : Fragment() {
 
     private fun deleteHarvestRemote(){
             lifecycleScope.launch {
-                remoteViewModel.deleteHarvest(detailId.toInt()).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Success ->{
-                            status = it.data.message
-                            showToast()
-                            Log.d("Test delete", "Berhasil")
-                            findNavController()
-                                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
-                        }
+                if(valueStatus == "DONE"){
+                    remoteViewModel.deleteHarvest(detailId.toInt()).observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Success ->{
+                                status = it.data.message
+                                showToast()
+                                Log.d("Test delete", "Berhasil")
+                                findNavController()
+                                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+                            }
 
-                        is FetchResult.Error ->{
-                            showToast()
-                            status = it.error
-                            Log.d("Test update",it.error)
+                            is FetchResult.Error ->{
+                                showToast()
+                                status = it.error
+                                Log.d("Test update",it.error)
+                            }
+                            else -> {}
                         }
-                        else -> {}
                     }
+
                 }
             }
     }

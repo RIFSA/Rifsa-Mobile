@@ -2,6 +2,8 @@ package com.example.rifsa_mobile.model.remote
 
 import androidx.lifecycle.LiveData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
@@ -27,18 +29,18 @@ interface ApiService {
     @POST("hasilpanen")
     suspend fun postHarvestResult(
         @Body body: HarvestPostBody
-    ): HarvestResultRespon
+    ): HarvestPostResponse
 
     @PUT("hasilpanen/{id}")
     suspend fun updateHarvestResult(
         @Path("id") id : Int,
         @Body body: HarvestPostBody
-    ): HarvestResultRespon
+    ): HarvestPostResponse
 
     @DELETE("hasilpanen/{id}")
     suspend fun deleteHarvestResult(
         @Path("id") id : Int
-    ): HarvestResultRespon
+    ): HarvestPostResponse
 
     @GET("hasilpanen")
     suspend fun getHarvestResult(): HarvestResultRespon

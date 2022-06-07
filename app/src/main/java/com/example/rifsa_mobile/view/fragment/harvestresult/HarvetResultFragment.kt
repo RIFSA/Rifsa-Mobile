@@ -93,9 +93,10 @@ class HarvetResultFragment : Fragment() {
 
             binding.cekUploadTest.setOnClickListener {
                 //TODO | cek internet apakah tersedia
-                if (isConnected){
-                    remoteChecker(respon)
-                }
+                if (isConnected)
+                    respon.forEach {
+                        remoteChecker(it)
+                    }
             }
 
         }
@@ -142,17 +143,15 @@ class HarvetResultFragment : Fragment() {
 
 
     //TODO | cek data local apakah sudah ada di remote
-    private fun remoteChecker(data : List<HarvestResult>){
-        data.forEach { value->
-            when(value.noted){
-                "POST"->{
-                    Log.d("data yang belum di upload remote","detect title = " + value.title)
-                    insertHarvestRemote(value)
-                }
-                "UPDATE"->{
-                    Log.d("data yg belum di update remote","detect title = " + value.title)
-                    updateHarvestRemote(value)
-                }
+    private fun remoteChecker(data : HarvestResult){
+        when(data.valueStatus){
+            "POST"->{
+                Log.d(checkerKey,"need delete" + data.title)
+                insertHarvestRemote(data)
+            }
+            "UPDATE"->{
+                Log.d(checkerKey,"need update" + data.title)
+                updateHarvestRemote(data)
             }
         }
     }
@@ -165,22 +164,24 @@ class HarvetResultFragment : Fragment() {
             data.sellingPrice.toString(),
             data.noted
         )
+
         lifecycleScope.launch {
-            remoteViewModel.postHarvest(tempData).observe(viewLifecycleOwner){
+            remoteViewModel.postHarvest(tempData)
+                .observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success ->{
-                        Log.d("Test update", "Berhasil")
+                        updateHarvestLocalStatus(data.id_sort)
                     }
 
                     //TODO | setelah post data remote baru perbarui status data menjadi done
                     is FetchResult.Error ->{
-                        updateHarvestLocal("DONE",data.id_sort)
-                        Log.d("Test update",it.error)
+                        Log.d(checkerKey,it.error)
                     }
                     else -> {}
                 }
             }
         }
+
     }
 
     private fun updateHarvestRemote(data : HarvestResult){
@@ -193,30 +194,37 @@ class HarvetResultFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            remoteViewModel.updateHarvest(data.id_harvest.toInt(), tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success ->{
-                        Log.d("update hasil",it.data.message)
+            remoteViewModel.updateHarvest(data.id_harvest.toInt(), tempData)
+                .observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success ->{
+                            Log.d(updateKey,it.data.message)
+                            updateHarvestLocalStatus(data.id_sort)
+                        }
+                        is FetchResult.Error ->{
+                            Log.d(updateKey,it.error)
+                        }
+                        else -> {}
                     }
-                    is FetchResult.Error ->{
-                        Log.d("update hasil",it.error)
-                    }
-                    else -> {}
-                }
             }
         }
     }
 
     //TODO | update id by response
-    private fun updateHarvestLocal(uploadedStatus : String, idSort : Int){
+    private fun updateHarvestLocalStatus(idSort : Int){
         lifecycleScope.launch {
-            localViewModel.updateHarvestLocal(uploadedStatus, idSort)
+            localViewModel.updateHarvestLocal("DONE", idSort)
         }
     }
 
 
     private fun showToast(title : String){
         Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object{
+        const val checkerKey = "HarvestChecker"
+        const val updateKey = "HarvestUpdate"
     }
 
 }
