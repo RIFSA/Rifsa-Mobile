@@ -43,7 +43,7 @@ class FinanceInsertDetailFragment : Fragment() {
     private var currentDate = LocalDate.now().toString()
     private var type = ""
     private var isDetail = false
-    private var detailId = ""
+    private var detailId = 0
     private var sortId = 0
 
     private var isConnected = false
@@ -67,7 +67,7 @@ class FinanceInsertDetailFragment : Fragment() {
             if (data != null){
                 setDetail(data)
                 isDetail = true
-//                detailId = data.id_finance
+                detailId = data.idKeuangan
 //                sortId = data.id_sort
 //                type = data.type
             }
@@ -115,7 +115,7 @@ class FinanceInsertDetailFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteFinanceLocal()
+                        deleteFinance()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -160,9 +160,32 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
+    private fun deleteFinance(){
+        lifecycleScope.launch {
+            remoteViewModel.deleteFinance(detailId).observe(viewLifecycleOwner){
+                when(it) {
+                    is FetchResult.Success -> {
+                        status = it.data.message
+                        showToast("Berhasil Terhapus")
+                        Log.d("Test delete", "Berhasil")
+                        findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                    }
+
+                    is FetchResult.Error -> {
+                        showToast("Gagal Menghapus")
+                        status = it.error
+                        Log.d("Test delete", it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     private fun insertFinanceLocally(){
 
-        if (isDetail){ randomId = detailId }
+        if (isDetail){ randomId = detailId.toString()
+        }
 
         val tempInsert = Finance(
             sortId,
@@ -184,8 +207,6 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-
-
     @SuppressLint("SetTextI18n")
     private fun setDetail(data : FinanceResponseData){
         val amount = data.jumlah.toString()
@@ -195,14 +216,13 @@ class FinanceInsertDetailFragment : Fragment() {
             tvfinanceInsertHarga.setText(amount)
             tvfinanceInsertCatatan.setText(data.catatan)
             btnfinanceInsertDelete.visibility = View.VISIBLE
-            tvFinanceInsertdetail.text = "Detail registerData"
-//            spinnerfinanceInsert.selectedItem = data.jenis
+            tvFinanceInsertdetail.text = "Detail Data"
         }
     }
 
     private fun deleteFinanceLocal(){
         try {
-            viewModel.deleteFinanceLocal(detailId)
+            viewModel.deleteFinanceLocal(detailId.toString())
             showToast("Berhasil terhapus")
             findNavController().navigate(
                 FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())

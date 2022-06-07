@@ -57,6 +57,11 @@ interface ApiService {
     @GET("keuangan")
     suspend fun getFinanceResult() : FinanceResultResponse
 
+    @DELETE("keuangan/{id}")
+    suspend fun deleteFinance(
+        @Path("id") id : Int
+    ): FinancePostResponse
+
     //TODO | inventory update, delete
 
     @Multipart
