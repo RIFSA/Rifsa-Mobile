@@ -45,6 +45,8 @@ class DisaseDetailFragment : Fragment() {
     private lateinit var alarmReceive : AlarmReceiver
     private var alarmID = (1..1000).random()
 
+    private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
+
     private var randomId = Utils.randomId()
     private var image = ""
     private var isDetail = false
@@ -124,7 +126,7 @@ class DisaseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        postPrediction()
+        postPrediction()
 
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
@@ -167,15 +169,35 @@ class DisaseDetailFragment : Fragment() {
     private fun postPrediction(){
         val image = image.toUri()
 
+        val currentImage = Utils.uriToFile(image,requireContext())
+        val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
+        val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
+            "image",
+            currentImage.name,
+            typeFile
+        )
+
+        lifecycleScope.launch {
+            remoteViewModel.postDiseasePrediction(multiPartFile)
+                .observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success ->{
+                        binding.tvdisasaeDetailIndication.setText(it.data.result)
+                    }
+                    is FetchResult.Error ->{
+
+                    }
+                    else -> {}
+                }
+            }
+        }
+
     }
 
 
     private fun postDiseaseRemote(){
         val image = image.toUri()
-
         val name = binding.tvdisasaeDetailIndication.text.toString()
-        val description = name
-        val date = LocalDate.now().toString()
 
         val currentImage = Utils.uriToFile(image,requireContext())
         val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
@@ -185,19 +207,15 @@ class DisaseDetailFragment : Fragment() {
             typeFile
         )
 
-        Log.d("Ok post disease",
-            "$name + $description + $curLatitude + $curLongitude + $date"
-            )
 
         lifecycleScope.launch {
             remoteViewModel.postDiseaseRemote(
                 name,
                 filePart,
                 name,
-                description,
+                name,
                 curLatitude,
                 curLongitude,
-                date,
             ).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success->{

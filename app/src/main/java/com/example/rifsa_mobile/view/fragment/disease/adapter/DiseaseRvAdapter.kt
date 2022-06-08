@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
+import com.example.rifsa_mobile.utils.Utils
 
 class DiseaseRvAdapter(private var dataList : List<DiseaseResultDataResponse>): RecyclerView.Adapter<DiseaseRvAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)
@@ -24,7 +25,7 @@ class DiseaseRvAdapter(private var dataList : List<DiseaseResultDataResponse>): 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.apply {
-            tvDiseaseSubtitle.text = item.tanggal
+            tvDiseaseSubtitle.text = item.createdAt.removeRange(10..18)
             tvDiseaseTitle.text = item.indikasi
 
 

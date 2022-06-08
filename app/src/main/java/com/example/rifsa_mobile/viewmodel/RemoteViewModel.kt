@@ -20,6 +20,7 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.repository.MainRepository
 import com.example.rifsa_mobile.utils.FetchResult
 import okhttp3.MultipartBody
+import java.util.*
 
 class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
 
@@ -91,7 +92,6 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
         description : String,
         latitude : Double,
         longitude : Double,
-        date : String
     ): LiveData<FetchResult<DiseasePostResponse>> =
-        mainRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude, date)
+        mainRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude)
 }

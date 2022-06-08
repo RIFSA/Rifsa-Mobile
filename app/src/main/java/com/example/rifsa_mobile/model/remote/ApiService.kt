@@ -17,6 +17,7 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import okhttp3.MultipartBody
 import retrofit2.http.*
+import java.util.*
 
 interface ApiService {
 
@@ -115,15 +116,14 @@ interface ApiService {
     ): DiseasePredictionResponse
 
     @Multipart
-    @POST("penyakit")
+    @POST("http://34.101.50.17:5000/penyakit")
     suspend fun postDiseaseRemote(
         @Part("nama") nama : String,
         @Part file : MultipartBody.Part,
         @Part("indikasi") indikasi : String,
         @Part("deskripsi") deskripsi : String,
         @Part("latitude") latitude : Double,
-        @Part("longitude") longitude : Double,
-        @Part("tanggal") tanggal : String
+        @Part("longitude") longitude : Double
     ): DiseasePostResponse
 
 }

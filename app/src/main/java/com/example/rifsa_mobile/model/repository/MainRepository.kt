@@ -27,6 +27,7 @@ import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.utils.FetchResult
 import okhttp3.MultipartBody
+import java.util.*
 
 class MainRepository(
     database : DatabaseConfig,
@@ -235,11 +236,10 @@ class MainRepository(
         description : String,
         latitude : Double,
         longitude : Double,
-        date : String
     ): LiveData<FetchResult<DiseasePostResponse>> = liveData {
         emit(FetchResult.Loading)
         try {
-            emit(FetchResult.Success(apiService.postDiseaseRemote(name, file, indication, description, latitude, longitude, date)))
+            emit(FetchResult.Success(apiService.postDiseaseRemote(name, file, indication, description, latitude, longitude)))
         }catch (e : Exception){
             emit(FetchResult.Error(e.message.toString()))
         }
