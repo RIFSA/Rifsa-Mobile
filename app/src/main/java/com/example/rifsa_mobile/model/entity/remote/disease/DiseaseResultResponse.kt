@@ -24,9 +24,9 @@ data class DiseaseResultDataResponse(
  @SerializedName("indikasi")
  val indikasi: String,
  @SerializedName("latitude")
- val latitude: Int,
+ val latitude: Double,
  @SerializedName("longitude")
- val longitude: Int,
+ val longitude: Double,
  @SerializedName("nama")
  val nama: String,
  @SerializedName("tanggal")

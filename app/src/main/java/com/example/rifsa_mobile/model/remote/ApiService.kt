@@ -116,6 +116,14 @@ interface ApiService {
 
     @Multipart
     @POST("penyakit")
-    suspend fun postDiseaseRemote()
+    suspend fun postDiseaseRemote(
+        @Part("nama") nama : String,
+        @Part file : MultipartBody.Part,
+        @Part("indikasi") indikasi : String,
+        @Part("deskripsi") deskripsi : String,
+        @Part("latitude") latitude : Double,
+        @Part("longitude") longitude : Double,
+        @Part("tanggal") tanggal : String
+    ): DiseasePostResponse
 
 }

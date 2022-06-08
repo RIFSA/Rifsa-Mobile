@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
@@ -82,4 +83,15 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
 
     suspend fun postDiseasePrediction(file: MultipartBody.Part): LiveData<FetchResult<DiseasePredictionResponse>> =
         mainRepository.postDiseasePredictionRemote(file)
+
+    suspend fun postDiseaseRemote(
+        name : String,
+        file : MultipartBody.Part,
+        indication : String,
+        description : String,
+        latitude : Double,
+        longitude : Double,
+        date : String
+    ): LiveData<FetchResult<DiseasePostResponse>> =
+        mainRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude, date)
 }

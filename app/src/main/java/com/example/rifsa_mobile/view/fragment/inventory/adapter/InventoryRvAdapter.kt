@@ -25,8 +25,9 @@ class InventoryRvAdapter(private val dataList : List<InventoryResultResponData>)
         holder.binding.tvcardInventTitle.text = item.nama
         holder.binding.tvcardInventAmount.text = item.jumlah
 
+        val url = "http://34.101.50.17:5000/images/${item.image}"
         Glide.with(holder.itemView.context)
-            .load(item.url)
+            .load(url)
             .dontAnimate()
             .into(holder.binding.imgcardInvent)
 

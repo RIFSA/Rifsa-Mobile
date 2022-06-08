@@ -124,11 +124,13 @@ class DisaseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        postPrediction()
+
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
 //                showStatus("Proses")
 //                insertDiseaseLocal()
-                postPrediction()
+                postDiseaseRemote()
             }
         }
 
@@ -165,31 +167,53 @@ class DisaseDetailFragment : Fragment() {
     private fun postPrediction(){
         val image = image.toUri()
 
+    }
+
+
+    private fun postDiseaseRemote(){
+        val image = image.toUri()
+
+        val name = binding.tvdisasaeDetailIndication.text.toString()
+        val description = name
+        val date = LocalDate.now().toString()
+
         val currentImage = Utils.uriToFile(image,requireContext())
         val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
-            "image",
+        val filePart : MultipartBody.Part = MultipartBody.Part.createFormData(
+            "file",
             currentImage.name,
             typeFile
         )
 
+        Log.d("Ok post disease",
+            "$name + $description + $curLatitude + $curLongitude + $date"
+            )
 
         lifecycleScope.launch {
-            remoteViewModel.postDiseasePrediction(multiPartFile).observe(viewLifecycleOwner){
+            remoteViewModel.postDiseaseRemote(
+                name,
+                filePart,
+                name,
+                description,
+                curLatitude,
+                curLongitude,
+                date,
+            ).observe(viewLifecycleOwner){
                 when(it){
-                    is FetchResult.Success ->{
-                        binding.tvdisasaeDetailIndication.setText(it.data.result)
+                    is FetchResult.Success->{
+                        findNavController().navigate(
+                            DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                        )
                     }
-                    is FetchResult.Error ->{
-
+                    is FetchResult.Error->{
+                        showToast(it.error)
+                        Log.d("DiseasePost",it.error)
                     }
+                    else -> {}
                 }
             }
         }
-
     }
-
-
     private suspend fun insertDiseaseLocal(){
         delay(5000)
         val date = LocalDate.now().toString()

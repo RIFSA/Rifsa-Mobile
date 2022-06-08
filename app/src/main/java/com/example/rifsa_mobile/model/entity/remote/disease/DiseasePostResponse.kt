@@ -4,35 +4,35 @@ package com.example.rifsa_mobile.model.entity.remote.disease
 import com.google.gson.annotations.SerializedName
 
 data class DiseasePostResponse(
- @SerializedName("data")
- val DiseasePostDataResponse : DiseasePostDataResponse,
+ @SerializedName("status")
+ val status: Int,
  @SerializedName("message")
  val message: String,
- @SerializedName("status")
- val status: Int
+ @SerializedName("data")
+val DiseasePostDataResponse : DiseasePostDataResponse
 )
 
 data class DiseasePostDataResponse(
- @SerializedName("createdAt")
- val createdAt: String,
- @SerializedName("deskripsi")
- val deskripsi: String,
  @SerializedName("id_penyakit")
  val idPenyakit: Any,
- @SerializedName("image")
- val image: String,
- @SerializedName("indikasi")
- val indikasi: String,
- @SerializedName("latitude")
- val latitude: String,
- @SerializedName("longitude")
- val longitude: String,
  @SerializedName("nama")
  val nama: String,
+ @SerializedName("image")
+ val image: String,
+ @SerializedName("url")
+ val url: String,
+ @SerializedName("indikasi")
+ val indikasi: String,
  @SerializedName("tanggal")
  val tanggal: String,
+ @SerializedName("latitude")
+ val latitude: Double,
+ @SerializedName("longitude")
+ val longitude: Double,
+ @SerializedName("deskripsi")
+ val deskripsi: String,
  @SerializedName("updatedAt")
  val updatedAt: String,
- @SerializedName("url")
- val url: String
+ @SerializedName("createdAt")
+ val createdAt: String,
 )

@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.disease.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class DiseaseRvAdapter(private var dataList : List<DiseaseResultDataResponse>): 
         holder.binding.apply {
             tvDiseaseSubtitle.text = item.tanggal
             tvDiseaseTitle.text = item.indikasi
+
 
             holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)
         }
