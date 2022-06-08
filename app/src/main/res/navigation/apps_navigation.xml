@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/disaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disase.DisaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.DisaseFragment"
         android:label="fragment_disase"
         tools:layout="@layout/fragment_disase" >
         <action
@@ -160,7 +160,7 @@
     </fragment>
     <fragment
         android:id="@+id/disaseDetailFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disase.detail.DisaseDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.detail.DisaseDetailFragment"
         android:label="fragment_disase_detail"
         tools:layout="@layout/fragment_disase_detail" >
         <action
@@ -183,7 +183,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsDiseaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disase.maps.MapsDiseaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.maps.MapsDiseaseFragment"
         android:label="MapsDiseaseFragment" >
         <action
             android:id="@+id/action_mapsDiseaseFragment_to_disaseFragment"

@@ -1,5 +1,8 @@
 package com.example.rifsa_mobile.model.remote
 
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -98,5 +101,19 @@ interface ApiService {
         @Part("catatan") catatan : String,
         @Path("id") id : Int
     ): InventoryPostResponse
+
+
+    //todo disease  post , predic , list , delete
+
+    @GET("penyakit")
+    suspend fun getDiseaseList(): DiseaseResultResponse
+
+
+    @Multipart
+    @POST("http://34.101.115.114:5000/predict")
+    suspend fun predictionDisease(
+        @Part image : MultipartBody.Part
+    ): DiseasePredictionResponse
+
 
 }

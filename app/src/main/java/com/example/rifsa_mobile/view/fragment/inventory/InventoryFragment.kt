@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
-import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultRespon
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRvAdapter
@@ -49,14 +47,14 @@ class InventoryFragment : Fragment() {
         }
 
 
-        showListInventory()
+        InventoryList()
 
 
         return binding.root
     }
 
     //TODO | gambar tidak tampil dari api karena tidak public
-    private fun showListInventory(){
+    private fun InventoryList(){
         lifecycleScope.launch {
             remoteViewModel.getInventory().observe(viewLifecycleOwner){ respon ->
                 when(respon){

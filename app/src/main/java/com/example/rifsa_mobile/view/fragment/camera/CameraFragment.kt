@@ -30,13 +30,14 @@ class CameraFragment : Fragment() {
 
     private var type = ""
 
-    //todo 1.3 registerData in URI Format (only for while)
+
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri
             showImageToPage(uriImage)
         }
     }
+
     private fun allPermissionGranted() = required_permission.all {
         ContextCompat.checkSelfPermission(requireContext(),it) == PackageManager.PERMISSION_GRANTED
     }

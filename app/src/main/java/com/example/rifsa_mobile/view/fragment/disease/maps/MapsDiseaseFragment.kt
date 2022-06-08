@@ -1,12 +1,9 @@
-package com.example.rifsa_mobile.view.fragment.disase.maps
+package com.example.rifsa_mobile.view.fragment.disease.maps
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsDiseaseBinding
-import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel

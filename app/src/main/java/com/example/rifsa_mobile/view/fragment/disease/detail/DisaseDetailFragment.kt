@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.disase.detail
+package com.example.rifsa_mobile.view.fragment.disease.detail
 
 import android.app.AlertDialog
 import android.content.pm.PackageManager
@@ -12,17 +12,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.utils.AlarmReceiver
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -32,7 +39,8 @@ import java.util.concurrent.TimeUnit
 //todo (bug) location request
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
-    private lateinit var viewModel: LocalViewModel
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private lateinit var localViewModel: LocalViewModel
 
     private lateinit var alarmReceive : AlarmReceiver
     private var alarmID = (1..1000).random()
@@ -91,7 +99,7 @@ class DisaseDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDisaseDetailBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
+        localViewModel = ObtainViewModel(requireActivity())
         alarmReceive = AlarmReceiver()
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
@@ -115,10 +123,12 @@ class DisaseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
-                showStatus("Proses")
-                insertDiseaseLocal()
+//                showStatus("Proses")
+//                insertDiseaseLocal()
+                postPrediction()
             }
         }
 
@@ -134,7 +144,7 @@ class DisaseDetailFragment : Fragment() {
                 apply {
                     setPositiveButton("ya") { _, _ ->
                         stopAlarm()
-                        deleteDisease()
+                        deleteDiseaseLocal()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -150,6 +160,35 @@ class DisaseDetailFragment : Fragment() {
         image = DisaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase.toString()
         binding.imgDisaseDetail.setImageURI(image.toUri())
     }
+
+
+    private fun postPrediction(){
+        val image = image.toUri()
+
+        val currentImage = Utils.uriToFile(image,requireContext())
+        val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
+        val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
+            "image",
+            currentImage.name,
+            typeFile
+        )
+
+
+        lifecycleScope.launch {
+            remoteViewModel.postDiseasePrediction(multiPartFile).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success ->{
+                        binding.tvdisasaeDetailIndication.setText(it.data.result)
+                    }
+                    is FetchResult.Error ->{
+
+                    }
+                }
+            }
+        }
+
+    }
+
 
     private suspend fun insertDiseaseLocal(){
         delay(5000)
@@ -171,7 +210,7 @@ class DisaseDetailFragment : Fragment() {
 
 
         try {
-            viewModel.insertDiseaseLocal(tempInsert)
+            localViewModel.insertDiseaseLocal(tempInsert)
             setReminder()
             showStatus("Berhasil Disimpan")
             findNavController().navigate(
@@ -181,6 +220,20 @@ class DisaseDetailFragment : Fragment() {
             showStatus("gagal")
             showToast(e.message.toString())
         }
+    }
+
+    private fun deleteDiseaseLocal(){
+        try {
+            localViewModel.deleteDiseaseLocal(randomId)
+            Log.d("Diseasedetail",randomId)
+            showToast("Penyakit telah teratasi")
+            findNavController().navigate(
+                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+            )
+        }catch (e : Exception){
+            showToast(e.message.toString())
+        }
+
     }
 
 
@@ -244,19 +297,6 @@ class DisaseDetailFragment : Fragment() {
         )
     }
 
-    private fun deleteDisease(){
-        try {
-            viewModel.deleteDiseaseLocal(randomId)
-            Log.d("Diseasedetail",randomId)
-            showToast("Penyakit telah teratasi")
-            findNavController().navigate(
-                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-            )
-        }catch (e : Exception){
-            showToast(e.message.toString())
-        }
-
-    }
 
     private fun stopAlarm(){
         alarmReceive.cancelAlarm(requireContext(),alarmID)

@@ -65,17 +65,17 @@ class LocalViewModel(private val mainRepository: MainRepository): ViewModel() {
     }
 
     fun readDiseaseLocal(): LiveData<List<Disease>> =
-        mainRepository.readDisease()
+        mainRepository.readLocalDisease()
 
     fun insertDiseaseLocal(data : Disease){
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepository.insertDiseaseLocal(data)
+            mainRepository.insertLocalDisease(data)
         }
     }
 
     fun deleteDiseaseLocal(id: String){
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepository.deleteDiseaseLocal(id)
+            mainRepository.deleteLocalDisease(id)
         }
     }
 

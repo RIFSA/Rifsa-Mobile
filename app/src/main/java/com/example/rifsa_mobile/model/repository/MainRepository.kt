@@ -7,6 +7,9 @@ import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -104,6 +107,7 @@ class MainRepository(
             }
         }
 
+
     suspend fun postFinanceRemote(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
@@ -149,6 +153,7 @@ class MainRepository(
             }
         }
 
+
     suspend fun getInventoryRemote():LiveData<FetchResult<InventoryResultRespon>> = liveData{
         emit(FetchResult.Loading)
         try {
@@ -160,6 +165,7 @@ class MainRepository(
         }
 
     }
+
     suspend fun postInventoryRemote(
         name : String,
         file : MultipartBody.Part,
@@ -194,6 +200,34 @@ class MainRepository(
                 emit(FetchResult.Error(e.message.toString()))
             }
         }
+
+
+    //TODO delete Inventory Remote
+
+    suspend fun getDiseaseRemote(): LiveData<FetchResult<DiseaseResultResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(
+                   apiService.getDiseaseList()
+                ))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
+    suspend fun postDiseasePredictionRemote(file: MultipartBody.Part): LiveData<FetchResult<DiseasePredictionResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(
+                    apiService.predictionDisease(file)
+                ))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
 
 
     //Local database
@@ -239,21 +273,22 @@ class MainRepository(
         dao.deleteInventoryLocal(id)
     }
 
-    fun readDisease(): LiveData<List<Disease>> =
+
+    fun readLocalDisease(): LiveData<List<Disease>> =
         dao.getDiseaseLocal()
 
-    suspend fun insertDiseaseLocal(data : Disease){
+    suspend fun insertLocalDisease(data : Disease){
         dao.insertDiseaseLocal(data)
     }
 
-    suspend fun deleteDiseaseLocal(id: String){
+    suspend fun deleteLocalDisease(id: String){
         dao.deleteDiseaseLocal(id)
     }
 
 
+
     fun getOnBoardStatus(): LiveData<Boolean> = userPrefrences.getOnBoardKey().asLiveData()
     fun getUserName(): LiveData<String> = userPrefrences.getNameKey().asLiveData()
-
     suspend fun savePrefrences(onBoard : Boolean, userName: String,token : String){
         userPrefrences.savePrefrences(onBoard,userName,token)
     }

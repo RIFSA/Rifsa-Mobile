@@ -1,13 +1,13 @@
-package com.example.rifsa_mobile.view.fragment.disase.adapter
+package com.example.rifsa_mobile.view.fragment.disease.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
-import com.example.rifsa_mobile.model.entity.local.disase.Disease
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 
-class DiseaseRvAdapter(private var dataList : List<Disease>): RecyclerView.Adapter<DiseaseRvAdapter.ViewHolder>() {
+class DiseaseRvAdapter(private var dataList : List<DiseaseResultDataResponse>): RecyclerView.Adapter<DiseaseRvAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var diseaseDetail : OnDetailCallback
@@ -23,8 +23,8 @@ class DiseaseRvAdapter(private var dataList : List<Disease>): RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.apply {
-            tvDiseaseSubtitle.text = item.date
-            tvDiseaseTitle.text = item.indication
+            tvDiseaseSubtitle.text = item.tanggal
+            tvDiseaseTitle.text = item.indikasi
 
             holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)
         }
@@ -38,7 +38,7 @@ class DiseaseRvAdapter(private var dataList : List<Disease>): RecyclerView.Adapt
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : Disease)
+        fun onDetailCallback(data : DiseaseResultDataResponse)
     }
 
 }

@@ -2,6 +2,8 @@ package com.example.rifsa_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -26,6 +28,7 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> =
         mainRepository.postRegister(data)
 
+
     suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         mainRepository.postHarvest(data)
 
@@ -38,6 +41,7 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =
         mainRepository.getHarvest()
 
+
     suspend fun postFinance(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.postFinanceRemote(data)
 
@@ -49,6 +53,8 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
 
     suspend fun updateFinance(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.updateFinanceRemote(id,data)
+
+
 
     suspend fun getInventory(): LiveData<FetchResult<InventoryResultRespon>> =
         mainRepository.getInventoryRemote()
@@ -69,4 +75,11 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
         id : Int
     ): LiveData<FetchResult<InventoryPostResponse>> =
         mainRepository.updateInventoryRemote(name, file, jumlah, catatan,id)
+
+
+    suspend fun getDisease(): LiveData<FetchResult<DiseaseResultResponse>> =
+        mainRepository.getDiseaseRemote()
+
+    suspend fun postDiseasePrediction(file: MultipartBody.Part): LiveData<FetchResult<DiseasePredictionResponse>> =
+        mainRepository.postDiseasePredictionRemote(file)
 }
