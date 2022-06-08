@@ -9,10 +9,8 @@ data class FinanceResultResponse(
 
 	@field:SerializedName("data")
 	val financeResponseData: List<FinanceResponseData>,
-
 	@field:SerializedName("message")
 	val message: String,
-
 	@field:SerializedName("status")
 	val status: Int
 )
