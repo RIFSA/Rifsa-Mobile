@@ -8,7 +8,6 @@ import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
@@ -66,7 +65,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.postHarvestResult(data)))
+                emit(FetchResult.Success(apiService.postHarvestResultRemote(data)))
 
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
@@ -77,7 +76,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.getHarvestResult()))
+                emit(FetchResult.Success(apiService.getHarvestResultRemote()))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
             }
@@ -87,7 +86,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.deleteHarvestResult(id).apply {
+                apiService.deleteHarvestResultRemote(id).apply {
                     emit(FetchResult.Success(this))
                 }
             } catch (e: Exception) {
@@ -99,7 +98,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.updateHarvestResult(id,data).apply {
+                apiService.updateHarvestResultRemote(id,data).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -112,7 +111,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.postFinance(data)))
+                emit(FetchResult.Success(apiService.postFinanceRemote(data)))
 
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
@@ -123,7 +122,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.getFinanceResult()))
+                emit(FetchResult.Success(apiService.getFinanceRemote()))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
             }
@@ -133,7 +132,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.deleteFinance(id).apply {
+                apiService.deleteFinanceRemote(id).apply {
                     emit(FetchResult.Success(this))
                 }
             } catch (e: Exception) {
@@ -145,7 +144,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.updateFinance(id,data).apply {
+                apiService.updateFinanceRemote(id,data).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -158,7 +157,7 @@ class MainRepository(
         emit(FetchResult.Loading)
         try {
             emit(FetchResult.Success(
-                apiService.getInventory()
+                apiService.getInventoryRemote()
             ))
         }catch (e : Exception){
             emit(FetchResult.Error(e.message.toString()))
@@ -175,7 +174,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.postInventory(name, file, jumlah, catatan).apply {
+                apiService.postInventoryRemote(name, file, jumlah, catatan).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -193,7 +192,7 @@ class MainRepository(
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.updateInventory(name, file, jumlah, catatan,id).apply {
+                apiService.updateInventoryRemote(name, file, jumlah, catatan,id).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -209,7 +208,7 @@ class MainRepository(
             emit(FetchResult.Loading)
             try {
                 emit(FetchResult.Success(
-                   apiService.getDiseaseList()
+                   apiService.getDiseaseRemote()
                 ))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))

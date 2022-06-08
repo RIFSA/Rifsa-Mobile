@@ -36,7 +36,7 @@ class FinanceInsertDetailFragment : Fragment() {
     private lateinit var viewModel : LocalViewModel
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
-    private var formatDate = SimpleDateFormat("dd-MMM-yyy", Locale.ENGLISH)
+    private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
 
     private var randomId = Utils.randomId()
     private var currentDate = LocalDate.now().toString()

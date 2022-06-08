@@ -33,46 +33,45 @@ interface ApiService {
 
 
     //TODO | harvest add, update, delete
+    @GET("hasilpanen")
+    suspend fun getHarvestResultRemote(): HarvestResultRespon
+
     @POST("hasilpanen")
-    suspend fun postHarvestResult(
+    suspend fun postHarvestResultRemote(
         @Body body: HarvestPostBody
     ): HarvestPostResponse
 
     @PUT("hasilpanen/{id}")
-    suspend fun updateHarvestResult(
+    suspend fun updateHarvestResultRemote(
         @Path("id") id : Int,
         @Body body: HarvestPostBody
     ): HarvestPostResponse
 
     @DELETE("hasilpanen/{id}")
-    suspend fun deleteHarvestResult(
+    suspend fun deleteHarvestResultRemote(
         @Path("id") id : Int
     ): HarvestPostResponse
 
-    @GET("hasilpanen")
-    suspend fun getHarvestResult(): HarvestResultRespon
+
 
 
 
     //TODO | finance add, update, delete
     @GET("keuangan")
-    suspend fun getFinanceResult() : FinanceResultResponse
-
+    suspend fun getFinanceRemote() : FinanceResultResponse
 
     @POST("keuangan")
-    suspend fun postFinance(
+    suspend fun postFinanceRemote(
         @Body body: FinancePostBody
     ): FinancePostResponse
 
-
-
     @DELETE("keuangan/{id}")
-    suspend fun deleteFinance(
+    suspend fun deleteFinanceRemote(
         @Path("id") id : Int
     ): FinancePostResponse
 
     @PUT("keuangan/{id}")
-    suspend fun updateFinance(
+    suspend fun updateFinanceRemote(
         @Path("id") id: Int,
         @Body body: FinancePostBody
     ): FinancePostResponse
@@ -80,11 +79,11 @@ interface ApiService {
 
     //TODO | inventory update, delete
     @GET("inventaris")
-    suspend fun getInventory(): InventoryResultRespon
+    suspend fun getInventoryRemote(): InventoryResultRespon
 
     @Multipart
     @POST("inventaris")
-    suspend fun postInventory(
+    suspend fun postInventoryRemote(
         @Part("nama") name : String,
         @Part file : MultipartBody.Part,
         @Part("jumlah") jumlah : Int,
@@ -94,7 +93,7 @@ interface ApiService {
 
     @Multipart
     @PUT("inventaris/{id}")
-    suspend fun updateInventory(
+    suspend fun updateInventoryRemote(
         @Part("nama") name : String,
         @Part file : MultipartBody.Part,
         @Part("jumlah") jumlah : Int,
@@ -106,7 +105,7 @@ interface ApiService {
     //todo disease  post , predic , list , delete
 
     @GET("penyakit")
-    suspend fun getDiseaseList(): DiseaseResultResponse
+    suspend fun getDiseaseRemote(): DiseaseResultResponse
 
 
     @Multipart
@@ -115,5 +114,8 @@ interface ApiService {
         @Part image : MultipartBody.Part
     ): DiseasePredictionResponse
 
+    @Multipart
+    @POST("penyakit")
+    suspend fun postDiseaseRemote()
 
 }
