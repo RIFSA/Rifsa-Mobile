@@ -200,35 +200,9 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun updateFinanceRemote(){
-        val tempData = FinancePostBody(
-            currentDate,
-            binding.tvfinanceInsertNama.text.toString(),
-            type,
-            binding.tvfinanceInsertHarga.text.toString(),
-            binding.tvfinanceInsertCatatan.text.toString()
-        )
-
-        lifecycleScope.launch {
-            remoteViewModel.updateFinance(detailId, tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success ->{
-                        showStatus(it.data.message)
-                        findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-                    }
-                    is FetchResult.Error ->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
 
     private fun insertFinanceLocally(){
-
         if (isDetail){ randomId = detailId.toString() }
-
         val tempInsert = Finance(
             sortId,
             randomId,

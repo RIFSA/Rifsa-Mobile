@@ -160,7 +160,8 @@ class InvetoryInsertFragment : Fragment() {
         try {
             localViewModel.insertInventoryLocal(tempInsert)
             showToast("Berhasil menambahkan")
-            findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+            findNavController()
+                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
             showToast(e.message.toString())
         }
