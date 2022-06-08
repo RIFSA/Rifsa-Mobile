@@ -79,9 +79,9 @@ class InventoryFragment : Fragment() {
 
         adapter.onItemDetailCallback(object : InventoryRvAdapter.OnDetailItemCallback{
             override fun onDetailCallback(data: InventoryResultResponData) {
-//                findNavController()
-//                    .navigate(
-//                        InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data))
+                findNavController()
+                    .navigate(
+                        InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data))
             }
         })
 

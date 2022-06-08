@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
@@ -37,11 +38,11 @@ class InvetoryInsertFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private lateinit var localViewModel: LocalViewModel
 
-    private var detail : Inventory? = null
+    private var detail : InventoryResultResponData? = null
     private lateinit var currentImage : Uri
     private var randomId = Utils.randomId()
     private var isDetail = false
-    private var detailId = ""
+    private var detailId = 0
     private var sortId = 0
 
     override fun onCreateView(
@@ -59,12 +60,12 @@ class InvetoryInsertFragment : Fragment() {
             val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
             detail = data
             if (data != null){
-                val pic = Uri.parse(data.urlPhoto)
+                val pic = Uri.parse(data.url)
                 showImage(pic)
                 showDetail(data)
                 isDetail = true
-                detailId = data.id_inventories
-                sortId = data.id_sort
+                detailId = data.idInventaris
+//                sortId = data.id_sort
                 currentImage = pic
                 binding.btninventoryInsertDelete.visibility = View.VISIBLE
             }
@@ -167,7 +168,7 @@ class InvetoryInsertFragment : Fragment() {
 
     private fun deleteInventoryLocal(){
         try {
-            localViewModel.deleteInventoryLocal(detailId)
+            localViewModel.deleteInventoryLocal(detailId.toString())
             showToast("Item telah dihapus")
             findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
@@ -193,11 +194,11 @@ class InvetoryInsertFragment : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun showDetail(data : Inventory){
-        val amount = data.amount.toString()
-        binding.tvinventarisInsertName.setText(data.name)
+    private fun showDetail(data : InventoryResultResponData){
+        val amount = data.jumlah.toString()
+        binding.tvinventarisInsertName.setText(data.nama)
         binding.tvinventarisInsertAmount.setText(amount)
-        binding.tvinventarisInsertNote.setText(data.noted)
+        binding.tvinventarisInsertNote.setText(data.catatan)
         binding.tvInventoryInsertdetail.text = "Detail registerData"
     }
 

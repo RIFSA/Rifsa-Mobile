@@ -105,10 +105,8 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnFinanceSave.setOnClickListener {
-            if (isDetail){
-                updateFinanceRemote()
-            }else{
-                insertFinanceRemote()
+            lifecycleScope.launch {
+                insertUpdateFinanceRemote()
             }
         }
 
@@ -136,7 +134,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private fun insertFinanceRemote(){
+    private suspend fun insertUpdateFinanceRemote(){
         val tempData = FinancePostBody(
             currentDate,
             binding.tvfinanceInsertNama.text.toString(),
@@ -145,7 +143,7 @@ class FinanceInsertDetailFragment : Fragment() {
             binding.tvfinanceInsertCatatan.text.toString()
         )
 
-        lifecycleScope.launch {
+        if (!isDetail){
             remoteViewModel.postFinance(tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Loading ->{
@@ -153,8 +151,25 @@ class FinanceInsertDetailFragment : Fragment() {
                     }
                     is FetchResult.Success ->{
                         showStatus(it.data.message)
-                        findNavController().navigate(
-                            FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                        findNavController()
+                            .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                    }
+                    is FetchResult.Error ->{
+                        showStatus(it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }else{
+            remoteViewModel.updateFinance(detailId, tempData).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Loading ->{
+
+                    }
+                    is FetchResult.Success ->{
+                        showStatus(it.data.message)
+                        findNavController()
+                            .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                     }
                     is FetchResult.Error ->{
                         showStatus(it.error)
@@ -163,6 +178,8 @@ class FinanceInsertDetailFragment : Fragment() {
                 }
             }
         }
+
+
     }
 
     private fun deleteFinanceRemote(){

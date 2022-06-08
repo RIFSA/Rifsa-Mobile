@@ -27,6 +27,8 @@ interface ApiService {
         @Body body: RegisterBody
     ): RegisterResponse
 
+
+
     //TODO | harvest add, update, delete
     @POST("hasilpanen")
     suspend fun postHarvestResult(
@@ -47,14 +49,19 @@ interface ApiService {
     @GET("hasilpanen")
     suspend fun getHarvestResult(): HarvestResultRespon
 
+
+
     //TODO | finance add, update, delete
+    @GET("keuangan")
+    suspend fun getFinanceResult() : FinanceResultResponse
+
+
     @POST("keuangan")
     suspend fun postFinance(
         @Body body: FinancePostBody
     ): FinancePostResponse
 
-    @GET("keuangan")
-    suspend fun getFinanceResult() : FinanceResultResponse
+
 
     @DELETE("keuangan/{id}")
     suspend fun deleteFinance(
@@ -69,10 +76,8 @@ interface ApiService {
 
 
     //TODO | inventory update, delete
-
     @GET("inventaris")
     suspend fun getInventory(): InventoryResultRespon
-
 
     @Multipart
     @POST("inventaris")
@@ -81,6 +86,17 @@ interface ApiService {
         @Part file : MultipartBody.Part,
         @Part("jumlah") jumlah : Int,
         @Part("catatan") catatan : String
+    ): InventoryPostResponse
+
+
+    @Multipart
+    @PUT("inventaris/{id}")
+    suspend fun updateInventory(
+        @Part("nama") name : String,
+        @Part file : MultipartBody.Part,
+        @Part("jumlah") jumlah : Int,
+        @Part("catatan") catatan : String,
+        @Path("id") id : Int
     ): InventoryPostResponse
 
 }

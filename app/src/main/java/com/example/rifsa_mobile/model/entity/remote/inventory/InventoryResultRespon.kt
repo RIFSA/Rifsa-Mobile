@@ -1,7 +1,9 @@
 package com.example.rifsa_mobile.model.entity.remote.inventory
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class InventoryResultRespon(
  @SerializedName("data")
@@ -12,13 +14,14 @@ data class InventoryResultRespon(
  val status: Int
 )
 
+@Parcelize
 data class InventoryResultResponData(
  @SerializedName("catatan")
  val catatan: String,
  @SerializedName("createdAt")
  val createdAt: String,
  @SerializedName("id_inventaris")
- val idInventaris: Any,
+ val idInventaris: Int,
  @SerializedName("image")
  val image: String,
  @SerializedName("jumlah")
@@ -29,4 +32,4 @@ data class InventoryResultResponData(
  val updatedAt: String,
  @SerializedName("url")
  val url: String
-)
+):Parcelable

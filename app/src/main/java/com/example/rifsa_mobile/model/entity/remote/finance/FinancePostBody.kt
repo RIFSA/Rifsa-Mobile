@@ -4,20 +4,15 @@ import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponD
 import com.google.gson.annotations.SerializedName
 
 data class FinancePostBody(
-
-	@field:SerializedName("tanggal")
+	@SerializedName("tanggal")
 	val tanggal: String,
-
-	@field:SerializedName("kegiatan")
+	@SerializedName("kegiatan")
 	val kegiatan: String,
-
-	@field:SerializedName("jenis")
+	@SerializedName("jenis")
 	val jenis: String,
-
-	@field:SerializedName("jumlah")
+	@SerializedName("jumlah")
 	val jumlah: String,
-
-	@field:SerializedName("catatan")
+	@SerializedName("catatan")
 	val catatan: String
 )
 

@@ -127,7 +127,7 @@
             app:destination="@id/cameraFragment" />
         <argument
             android:name="detail_inventory"
-            app:argType="com.example.rifsa_mobile.model.entity.local.inventory.Inventory"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData"
             app:nullable="true" />
         <action
             android:id="@+id/action_invetoryInsertFragment_to_inventoryFragment"

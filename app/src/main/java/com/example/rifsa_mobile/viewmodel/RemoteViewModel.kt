@@ -50,7 +50,6 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     suspend fun updateFinance(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.updateFinanceRemote(id,data)
 
-
     suspend fun getInventory(): LiveData<FetchResult<InventoryResultRespon>> =
         mainRepository.getInventoryRemote()
 
@@ -61,4 +60,13 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
         catatan : String
     ): LiveData<FetchResult<InventoryPostResponse>> =
         mainRepository.postInventoryRemote(name, file, jumlah, catatan)
+
+    suspend fun updateInventory(
+        name : String,
+        file : MultipartBody.Part,
+        jumlah : Int,
+        catatan : String,
+        id : Int
+    ): LiveData<FetchResult<InventoryPostResponse>> =
+        mainRepository.updateInventoryRemote(name, file, jumlah, catatan,id)
 }

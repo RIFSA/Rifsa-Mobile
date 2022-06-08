@@ -177,6 +177,23 @@ class MainRepository(
             }
     }
 
+    suspend fun updateInventoryRemote(
+        name : String,
+        file : MultipartBody.Part,
+        jumlah : Int,
+        catatan : String,
+        id : Int
+    ): LiveData<FetchResult<InventoryPostResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                apiService.updateInventory(name, file, jumlah, catatan,id).apply {
+                    emit(FetchResult.Success(this))
+                }
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
 
 
     //Local database
