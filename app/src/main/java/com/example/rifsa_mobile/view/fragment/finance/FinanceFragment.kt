@@ -13,13 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
-import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRvAdapter
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -37,6 +34,7 @@ class FinanceFragment : Fragment() {
     ): View {
         binding = FragmentFinanceBinding.inflate(layoutInflater)
 //        viewModel = ObtainViewModel(requireActivity())
+
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
@@ -62,12 +60,12 @@ class FinanceFragment : Fragment() {
                         it.data.financeResponseData.forEach { respon ->
                             dataList.add(respon)
 
-                            val adapter = FinanceRvAdapter(dataList)
+                            val adapter = FinanceRecyclerViewAdapter(dataList)
                             val recview = binding.rvFinance
                             recview.adapter = adapter
                             recview.layoutManager = LinearLayoutManager(requireContext())
 
-                            adapter.onItemCallBack(object : FinanceRvAdapter.ItemDetailCallback{
+                            adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
                                 override fun onItemCallback(data: FinanceResponseData) {
                                     findNavController().navigate(
                                         FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))

@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
@@ -19,6 +20,7 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.repository.MainRepository
 import com.example.rifsa_mobile.utils.FetchResult
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.util.*
 
@@ -94,4 +96,7 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
         longitude : Double,
     ): LiveData<FetchResult<DiseasePostResponse>> =
         mainRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude)
+
+    suspend fun deleteDiseaseRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
+        mainRepository.deleteRemote(id)
 }

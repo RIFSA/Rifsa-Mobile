@@ -120,9 +120,7 @@ object Utils {
         val connected : Boolean
         val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectionManager.activeNetworkInfo
-
         connected = networkInfo != null && networkInfo.isConnected
-
         return connected
     }
 

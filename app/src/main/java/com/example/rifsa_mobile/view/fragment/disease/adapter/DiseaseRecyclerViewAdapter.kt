@@ -1,15 +1,13 @@
 package com.example.rifsa_mobile.view.fragment.disease.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
-import com.example.rifsa_mobile.utils.Utils
 
-class DiseaseRvAdapter(private var dataList : List<DiseaseResultDataResponse>): RecyclerView.Adapter<DiseaseRvAdapter.ViewHolder>() {
+class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultDataResponse>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var diseaseDetail : OnDetailCallback

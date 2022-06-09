@@ -14,7 +14,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRvAdapter
+import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -74,18 +74,18 @@ class DisaseFragment : Fragment() {
     }
 
     private fun showListDisease(data : List<DiseaseResultDataResponse>){
-        Log.d("Ok recview",data[2].indikasi)
-        val adapter = DiseaseRvAdapter(data)
+        val adapter = DiseaseRecyclerViewAdapter(data)
         val recview = binding.recviewdisease
         recview.adapter = adapter
         recview.layoutManager = LinearLayoutManager(requireContext())
 
 
-        adapter.onDiseaseDetailCallback(object : DiseaseRvAdapter.OnDetailCallback{
+        adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
             override fun onDetailCallback(data: DiseaseResultDataResponse) {
-//                findNavController().navigate(
-//                    DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(null,data)
-//                )
+                findNavController().navigate(
+                    DisaseFragmentDirections
+                        .actionDisaseFragmentToDisaseDetailFragment(null,data)
+                )
             }
         })
     }

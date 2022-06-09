@@ -33,7 +33,7 @@ import java.util.*
 
 class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
-    private lateinit var viewModel : LocalViewModel
+    private lateinit var localViewModel : LocalViewModel
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
     private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
@@ -46,15 +46,13 @@ class FinanceInsertDetailFragment : Fragment() {
     private var sortId = 0
 
     private var isConnected = false
-    private var status = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
+        localViewModel = ObtainViewModel(requireActivity())
 
         isConnected = Utils.internetChecker(requireContext())
 
@@ -70,9 +68,7 @@ class FinanceInsertDetailFragment : Fragment() {
 //                sortId = data.id_sort
 //                type = data.type
             }
-        }catch (e : Exception){
-
-        }
+        }catch (e : Exception){ }
 
 
         return binding.root
@@ -215,7 +211,7 @@ class FinanceInsertDetailFragment : Fragment() {
         )
 
         try {
-            viewModel.insertFinanceLocal(tempInsert)
+            localViewModel.insertFinanceLocal(tempInsert)
             showStatus("Tersimpan")
             findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
         }catch (e : Exception){
@@ -223,22 +219,22 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+
     private fun setDetail(data : FinanceResponseData){
-        val amount = data.jumlah.toString()
+        val amount = data.jumlah
         binding.apply {
             tvfinanceInsertDate.text = data.tanggal
             tvfinanceInsertNama.setText(data.kegiatan)
             tvfinanceInsertHarga.setText(amount)
             tvfinanceInsertCatatan.setText(data.catatan)
             btnfinanceInsertDelete.visibility = View.VISIBLE
-            tvFinanceInsertdetail.text = "Detail Data"
+            "Detail Data".also { tvFinanceInsertdetail.text = it }
         }
     }
 
     private fun deleteFinanceLocal(){
         try {
-            viewModel.deleteFinanceLocal(detailId.toString())
+            localViewModel.deleteFinanceLocal(detailId.toString())
             showStatus("Terhapus")
             findNavController().navigate(
                 FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())

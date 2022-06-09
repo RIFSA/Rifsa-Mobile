@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -15,8 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.local.disase.Disease
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
@@ -45,9 +46,7 @@ class DisaseDetailFragment : Fragment() {
     private lateinit var alarmReceive : AlarmReceiver
     private var alarmID = (1..1000).random()
 
-    private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
-
-    private var randomId = Utils.randomId()
+    private var randomId = 0
     private var image = ""
     private var isDetail = false
     private var sortId = 0
@@ -109,14 +108,13 @@ class DisaseDetailFragment : Fragment() {
         createLocationRequest()
 
         try {
-            showImage()
             val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
             if (detail != null){
+                showDetailDisease(detail)
                 isDetail = true
-                randomId = detail.id_disease
-                alarmID  = detail.reminderID
-                sortId = detail.id_sort
-                binding.btnDiseaseComplete.visibility = View.VISIBLE
+                randomId = detail.idPenyakit
+//                alarmID  = detail.reminderID
+//                sortId = detail.id_sort
             }
         }catch (e : Exception){ }
 
@@ -126,12 +124,15 @@ class DisaseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postPrediction()
+        if (!isDetail){
+            showImageCapture()
+            postPrediction()
+        }
 
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
-//                showStatus("Proses")
-//                insertDiseaseLocal()
+                binding.pgdiseaseBar.visibility = View.VISIBLE
+                showStatus("Proses")
                 postDiseaseRemote()
             }
         }
@@ -147,8 +148,10 @@ class DisaseDetailFragment : Fragment() {
                 setMessage("apakah penyakit telah teratasi ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        stopAlarm()
-                        deleteDiseaseLocal()
+                        binding.pgdiseaseBar.visibility = View.VISIBLE
+//                        stopAlarm()
+//                        deleteDiseaseLocal()
+                        deleteDiseaseRemote()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -158,11 +161,21 @@ class DisaseDetailFragment : Fragment() {
                 show()
             }
         }
+
     }
 
-    private fun showImage(){
+    private fun showImageCapture(){
         image = DisaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase.toString()
         binding.imgDisaseDetail.setImageURI(image.toUri())
+    }
+
+
+    private fun showDetailDisease(data : DiseaseResultDataResponse){
+        binding.btnDiseaseComplete.visibility = View.VISIBLE
+        binding.tvdisasaeDetailIndication.setText(data.indikasi)
+        Glide.with(requireContext())
+            .load("http://34.101.50.17:5000/images/${data.image}")
+            .into(binding.imgDisaseDetail)
     }
 
 
@@ -181,11 +194,14 @@ class DisaseDetailFragment : Fragment() {
             remoteViewModel.postDiseasePrediction(multiPartFile)
                 .observe(viewLifecycleOwner){
                 when(it){
+                    is FetchResult.Loading->{
+                        binding.pgdiseaseBar.visibility = View.VISIBLE
+                    }
                     is FetchResult.Success ->{
                         binding.tvdisasaeDetailIndication.setText(it.data.result)
                     }
                     is FetchResult.Error ->{
-
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
@@ -206,8 +222,6 @@ class DisaseDetailFragment : Fragment() {
             currentImage.name,
             typeFile
         )
-
-
         lifecycleScope.launch {
             remoteViewModel.postDiseaseRemote(
                 name,
@@ -219,26 +233,48 @@ class DisaseDetailFragment : Fragment() {
             ).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success->{
+                        showStatus(it.data.message)
                         findNavController().navigate(
                             DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
                         )
                     }
                     is FetchResult.Error->{
-                        showToast(it.error)
-                        Log.d("DiseasePost",it.error)
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
             }
         }
     }
+
+    private fun deleteDiseaseRemote(){
+        lifecycleScope.launch {
+            remoteViewModel.deleteDiseaseRemote(randomId).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Loading->{
+                        binding.pgdiseaseBar.visibility = View.VISIBLE
+                    }
+                    is FetchResult.Success->{
+                        showStatus(it.data.message)
+                        findNavController().navigate(
+                            DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                        )
+                    }
+                    is FetchResult.Error->{
+                        showStatus(it.error)
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun insertDiseaseLocal(){
-        delay(5000)
+        delay(2000)
         val date = LocalDate.now().toString()
 
         val tempInsert = Disease(
             sortId,
-            randomId,
+            randomId.toString(),
             "test peyakit",
             binding.tvdisasaeDetailIndication.text.toString(),
             image,
@@ -252,28 +288,26 @@ class DisaseDetailFragment : Fragment() {
 
 
         try {
+            showStatus("Tersimpan")
             localViewModel.insertDiseaseLocal(tempInsert)
             setReminder()
-            showStatus("Berhasil Disimpan")
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
         }catch (e : Exception){
-            showStatus("gagal")
-            showToast(e.message.toString())
+            showStatus(e.message.toString())
         }
     }
 
     private fun deleteDiseaseLocal(){
         try {
-            localViewModel.deleteDiseaseLocal(randomId)
-            Log.d("Diseasedetail",randomId)
-            showToast("Penyakit telah teratasi")
+            localViewModel.deleteDiseaseLocal(randomId.toString())
+            showStatus("Terhapus")
             findNavController().navigate(
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
         }catch (e : Exception){
-            showToast(e.message.toString())
+            showStatus(e.message.toString())
         }
 
     }
@@ -339,7 +373,6 @@ class DisaseDetailFragment : Fragment() {
         )
     }
 
-
     private fun stopAlarm(){
         alarmReceive.cancelAlarm(requireContext(),alarmID)
     }
@@ -347,15 +380,12 @@ class DisaseDetailFragment : Fragment() {
     private fun showStatus(title: String){
         binding.apply {
             pgdiseaseTitle.text = title
-            pgdiseaseBar.visibility = View.VISIBLE
+            pgdiseaseBar.visibility = View.GONE
             pgdiseaseTitle.visibility = View.VISIBLE
         }
+        Log.d(page_key,title)
     }
 
-
-    private fun showToast(title : String){
-        Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
-    }
 
     companion object{
         const val page_key = "Disease_detail"

@@ -245,6 +245,20 @@ class MainRepository(
         }
     }
 
+    suspend fun deleteRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(
+                    apiService.deleteDiseaseRemote(id)
+                ))
+            }catch (e : Exception){
+                emit(FetchResult.Error(
+                    e.message.toString()
+                ))
+            }
+        }
+
 
     //Local database
     suspend fun insertLocalHarvest(data : HarvestResult){
@@ -288,7 +302,6 @@ class MainRepository(
     suspend fun deleteLocalInventory(id: String){
         dao.deleteInventoryLocal(id)
     }
-
 
     fun readLocalDisease(): LiveData<List<Disease>> =
         dao.getDiseaseLocal()

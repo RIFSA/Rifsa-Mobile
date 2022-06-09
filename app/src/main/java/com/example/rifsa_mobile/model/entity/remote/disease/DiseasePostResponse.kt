@@ -23,8 +23,6 @@ data class DiseasePostDataResponse(
  val url: String,
  @SerializedName("indikasi")
  val indikasi: String,
- @SerializedName("tanggal")
- val tanggal: String,
  @SerializedName("latitude")
  val latitude: Double,
  @SerializedName("longitude")

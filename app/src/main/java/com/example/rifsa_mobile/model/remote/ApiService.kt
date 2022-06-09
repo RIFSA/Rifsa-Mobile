@@ -104,7 +104,6 @@ interface ApiService {
 
 
     //todo disease  post , predic , list , delete
-
     @GET("penyakit")
     suspend fun getDiseaseRemote(): DiseaseResultResponse
 
@@ -116,7 +115,7 @@ interface ApiService {
     ): DiseasePredictionResponse
 
     @Multipart
-    @POST("http://34.101.50.17:5000/penyakit")
+    @POST("penyakit")
     suspend fun postDiseaseRemote(
         @Part("nama") nama : String,
         @Part file : MultipartBody.Part,
@@ -124,6 +123,12 @@ interface ApiService {
         @Part("deskripsi") deskripsi : String,
         @Part("latitude") latitude : Double,
         @Part("longitude") longitude : Double
+    ): DiseasePostResponse
+
+
+    @DELETE("penyakit/{id}")
+    suspend fun deleteDiseaseRemote(
+        @Path("id") id: Int
     ): DiseasePostResponse
 
 }

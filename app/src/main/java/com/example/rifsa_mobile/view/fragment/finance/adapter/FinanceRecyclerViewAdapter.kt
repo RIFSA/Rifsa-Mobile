@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardFinanceBinding
-import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 
-class FinanceRvAdapter(private var dataList : List<FinanceResponseData>): RecyclerView.Adapter<FinanceRvAdapter.ViewHolder>() {
+class FinanceRecyclerViewAdapter(private var dataList : List<FinanceResponseData>): RecyclerView.Adapter<FinanceRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardFinanceBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallBack : ItemDetailCallback
@@ -25,7 +24,7 @@ class FinanceRvAdapter(private var dataList : List<FinanceResponseData>): Recycl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.tvcardFinanceTitle.text = item.kegiatan
-        holder.binding.tvcardFinancePrice.text = "Rp "+ item.jumlah.toString()
+        holder.binding.tvcardFinancePrice.text = "Rp "+ item.jumlah
 
         if (item.jenis == "Pengeluaran"){
             holder.binding.imageView5.setImageResource(R.drawable.ic_finance_out)

@@ -178,7 +178,7 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="Disease_detail"
-            app:argType="com.example.rifsa_mobile.model.entity.local.disase.Disease"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse"
             app:nullable="true" />
     </fragment>
     <fragment
