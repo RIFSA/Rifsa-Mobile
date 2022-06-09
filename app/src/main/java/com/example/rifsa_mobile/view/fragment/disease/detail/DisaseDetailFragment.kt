@@ -23,6 +23,7 @@ import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.location.*
@@ -39,9 +40,14 @@ import java.util.concurrent.TimeUnit
 
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
+
     private val remoteViewModel : RemoteViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
     private lateinit var localViewModel: LocalViewModel
 
     private lateinit var alarmReceive : AlarmReceiver
@@ -225,46 +231,52 @@ class DisaseDetailFragment : Fragment() {
             currentImage.name,
             typeFile
         )
-        lifecycleScope.launch {
-            remoteViewModel.postDiseaseRemote(
-                name,
-                filePart,
-                name,
-                name,
-                curLatitude,
-                curLongitude,
-            ).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success->{
-                        showStatus(it.data.message)
-                        findNavController().navigate(
-                            DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-                        )
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                remoteViewModel.postDiseaseRemote(
+                    name,
+                    filePart,
+                    name,
+                    name,
+                    curLatitude,
+                    curLongitude,
+                    "Bearer $it"
+                ).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success->{
+                            showStatus(it.data.message)
+                            findNavController().navigate(
+                                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                            )
+                        }
+                        is FetchResult.Error->{
+                            showStatus(it.error)
+                        }
+                        else -> {}
                     }
-                    is FetchResult.Error->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
                 }
             }
         }
+
     }
 
     private fun deleteDiseaseRemote(){
-        lifecycleScope.launch {
-            remoteViewModel.deleteDiseaseRemote(randomId).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading->{
-                        binding.pgdiseaseBar.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success->{
-                        showStatus(it.data.message)
-                        findNavController().navigate(
-                            DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-                        )
-                    }
-                    is FetchResult.Error->{
-                        showStatus(it.error)
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                remoteViewModel.deleteDiseaseRemote(randomId,"Bearer $it").observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Loading->{
+                            binding.pgdiseaseBar.visibility = View.VISIBLE
+                        }
+                        is FetchResult.Success->{
+                            showStatus(it.data.message)
+                            findNavController().navigate(
+                                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                            )
+                        }
+                        is FetchResult.Error->{
+                            showStatus(it.error)
+                        }
                     }
                 }
             }

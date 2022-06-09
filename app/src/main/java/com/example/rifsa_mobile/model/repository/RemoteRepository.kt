@@ -216,12 +216,12 @@ class RemoteRepository(
         }
 
 
-    suspend fun getDiseaseRemote(): LiveData<FetchResult<DiseaseResultResponse>> =
+    suspend fun getDiseaseRemote(token: String): LiveData<FetchResult<DiseaseResultResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
                 emit(FetchResult.Success(
-                   apiService.getDiseaseRemote()
+                   apiService.getDiseaseRemote(token)
                 ))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
@@ -247,21 +247,22 @@ class RemoteRepository(
         description : String,
         latitude : Double,
         longitude : Double,
+        token: String
     ): LiveData<FetchResult<DiseasePostResponse>> = liveData {
         emit(FetchResult.Loading)
         try {
-            emit(FetchResult.Success(apiService.postDiseaseRemote(name, file, indication, description, latitude, longitude)))
+            emit(FetchResult.Success(apiService.postDiseaseRemote(name, file, indication, description, latitude, longitude,token)))
         }catch (e : Exception){
             emit(FetchResult.Error(e.message.toString()))
         }
     }
 
-    suspend fun deleteDiseaseRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
+    suspend fun deleteDiseaseRemote(id : Int,token: String): LiveData<FetchResult<DiseasePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
                 emit(FetchResult.Success(
-                    apiService.deleteDiseaseRemote(id)
+                    apiService.deleteDiseaseRemote(id,token)
                 ))
             }catch (e : Exception){
                 emit(FetchResult.Error(

@@ -84,8 +84,8 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
 
 
 
-    suspend fun getDiseaseRemote(): LiveData<FetchResult<DiseaseResultResponse>> =
-        remoteRepository.getDiseaseRemote()
+    suspend fun getDiseaseRemote(token: String): LiveData<FetchResult<DiseaseResultResponse>> =
+        remoteRepository.getDiseaseRemote(token)
 
     suspend fun postDiseasePrediction(file: MultipartBody.Part): LiveData<FetchResult<DiseasePredictionResponse>> =
         remoteRepository.postDiseasePredictionRemote(file)
@@ -97,9 +97,10 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
         description : String,
         latitude : Double,
         longitude : Double,
+        token: String
     ): LiveData<FetchResult<DiseasePostResponse>> =
-        remoteRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude)
+        remoteRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude,token)
 
-    suspend fun deleteDiseaseRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
-        remoteRepository.deleteDiseaseRemote(id)
+    suspend fun deleteDiseaseRemote(id : Int,token: String): LiveData<FetchResult<DiseasePostResponse>> =
+        remoteRepository.deleteDiseaseRemote(id,token)
 }

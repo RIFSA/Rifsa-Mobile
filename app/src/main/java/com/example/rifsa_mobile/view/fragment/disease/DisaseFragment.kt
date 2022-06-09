@@ -14,30 +14,31 @@ import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class DisaseFragment : Fragment() {
     private lateinit var binding : FragmentDisaseBinding
-    private lateinit var localviewModel: LocalViewModel
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
 
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDisaseBinding.inflate(layoutInflater)
-        localviewModel = ObtainViewModel(requireActivity())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        diseaseList()
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            diseaseList("Bearer $it")
+        }
+
 
         //todo 1.2 POST disease
         binding.fabScanDisase.setOnClickListener {
@@ -56,9 +57,9 @@ class DisaseFragment : Fragment() {
         return binding.root
     }
 
-    private fun diseaseList(){
+    private fun diseaseList(token : String){
         lifecycleScope.launch {
-            remoteViewModel.getDiseaseRemote().observe(viewLifecycleOwner){ respon ->
+            remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){ respon ->
                 when(respon){
                     is FetchResult.Success -> {
                         showListDisease(respon.data.DiseaseResultDataResponse)
@@ -66,6 +67,7 @@ class DisaseFragment : Fragment() {
                     is FetchResult.Error ->{
 
                     }
+                    else -> {}
                 }
             }
 
@@ -74,9 +76,9 @@ class DisaseFragment : Fragment() {
 
     private fun showListDisease(data : List<DiseaseResultDataResponse>){
         val adapter = DiseaseRecyclerViewAdapter(data)
-        val recview = binding.recviewdisease
-        recview.adapter = adapter
-        recview.layoutManager = LinearLayoutManager(requireContext())
+        val recyclerView = binding.recviewdisease
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
 
         adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{

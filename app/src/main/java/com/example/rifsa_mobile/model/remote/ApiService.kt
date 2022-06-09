@@ -118,7 +118,9 @@ interface ApiService {
 
     //todo disease  post , predic , list , delete
     @GET("penyakit")
-    suspend fun getDiseaseRemote(): DiseaseResultResponse
+    suspend fun getDiseaseRemote(
+        @Header("Authorization") token : String
+    ): DiseaseResultResponse
 
 
     @Multipart
@@ -135,13 +137,15 @@ interface ApiService {
         @Part("indikasi") indikasi : String,
         @Part("deskripsi") deskripsi : String,
         @Part("latitude") latitude : Double,
-        @Part("longitude") longitude : Double
+        @Part("longitude") longitude : Double,
+        @Header("Authorization") token : String
     ): DiseasePostResponse
 
 
     @DELETE("penyakit/{id}")
     suspend fun deleteDiseaseRemote(
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @Header("Authorization") token : String
     ): DiseasePostResponse
 
 }
