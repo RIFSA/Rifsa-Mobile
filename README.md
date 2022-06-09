@@ -49,11 +49,11 @@ Reviewing the activities of local residents who are farmers, they often complain
 ### Built With
 
  1. Kotlin
- 2.  Android Jetpack
+ 2. Android Jetpack
  3. Navigation Component
  4. Room
- 5. ViewModel
- 6. MaterialComponents
+ 5. MVVM
+ 6. Material Components
 
  
  
