@@ -54,7 +54,7 @@ class FinanceFragment : Fragment() {
 
     private fun showFinanceList(){
         lifecycleScope.launch{
-            remoteViewModel.getFinance().observe(viewLifecycleOwner){
+            remoteViewModel.getFinanceRemote().observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success->{
                         it.data.financeResponseData.forEach { respon ->

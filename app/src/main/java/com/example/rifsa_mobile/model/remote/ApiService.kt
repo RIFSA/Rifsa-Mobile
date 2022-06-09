@@ -103,6 +103,12 @@ interface ApiService {
     ): InventoryPostResponse
 
 
+    @DELETE("inventaris/{id}")
+    suspend fun deleteInventoryRemote(
+        @Path("id") id : Int
+    ): InventoryPostResponse
+
+
     //todo disease  post , predic , list , delete
     @GET("penyakit")
     suspend fun getDiseaseRemote(): DiseaseResultResponse

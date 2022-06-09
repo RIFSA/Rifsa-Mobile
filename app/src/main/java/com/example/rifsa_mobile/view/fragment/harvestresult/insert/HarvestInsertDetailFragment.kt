@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -127,7 +126,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 binding.tvharvestInsertCatatan.text.toString(),
             )
 
-            remoteViewModel.postHarvest(tempData).observe(viewLifecycleOwner){
+            remoteViewModel.postHarvestRemote(tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success ->{
                         valueStatus = "DONE" //TODO | set status telah selesai
@@ -148,7 +147,7 @@ class HarvestInsertDetailFragment : Fragment() {
     private fun deleteHarvestRemote(){
         lifecycleScope.launch {
             if(valueStatus == "DONE"){
-                remoteViewModel.deleteHarvest(detailId.toInt()).observe(viewLifecycleOwner){
+                remoteViewModel.deleteHarvestRemote(detailId.toInt()).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Success ->{
                             showStatus(it.data.message)
@@ -180,7 +179,7 @@ class HarvestInsertDetailFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            remoteViewModel.updateHarvest(detailId.toInt(), tempData).observe(viewLifecycleOwner){
+            remoteViewModel.updateHarvestRemote(detailId.toInt(), tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Loading ->{
                         binding.pgbarStatus.visibility = View.VISIBLE

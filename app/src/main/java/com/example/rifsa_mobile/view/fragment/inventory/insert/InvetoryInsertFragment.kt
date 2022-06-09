@@ -96,7 +96,8 @@ class InvetoryInsertFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteInventoryLocal()
+//                        deleteInventoryLocal()
+                        deleteInventoryRemote()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -151,19 +152,39 @@ class InvetoryInsertFragment : Fragment() {
         val note = binding.tvinventarisInsertNote.text.toString()
 
         lifecycleScope.launch {
-            remoteViewModel.postInventory(name,multiPart,amount,note).observe(viewLifecycleOwner){
+            remoteViewModel.postInventoryRemote(name,multiPart,amount,note).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Loading ->{
-
+                        binding.pgInventoryBar.visibility = View.GONE
                     }
                     is FetchResult.Success->{
-                        showToast(it.data.message)
+                        showStatus(it.data.message)
                         findNavController()
                             .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
                     }
                     is FetchResult.Error->{
-                        showToast(it.error)
-                        Log.d("Insert inventory",it.error)
+                        showStatus(it.error)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun deleteInventoryRemote(){
+        lifecycleScope.launch {
+            remoteViewModel.deleteInventoryRemote(detailId).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Loading->{
+                        binding.pgInventoryBar.visibility = View.VISIBLE
+                    }
+                    is FetchResult.Success->{
+                        showStatus(it.data.message)
+                        findNavController()
+                            .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+                    }
+                    is FetchResult.Error->{
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
@@ -186,25 +207,24 @@ class InvetoryInsertFragment : Fragment() {
 
         try {
             localViewModel.insertInventoryLocal(tempInsert)
-            showToast("Berhasil menambahkan")
+            showStatus("Berhasil menambahkan")
             findNavController()
                 .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
-            showToast(e.message.toString())
+            showStatus(e.message.toString())
         }
     }
-
 
     private fun deleteInventoryLocal(){
         try {
             localViewModel.deleteInventoryLocal(detailId.toString())
-            showToast("Item telah dihapus")
-            findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+            showStatus("Item telah dihapus")
+            findNavController()
+                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
         }catch (e : Exception){
-            showToast(e.message.toString())
+            showStatus(e.message.toString())
         }
     }
-
 
     private fun gotoCameraFragment(){
         findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToCameraFragment(
@@ -212,10 +232,18 @@ class InvetoryInsertFragment : Fragment() {
         )
     }
 
-
-
-    private fun showToast(title : String){
+    private fun showStatus(title : String){
         Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
+
+        if (title.isNotEmpty()){
+            binding.pgInventoryBar.visibility = View.GONE
+            binding.pgInventoryTitle.apply {
+                visibility = View.VISIBLE
+                text = title
+            }
+        }
+
+        Log.d("InsertInventoryFragment",title)
     }
 
     companion object{

@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.view.fragment.finance.insert
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -140,7 +139,7 @@ class FinanceInsertDetailFragment : Fragment() {
         )
 
         if (!isDetail){
-            remoteViewModel.postFinance(tempData).observe(viewLifecycleOwner){
+            remoteViewModel.postFinanceRemote(tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Loading ->{
 
@@ -157,7 +156,7 @@ class FinanceInsertDetailFragment : Fragment() {
                 }
             }
         }else{
-            remoteViewModel.updateFinance(detailId, tempData).observe(viewLifecycleOwner){
+            remoteViewModel.updateFinanceRemote(detailId, tempData).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Loading ->{
 
@@ -180,7 +179,7 @@ class FinanceInsertDetailFragment : Fragment() {
 
     private fun deleteFinanceRemote(){
         lifecycleScope.launch {
-            remoteViewModel.deleteFinance(detailId).observe(viewLifecycleOwner){
+            remoteViewModel.deleteFinanceRemote(detailId).observe(viewLifecycleOwner){
                 when(it) {
                     is FetchResult.Success -> {
                         showStatus(it.data.message)

@@ -106,7 +106,7 @@ class HarvetResultFragment : Fragment() {
     //TODO | ambil data dari remote
     private fun getResultFromRemote(){
         lifecycleScope.launch {
-            remoteViewModel.getHarvest().observe(viewLifecycleOwner){
+            remoteViewModel.getHarvestRemote().observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success->{
                         it.data.harvestResponData.forEach { respon ->
@@ -165,7 +165,7 @@ class HarvetResultFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            remoteViewModel.postHarvest(tempData)
+            remoteViewModel.postHarvestRemote(tempData)
                 .observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success ->{
@@ -193,7 +193,7 @@ class HarvetResultFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            remoteViewModel.updateHarvest(data.id_harvest.toInt(), tempData)
+            remoteViewModel.updateHarvestRemote(data.id_harvest.toInt(), tempData)
                 .observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Success ->{

@@ -74,7 +74,10 @@ class MainRepository(
             }
     }
 
-    suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =
+
+
+    //harvest result
+    suspend fun getHarvestRemote(): LiveData<FetchResult<HarvestResultRespon>> =
         liveData {
             emit(FetchResult.Loading)
             try {
@@ -84,7 +87,7 @@ class MainRepository(
             }
     }
 
-    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
+    suspend fun deleteHarvestRemote(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
@@ -96,7 +99,7 @@ class MainRepository(
             }
         }
 
-    suspend fun updateHarvest(id: Int, data:HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
+    suspend fun updateHarvestRemote(id: Int, data:HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
@@ -202,8 +205,18 @@ class MainRepository(
             }
         }
 
+    suspend fun deleteInventoryRemote(id : Int): LiveData<FetchResult<InventoryPostResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(
+                    apiService.deleteInventoryRemote(id)
+                ))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
 
-    //TODO delete Inventory Remote
 
     suspend fun getDiseaseRemote(): LiveData<FetchResult<DiseaseResultResponse>> =
         liveData {
@@ -245,7 +258,7 @@ class MainRepository(
         }
     }
 
-    suspend fun deleteRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
+    suspend fun deleteDiseaseRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
@@ -258,6 +271,17 @@ class MainRepository(
                 ))
             }
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
     //Local database

@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.disease
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,7 +58,7 @@ class DisaseFragment : Fragment() {
 
     private fun diseaseList(){
         lifecycleScope.launch {
-            remoteViewModel.getDisease().observe(viewLifecycleOwner){ respon ->
+            remoteViewModel.getDiseaseRemote().observe(viewLifecycleOwner){ respon ->
                 when(respon){
                     is FetchResult.Success -> {
                         showListDisease(respon.data.DiseaseResultDataResponse)

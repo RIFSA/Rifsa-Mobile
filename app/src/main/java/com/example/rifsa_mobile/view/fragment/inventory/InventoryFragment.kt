@@ -56,7 +56,7 @@ class InventoryFragment : Fragment() {
     //TODO | gambar tidak tampil dari api karena tidak public
     private fun inventoryList(){
         lifecycleScope.launch {
-            remoteViewModel.getInventory().observe(viewLifecycleOwner){ respon ->
+            remoteViewModel.getInventoryRemote().observe(viewLifecycleOwner){ respon ->
                 when(respon){
                     is FetchResult.Success->{
                         showInventoryList(respon.data.InventoryResultResponData)

@@ -2,7 +2,6 @@ package com.example.rifsa_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
@@ -20,9 +19,7 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.repository.MainRepository
 import com.example.rifsa_mobile.utils.FetchResult
-import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import java.util.*
 
 class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
 
@@ -33,37 +30,37 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
         mainRepository.postRegister(data)
 
 
-    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
+    suspend fun postHarvestRemote(data : HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
         mainRepository.postHarvest(data)
 
-    suspend fun updateHarvest(id: Int, data: HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
-        mainRepository.updateHarvest(id,data)
+    suspend fun updateHarvestRemote(id: Int, data: HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
+        mainRepository.updateHarvestRemote(id,data)
 
-    suspend fun deleteHarvest(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
-        mainRepository.deleteHarvest(id)
+    suspend fun deleteHarvestRemote(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
+        mainRepository.deleteHarvestRemote(id)
 
-    suspend fun getHarvest(): LiveData<FetchResult<HarvestResultRespon>> =
-        mainRepository.getHarvest()
+    suspend fun getHarvestRemote(): LiveData<FetchResult<HarvestResultRespon>> =
+        mainRepository.getHarvestRemote()
 
 
-    suspend fun postFinance(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+    suspend fun postFinanceRemote(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.postFinanceRemote(data)
 
-    suspend fun getFinance(): LiveData<FetchResult<FinanceResultResponse>> =
+    suspend fun getFinanceRemote(): LiveData<FetchResult<FinanceResultResponse>> =
         mainRepository.getFinanceRemote()
 
-    suspend fun deleteFinance(id: Int): LiveData<FetchResult<FinancePostResponse>> =
+    suspend fun deleteFinanceRemote(id: Int): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.deleteFinanceRemote(id)
 
-    suspend fun updateFinance(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+    suspend fun updateFinanceRemote(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
         mainRepository.updateFinanceRemote(id,data)
 
 
 
-    suspend fun getInventory(): LiveData<FetchResult<InventoryResultRespon>> =
+    suspend fun getInventoryRemote(): LiveData<FetchResult<InventoryResultRespon>> =
         mainRepository.getInventoryRemote()
 
-    suspend fun postInventory(
+    suspend fun postInventoryRemote(
         name : String,
         file : MultipartBody.Part,
         jumlah : Int,
@@ -71,7 +68,7 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     ): LiveData<FetchResult<InventoryPostResponse>> =
         mainRepository.postInventoryRemote(name, file, jumlah, catatan)
 
-    suspend fun updateInventory(
+    suspend fun updateInventoryRemote(
         name : String,
         file : MultipartBody.Part,
         jumlah : Int,
@@ -80,8 +77,12 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
     ): LiveData<FetchResult<InventoryPostResponse>> =
         mainRepository.updateInventoryRemote(name, file, jumlah, catatan,id)
 
+    suspend fun deleteInventoryRemote(id: Int): LiveData<FetchResult<InventoryPostResponse>> =
+        mainRepository.deleteInventoryRemote(id)
 
-    suspend fun getDisease(): LiveData<FetchResult<DiseaseResultResponse>> =
+
+
+    suspend fun getDiseaseRemote(): LiveData<FetchResult<DiseaseResultResponse>> =
         mainRepository.getDiseaseRemote()
 
     suspend fun postDiseasePrediction(file: MultipartBody.Part): LiveData<FetchResult<DiseasePredictionResponse>> =
@@ -98,5 +99,5 @@ class RemoteViewModel(private val mainRepository: MainRepository): ViewModel() {
         mainRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude)
 
     suspend fun deleteDiseaseRemote(id : Int): LiveData<FetchResult<DiseasePostResponse>> =
-        mainRepository.deleteRemote(id)
+        mainRepository.deleteDiseaseRemote(id)
 }
