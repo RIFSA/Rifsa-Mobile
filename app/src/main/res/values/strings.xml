@@ -120,5 +120,8 @@
     <string name="deskripsi">Deskripsi</string>
     <string name="solusi">Solusi</string>
     <string name="proses">Proses</string>
+    <string name="deksripsi_penyakit">Deksripsi penyakit</string>
+    <string name="lokasi_ditemukan">Lokasi ditemukan</string>
+    <string name="selesai">Selesai</string>
 
 </resources>
