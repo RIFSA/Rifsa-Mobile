@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.view.fragment.inventory.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 
-class InventoryRvAdapter(private val dataList : List<InventoryResultResponData>): RecyclerView.Adapter<InventoryRvAdapter.ViewHolder>() {
+class inventoryRecyclerViewAdapter(private val dataList : List<InventoryResultResponData>): RecyclerView.Adapter<inventoryRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallback : OnDetailItemCallback

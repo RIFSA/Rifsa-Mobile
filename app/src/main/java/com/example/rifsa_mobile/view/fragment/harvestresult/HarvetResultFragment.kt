@@ -18,7 +18,7 @@ import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBod
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -76,11 +76,11 @@ class HarvetResultFragment : Fragment() {
 
     private fun showResult(){
         localViewModel.readHarvestLocal().observe(viewLifecycleOwner){ respon ->
-            val adapter = HarvestResultRvAdapter(respon)
+            val adapter = HarvestResultRecyclerViewAdapter(respon)
             val recyclerView = binding.rvHarvestresult
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
+            adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: HarvestResult) {
                     findNavController().navigate(HarvetResultFragmentDirections
                         .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))

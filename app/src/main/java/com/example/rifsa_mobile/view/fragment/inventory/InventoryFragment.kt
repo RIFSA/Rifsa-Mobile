@@ -14,7 +14,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRvAdapter
+import com.example.rifsa_mobile.view.fragment.inventory.adapter.inventoryRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -47,14 +47,14 @@ class InventoryFragment : Fragment() {
         }
 
 
-        InventoryList()
+        inventoryList()
 
 
         return binding.root
     }
 
     //TODO | gambar tidak tampil dari api karena tidak public
-    private fun InventoryList(){
+    private fun inventoryList(){
         lifecycleScope.launch {
             remoteViewModel.getInventory().observe(viewLifecycleOwner){ respon ->
                 when(respon){
@@ -64,18 +64,19 @@ class InventoryFragment : Fragment() {
                     is FetchResult.Error ->{
                         Log.d("iventory read",respon.error)
                     }
+                    else -> {}
                 }
             }
         }
     }
 
     private fun showInventoryList(data : List<InventoryResultResponData>) {
-        val adapter = InventoryRvAdapter(data)
-        val recview = binding.recviewInventory
-        recview.adapter = adapter
-        recview.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = inventoryRecyclerViewAdapter(data)
+        val recyclerView = binding.recviewInventory
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter.onItemDetailCallback(object : InventoryRvAdapter.OnDetailItemCallback{
+        adapter.onItemDetailCallback(object : inventoryRecyclerViewAdapter.OnDetailItemCallback{
             override fun onDetailCallback(data: InventoryResultResponData) {
                 findNavController()
                     .navigate(

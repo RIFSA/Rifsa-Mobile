@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
-import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
@@ -62,11 +62,11 @@ class HomeFragment : Fragment() {
 
     private fun showResult(){
         viewModel.readHarvestLocal().observe(viewLifecycleOwner){ responList ->
-            val adapter = HarvestResultRvAdapter(responList)
+            val adapter = HarvestResultRecyclerViewAdapter(responList)
             val recview = binding.rvHomeHarvest
             recview.adapter = adapter
             recview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
+            adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: HarvestResult) {
                     findNavController().navigate(HomeFragmentDirections
                         .actionHomeFragmentToHarvestInsertDetailFragment(data))
