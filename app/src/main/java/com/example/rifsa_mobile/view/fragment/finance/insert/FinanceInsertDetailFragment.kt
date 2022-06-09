@@ -21,6 +21,7 @@ import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,7 +34,9 @@ import java.util.*
 class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
     private lateinit var localViewModel : LocalViewModel
+
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
 
@@ -100,9 +103,7 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnFinanceSave.setOnClickListener {
-            lifecycleScope.launch {
-                insertUpdateFinanceRemote()
-            }
+            insertUpdateFinanceRemote()
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
@@ -129,70 +130,76 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
-    private suspend fun insertUpdateFinanceRemote(){
-        val tempData = FinancePostBody(
-            currentDate,
-            binding.tvfinanceInsertNama.text.toString(),
-            type,
-            binding.tvfinanceInsertHarga.text.toString(),
-            binding.tvfinanceInsertCatatan.text.toString()
-        )
+    private fun insertUpdateFinanceRemote(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                val tempData = FinancePostBody(
+                    currentDate,
+                    binding.tvfinanceInsertNama.text.toString(),
+                    type,
+                    binding.tvfinanceInsertHarga.text.toString(),
+                    binding.tvfinanceInsertCatatan.text.toString()
+                )
 
-        if (!isDetail){
-            remoteViewModel.postFinanceRemote(tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading ->{
+                if (!isDetail){
+                    remoteViewModel.postFinanceRemote(tempData,"Bearer $it").observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading ->{
 
+                            }
+                            is FetchResult.Success ->{
+                                showStatus(it.data.message)
+                                findNavController()
+                                    .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
                     }
-                    is FetchResult.Success ->{
-                        showStatus(it.data.message)
-                        findNavController()
-                            .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                }else{
+                    remoteViewModel.updateFinanceRemote(detailId, tempData,"Bearer $it").observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading ->{
+
+                            }
+                            is FetchResult.Success ->{
+                                showStatus(it.data.message)
+                                findNavController()
+                                    .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
                     }
-                    is FetchResult.Error ->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
                 }
             }
-        }else{
-            remoteViewModel.updateFinanceRemote(detailId, tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading ->{
 
-                    }
-                    is FetchResult.Success ->{
-                        showStatus(it.data.message)
-                        findNavController()
-                            .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-                    }
-                    is FetchResult.Error ->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
-                }
-            }
         }
-
-
     }
 
     private fun deleteFinanceRemote(){
-        lifecycleScope.launch {
-            remoteViewModel.deleteFinanceRemote(detailId).observe(viewLifecycleOwner){
-                when(it) {
-                    is FetchResult.Success -> {
-                        showStatus(it.data.message)
-                        findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-                    }
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                remoteViewModel.deleteFinanceRemote(detailId,"Bearer $it").observe(viewLifecycleOwner){
+                    when(it) {
+                        is FetchResult.Success -> {
+                            showStatus(it.data.message)
+                            findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                        }
 
-                    is FetchResult.Error -> {
-                        showStatus(it.error)
+                        is FetchResult.Error -> {
+                            showStatus(it.error)
+                        }
+                        else -> {}
                     }
-                    else -> {}
                 }
             }
         }
+
     }
 
 

@@ -7,22 +7,28 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
-import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel : LocalViewModel
+
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
 
     override fun onCreateView(
@@ -36,8 +42,6 @@ class HomeFragment : Fragment() {
         binding.imageView2.setImageResource(R.drawable.mockprofile)
 
 
-        showResult()
-
         diseaseCount()
 
         return binding.root
@@ -46,12 +50,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        authViewModel.getUserName().observe(viewLifecycleOwner){
-            binding.tvhomeName.text = it
+        authViewModel.apply {
+            getUserName().observe(viewLifecycleOwner){
+                binding.tvhomeName.text = it
+            }
+            getUserToken().observe(viewLifecycleOwner){
+                getHarvestRemote("Bearer $it")
+            }
         }
 
-        binding.btnHomeHasil.setOnClickListener {
 
+        binding.btnHomeHasil.setOnClickListener {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToHarvetResultFragment()
             )
@@ -59,20 +68,36 @@ class HomeFragment : Fragment() {
     }
 
 
+    private fun getHarvestRemote(token : String){
+        lifecycleScope.launch {
+            remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Loading->{
 
-    private fun showResult(){
-        viewModel.readHarvestLocal().observe(viewLifecycleOwner){ responList ->
-            val adapter = HarvestResultRecyclerViewAdapter(responList)
-            val recview = binding.rvHomeHarvest
-            recview.adapter = adapter
-            recview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-                override fun onDetailCallback(data: HarvestResult) {
-                    findNavController().navigate(HomeFragmentDirections
-                        .actionHomeFragmentToHarvestInsertDetailFragment(data))
+                    }
+                    is FetchResult.Success->{
+                        showHarvestList(it.data.harvestResponData)
+                    }
+                    is FetchResult.Error->{
+
+                    }
+                    else -> {}
                 }
-            })
+            }
         }
+    }
+
+    private fun showHarvestList(data : List<HarvestResponData>){
+        val adapter = HarvestResultRecyclerViewAdapter(data)
+        val recyclerView = binding.rvHomeHarvest
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
+            override fun onDetailCallback(data: HarvestResponData) {
+                findNavController().navigate(HomeFragmentDirections
+                    .actionHomeFragmentToHarvestInsertDetailFragment(data))
+            }
+        })
     }
 
     private fun diseaseCount(){

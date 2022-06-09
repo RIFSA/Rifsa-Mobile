@@ -10,6 +10,7 @@ class UserPrefrencesViewModel(private val localRepository : LocalRepository): Vi
 
     fun getOnBoardStatus(): LiveData<Boolean> = localRepository.getOnBoardStatus()
     fun getUserName(): LiveData<String> = localRepository.getUserName()
+    fun getUserToken(): LiveData<String> = localRepository.getUserToken()
 
     fun saveUserPrefrences(onBoard : Boolean,userName : String,token : String){
         viewModelScope.launch {

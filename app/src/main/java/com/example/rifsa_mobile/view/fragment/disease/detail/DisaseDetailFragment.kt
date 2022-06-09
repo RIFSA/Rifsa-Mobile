@@ -36,8 +36,7 @@ import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-//todo 1.4 reminder for do healing | done
-//todo (bug) location request
+
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
     private val remoteViewModel : RemoteViewModel by viewModels{
@@ -166,9 +165,11 @@ class DisaseDetailFragment : Fragment() {
 
     }
 
+
     private fun showImageCapture(){
         image = DisaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase.toString()
         binding.imgDisaseDetail.setImageURI(image.toUri())
+
     }
 
 

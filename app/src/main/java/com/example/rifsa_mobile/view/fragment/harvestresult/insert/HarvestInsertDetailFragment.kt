@@ -12,12 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,15 +29,13 @@ class HarvestInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentHarvestInsertDetailBinding
     private lateinit var localViewModel: LocalViewModel
 
-    private var randomId = Utils.randomId()
     private var isDetail = false
-    private var detailId = ""
-    private var sortId = 0
+    private var detailId = 0
 
     private var isConnected = false
-    private var valueStatus = ""
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -52,11 +51,9 @@ class HarvestInsertDetailFragment : Fragment() {
         try {
             val data = HarvestInsertDetailFragmentArgs.fromBundle(requireArguments()).detailResult
             if (data != null) {
-                showDetail(data)
+                showDetailHarvest(data)
                 isDetail = true
-                detailId = data.id_harvest
-                sortId = data.id_sort
-                valueStatus = data.valueStatus
+                detailId = data.idHasil
             }
         }catch (e : Exception){ }
 
@@ -66,15 +63,9 @@ class HarvestInsertDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.btnHarvestSave.setOnClickListener {
-            if (isDetail){
-                updateHarvestRemote() //TODO | memperbarui data
-            }else{
-                insertHarvestRemote() //TODO | menyimpan data
-            }
+            insertUpdateHarvestRemote()
         }
-
 
         binding.btnharvestInsertDelete.setOnClickListener {
             AlertDialog.Builder(requireActivity()).apply {
@@ -94,64 +85,85 @@ class HarvestInsertDetailFragment : Fragment() {
         }
 
         binding.btnHarvestdetailBackhome.setOnClickListener {
-            findNavController()
-                .navigate(
-                    HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment()
-                )
+            findNavController().navigate(
+                HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment()
+            )
         }
     }
 
 
     //showing delete button
-    private fun showDetail(data : HarvestResult){
+    private fun showDetailHarvest(data : HarvestResponData){
         binding.apply {
-            tvharvestInsertName.setText(data.title)
-            tvharvestInsertBerat.setText(data.weight.toString())
-            tvharvestInsertCatatan.setText(data.noted)
-            tvharvestInsertHasil.setText(data.sellingPrice.toString())
+            tvharvestInsertName.setText(data.jenis)
+            tvharvestInsertBerat.setText(data.berat)
+            tvharvestInsertCatatan.setText(data.catatan)
+            tvharvestInsertHasil.setText(data.jual)
             btnharvestInsertDelete.visibility = View.VISIBLE
             "Detail RegisterData".also { tvHarvestresultInsertdetail.text = it }
         }
     }
 
-    private fun insertHarvestRemote(){
-        lifecycleScope.launch {
-            val date = LocalDate.now().toString()
+    private fun insertUpdateHarvestRemote(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                val date = LocalDate.now().toString()
 
-            val tempData = HarvestPostBody(
-                date,
-                binding.tvharvestInsertName.text.toString(),
-                binding.tvharvestInsertBerat.text.toString(),
-                binding.tvharvestInsertHasil.text.toString(),
-                binding.tvharvestInsertCatatan.text.toString(),
-            )
+                val tempData = HarvestPostBody(
+                    date,
+                    binding.tvharvestInsertName.text.toString(),
+                    binding.tvharvestInsertBerat.text.toString(),
+                    binding.tvharvestInsertHasil.text.toString(),
+                    binding.tvharvestInsertCatatan.text.toString(),
+                )
 
-            remoteViewModel.postHarvestRemote(tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success ->{
-                        valueStatus = "DONE" //TODO | set status telah selesai
-                        showStatus(it.data.message)
-                        insertUpdateHarvestLocally()
+                if (!isDetail){
+                    remoteViewModel.postHarvestRemote(tempData,"Bearer $it").observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading ->{
+                                binding.pgbarStatus.visibility = View.VISIBLE
+                            }
+                            is FetchResult.Success ->{
+                                showStatus(it.data.message)
+                                findNavController()
+                                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
                     }
-                    is FetchResult.Error ->{
-                        valueStatus = "POST" //TODO | set status perlu di post pada remote checker
-                        showStatus(it.error)
-                        insertUpdateHarvestLocally()
+                }else{
+                    remoteViewModel.updateHarvestRemote(detailId, tempData,"Bearer $it").observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading ->{
+                                binding.pgbarStatus.visibility = View.VISIBLE
+                            }
+                            is FetchResult.Success ->{
+                                showStatus(it.data.message)
+                                findNavController()
+                                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
                     }
-                    else -> {}
                 }
             }
         }
+
     }
 
     private fun deleteHarvestRemote(){
-        lifecycleScope.launch {
-            if(valueStatus == "DONE"){
-                remoteViewModel.deleteHarvestRemote(detailId.toInt()).observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                remoteViewModel.deleteHarvestRemote(detailId,"Bearer $it").observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Success ->{
                             showStatus(it.data.message)
-                            deleteHarvestLocal()
                             findNavController()
                                 .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
                         }
@@ -162,84 +174,10 @@ class HarvestInsertDetailFragment : Fragment() {
                         else -> {}
                     }
                 }
-
             }
         }
     }
 
-    private fun updateHarvestRemote(){
-        val date = LocalDate.now().toString()
-
-        val tempData = HarvestPostBody(
-            date,
-            binding.tvharvestInsertName.text.toString(),
-            binding.tvharvestInsertBerat.text.toString(),
-            binding.tvharvestInsertHasil.text.toString(),
-            binding.tvharvestInsertCatatan.text.toString(),
-        )
-
-        lifecycleScope.launch {
-            remoteViewModel.updateHarvestRemote(detailId.toInt(), tempData).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading ->{
-                        binding.pgbarStatus.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success ->{
-                        valueStatus = "DONE" //TODO | set status telah terupdate remote
-                        showStatus(it.data.message)
-                        insertUpdateHarvestLocally()
-                    }
-                    is FetchResult.Error ->{
-                        valueStatus = "UPDATE" //TODO | set status perlu di update pada remote
-                        showStatus(it.error)
-                        insertUpdateHarvestLocally()
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
-
-
-    private fun insertUpdateHarvestLocally(){
-        val date = LocalDate.now().toString()
-
-        if (isDetail){
-            randomId = detailId
-        }
-
-        val tempInsert = HarvestResult(
-            sortId,
-            randomId,
-            date,
-            binding.tvharvestInsertName.text.toString(),
-            binding.tvharvestInsertBerat.text.toString().toInt(),
-            binding.tvharvestInsertHasil.text.toString().toInt(),
-            binding.tvharvestInsertCatatan.text.toString(),
-            valueStatus //TODO | berdasarkan status remote apakah berhasil
-        )
-
-        try {
-            localViewModel.insertHarvestlocal(tempInsert)
-            showStatus("Tersimpan")
-            findNavController()
-                .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
-        }catch (e : Exception){
-            showStatus(e.message.toString())
-        }
-    }
-
-    private fun deleteHarvestLocal(){
-            try {
-                localViewModel.deleteHarvestLocal(detailId)
-                showStatus("Terhapus")
-                findNavController()
-                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
-            }catch (e : Exception){
-                showStatus("Gagal")
-                Log.d(detail_harvest,e.message.toString())
-            }
-    }
 
     private fun showStatus(title : String){
         if (title.isNotEmpty()){
@@ -254,5 +192,6 @@ class HarvestInsertDetailFragment : Fragment() {
     companion object{
         const val detail_harvest = "harvest detail"
     }
+
 
 }

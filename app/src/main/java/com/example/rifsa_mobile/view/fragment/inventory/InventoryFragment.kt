@@ -15,9 +15,8 @@ import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.inventoryRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -25,8 +24,10 @@ import kotlinx.coroutines.launch
 
 class InventoryFragment : Fragment() {
     private lateinit var binding : FragmentInventoryBinding
-    private lateinit var viewModel: LocalViewModel
+
+
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private lateinit var dataList : ArrayList<InventoryResultResponData>
     override fun onCreateView(
@@ -34,7 +35,6 @@ class InventoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInventoryBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
         dataList = arrayListOf()
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
@@ -46,17 +46,17 @@ class InventoryFragment : Fragment() {
             )
         }
 
-
-        inventoryList()
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            inventoryList("Bearer $it")
+        }
 
 
         return binding.root
     }
 
-    //TODO | gambar tidak tampil dari api karena tidak public
-    private fun inventoryList(){
+    private fun inventoryList(token : String){
         lifecycleScope.launch {
-            remoteViewModel.getInventoryRemote().observe(viewLifecycleOwner){ respon ->
+            remoteViewModel.getInventoryRemote(token).observe(viewLifecycleOwner){ respon ->
                 when(respon){
                     is FetchResult.Success->{
                         showInventoryList(respon.data.InventoryResultResponData)
@@ -84,10 +84,6 @@ class InventoryFragment : Fragment() {
             }
         })
 
-//        if (dataList.isEmpty()){
-//            binding.inventoryEmptyState.emptyState.visibility =
-//                View.VISIBLE
-//        }
     }
 
 

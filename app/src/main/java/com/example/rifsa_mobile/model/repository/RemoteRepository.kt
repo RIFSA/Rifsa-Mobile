@@ -26,6 +26,8 @@ import com.example.rifsa_mobile.model.local.databaseconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.utils.FetchResult
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 import okhttp3.MultipartBody
 import java.util.*
 
@@ -59,11 +61,11 @@ class RemoteRepository(
     }
 
 
-    suspend fun postHarvest(data : HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
+    suspend fun postHarvest(data : HarvestPostBody,token: String): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.postHarvestResultRemote(data)))
+                emit(FetchResult.Success(apiService.postHarvestResultRemote(data,token)))
 
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
@@ -73,21 +75,21 @@ class RemoteRepository(
 
 
     //harvest result
-    suspend fun getHarvestRemote(): LiveData<FetchResult<HarvestResultRespon>> =
+    suspend fun getHarvestRemote(token : String): LiveData<FetchResult<HarvestResultRespon>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.getHarvestResultRemote()))
+                emit(FetchResult.Success(apiService.getHarvestResultRemote(token)))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
             }
     }
 
-    suspend fun deleteHarvestRemote(id: Int): LiveData<FetchResult<HarvestPostResponse>> =
+    suspend fun deleteHarvestRemote(id: Int,token: String): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.deleteHarvestResultRemote(id).apply {
+                apiService.deleteHarvestResultRemote(id,token).apply {
                     emit(FetchResult.Success(this))
                 }
             } catch (e: Exception) {
@@ -95,11 +97,11 @@ class RemoteRepository(
             }
         }
 
-    suspend fun updateHarvestRemote(id: Int, data:HarvestPostBody): LiveData<FetchResult<HarvestPostResponse>> =
+    suspend fun updateHarvestRemote(id: Int, data:HarvestPostBody,token: String): LiveData<FetchResult<HarvestPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.updateHarvestResultRemote(id,data).apply {
+                apiService.updateHarvestResultRemote(id,data,token).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -108,32 +110,31 @@ class RemoteRepository(
         }
 
 
-    suspend fun postFinanceRemote(data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+    suspend fun postFinanceRemote(data: FinancePostBody,token: String): LiveData<FetchResult<FinancePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.postFinanceRemote(data)))
-
+                emit(FetchResult.Success(apiService.postFinanceRemote(data,token)))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
             }
         }
 
-    suspend fun getFinanceRemote(): LiveData<FetchResult<FinanceResultResponse>> =
+    suspend fun getFinanceRemote(currentToken : String): LiveData<FetchResult<FinanceResultResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                emit(FetchResult.Success(apiService.getFinanceRemote()))
+                emit(FetchResult.Success(apiService.getFinanceRemote(currentToken)))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))
             }
         }
 
-    suspend fun deleteFinanceRemote(id: Int): LiveData<FetchResult<FinancePostResponse>> =
+    suspend fun deleteFinanceRemote(id: Int,token: String): LiveData<FetchResult<FinancePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.deleteFinanceRemote(id).apply {
+                apiService.deleteFinanceRemote(id,token).apply {
                     emit(FetchResult.Success(this))
                 }
             } catch (e: Exception) {
@@ -141,11 +142,11 @@ class RemoteRepository(
             }
         }
 
-    suspend fun updateFinanceRemote(id: Int, data: FinancePostBody): LiveData<FetchResult<FinancePostResponse>> =
+    suspend fun updateFinanceRemote(id: Int, data: FinancePostBody,token: String): LiveData<FetchResult<FinancePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.updateFinanceRemote(id,data).apply {
+                apiService.updateFinanceRemote(id,data,token).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -154,11 +155,11 @@ class RemoteRepository(
         }
 
 
-    suspend fun getInventoryRemote():LiveData<FetchResult<InventoryResultRespon>> = liveData{
+    suspend fun getInventoryRemote(token: String):LiveData<FetchResult<InventoryResultRespon>> = liveData{
         emit(FetchResult.Loading)
         try {
             emit(FetchResult.Success(
-                apiService.getInventoryRemote()
+                apiService.getInventoryRemote(token)
             ))
         }catch (e : Exception){
             emit(FetchResult.Error(e.message.toString()))
@@ -170,12 +171,13 @@ class RemoteRepository(
         name : String,
         file : MultipartBody.Part,
         jumlah : Int,
-        catatan : String
+        catatan : String,
+        token: String
     ): LiveData<FetchResult<InventoryPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
-                apiService.postInventoryRemote(name, file, jumlah, catatan).apply {
+                apiService.postInventoryRemote(name, file, jumlah, catatan,token).apply {
                     emit(FetchResult.Success(this))
                 }
             }catch (e : Exception){
@@ -201,12 +203,12 @@ class RemoteRepository(
             }
         }
 
-    suspend fun deleteInventoryRemote(id : Int): LiveData<FetchResult<InventoryPostResponse>> =
+    suspend fun deleteInventoryRemote(id : Int,token: String): LiveData<FetchResult<InventoryPostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
                 emit(FetchResult.Success(
-                    apiService.deleteInventoryRemote(id)
+                    apiService.deleteInventoryRemote(id,token)
                 ))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))

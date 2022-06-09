@@ -17,6 +17,7 @@ import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -25,8 +26,10 @@ import kotlinx.coroutines.launch
 class FinanceFragment : Fragment() {
     private lateinit var binding : FragmentFinanceBinding
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private lateinit var dataList: ArrayList<FinanceResponseData>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,30 +43,32 @@ class FinanceFragment : Fragment() {
 
         dataList = arrayListOf()
 
-        showFinanceList()
 
         binding.fabFiannceInsert.setOnClickListener {
             findNavController().navigate(
                 FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
 
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            showFinanceList("Bearer $it")
+        }
 
         return binding.root
     }
 
 
-    private fun showFinanceList(){
+    private fun showFinanceList(token : String){
         lifecycleScope.launch{
-            remoteViewModel.getFinanceRemote().observe(viewLifecycleOwner){
+            remoteViewModel.getFinanceRemote(token).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success->{
                         it.data.financeResponseData.forEach { respon ->
                             dataList.add(respon)
 
                             val adapter = FinanceRecyclerViewAdapter(dataList)
-                            val recview = binding.rvFinance
-                            recview.adapter = adapter
-                            recview.layoutManager = LinearLayoutManager(requireContext())
+                            val recyclerView = binding.rvFinance
+                            recyclerView.adapter = adapter
+                            recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
                             adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
                                 override fun onItemCallback(data: FinanceResponseData) {

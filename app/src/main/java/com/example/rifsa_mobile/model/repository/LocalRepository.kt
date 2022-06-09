@@ -16,8 +16,10 @@ class LocalRepository(
     private val dao = database.localDao()
 
 
+
     fun getOnBoardStatus(): LiveData<Boolean> = userPrefrences.getOnBoardKey().asLiveData()
     fun getUserName(): LiveData<String> = userPrefrences.getNameKey().asLiveData()
+    fun getUserToken(): LiveData<String> = userPrefrences.getTokenKey().asLiveData()
     suspend fun savePrefrences(onBoard : Boolean, userName: String,token : String){
         userPrefrences.savePrefrences(onBoard,userName,token)
     }

@@ -108,7 +108,7 @@
         tools:layout="@layout/fragment_harvest_insert_detail" >
         <argument
             android:name="detail_result"
-            app:argType="com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData"
             app:nullable="true" />
         <action
             android:id="@+id/action_harvestInsertDetailFragment_to_harvetResultFragment"

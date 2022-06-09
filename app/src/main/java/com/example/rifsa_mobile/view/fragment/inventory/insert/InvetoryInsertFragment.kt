@@ -22,6 +22,7 @@ import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,21 +36,19 @@ class InvetoryInsertFragment : Fragment() {
     private lateinit var binding : FragmentInvetoryInsertDetailBinding
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
-    private lateinit var localViewModel: LocalViewModel
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+
 
     private var detail : InventoryResultResponData? = null
     private lateinit var currentImage : Uri
-    private var randomId = Utils.randomId()
     private var isDetail = false
     private var detailId = 0
-    private var sortId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInvetoryInsertDetailBinding.inflate(layoutInflater)
-        localViewModel = ObtainViewModel(requireActivity())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
@@ -151,80 +150,54 @@ class InvetoryInsertFragment : Fragment() {
         val amount = binding.tvinventarisInsertAmount.text.toString().toInt()
         val note = binding.tvinventarisInsertNote.text.toString()
 
-        lifecycleScope.launch {
-            remoteViewModel.postInventoryRemote(name,multiPart,amount,note).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading ->{
-                        binding.pgInventoryBar.visibility = View.GONE
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                remoteViewModel.postInventoryRemote(name,multiPart,amount,note,"Bearer $it").observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Loading ->{
+                            binding.pgInventoryBar.visibility = View.GONE
+                        }
+                        is FetchResult.Success->{
+                            showStatus(it.data.message)
+                            findNavController()
+                                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+                        }
+                        is FetchResult.Error->{
+                            showStatus(it.error)
+                        }
+                        else -> {}
                     }
-                    is FetchResult.Success->{
-                        showStatus(it.data.message)
-                        findNavController()
-                            .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-                    }
-                    is FetchResult.Error->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
                 }
             }
         }
     }
 
     private fun deleteInventoryRemote(){
-        lifecycleScope.launch {
-            remoteViewModel.deleteInventoryRemote(detailId).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading->{
-                        binding.pgInventoryBar.visibility = View.VISIBLE
+        authViewModel.getUserToken().observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                remoteViewModel.deleteInventoryRemote(detailId,"Bearer $it").observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Loading->{
+                            binding.pgInventoryBar.visibility = View.VISIBLE
+                        }
+                        is FetchResult.Success->{
+                            showStatus(it.data.message)
+                            findNavController()
+                                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
+                        }
+                        is FetchResult.Error->{
+                            showStatus(it.error)
+                        }
+                        else -> {}
                     }
-                    is FetchResult.Success->{
-                        showStatus(it.data.message)
-                        findNavController()
-                            .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-                    }
-                    is FetchResult.Error->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
                 }
             }
         }
+
     }
 
-    private suspend fun insertUpdateInventoryLocal(){
-        val amount = binding.tvinventarisInsertAmount.text.toString()
 
-        val tempInsert = Inventory(
-            sortId,
-            randomId,
-            binding.tvinventarisInsertName.text.toString(),
-            amount.toInt(),
-            currentImage.toString(),
-            binding.tvinventarisInsertNote.text.toString(),
-            false
-        )
 
-        try {
-            localViewModel.insertInventoryLocal(tempInsert)
-            showStatus("Berhasil menambahkan")
-            findNavController()
-                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-        }catch (e : Exception){
-            showStatus(e.message.toString())
-        }
-    }
-
-    private fun deleteInventoryLocal(){
-        try {
-            localViewModel.deleteInventoryLocal(detailId.toString())
-            showStatus("Item telah dihapus")
-            findNavController()
-                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-        }catch (e : Exception){
-            showStatus(e.message.toString())
-        }
-    }
 
     private fun gotoCameraFragment(){
         findNavController().navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToCameraFragment(

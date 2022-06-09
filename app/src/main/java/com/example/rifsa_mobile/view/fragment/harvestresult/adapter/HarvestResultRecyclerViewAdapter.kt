@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardHasilBinding
 import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 
-class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestResult>): RecyclerView.Adapter<HarvestResultRecyclerViewAdapter.ViewHolder>() {
+class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestResponData>): RecyclerView.Adapter<HarvestResultRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardHasilBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallBak : OnDetailCallback
@@ -21,9 +22,9 @@ class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestResult
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
-        holder.binding.tvCardhasilTitle.text = item.title
-        holder.binding.tvCardhasilDate.text = item.date
-        (item.weight.toString() + " Kg").also { holder.binding.tvCardhasilWeight.text = it }
+        holder.binding.tvCardhasilTitle.text = item.jenis
+        holder.binding.tvCardhasilDate.text = item.tanggal
+        (item.berat + " Kg").also { holder.binding.tvCardhasilWeight.text = it }
 
         holder.binding.tvCardhasilTitle.setOnClickListener {
             itemCallBak.onDetailCallback(item)
@@ -34,6 +35,6 @@ class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestResult
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : HarvestResult)
+        fun onDetailCallback(data : HarvestResponData)
     }
 }

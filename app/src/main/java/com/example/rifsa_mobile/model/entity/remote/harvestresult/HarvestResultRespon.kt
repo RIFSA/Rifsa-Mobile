@@ -1,7 +1,9 @@
 package com.example.rifsa_mobile.model.entity.remote.harvestresult
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class HarvestResultRespon(
  @SerializedName("data")
@@ -12,6 +14,7 @@ data class HarvestResultRespon(
  val status: Int
 )
 
+@Parcelize
 data class HarvestResponData(
  @SerializedName("berat")
  val berat: String,
@@ -29,4 +32,4 @@ data class HarvestResponData(
  val tanggal: String,
  @SerializedName("updatedAt")
  val updatedAt: String
-)
+): Parcelable
