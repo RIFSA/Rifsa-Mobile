@@ -1,4 +1,5 @@
 
+
 <div id="top"></div>
 
 
@@ -94,8 +95,8 @@ Reviewing the activities of local residents who are farmers, they often complain
  - [x] Room DB config
  - [x] Insert to Local
  - [x] Auth Remote
- - [x] insert data to remote
- - [ ] machine learning
+ - [x] Remote CRUD
+ - [x] Prediction
 <!-- CONTRIBUTING -->
 ## Contributing
 
