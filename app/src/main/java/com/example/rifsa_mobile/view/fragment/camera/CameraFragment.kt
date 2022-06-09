@@ -145,15 +145,11 @@ class CameraFragment : Fragment() {
 
     private fun showImageToPage(data : Uri){
         if (type == "back"){
-
-
             findNavController()
                 .previousBackStackEntry?.savedStateHandle
                 ?.set(camera_key_inventory,data)
             findNavController()
                 .popBackStack()
-
-
         }else{
             findNavController().navigate(
                 CameraFragmentDirections.actionCameraFragmentToDisaseDetailFragment(
@@ -161,10 +157,7 @@ class CameraFragment : Fragment() {
                     null
                 )
             )
-
-
         }
-
     }
 
     private fun showToast(title : String){

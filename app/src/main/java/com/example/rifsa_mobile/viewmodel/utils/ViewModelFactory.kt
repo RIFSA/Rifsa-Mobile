@@ -4,26 +4,28 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.model.repository.Injection
-import com.example.rifsa_mobile.model.repository.MainRepository
+import com.example.rifsa_mobile.model.repository.LocalRepository
+import com.example.rifsa_mobile.model.repository.RemoteRepository
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
-    private val repository: MainRepository
-): ViewModelProvider.Factory {
+    private val remoteRepository: RemoteRepository,
+    private val localRepository : LocalRepository
+    ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
-                UserPrefrencesViewModel(repository) as T
+                UserPrefrencesViewModel(localRepository) as T
             }
             modelClass.isAssignableFrom(LocalViewModel::class.java)->{
-                LocalViewModel(repository) as T
+                LocalViewModel(localRepository) as T
             }
             modelClass.isAssignableFrom(RemoteViewModel::class.java)->{
-                RemoteViewModel(repository) as T
+                RemoteViewModel(remoteRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
@@ -35,7 +37,10 @@ class ViewModelFactory private constructor(
         private var instance : ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this){
-                instance ?: ViewModelFactory(Injection.provideRepostiory(context))
+                instance ?: ViewModelFactory(
+                    Injection.provideRemoteRepository(context),
+                    Injection.provideLocalRepository(context)
+                )
             }.also { instance = it }
     }
 }

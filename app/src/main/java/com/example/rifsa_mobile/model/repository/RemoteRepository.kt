@@ -29,13 +29,9 @@ import com.example.rifsa_mobile.utils.FetchResult
 import okhttp3.MultipartBody
 import java.util.*
 
-class MainRepository(
-    database : DatabaseConfig,
+class RemoteRepository(
     private val apiService: ApiService,
-    private val userPrefrences: UserPrefrences
 ) {
-    private val dao = database.localDao()
-
 
     //Remote database
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
@@ -271,78 +267,4 @@ class MainRepository(
                 ))
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //Local database
-    suspend fun insertLocalHarvest(data : HarvestResult){
-        dao.insertHarvestLocal(data)
-    }
-
-    suspend fun deleteLocalHarvest(id : String){
-        dao.deleteHarvestLocal(id)
-    }
-
-    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int){
-        dao.updateHarvestLocal(uploadedStatus, idSort)
-    }
-
-    fun readLocalHarvest(): LiveData<List<HarvestResult>> =
-        dao.getHarvestLocal()
-
-
-    fun readLocalFinance(): LiveData<List<Finance>> =
-        dao.getFinanceLocal()
-
-    suspend fun insertLocalFinance(data : Finance){
-        dao.insertFinanceLocal(data)
-    }
-
-    suspend fun deleteLocalFinance(id: String){
-        dao.deleteFinanceLocal(id)
-    }
-
-    fun calculateFinanceLocal(type : String): LiveData<List<Finance>>{
-        return dao.calculateFinanceLocal(type)
-    }
-
-    fun readLocalInventory(): LiveData<List<Inventory>> =
-        dao.getInventoryLocal()
-
-    suspend fun insertLocalInventory(data : Inventory){
-        dao.insertInventoryLocal(data)
-    }
-
-    suspend fun deleteLocalInventory(id: String){
-        dao.deleteInventoryLocal(id)
-    }
-
-    fun readLocalDisease(): LiveData<List<Disease>> =
-        dao.getDiseaseLocal()
-
-    suspend fun insertLocalDisease(data : Disease){
-        dao.insertDiseaseLocal(data)
-    }
-
-    suspend fun deleteLocalDisease(id: String){
-        dao.deleteDiseaseLocal(id)
-    }
-
-
-
-    fun getOnBoardStatus(): LiveData<Boolean> = userPrefrences.getOnBoardKey().asLiveData()
-    fun getUserName(): LiveData<String> = userPrefrences.getNameKey().asLiveData()
-    suspend fun savePrefrences(onBoard : Boolean, userName: String,token : String){
-        userPrefrences.savePrefrences(onBoard,userName,token)
-    }
 }

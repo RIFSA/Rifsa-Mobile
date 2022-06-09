@@ -40,7 +40,9 @@ import java.util.concurrent.TimeUnit
 //todo (bug) location request
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val remoteViewModel : RemoteViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
     private lateinit var localViewModel: LocalViewModel
 
     private lateinit var alarmReceive : AlarmReceiver
