@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/disaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disase.DisaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.DisaseFragment"
         android:label="fragment_disase"
         tools:layout="@layout/fragment_disase" >
         <action
@@ -92,7 +92,7 @@
         tools:layout="@layout/fragment_finance_insert_detail" >
         <argument
             android:name="detail_finance"
-            app:argType="com.example.rifsa_mobile.model.entity.finance.Finance"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData"
             app:nullable="true" />
         <action
             android:id="@+id/action_financeInsertDetailFragment_to_financeFragment"
@@ -108,7 +108,7 @@
         tools:layout="@layout/fragment_harvest_insert_detail" >
         <argument
             android:name="detail_result"
-            app:argType="com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData"
             app:nullable="true" />
         <action
             android:id="@+id/action_harvestInsertDetailFragment_to_harvetResultFragment"
@@ -127,7 +127,7 @@
             app:destination="@id/cameraFragment" />
         <argument
             android:name="detail_inventory"
-            app:argType="com.example.rifsa_mobile.model.entity.inventory.Inventory"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData"
             app:nullable="true" />
         <action
             android:id="@+id/action_invetoryInsertFragment_to_inventoryFragment"
@@ -160,7 +160,7 @@
     </fragment>
     <fragment
         android:id="@+id/disaseDetailFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disase.detail.DisaseDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.detail.DisaseDetailFragment"
         android:label="fragment_disase_detail"
         tools:layout="@layout/fragment_disase_detail" >
         <action
@@ -178,12 +178,12 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="Disease_detail"
-            app:argType="com.example.rifsa_mobile.model.entity.disase.Disease"
+            app:argType="com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse"
             app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/mapsDiseaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disase.maps.MapsDiseaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.maps.MapsDiseaseFragment"
         android:label="MapsDiseaseFragment" >
         <action
             android:id="@+id/action_mapsDiseaseFragment_to_disaseFragment"
@@ -191,5 +191,8 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/apps_navigation"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapsDiseaseFragment_to_disaseDetailFragment"
+            app:destination="@id/disaseDetailFragment" />
     </fragment>
 </navigation>

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.disase.detail.DisaseDetailFragment"
+    tools:context=".view.fragment.disease.detail.DisaseDetailFragment"
     >
 
     <LinearLayout
@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="850dp">
+            android:layout_height="wrap_content">
 
 
             <androidx.appcompat.widget.Toolbar
@@ -76,19 +76,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/green" />
-
-                    <Button
-                        android:id="@+id/btn_disease_complete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:backgroundTint="#2196F3"
-                        android:text="Selesai"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:tint="@color/green"
+                        android:contentDescription="@string/save" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
 
@@ -97,15 +86,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/indikasi"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_location" />
 
@@ -114,19 +102,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
-                android:drawableRight="@drawable/ic_check"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
-                android:text="Lokasi ditemukan"
+                android:text="@string/lokasi_ditemukan"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail" />
+                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail"
+                app:drawableEndCompat="@drawable/ic_check" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -139,44 +127,31 @@
                 android:gravity="center|start"
                 android:text="@string/deskripsi"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_indication" />
-
-            <TextView
-                android:id="@+id/textView30"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
-                android:fontFamily="@font/dmsans_bold"
-                android:gravity="center|start"
-                android:text="@string/solusi"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_description" />
 
             <!--edit text as testing-->
             <EditText
                 android:id="@+id/tvdisasae_detail_indication"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_tvcorner_stroke_gray"
                 android:fontFamily="@font/dmsans_regular"
-                android:gravity="center|start"
-                android:text="Indikasi Penyakit"
+                android:includeFontPadding="false"
+                android:inputType="textPersonName"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                app:layout_constraintTop_toBottomOf="@+id/textView23"
+                tools:ignore="LabelFor" />
 
             <TextView
                 android:id="@+id/tvdisasae_detail_description"
@@ -187,9 +162,9 @@
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/dmsans_regular"
                 android:gravity="center|start"
-                android:text="Deksripsi penyakit"
+                android:text="@string/deksripsi_penyakit"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView28" />
@@ -199,25 +174,14 @@
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pgdisease_title"
-                tools:src="@tools:sample/avatars" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvdisasae_detail"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="32dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView30" />
+                tools:src="@tools:sample/avatars"
+                android:contentDescription="@string/image" />
 
             <TextView
                 android:id="@+id/pgdisease_title"
@@ -244,13 +208,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/pgdisease_title" />
 
-            ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_check"
-                tools:layout_editor_absoluteX="225dp"
-                tools:layout_editor_absoluteY="238dp" />
+            <Button
+                android:id="@+id/btn_disease_complete"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/light_green"
+                android:fontFamily="@font/dmsans_bold"
+                android:includeFontPadding="false"
+                android:text="@string/selesai"
+                android:textAllCaps="false"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

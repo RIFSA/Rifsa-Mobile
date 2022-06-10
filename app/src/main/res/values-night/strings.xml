@@ -11,4 +11,5 @@
     <string name="profile_picture">profile_picture</string>
     <string name="home_harvestres_title">Hasil Panen</string>
     <string name="back">back</string>
+    <string name="title_maps_fragment">Peta penyakit</string>
 </resources>

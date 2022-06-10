@@ -1,10 +1,13 @@
 package com.example.rifsa_mobile.utils
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -21,6 +24,9 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.streams.asSequence
 
@@ -32,6 +38,7 @@ object Utils {
         FILENAME_FORMAT,
         Locale.US
     ).format(System.currentTimeMillis())
+
 
 
     fun CharSequence.validEmailChecker() =
@@ -53,7 +60,7 @@ object Utils {
     }
 
 
-    //todo uri to file for upload photo
+    //todo | uri to file image format
     fun uriToFile(image : Uri,context: Context): File{
         val contentResolver: ContentResolver = context.contentResolver
         val myFile = createTempFile(context)
@@ -87,7 +94,7 @@ object Utils {
     }
 
 
-    //vector bitmap
+    // convert ic vector to bitmap
     fun vectorToBitmap(@DrawableRes id : Int, @ColorInt color : Int, context : Context): BitmapDescriptor {
         val vectorDrawable = ResourcesCompat.getDrawable(context.resources,id,null)
 
@@ -108,4 +115,15 @@ object Utils {
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
+
+    fun internetChecker(context: Context): Boolean{
+        val connected : Boolean
+        val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectionManager.activeNetworkInfo
+        connected = networkInfo != null && networkInfo.isConnected
+        return connected
+    }
+
+
+
 }

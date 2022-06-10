@@ -11,10 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,13 +30,14 @@ class CameraFragment : Fragment() {
 
     private var type = ""
 
-    //todo 1.3 registerData in URI Format (only for while)
+
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri
             showImageToPage(uriImage)
         }
     }
+
     private fun allPermissionGranted() = required_permission.all {
         ContextCompat.checkSelfPermission(requireContext(),it) == PackageManager.PERMISSION_GRANTED
     }
@@ -160,7 +158,6 @@ class CameraFragment : Fragment() {
                 )
             )
         }
-
     }
 
     private fun showToast(title : String){

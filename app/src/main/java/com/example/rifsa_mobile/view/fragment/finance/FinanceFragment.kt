@@ -1,64 +1,98 @@
 package com.example.rifsa_mobile.view.fragment.finance
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
-import com.example.rifsa_mobile.model.entity.finance.Finance
-import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRvAdapter
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
+import com.example.rifsa_mobile.utils.FetchResult
+import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 
 class FinanceFragment : Fragment() {
     private lateinit var binding : FragmentFinanceBinding
-    private lateinit var viewModel : LocalViewModel
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+
+    private lateinit var dataList: ArrayList<FinanceResponseData>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFinanceBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
+//        viewModel = ObtainViewModel(requireActivity())
+
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        showFinanceList()
+        dataList = arrayListOf()
+
 
         binding.fabFiannceInsert.setOnClickListener {
             findNavController().navigate(
                 FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
 
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            showFinanceList(token)
+        }
+
         return binding.root
     }
 
 
-    private fun showFinanceList(){
-        viewModel.readFinanceLocal().observe(viewLifecycleOwner){ responList ->
-            val adapter = FinanceRvAdapter(responList)
-            val recview = binding.rvFinance
-            recview.adapter = adapter
-            recview.layoutManager = LinearLayoutManager(requireContext())
+    private fun showFinanceList(token : String){
+        lifecycleScope.launch{
+            remoteViewModel.getFinanceRemote(token).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Success->{
+                        it.data.financeResponseData.forEach { respon ->
+                            dataList.add(respon)
 
-            adapter.onItemCallBack(object : FinanceRvAdapter.ItemDetailCallback{
-                override fun onItemCallback(data: Finance) {
-                    findNavController().navigate(
-                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
+                            val adapter = FinanceRecyclerViewAdapter(dataList)
+                            val recyclerView = binding.rvFinance
+                            recyclerView.adapter = adapter
+                            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+                            adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
+                                override fun onItemCallback(data: FinanceResponseData) {
+                                    findNavController().navigate(
+                                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
+                                }
+                            })
+                            if (dataList.isEmpty()){
+                                binding.financeEmptyState.emptyState.visibility =
+                                    View.VISIBLE
+                            }
+                        }
+                    }
+                    is FetchResult.Error->{
+                        showToast(it.error)
+                        Log.d("Read Finance Result",it.error)
+                    }
+                    else -> {}
                 }
-            })
-            if (responList.isEmpty()){
-                binding.financeEmptyState.emptyState.visibility =
-                    View.VISIBLE
             }
         }
     }
 
-
+    private fun showToast(title : String){
+        Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
+    }
 }

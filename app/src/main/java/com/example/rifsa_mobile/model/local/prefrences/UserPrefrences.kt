@@ -37,6 +37,7 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
         }
     }
 
+
     suspend fun savePrefrences(onBoard : Boolean,name : String, token : String){
         dataStore.edit {
             it[onBoardKey] = onBoard

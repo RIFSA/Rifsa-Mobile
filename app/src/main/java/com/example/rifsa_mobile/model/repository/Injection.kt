@@ -7,12 +7,16 @@ import com.example.rifsa_mobile.model.local.prefrences.dataStore
 import com.example.rifsa_mobile.model.remote.ApiConfig
 
 object Injection {
-    fun provideRepostiory(context: Context): MainRepository{
-        return MainRepository(
+    fun provideRemoteRepository(context: Context): RemoteRepository{
+        return RemoteRepository(
+            ApiConfig.setApiService()
+        )
+    }
+
+    fun provideLocalRepository(context: Context): LocalRepository{
+        return LocalRepository(
             DatabaseConfig.getDatabase(context),
-            ApiConfig.setApiService(),
             UserPrefrences.getInstance(context.dataStore)
         )
-
     }
 }

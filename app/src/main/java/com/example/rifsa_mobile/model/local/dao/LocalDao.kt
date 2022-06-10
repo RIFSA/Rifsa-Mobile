@@ -2,10 +2,10 @@ package com.example.rifsa_mobile.model.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.rifsa_mobile.model.entity.disase.Disease
-import com.example.rifsa_mobile.model.entity.finance.Finance
-import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
-import com.example.rifsa_mobile.model.entity.inventory.Inventory
+import com.example.rifsa_mobile.model.entity.local.disase.Disease
+import com.example.rifsa_mobile.model.entity.local.finance.Finance
+import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
+import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 
 @Dao
 interface LocalDao {
@@ -19,6 +19,9 @@ interface LocalDao {
 
     @Query("delete from Harvest_Table where id_harvest like :id")
     suspend fun deleteHarvestLocal(id : String)
+
+    @Query("update Harvest_Table SET valueStatus=:uploadedStatus where id_sort=:idSort ")
+    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int)
 
 
     //finance

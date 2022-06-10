@@ -10,7 +10,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityOnBoardingBinding
 import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.view.onboarding.adapter.OnBoardAdapter
-import com.example.rifsa_mobile.model.entity.onboard.OnBoardRef
+import com.example.rifsa_mobile.model.entity.local.onboard.OnBoardRef
 
 @Suppress("DEPRECATION")
 class OnBoarding : AppCompatActivity() {

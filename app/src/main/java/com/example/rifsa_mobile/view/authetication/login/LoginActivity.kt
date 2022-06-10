@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.view.authetication.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityLoginBinding
-import com.example.rifsa_mobile.model.remote.response.login.LoginBody
+import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.MainActivity
 import com.example.rifsa_mobile.view.authetication.signup.SignUpActivity
@@ -75,6 +76,8 @@ class LoginActivity : AppCompatActivity() {
                             binding.tvLoginEmail.text.toString(),
                             respon.data.token
                         )
+
+                        Log.d("Ok Login toke",respon.data.token)
                         showStatus("Login Berhasil")
                         startActivity(Intent(this,MainActivity::class.java))
                         finishAffinity()
@@ -100,6 +103,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun saveLoginSession(onBoard : Boolean,name : String,token : String){
-        authViewModel.saveUserPrefrences(onBoard,name,token)
+        authViewModel.saveUserPrefrences(onBoard,name,"Bearer $token")
     }
 }

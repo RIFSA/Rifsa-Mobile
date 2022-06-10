@@ -35,7 +35,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
-                android:text="Peta penyakit"
+                android:text="Peta sebaran penyakit"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar11"
-        tools:context=".view.fragment.disase.maps.MapsDiseaseFragment" />
+        tools:context=".view.fragment.disease.maps.MapsDiseaseFragment" />
 
     <TextView
         android:id="@+id/textView34"

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardOnboardingBinding
-import com.example.rifsa_mobile.model.entity.onboard.OnBoardRef
+import com.example.rifsa_mobile.model.entity.local.onboard.OnBoardRef
 
 class OnBoardAdapter(var data : List<OnBoardRef>) : RecyclerView.Adapter<OnBoardAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardOnboardingBinding): RecyclerView.ViewHolder(binding.root)
