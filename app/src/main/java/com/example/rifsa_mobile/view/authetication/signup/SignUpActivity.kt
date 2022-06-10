@@ -100,7 +100,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
                 is FetchResult.Success ->{
                     binding.pgbarRegister.visibility = View.VISIBLE
-                    authViewModel.saveUserPrefrences(true,email,it.data.token)
+                    authViewModel.saveUserPrefrences(true,email,password,it.data.token)
                     startActivity(Intent(this,MainActivity::class.java))
                 }
                 is FetchResult.Error ->{

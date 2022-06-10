@@ -59,7 +59,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-
         binding.btnHomeHasil.setOnClickListener {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToHarvetResultFragment()

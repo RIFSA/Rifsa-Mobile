@@ -32,8 +32,10 @@ class ProfileFragment : Fragment() {
 
         authViewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvprofileName.text = it
-            binding.tvSignupName.setText(it)
             binding.tvSignupEmail.setText(it)
+        }
+
+        authViewModel.getPassword().observe(viewLifecycleOwner){
             binding.tvSignupPassword.setText(it)
         }
 
@@ -41,6 +43,7 @@ class ProfileFragment : Fragment() {
         binding.btnprofileLogout.setOnClickListener {
             authViewModel.saveUserPrefrences(
                 true,
+                "",
                 "",
                 ""
             )

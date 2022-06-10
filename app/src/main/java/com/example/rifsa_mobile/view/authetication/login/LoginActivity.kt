@@ -74,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
                         saveLoginSession(
                             onBoard = true,
                             binding.tvLoginEmail.text.toString(),
+                            binding.tvLoginPassword.text.toString(),
                             respon.data.token
                         )
 
@@ -102,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveLoginSession(onBoard : Boolean,name : String,token : String){
-        authViewModel.saveUserPrefrences(onBoard,name,"Bearer $token")
+    private fun saveLoginSession(onBoard : Boolean,name : String,pass: String,token : String){
+        authViewModel.saveUserPrefrences(onBoard,name,pass,"Bearer $token")
     }
 }
