@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +35,6 @@ class FinanceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFinanceBinding.inflate(layoutInflater)
-//        viewModel = ObtainViewModel(requireActivity())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
@@ -61,7 +59,12 @@ class FinanceFragment : Fragment() {
         lifecycleScope.launch{
             remoteViewModel.getFinanceRemote(token).observe(viewLifecycleOwner){
                 when(it){
+                    is FetchResult.Loading->{
+                        binding.pgbFinanceBar.visibility = View.VISIBLE
+                    }
                     is FetchResult.Success->{
+                        binding.pgbFinanceBar.visibility = View.GONE
+
                         it.data.financeResponseData.forEach { respon ->
                             dataList.add(respon)
 
@@ -76,15 +79,10 @@ class FinanceFragment : Fragment() {
                                         FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
                                 }
                             })
-                            if (dataList.isEmpty()){
-                                binding.financeEmptyState.emptyState.visibility =
-                                    View.VISIBLE
-                            }
                         }
                     }
                     is FetchResult.Error->{
-                        showToast(it.error)
-                        Log.d("Read Finance Result",it.error)
+                        showStatus(it.error)
                     }
                     else -> {}
                 }
@@ -92,7 +90,14 @@ class FinanceFragment : Fragment() {
         }
     }
 
-    private fun showToast(title : String){
-        Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
+    private fun showStatus(title : String){
+        binding.pgbKeaunganTitle.visibility = View.VISIBLE
+        binding.pgbKeaunganTitle.text = title
+
+        if (title.isNotEmpty()){
+            binding.pgbFinanceBar.visibility = View.GONE
+        }
+
+        Log.d("FinanceFragment",title)
     }
 }

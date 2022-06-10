@@ -64,11 +64,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar10"
+        app:layout_constraintTop_toBottomOf="@+id/pgStatus_title"
         tools:listitem="@layout/itemcard_disase" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -99,5 +100,31 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar10" />
+
+    <TextView
+        android:id="@+id/pgStatus_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        android:text="status title"
+        android:textColor="#111111"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar10" />
+
+    <ProgressBar
+        android:id="@+id/pgStatus_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="63dp"
+        android:layout_height="57dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recviewdisease"
+        app:layout_constraintVertical_bias="0.394" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

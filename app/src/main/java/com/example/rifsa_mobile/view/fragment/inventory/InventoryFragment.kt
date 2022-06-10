@@ -58,11 +58,15 @@ class InventoryFragment : Fragment() {
         lifecycleScope.launch {
             remoteViewModel.getInventoryRemote(token).observe(viewLifecycleOwner){ respon ->
                 when(respon){
+                    is FetchResult.Loading ->{
+                        binding.pgbInventoryBar.visibility = View.VISIBLE
+                    }
                     is FetchResult.Success->{
+                        binding.pgbInventoryBar.visibility = View.GONE
                         showInventoryList(respon.data.InventoryResultResponData)
                     }
                     is FetchResult.Error ->{
-                        Log.d("iventory read",respon.error)
+                        showStatus(respon.error)
                     }
                     else -> {}
                 }
@@ -83,8 +87,17 @@ class InventoryFragment : Fragment() {
                         InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data))
             }
         })
-
     }
 
+    private fun showStatus(title : String){
+        binding.pgbInventoryStatus.text = title
+        binding.pgbInventoryStatus.visibility = View.VISIBLE
+
+        if (title.isNotEmpty()){
+            binding.pgbInventoryBar.visibility = View.GONE
+        }
+
+        Log.d("InventoryFragment",title)
+    }
 
 }

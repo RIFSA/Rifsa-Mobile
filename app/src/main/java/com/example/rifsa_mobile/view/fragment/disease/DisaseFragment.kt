@@ -40,7 +40,7 @@ class DisaseFragment : Fragment() {
         }
 
 
-        //todo 1.2 POST disease
+
         binding.fabScanDisase.setOnClickListener {
            findNavController().navigate(
                DisaseFragmentDirections.actionDisaseFragmentToCameraFragment(camera_key)
@@ -61,11 +61,15 @@ class DisaseFragment : Fragment() {
         lifecycleScope.launch {
             remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){ respon ->
                 when(respon){
+                    is FetchResult.Loading ->{
+                        binding.pgStatusBar.visibility = View.VISIBLE
+                    }
                     is FetchResult.Success -> {
+                        binding.pgStatusBar.visibility = View.GONE
                         showListDisease(respon.data.DiseaseResultDataResponse)
                     }
                     is FetchResult.Error ->{
-
+                        showStatus(respon.error)
                     }
                     else -> {}
                 }
@@ -91,6 +95,14 @@ class DisaseFragment : Fragment() {
         })
     }
 
+    private fun showStatus(title : String){
+        binding.pgStatusTitle.text = title
+        binding.pgStatusTitle.visibility = View.VISIBLE
+
+        if (title.isNotEmpty()){
+            binding.pgStatusBar.visibility = View.GONE
+        }
+    }
 
     companion object{
         const val camera_key = "next"
