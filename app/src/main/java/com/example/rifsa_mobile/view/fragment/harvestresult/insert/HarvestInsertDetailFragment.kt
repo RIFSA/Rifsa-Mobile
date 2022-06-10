@@ -105,7 +105,7 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateHarvestRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
             lifecycleScope.launch {
                 val date = LocalDate.now().toString()
 
@@ -118,7 +118,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 )
 
                 if (!isDetail){
-                    remoteViewModel.postHarvestRemote(tempData,"Bearer $it").observe(viewLifecycleOwner){
+                    remoteViewModel.postHarvestRemote(tempData,token).observe(viewLifecycleOwner){
                         when(it){
                             is FetchResult.Loading ->{
                                 binding.pgbarStatus.visibility = View.VISIBLE
@@ -135,7 +135,7 @@ class HarvestInsertDetailFragment : Fragment() {
                         }
                     }
                 }else{
-                    remoteViewModel.updateHarvestRemote(detailId, tempData,"Bearer $it").observe(viewLifecycleOwner){
+                    remoteViewModel.updateHarvestRemote(detailId, tempData,token).observe(viewLifecycleOwner){
                         when(it){
                             is FetchResult.Loading ->{
                                 binding.pgbarStatus.visibility = View.VISIBLE
@@ -158,9 +158,9 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun deleteHarvestRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
-                remoteViewModel.deleteHarvestRemote(detailId,"Bearer $it").observe(viewLifecycleOwner){
+                remoteViewModel.deleteHarvestRemote(detailId,token).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Success ->{
                             showStatus(it.data.message)

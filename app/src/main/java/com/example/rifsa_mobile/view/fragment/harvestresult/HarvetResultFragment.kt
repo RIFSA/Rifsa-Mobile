@@ -54,8 +54,8 @@ class HarvetResultFragment : Fragment() {
             )
         }
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
-            getResultFromRemote("Bearer $it")
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+            getResultFromRemote(token)
         }
 
 

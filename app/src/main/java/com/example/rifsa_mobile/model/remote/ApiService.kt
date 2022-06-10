@@ -17,7 +17,6 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import okhttp3.MultipartBody
 import retrofit2.http.*
-import java.util.*
 
 interface ApiService {
 
@@ -30,7 +29,6 @@ interface ApiService {
     suspend fun postRegister(
         @Body body: RegisterBody
     ): RegisterResponse
-
 
     @GET("hasilpanen")
     suspend fun getHarvestResultRemote(
@@ -97,7 +95,6 @@ interface ApiService {
         @Header("Authorization") token : String
     ): InventoryPostResponse
 
-
     @Multipart
     @PUT("inventaris/{id}")
     suspend fun updateInventoryRemote(
@@ -108,7 +105,6 @@ interface ApiService {
         @Path("id") id : Int
     ): InventoryPostResponse
 
-
     @DELETE("inventaris/{id}")
     suspend fun deleteInventoryRemote(
         @Path("id") id : Int,
@@ -116,12 +112,16 @@ interface ApiService {
     ): InventoryPostResponse
 
 
-    //todo disease  post , predic , list , delete
     @GET("penyakit")
     suspend fun getDiseaseRemote(
         @Header("Authorization") token : String
     ): DiseaseResultResponse
 
+    @GET("penyakit/{id}")
+    suspend fun getDiseaseRemoteById(
+        @Path("id") id: Int,
+        @Header("Authorization") token : String
+    ): DiseasePostResponse
 
     @Multipart
     @POST("http://34.101.115.114:5000/predict")

@@ -103,6 +103,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun saveLoginSession(onBoard : Boolean,name : String,token : String){
-        authViewModel.saveUserPrefrences(onBoard,name,token)
+        authViewModel.saveUserPrefrences(onBoard,name,"Bearer $token")
     }
 }

@@ -87,6 +87,10 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
     suspend fun getDiseaseRemote(token: String): LiveData<FetchResult<DiseaseResultResponse>> =
         remoteRepository.getDiseaseRemote(token)
 
+    suspend fun getDiseaseRemoteById(token: String,id: Int): LiveData<FetchResult<DiseasePostResponse>> =
+        remoteRepository.getDiseaseRemoteById(token, id)
+
+
     suspend fun postDiseasePrediction(file: MultipartBody.Part): LiveData<FetchResult<DiseasePredictionResponse>> =
         remoteRepository.postDiseasePredictionRemote(file)
 

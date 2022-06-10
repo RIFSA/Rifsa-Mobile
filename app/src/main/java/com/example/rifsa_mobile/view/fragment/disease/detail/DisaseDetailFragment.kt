@@ -182,6 +182,7 @@ class DisaseDetailFragment : Fragment() {
     private fun showDetailDisease(data : DiseaseResultDataResponse){
         binding.btnDiseaseComplete.visibility = View.VISIBLE
         binding.tvdisasaeDetailIndication.setText(data.indikasi)
+
         Glide.with(requireContext())
             .load("http://34.101.50.17:5000/images/${data.image}")
             .into(binding.imgDisaseDetail)
@@ -231,7 +232,7 @@ class DisaseDetailFragment : Fragment() {
             currentImage.name,
             typeFile
         )
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
             lifecycleScope.launch {
                 remoteViewModel.postDiseaseRemote(
                     name,
@@ -240,7 +241,7 @@ class DisaseDetailFragment : Fragment() {
                     name,
                     curLatitude,
                     curLongitude,
-                    "Bearer $it"
+                    token
                 ).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Success->{
@@ -261,9 +262,9 @@ class DisaseDetailFragment : Fragment() {
     }
 
     private fun deleteDiseaseRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
-                remoteViewModel.deleteDiseaseRemote(randomId,"Bearer $it").observe(viewLifecycleOwner){
+                remoteViewModel.deleteDiseaseRemote(randomId,token).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Loading->{
                             binding.pgdiseaseBar.visibility = View.VISIBLE

@@ -1,7 +1,9 @@
 package com.example.rifsa_mobile.model.entity.remote.disease
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class DiseasePostResponse(
  @SerializedName("status")
@@ -9,12 +11,13 @@ data class DiseasePostResponse(
  @SerializedName("message")
  val message: String,
  @SerializedName("data")
-val DiseasePostDataResponse : DiseasePostDataResponse
+val DiseasePostDataResponse : DiseaseResultDataResponse
 )
 
+@Parcelize
 data class DiseasePostDataResponse(
  @SerializedName("id_penyakit")
- val idPenyakit: Any,
+ val idPenyakit: Int,
  @SerializedName("nama")
  val nama: String,
  @SerializedName("image")
@@ -33,4 +36,4 @@ data class DiseasePostDataResponse(
  val updatedAt: String,
  @SerializedName("createdAt")
  val createdAt: String,
-)
+): Parcelable

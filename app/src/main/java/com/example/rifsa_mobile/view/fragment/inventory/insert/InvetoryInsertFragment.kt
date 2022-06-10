@@ -139,6 +139,8 @@ class InvetoryInsertFragment : Fragment() {
 
     private fun insertInventoryRemote(){
         val image = Utils.uriToFile(currentImage,requireContext())
+
+
         val typeFile = image.asRequestBody("image/jpg".toMediaTypeOrNull())
         val multiPart : MultipartBody.Part = MultipartBody.Part.createFormData(
             "file",
@@ -150,9 +152,9 @@ class InvetoryInsertFragment : Fragment() {
         val amount = binding.tvinventarisInsertAmount.text.toString().toInt()
         val note = binding.tvinventarisInsertNote.text.toString()
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
-                remoteViewModel.postInventoryRemote(name,multiPart,amount,note,"Bearer $it").observe(viewLifecycleOwner){
+                remoteViewModel.postInventoryRemote(name,multiPart,amount,note,token).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Loading ->{
                             binding.pgInventoryBar.visibility = View.GONE
@@ -173,9 +175,9 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun deleteInventoryRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
-                remoteViewModel.deleteInventoryRemote(detailId,"Bearer $it").observe(viewLifecycleOwner){
+                remoteViewModel.deleteInventoryRemote(detailId,token).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Loading->{
                             binding.pgInventoryBar.visibility = View.VISIBLE
@@ -195,8 +197,6 @@ class InvetoryInsertFragment : Fragment() {
         }
 
     }
-
-
 
 
     private fun gotoCameraFragment(){

@@ -1,12 +1,7 @@
 package com.example.rifsa_mobile.model.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.example.rifsa_mobile.model.entity.local.disase.Disease
-import com.example.rifsa_mobile.model.entity.local.finance.Finance
-import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
-import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
@@ -22,20 +17,14 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
-import com.example.rifsa_mobile.model.local.databaseconfig.DatabaseConfig
-import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.utils.FetchResult
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.runBlocking
 import okhttp3.MultipartBody
-import java.util.*
 
 class RemoteRepository(
     private val apiService: ApiService,
 ) {
 
-    //Remote database
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
         liveData {
             emit(FetchResult.Loading)
@@ -72,9 +61,6 @@ class RemoteRepository(
             }
     }
 
-
-
-    //harvest result
     suspend fun getHarvestRemote(token : String): LiveData<FetchResult<HarvestResultRespon>> =
         liveData {
             emit(FetchResult.Loading)
@@ -222,6 +208,18 @@ class RemoteRepository(
             try {
                 emit(FetchResult.Success(
                    apiService.getDiseaseRemote(token)
+                ))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
+    suspend fun getDiseaseRemoteById(token: String,id : Int): LiveData<FetchResult<DiseasePostResponse>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(
+                    apiService.getDiseaseRemoteById(id, token)
                 ))
             }catch (e : Exception){
                 emit(FetchResult.Error(e.message.toString()))

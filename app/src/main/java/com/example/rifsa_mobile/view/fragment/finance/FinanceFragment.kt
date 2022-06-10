@@ -49,8 +49,8 @@ class FinanceFragment : Fragment() {
                 FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
-            showFinanceList("Bearer $it")
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            showFinanceList(token)
         }
 
         return binding.root

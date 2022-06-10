@@ -51,11 +51,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         authViewModel.apply {
-            getUserName().observe(viewLifecycleOwner){
-                binding.tvhomeName.text = it
+            getUserName().observe(viewLifecycleOwner){ name ->
+                binding.tvhomeName.text = name
             }
-            getUserToken().observe(viewLifecycleOwner){
-                getHarvestRemote("Bearer $it")
+            getUserToken().observe(viewLifecycleOwner){ token ->
+                getHarvestRemote(token)
             }
         }
 

@@ -4,17 +4,26 @@ import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsDiseaseBinding
+import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,15 +32,23 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.launch
 
 //todo maps bug
 class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
     private lateinit var viewModel : LocalViewModel
     private lateinit var binding : FragmentMapsDiseaseBinding
 
+
+    private val remoteViewModel : RemoteViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var gMap : GoogleMap
-    private var status = false
 
 
     private var fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -54,18 +71,36 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        viewModel.readDiseaseLocal().observe(viewLifecycleOwner){ respon ->
-            respon.forEach { loc ->
-                showMarker(loc.latitude,loc.longitude,loc.indication)
-            }
-        }
 
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            showDiseaseMarker(token)
+        }
 
 
         return binding.root
     }
 
-
+    private fun showDiseaseMarker(token : String){
+        lifecycleScope.launch {
+            remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){ respon ->
+                when(respon){
+                    is FetchResult.Loading->{}
+                    is FetchResult.Success->{
+                        respon.data.DiseaseResultDataResponse.forEach { loc->
+                            showMarker(
+                                loc.latitude,
+                                loc.longitude,
+                                loc.indikasi,
+                                loc.idPenyakit.toString()
+                            )
+                        }
+                    }
+                    is FetchResult.Error->{}
+                    else -> {}
+                }
+            }
+        }
+    }
 
 
     override fun onMapReady(maps: GoogleMap) {
@@ -82,7 +117,8 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         // directly go to owned field position
         gMap.apply {
             addMarker(MarkerOptions()
-                .position(dummyMarker).title("Sawah anda")
+                .position(dummyMarker)
+                .title("Sawah anda")
                 .icon(vectorToBitmap(
                     R.drawable.ic_own_field,
                     Color.parseColor("#56CCF2")
@@ -100,22 +136,63 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-    private fun showMarker(lattidue : Double,longtidue : Double,title : String) {
-        gMap.apply {
-            addMarker(MarkerOptions()
-                .position(dummyMarker).title("Sawah anda")
-                .icon(vectorToBitmap(
-                    R.drawable.ic_own_field,
-                    Color.parseColor("#56CCF2")
-                    ,requireContext())
+    private fun showMarker(lattidue : Double,longtidue : Double,title : String,id : String) {
+        if (lattidue != 0.0){
+            gMap.apply {
+                addMarker(MarkerOptions()
+                    .position(dummyMarker).title("Sawah anda")
+                    .icon(vectorToBitmap(
+                        R.drawable.ic_own_field,
+                        Color.parseColor("#56CCF2")
+                        ,requireContext())
+                    )
                 )
-            )
-            addMarker(MarkerOptions()
-                .position(LatLng(lattidue, longtidue)).title(title)
-            )
-
+                addMarker(MarkerOptions()
+                    .position(LatLng(lattidue, longtidue))
+                    .snippet(id)
+                    .title(title)
+                )
+                setOnInfoWindowClickListener {
+                    detailDisease(it.snippet!!.toInt())
+                }
+            }
         }
     }
+
+    private fun detailDisease(id : Int){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            lifecycleScope.launch {
+                remoteViewModel.getDiseaseRemoteById(token,id).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Loading->{
+
+                        }
+                        is FetchResult.Success->{
+                            Log.d("disease",it.data.message)
+                            findNavController().navigate(MapsDiseaseFragmentDirections
+                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
+                                    null,
+                                    it.data.DiseasePostDataResponse
+                                ))
+                        }
+                        is FetchResult.Error->{
+                            Log.d("disease",it.error)
+                        }
+                        else -> {}
+                    }
+
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
 
     private fun getCurrentLocation(){
         if (ContextCompat.checkSelfPermission(requireContext(),fineLocation) ==

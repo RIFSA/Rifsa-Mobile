@@ -191,5 +191,8 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/apps_navigation"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapsDiseaseFragment_to_disaseDetailFragment"
+            app:destination="@id/disaseDetailFragment" />
     </fragment>
 </navigation>

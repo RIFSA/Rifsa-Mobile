@@ -35,8 +35,8 @@ class DisaseFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
-            diseaseList("Bearer $it")
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            diseaseList(token)
         }
 
 

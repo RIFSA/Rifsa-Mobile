@@ -46,8 +46,8 @@ class InventoryFragment : Fragment() {
             )
         }
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
-            inventoryList("Bearer $it")
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+            inventoryList(token)
         }
 
 

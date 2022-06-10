@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.local.finance.Finance
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.utils.FetchResult
@@ -40,13 +39,10 @@ class FinanceInsertDetailFragment : Fragment() {
 
     private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
 
-    private var randomId = Utils.randomId()
     private var currentDate = LocalDate.now().toString()
     private var type = ""
     private var isDetail = false
     private var detailId = 0
-    private var sortId = 0
-
     private var isConnected = false
 
     override fun onCreateView(
@@ -67,8 +63,6 @@ class FinanceInsertDetailFragment : Fragment() {
                 setDetail(data)
                 isDetail = true
                 detailId = data.idKeuangan
-//                sortId = data.id_sort
-//                type = data.type
             }
         }catch (e : Exception){ }
 
@@ -131,7 +125,7 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
                 val tempData = FinancePostBody(
                     currentDate,
@@ -142,7 +136,7 @@ class FinanceInsertDetailFragment : Fragment() {
                 )
 
                 if (!isDetail){
-                    remoteViewModel.postFinanceRemote(tempData,"Bearer $it").observe(viewLifecycleOwner){
+                    remoteViewModel.postFinanceRemote(tempData,token).observe(viewLifecycleOwner){
                         when(it){
                             is FetchResult.Loading ->{
 
@@ -159,7 +153,7 @@ class FinanceInsertDetailFragment : Fragment() {
                         }
                     }
                 }else{
-                    remoteViewModel.updateFinanceRemote(detailId, tempData,"Bearer $it").observe(viewLifecycleOwner){
+                    remoteViewModel.updateFinanceRemote(detailId, tempData,token).observe(viewLifecycleOwner){
                         when(it){
                             is FetchResult.Loading ->{
 
@@ -182,13 +176,14 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
     private fun deleteFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
-                remoteViewModel.deleteFinanceRemote(detailId,"Bearer $it").observe(viewLifecycleOwner){
+                remoteViewModel.deleteFinanceRemote(detailId,token).observe(viewLifecycleOwner){
                     when(it) {
                         is FetchResult.Success -> {
                             showStatus(it.data.message)
-                            findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                            findNavController()
+                                .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                         }
 
                         is FetchResult.Error -> {
@@ -203,29 +198,6 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
 
-    private fun insertFinanceLocally(){
-        if (isDetail){ randomId = detailId.toString() }
-        val tempInsert = Finance(
-            sortId,
-            randomId,
-            currentDate,
-            binding.tvfinanceInsertNama.text.toString(),
-            type,
-            binding.tvfinanceInsertCatatan.text.toString(),
-            binding.tvfinanceInsertHarga.text.toString().toInt(),
-            false
-        )
-
-        try {
-            localViewModel.insertFinanceLocal(tempInsert)
-            showStatus("Tersimpan")
-            findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-        }catch (e : Exception){
-            showStatus(e.message.toString())
-        }
-    }
-
-
     private fun setDetail(data : FinanceResponseData){
         val amount = data.jumlah
         binding.apply {
@@ -235,17 +207,6 @@ class FinanceInsertDetailFragment : Fragment() {
             tvfinanceInsertCatatan.setText(data.catatan)
             btnfinanceInsertDelete.visibility = View.VISIBLE
             "Detail Data".also { tvFinanceInsertdetail.text = it }
-        }
-    }
-
-    private fun deleteFinanceLocal(){
-        try {
-            localViewModel.deleteFinanceLocal(detailId.toString())
-            showStatus("Terhapus")
-            findNavController().navigate(
-                FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-        }catch (e : Exception){
-            showStatus(e.message.toString())
         }
     }
 
@@ -270,12 +231,10 @@ class FinanceInsertDetailFragment : Fragment() {
 
 
     private fun showStatus(title : String){
-
         if(title.isNotEmpty()){
             binding.pgbFinanceStatus.visibility = View.GONE
             binding.pgbFinanceTitle.visibility = View.VISIBLE
         }
-
         binding.pgbFinanceTitle.text = title
         Log.d(finance_key,"status $title")
     }
