@@ -16,35 +16,6 @@ class LocalViewModel(private val localRepository: LocalRepository): ViewModel() 
     fun readHarvestLocal(): LiveData<List<HarvestResult>> =
         localRepository.readLocalHarvest()
 
-    fun insertHarvestlocal(data : HarvestResult){
-        viewModelScope.launch(Dispatchers.IO) {
-            localRepository.insertLocalHarvest(data)
-        }
-    }
-
-    fun deleteHarvestLocal(id : String){
-        viewModelScope.launch(Dispatchers.IO) {
-            localRepository.deleteLocalHarvest(id)
-        }
-    }
-
-    suspend fun updateHarvestLocal(uploadedStatus : String,idSort : Int){
-        localRepository.updateHarvestLocal(uploadedStatus, idSort)
-    }
-
-    fun readFinanceLocal(): LiveData<List<Finance>> =
-        localRepository.readLocalFinance()
-
-    fun insertFinanceLocal(data : Finance){
-        viewModelScope.launch(Dispatchers.IO) {
-            localRepository.insertLocalFinance(data)
-        }
-    }
-     fun deleteFinanceLocal(id : String){
-        viewModelScope.launch(Dispatchers.IO) {
-            localRepository.deleteLocalFinance(id)
-        }
-    }
 
     fun calculateFinanceLocal(type : String): LiveData<List<Finance>>{
         return localRepository.calculateFinanceLocal(type)
@@ -54,15 +25,7 @@ class LocalViewModel(private val localRepository: LocalRepository): ViewModel() 
     fun readInventoryLocal(): LiveData<List<Inventory>> =
         localRepository.readLocalInventory()
 
-    suspend fun insertInventoryLocal(data : Inventory){
-        localRepository.insertLocalInventory(data)
-    }
 
-    fun deleteInventoryLocal(id: String){
-        viewModelScope.launch(Dispatchers.IO) {
-            localRepository.deleteLocalInventory(id)
-        }
-    }
 
     fun readDiseaseLocal(): LiveData<List<Disease>> =
         localRepository.readLocalDisease()

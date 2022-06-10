@@ -9,8 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.rifsa_mobile.databinding.FragmentProfileBinding
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
@@ -19,9 +24,10 @@ import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
+
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private lateinit var viewModel :LocalViewModel
-
+    private val remoteViewModel : RemoteViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,9 +39,6 @@ class ProfileFragment : Fragment() {
         authViewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvprofileName.text = it
             binding.tvSignupEmail.setText(it)
-        }
-
-        authViewModel.getPassword().observe(viewLifecycleOwner){
             binding.tvSignupPassword.setText(it)
         }
 
@@ -51,37 +54,73 @@ class ProfileFragment : Fragment() {
             activity?.finishAffinity()
         }
 
-        showSummary()
+        showSummaryRemote()
 
         return binding.root
     }
 
-    private fun showSummary() {
-        viewModel.apply {
-            readHarvestLocal().observe(viewLifecycleOwner) { harvest ->
-                harvest.forEach { value ->
-                    binding.tvsumHarvestAmount.text = harvest.size.toString()
-                    (harvest.sumOf { value.weight }
-                        .toString() + "  kg").also { binding.tvsumHarvestWeight.text = it }
-                    ("Rp " + harvest.sumOf { value.sellingPrice }
-                        .toString()).also { binding.tvsumHarvestHarga.text = it }
-                }
-            }
 
 
+    private fun showSummaryRemote(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){token->
             lifecycleScope.launch {
-                calculateFinanceLocal("Pengeluaran").observe(viewLifecycleOwner) { finance ->
-                        ("Rp " + finance.sumOf { it.amount }.toString()).also { binding.tvsumFinanceOut.text = it }
-                }
-                calculateFinanceLocal("Pemasukan").observe(viewLifecycleOwner) { finance ->
-                    ("Rp " + finance.sumOf { it.amount }.toString()).also { binding.tvsumFinanceIn.text = it }
-                }
-            }
+                remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success->{
+                            summaryHarvest(it.data.harvestResponData)
+                        }
+                        is FetchResult.Error->{
 
-            this.readInventoryLocal().observe(viewLifecycleOwner){ invetory ->
-                binding.tvsumInventoryAmount.text = invetory.size.toString()
+                        }
+                        else -> {}
+                    }
+                }
+                remoteViewModel.getFinanceRemote(token).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success->{
+                            summaryFinance(it.data.financeResponseData)
+                        }
+                        is FetchResult.Error->{
+
+                        }
+                        else -> {}
+                    }
+                }
+                remoteViewModel.getInventoryRemote(token).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success->{
+                            summaryInventory(it.data.InventoryResultResponData)
+                        }
+                        is FetchResult.Error->{
+
+                        }
+                        else -> {}
+                    }
+                }
             }
         }
     }
+
+
+    private fun summaryHarvest(harvest : List<HarvestResponData>){
+        harvest.forEach { value->
+            binding.tvsumHarvestAmount.text = harvest.size.toString()
+            (harvest.sumOf { value.berat.toInt() }.toString() + "  kg").also { binding.tvsumHarvestWeight.text = it }
+            ("Rp " + harvest.sumOf { value.jual.toInt() }.toString()).also { binding.tvsumHarvestHarga.text = it }
+        }
+    }
+
+    private fun summaryFinance(finance : List<FinanceResponseData>){
+        finance.forEach { value->
+            ("Rp " + finance.sumOf { it.jumlah.toInt() }.toString()).also { binding.tvsumFinanceOut.text = it }
+        }
+    }
+
+    private fun summaryInventory(data : List<InventoryResultResponData>){
+        binding.tvsumInventoryAmount.text = data.size.toString()
+    }
+
+
+
 
 }

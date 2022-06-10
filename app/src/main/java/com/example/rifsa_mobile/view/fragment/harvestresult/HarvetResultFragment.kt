@@ -67,9 +67,6 @@ class HarvetResultFragment : Fragment() {
 
     }
 
-
-
-    //TODO | ambil data dari remote
     private fun getResultFromRemote(token : String){
         lifecycleScope.launch {
             remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){

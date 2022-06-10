@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
@@ -32,6 +33,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -181,7 +183,7 @@ class DisaseDetailFragment : Fragment() {
 
     private fun showDetailDisease(data : DiseaseResultDataResponse){
         binding.btnDiseaseComplete.visibility = View.VISIBLE
-        binding.tvdisasaeDetailIndication.setText(data.indikasi)
+        binding.tvdisasaeDetailIndication.text = data.indikasi
 
         Glide.with(requireContext())
             .load("http://34.101.50.17:5000/images/${data.image}")
@@ -209,6 +211,7 @@ class DisaseDetailFragment : Fragment() {
                     }
                     is FetchResult.Success ->{
                         binding.tvdisasaeDetailIndication.setText(it.data.result)
+                        showDescription(it.data.result)
                     }
                     is FetchResult.Error ->{
                         showStatus(it.error)
@@ -217,7 +220,6 @@ class DisaseDetailFragment : Fragment() {
                 }
             }
         }
-
     }
 
 
@@ -282,6 +284,20 @@ class DisaseDetailFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showDescription(search : String){
+        val inputStream = resources.openRawResource(R.raw.disease_solustion)
+        val jsonString: String = Scanner(inputStream).useDelimiter("\\A").next()
+
+        val jsonObj = JSONObject(jsonString)
+
+        val dataSolustion = jsonObj.getJSONObject("Solusi")
+            .getJSONObject(search)["deskripsi"]
+
+        Log.d("Disease",dataSolustion.toString())
+
+        binding.tvdisasaeDetailDescription.text = dataSolustion.toString()
     }
 
     private suspend fun insertDiseaseLocal(){
@@ -401,6 +417,8 @@ class DisaseDetailFragment : Fragment() {
         }
         Log.d(page_key,title)
     }
+
+
 
 
     companion object{

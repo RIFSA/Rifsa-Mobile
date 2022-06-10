@@ -71,14 +71,8 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
                 when(it){
-                    is FetchResult.Loading->{
-
-                    }
                     is FetchResult.Success->{
                         showHarvestList(it.data.harvestResponData)
-                    }
-                    is FetchResult.Error->{
-
                     }
                     else -> {}
                 }
@@ -100,21 +94,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun diseaseCount(){
-        viewModel.readDiseaseLocal().observe(viewLifecycleOwner){ respon ->
-            if (respon.isNotEmpty()){
-                binding.cardViewTwo.visibility = View.VISIBLE
-                binding.cardViewOne.visibility = View.GONE
-
-                val count = respon.size.toString()
-                binding.tvhomeDisasecount.text = count
-
-                binding.tvhomeDisasecount.setOnClickListener {
-                    findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToDisaseFragment()
-                    )
+        authViewModel.getUserToken().observe(viewLifecycleOwner){token->
+            lifecycleScope.launch {
+                remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Success->{
+                            binding.tvhomeDisasecount.text = it.data.DiseaseResultDataResponse.size.toString()
+                            binding.cardViewTwo.visibility = View.VISIBLE
+                            binding.cardViewOne.visibility = View.GONE
+                            binding.tvhomeDisasecount.setOnClickListener {
+                                findNavController().navigate(
+                                    HomeFragmentDirections.actionHomeFragmentToDisaseFragment()
+                                )
+                            }
+                        }
+                        else -> {}
+                    }
                 }
-            }else{
-                binding.cardViewOne.visibility = View.VISIBLE
             }
         }
     }

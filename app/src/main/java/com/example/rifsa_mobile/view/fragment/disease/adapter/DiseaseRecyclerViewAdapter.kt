@@ -23,11 +23,13 @@ class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultDataRe
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.apply {
-            tvDiseaseSubtitle.text = item.createdAt.removeRange(10..18)
-            tvDiseaseTitle.text = item.indikasi
+            if (item.createdAt != null){
+                tvDiseaseSubtitle.text = item.createdAt.removeRange(10..18)
+                tvDiseaseTitle.text = item.indikasi
 
+                holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)
+            }
 
-            holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)
         }
 
         holder.itemView.setOnClickListener {

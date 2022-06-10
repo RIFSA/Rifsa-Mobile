@@ -16,14 +16,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -37,7 +34,6 @@ class InvetoryInsertFragment : Fragment() {
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
-
 
     private var detail : InventoryResultResponData? = null
     private lateinit var currentImage : Uri
@@ -58,12 +54,9 @@ class InvetoryInsertFragment : Fragment() {
             val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
             detail = data
             if (data != null){
-                val pic = Uri.parse(data.url)
                 showDetail(data)
                 isDetail = true
                 detailId = data.idInventaris
-//                sortId = data.id_sort
-                currentImage = pic
                 binding.btninventoryInsertDelete.visibility = View.VISIBLE
             }
             showCameraImage()
@@ -95,7 +88,6 @@ class InvetoryInsertFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-//                        deleteInventoryLocal()
                         deleteInventoryRemote()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
@@ -128,18 +120,22 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun showCameraImage(){
-        val uriImage = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
-        if (uriImage != null) {
-            currentImage = uriImage
-            binding.imgInventory.setImageURI(uriImage)
+        if (!isDetail){
+            val uriImage = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
+            if (uriImage != null) {
+                currentImage = uriImage
+                binding.imgInventory.setImageURI(uriImage)
+            }
         }
+
     }
 
 
 
     private fun insertInventoryRemote(){
-        val image = Utils.uriToFile(currentImage,requireContext())
 
+        //todo update
+        val image = Utils.uriToFile(currentImage,requireContext())
 
         val typeFile = image.asRequestBody("image/jpg".toMediaTypeOrNull())
         val multiPart : MultipartBody.Part = MultipartBody.Part.createFormData(

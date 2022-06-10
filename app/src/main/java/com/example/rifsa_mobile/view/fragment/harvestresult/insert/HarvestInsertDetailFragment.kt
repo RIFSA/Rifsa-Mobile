@@ -16,10 +16,8 @@ import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBod
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -27,11 +25,8 @@ import java.time.LocalDate
 
 class HarvestInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentHarvestInsertDetailBinding
-    private lateinit var localViewModel: LocalViewModel
-
     private var isDetail = false
     private var detailId = 0
-
     private var isConnected = false
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
@@ -41,8 +36,6 @@ class HarvestInsertDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
 
-
-        localViewModel = ObtainViewModel(requireActivity())
         isConnected = Utils.internetChecker(requireContext())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
