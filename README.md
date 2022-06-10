@@ -56,6 +56,16 @@ Reviewing the activities of local residents who are farmers, they often complain
  5. MVVM
  6. Material Components
 
+Third-part libaries
+
+ 1. Glide
+	Glide is a fast and efficient open source media management and image loading framework for Android that wraps media decoding, memory and disk caching, and resource pooling into a simple and easy to use interface. [Repo](https://github.com/bumptech/glide)
+2. Retrofit
+A type-safe HTTP client for Android and Java
+ [Repo](https://github.com/square/retrofit)
+3. Okhttp-Logging Interceptor
+For logs HTTP request and response data
+ [Repo](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor)
  
  
 
@@ -66,7 +76,7 @@ Reviewing the activities of local residents who are farmers, they often complain
 
 ### Prerequisites
 
-*coming soon*
+Mobile phone with android os
 
 ### Installation
 *coming soon*
@@ -74,7 +84,15 @@ Reviewing the activities of local residents who are farmers, they often complain
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-*coming soon*
+Install on phone
+
+
+Android Studio
+
+ 1. goto Git-clone insert
+> https://github.com/Capstone-Bangkit/Rifsa-Mobile
+
+2. click clone
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -109,9 +127,10 @@ Reviewing the activities of local residents who are farmers, they often complain
 <!-- CONTACT -->
 ## Contact
 
-| I Wayan Alston Argodi | [Github](https://github.com/Alstonargodi) |
+| Member |  |
 |--|--|
 | Dio Farrel |[Github](https://github.com/diofarrel)  |
+| I Wayan Alston Argodi |[Github](https://github.com/Alstonargodi)  |
 
 
 
