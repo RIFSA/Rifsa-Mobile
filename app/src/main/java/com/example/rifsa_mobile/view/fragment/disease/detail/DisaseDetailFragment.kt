@@ -212,6 +212,7 @@ class DisaseDetailFragment : Fragment() {
                     }
                     is FetchResult.Success ->{
                         binding.tvdisasaeDetailIndication.setText(it.data.result)
+                        binding.pgdiseaseBar.visibility = View.GONE
                         showDescription(it.data.result)
                     }
                     is FetchResult.Error ->{
