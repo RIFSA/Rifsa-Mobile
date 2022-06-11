@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
-    android:background="@drawable/bg_tvcorner_stroke_green">
+    android:background="@drawable/bg_card_stroke_green">
 
     <ImageView
         android:id="@+id/imgcard_invent"

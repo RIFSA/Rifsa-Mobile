@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
                         is FetchResult.Success->{
                             binding.tvhomeDisasecount.text = it.data.DiseaseResultDataResponse.size.toString()
                             binding.cardViewTwo.visibility = View.VISIBLE
-                            binding.cardViewOne.visibility = View.GONE
+                            binding.cardViewOne.visibility = View.VISIBLE
                             binding.tvhomeDisasecount.setOnClickListener {
                                 findNavController().navigate(
                                     HomeFragmentDirections.actionHomeFragmentToDisaseFragment()

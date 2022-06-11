@@ -58,6 +58,7 @@ class InvetoryInsertFragment : Fragment() {
                 isDetail = true
                 detailId = data.idInventaris
                 binding.btninventoryInsertDelete.visibility = View.VISIBLE
+                binding.btnInventorySave.visibility = View.GONE
             }
             showCameraImage()
         }catch (e : Exception){ }
@@ -110,7 +111,7 @@ class InvetoryInsertFragment : Fragment() {
         binding.tvinventarisInsertName.setText(data.nama)
         binding.tvinventarisInsertAmount.setText(amount)
         binding.tvinventarisInsertNote.setText(data.catatan)
-        "Detail registerData".also { binding.tvInventoryInsertdetail.text = it }
+        "Detail Data".also { binding.tvInventoryInsertdetail.text = it }
 
         Glide.with(requireContext())
             .asBitmap()

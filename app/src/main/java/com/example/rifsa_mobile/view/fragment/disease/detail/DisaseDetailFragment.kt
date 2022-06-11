@@ -122,6 +122,7 @@ class DisaseDetailFragment : Fragment() {
                 showDetailDisease(detail)
                 isDetail = true
                 randomId = detail.idPenyakit
+                binding.btnDiseaseSave.visibility = View.GONE
 //                alarmID  = detail.reminderID
 //                sortId = detail.id_sort
             }
@@ -183,7 +184,7 @@ class DisaseDetailFragment : Fragment() {
 
     private fun showDetailDisease(data : DiseaseResultDataResponse){
         binding.btnDiseaseComplete.visibility = View.VISIBLE
-        binding.tvdisasaeDetailIndication.text = data.indikasi
+        binding.tvdisasaeDetailIndication.setText(data.indikasi)
 
         Glide.with(requireContext())
             .load("http://34.101.50.17:5000/images/${data.image}")

@@ -19,6 +19,7 @@ import com.example.rifsa_mobile.databinding.FragmentMapsDiseaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
+import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragmentDirections
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -78,6 +79,15 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
 
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnDiseaseMapsBackhome.setOnClickListener {
+            findNavController().navigate(
+                MapsDiseaseFragmentDirections.actionMapsDiseaseFragmentToDisaseFragment()
+            )
+        }
     }
 
     private fun showDiseaseMarker(token : String){
@@ -185,14 +195,6 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
             }
         }
     }
-
-
-
-
-
-
-
-
 
     private fun getCurrentLocation(){
         if (ContextCompat.checkSelfPermission(requireContext(),fineLocation) ==
