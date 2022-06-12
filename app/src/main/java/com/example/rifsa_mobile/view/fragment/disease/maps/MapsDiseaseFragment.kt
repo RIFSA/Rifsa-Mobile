@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.view.fragment.disease.maps
 
-import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -16,10 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsDiseaseBinding
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
-import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragmentDirections
 import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -35,7 +32,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
 
-//todo maps bug
+
 class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
     private lateinit var viewModel : LocalViewModel
     private lateinit var binding : FragmentMapsDiseaseBinding
@@ -139,9 +136,6 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                 dummyMarker))
             animateCamera(CameraUpdateFactory.newLatLngZoom(
                 dummyMarker, 19f))
-            setOnMapClickListener {
-                setOwnedField(it)
-            }
 
         }
     }
@@ -178,11 +172,11 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
 
                         }
                         is FetchResult.Success->{
-//                            findNavController().navigate(MapsDiseaseFragmentDirections
-//                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
-//                                    null,
-//                                    it.data
-//                                ))
+                            findNavController().navigate(MapsDiseaseFragmentDirections
+                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
+                                    null,
+                                    it.data[0]
+                                ))
                         }
                         is FetchResult.Error->{
                             Log.d("disease",it.error)
@@ -218,22 +212,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-    private fun setOwnedField(data : LatLng){
-        AlertDialog.Builder(requireActivity()).apply {
-            setTitle("Lokasi lahan")
-            setMessage("atur sebagai titik lahan ?")
-            apply {
-                setPositiveButton("ya") { _, _ ->
-                    // User clicked OK button
-                }
-                setNegativeButton("tidak") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            }
-            create()
-            show()
-        }
-    }
+
 
     private fun showStatus(title: String){
         binding.textView34.text = title

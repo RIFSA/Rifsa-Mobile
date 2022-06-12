@@ -53,7 +53,7 @@ class SignUpActivity : AppCompatActivity() {
             return false
     }
 
-    //todo Sign up main with authentication | done
+
     private suspend fun postRegister(){
         val name = binding.tvSignupName.text.toString()
         val email = binding.tvSignupEmail.text.toString()
@@ -92,6 +92,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private suspend fun loginAccount(email : String, password : String){
         val tempLogin = LoginBody(email, password)
+        val name = binding.tvSignupName.text.toString()
 
         remoteViewModel.postLogin(tempLogin).observe(this){
             when(it){
@@ -100,7 +101,12 @@ class SignUpActivity : AppCompatActivity() {
                 }
                 is FetchResult.Success ->{
                     binding.pgbarRegister.visibility = View.VISIBLE
-                    authViewModel.saveUserPrefrences(true,email,password,it.data.token)
+                    saveLoginSession(
+                        true,
+                        name,
+                        password,
+                        it.data.token
+                    )
                     startActivity(Intent(this,MainActivity::class.java))
                 }
                 is FetchResult.Error ->{
@@ -111,6 +117,9 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveLoginSession(onBoard : Boolean,name : String,pass: String,token : String){
+        authViewModel.saveUserPrefrences(onBoard,name,pass,"Bearer $token")
+    }
     private fun showStatus(title : String){
         binding.pgtitleRegister.visibility = View.VISIBLE
         binding.pgtitleRegister.text = title

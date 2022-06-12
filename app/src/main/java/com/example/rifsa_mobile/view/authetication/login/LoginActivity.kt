@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    //todo Login main with authentication | done
+
     private fun boxChecker(): Boolean{
         val email = binding.tvLoginEmail.text.toString()
         val password = binding.tvLoginPassword.text.toString()

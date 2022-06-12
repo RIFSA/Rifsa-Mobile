@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 
-class inventoryRecyclerViewAdapter(private val dataList : List<InventoryResultResponData>): RecyclerView.Adapter<inventoryRecyclerViewAdapter.ViewHolder>() {
+class InventoryRecyclerViewAdapter(private val dataList : List<InventoryResultResponData>): RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallback : OnDetailItemCallback

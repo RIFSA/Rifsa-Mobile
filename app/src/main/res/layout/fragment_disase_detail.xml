@@ -72,13 +72,13 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="24dp"
+                        android:contentDescription="@string/save"
                         android:src="@drawable/ic_vector_save"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/green"
-                        android:contentDescription="@string/save" />
+                        app:tint="@color/green" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
 
@@ -225,7 +225,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/green"
                 android:textSize="16sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

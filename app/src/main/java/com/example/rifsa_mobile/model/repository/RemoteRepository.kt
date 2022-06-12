@@ -3,11 +3,7 @@ package com.example.rifsa_mobile.model.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.NewDiseasePostRespon
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultRespon
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -23,7 +19,6 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.utils.FetchResult
 import okhttp3.MultipartBody
-import retrofit2.http.Part
 
 class RemoteRepository(
     private val apiService: ApiService,
@@ -231,21 +226,17 @@ class RemoteRepository(
 
     suspend fun postDiseasePredictionRemote(
         file: MultipartBody.Part,
-        nama : String,
-        tanggal : String,
-        deskripsi: String,
-        token: String
-    ): LiveData<FetchResult<NewDiseasePostRespon>> =
+        latitude : Double,
+        longitude: Double,
+    ): LiveData<FetchResult<DiseasePostResponse>> =
         liveData {
             emit(FetchResult.Loading)
             try {
                 emit(FetchResult.Success(
                     apiService.predictionDisease(
                         file,
-                        nama,
-                        tanggal,
-                        deskripsi,
-                        token
+                        latitude,
+                        longitude
                     )
                 ))
             }catch (e : Exception){
@@ -253,22 +244,6 @@ class RemoteRepository(
             }
         }
 
-    suspend fun postDiseaseRemote(
-        name : String,
-        file : MultipartBody.Part,
-        indication : String,
-        description : String,
-        latitude : Double,
-        longitude : Double,
-        token: String
-    ): LiveData<FetchResult<DiseasePostResponse>> = liveData {
-        emit(FetchResult.Loading)
-        try {
-            emit(FetchResult.Success(apiService.postDiseaseRemote(name, file, indication, description, latitude, longitude,token)))
-        }catch (e : Exception){
-            emit(FetchResult.Error(e.message.toString()))
-        }
-    }
 
     suspend fun deleteDiseaseRemote(id : Int,token: String): LiveData<FetchResult<DiseasePostResponse>> =
         liveData {

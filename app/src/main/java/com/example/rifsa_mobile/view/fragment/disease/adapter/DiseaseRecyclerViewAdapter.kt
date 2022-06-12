@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
+import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
 
-class DiseaseRecyclerViewAdapter(private var dataList : List<NewDiseaseResultResponItem>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
+class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultResponse>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var diseaseDetail : OnDetailCallback
@@ -42,7 +41,7 @@ class DiseaseRecyclerViewAdapter(private var dataList : List<NewDiseaseResultRes
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : NewDiseaseResultResponItem)
+        fun onDetailCallback(data : DiseaseResultResponse)
     }
 
 }

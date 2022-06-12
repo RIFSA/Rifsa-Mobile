@@ -12,7 +12,7 @@ import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.view.onboarding.adapter.OnBoardAdapter
 import com.example.rifsa_mobile.model.entity.local.onboard.OnBoardRef
 
-@Suppress("DEPRECATION")
+
 class OnBoarding : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
     private var listOnBoarding = ArrayList<OnBoardRef>()

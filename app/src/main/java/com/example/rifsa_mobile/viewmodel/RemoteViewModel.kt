@@ -3,11 +3,7 @@ package com.example.rifsa_mobile.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.NewDiseasePostRespon
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultRespon
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -96,25 +92,12 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
 
     suspend fun postDiseasePrediction(
         file: MultipartBody.Part,
-        nama : String,
-        tanggal : String,
-        deskripsi: String,
-        token: String
-    ): LiveData<FetchResult<NewDiseasePostRespon>> =
-        remoteRepository.postDiseasePredictionRemote(
-            file,nama, tanggal, deskripsi, token
-        )
-
-    suspend fun postDiseaseRemote(
-        name : String,
-        file : MultipartBody.Part,
-        indication : String,
-        description : String,
         latitude : Double,
-        longitude : Double,
-        token: String
+        longitude: Double,
     ): LiveData<FetchResult<DiseasePostResponse>> =
-        remoteRepository.postDiseaseRemote(name, file, indication, description, latitude, longitude,token)
+        remoteRepository.postDiseasePredictionRemote(
+            file,latitude, longitude
+        )
 
     suspend fun deleteDiseaseRemote(id : Int,token: String): LiveData<FetchResult<DiseasePostResponse>> =
         remoteRepository.deleteDiseaseRemote(id,token)

@@ -18,8 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.local.disase.Disease
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
+import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
 import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
@@ -115,7 +114,7 @@ class DisaseDetailFragment : Fragment() {
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
-        createLocationRequest()
+
 
         try {
             val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
@@ -134,19 +133,29 @@ class DisaseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        createLocationRequest()
+
 
         if (!isDetail){
             showImageCapture()
+            binding.pgdiseaseBar.visibility = View.VISIBLE
+            showStatus("Proses")
         }
+
+        if (!isDetail) {
+            lifecycleScope.launch {
+                delay(2000)
+                postPrediction()
+            }
+        }
+
 
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
                 binding.pgdiseaseBar.visibility = View.VISIBLE
-                showStatus("Proses")
-//                postDiseaseRemote()
-                if (!isDetail){
-                    postPrediction()
-                }
+                findNavController().navigate(
+                    DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                )
             }
         }
 
@@ -185,21 +194,23 @@ class DisaseDetailFragment : Fragment() {
     }
 
 
-    private fun showDetailDisease(data : NewDiseaseResultResponItem){
+    private fun showDetailDisease(data : DiseaseResultResponse){
         binding.btnDiseaseComplete.visibility = View.VISIBLE
         binding.tvdisasaeDetailIndication.setText(data.indikasi)
 
         Glide.with(requireContext())
-            .load("http://34.101.50.17:5000/images/${data.image}")
+            .load("http://34.101.115.114:5000/${data.url}")
             .into(binding.imgDisaseDetail)
+
+        showDescription(data.indikasi)
+        binding.btnDiseaseComplete.visibility = View.VISIBLE
     }
 
 
     private fun postPrediction(){
         authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
             val image = image.toUri()
-            val name = binding.tvdisasaeDetailIndication.text.toString()
-            val date = LocalDate.now().toString()
+
 
             val currentImage = Utils.uriToFile(image,requireContext())
             val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
@@ -213,10 +224,8 @@ class DisaseDetailFragment : Fragment() {
             lifecycleScope.launch {
                 remoteViewModel.postDiseasePrediction(
                     multiPartFile,
-                    "test",
-                    date,
-                    "test",
-                    token
+                    curLatitude,
+                    curLongitude
                 )
                     .observe(viewLifecycleOwner){
                         when(it){
@@ -224,6 +233,7 @@ class DisaseDetailFragment : Fragment() {
                                 binding.pgdiseaseBar.visibility = View.VISIBLE
                             }
                             is FetchResult.Success ->{
+                                showStatus("Berhasil")
                                 binding.tvdisasaeDetailIndication.setText(it.data.data.result)
                                 binding.pgdiseaseBar.visibility = View.GONE
                                 showDescription(it.data.data.result)
@@ -240,45 +250,6 @@ class DisaseDetailFragment : Fragment() {
     }
 
 
-    private fun postDiseaseRemote(){
-        val image = image.toUri()
-        val name = binding.tvdisasaeDetailIndication.text.toString()
-
-        val currentImage = Utils.uriToFile(image,requireContext())
-        val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val filePart : MultipartBody.Part = MultipartBody.Part.createFormData(
-            "file",
-            currentImage.name,
-            typeFile
-        )
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
-            lifecycleScope.launch {
-                remoteViewModel.postDiseaseRemote(
-                    name,
-                    filePart,
-                    name,
-                    name,
-                    curLatitude,
-                    curLongitude,
-                    token
-                ).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Success->{
-                            showStatus(it.data.message)
-                            findNavController().navigate(
-                                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-                            )
-                        }
-                        is FetchResult.Error->{
-                            showStatus(it.error)
-                        }
-                        else -> {}
-                    }
-                }
-            }
-        }
-
-    }
 
     private fun deleteDiseaseRemote(){
         authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
@@ -314,6 +285,8 @@ class DisaseDetailFragment : Fragment() {
 
         Log.d("Disease",dataSolustion.toString())
 
+
+        binding.btnDiseaseSave.visibility = View.VISIBLE
         binding.tvdisasaeDetailDescription.text = dataSolustion.toString()
     }
 
@@ -390,16 +363,16 @@ class DisaseDetailFragment : Fragment() {
         if (checkPermission(fineLocation) && checkPermission(coarseLocation)){
             fusedLocation.lastLocation
                 .addOnSuccessListener { location ->
-                    if (location != null){
+                    if (location != null) {
                         curLatitude = location.latitude
                         curLongitude = location.longitude
-                        Log.d("disease",curLatitude.toString())
+                        Log.d("disease", curLatitude.toString())
                         binding.tvdisasaeDetailLocation.visibility = View.VISIBLE
                     }
-
                 }
                 .addOnFailureListener {
                     Log.d(page_key,it.message.toString())
+
                 }
         }else{
             requestPermissionLauncher.launch(arrayOf(

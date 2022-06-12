@@ -5,14 +5,12 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-class NewDiseaseResultRespon : ArrayList<NewDiseaseResultResponItem>()
+class NewDiseaseResultRespon : ArrayList<DiseaseResultResponse>()
 
 @Parcelize
-data class NewDiseaseResultResponItem(
+data class DiseaseResultResponse(
     @SerializedName("createdAt")
     val createdAt: String,
-    @SerializedName("deskripsi")
-    val deskripsi: String,
     @SerializedName("id_penyakit")
     val idPenyakit: Int,
     @SerializedName("image")
@@ -23,10 +21,6 @@ data class NewDiseaseResultResponItem(
     val latitude: Double,
     @SerializedName("longitude")
     val longitude: Double,
-    @SerializedName("nama")
-    val nama: String,
-    @SerializedName("tanggal")
-    val tanggal: String,
     @SerializedName("updatedAt")
     val updatedAt: String,
     @SerializedName("url")

@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.view.fragment.finance.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,11 +19,11 @@ class FinanceRecyclerViewAdapter(private var dataList : List<FinanceResponseData
         return ViewHolder(ItemcardFinanceBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-    @SuppressLint("SetTextI18n")
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.tvcardFinanceTitle.text = item.kegiatan
-        holder.binding.tvcardFinancePrice.text = "Rp "+ item.jumlah
+        ("Rp "+ item.jumlah).also { holder.binding.tvcardFinancePrice.text = it }
 
         if (item.jenis == "Pengeluaran"){
             holder.binding.imageView5.setImageResource(R.drawable.ic_finance_out)

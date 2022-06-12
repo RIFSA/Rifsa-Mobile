@@ -14,7 +14,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.view.fragment.inventory.adapter.inventoryRecyclerViewAdapter
+import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
@@ -75,12 +75,12 @@ class InventoryFragment : Fragment() {
     }
 
     private fun showInventoryList(data : List<InventoryResultResponData>) {
-        val adapter = inventoryRecyclerViewAdapter(data)
+        val adapter = InventoryRecyclerViewAdapter(data)
         val recyclerView = binding.recviewInventory
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter.onItemDetailCallback(object : inventoryRecyclerViewAdapter.OnDetailItemCallback{
+        adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
             override fun onDetailCallback(data: InventoryResultResponData) {
                 findNavController()
                     .navigate(

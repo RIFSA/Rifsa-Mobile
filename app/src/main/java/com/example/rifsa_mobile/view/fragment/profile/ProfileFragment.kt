@@ -114,7 +114,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun summaryFinance(finance : List<FinanceResponseData>){
-        finance.forEach { value->
+        finance.forEach { _ ->
             ("Rp " + finance.sumOf { it.jumlah.toInt() }.toString()).also { binding.tvsumFinanceOut.text = it }
         }
     }

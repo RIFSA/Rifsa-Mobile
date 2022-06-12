@@ -1,11 +1,7 @@
 package com.example.rifsa_mobile.model.remote
 
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePredictionResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.NewDiseasePostRespon
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultRespon
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
@@ -122,42 +118,29 @@ interface ApiService {
         @Header("Authorization") token : String
     ): NewDiseaseResultRespon
 
+
     @GET("http://34.101.115.114:5000/penyakit/{id}")
     suspend fun getDiseaseRemoteById(
         @Path("id") id: Int,
         @Header("Authorization") token : String
     ): NewDiseaseResultRespon
 
+
     @Multipart
     @POST("http://34.101.115.114:5000/penyakit")
     suspend fun predictionDisease(
         @Part image : MultipartBody.Part,
-        @Part("nama") nama : String,
-        @Part("tanggal") tanggal : String,
-        @Part("deskripsi") deskripsi: String,
-        @Header("Authorization") token : String
-    ): NewDiseasePostRespon
-
-
-
-    //TODO | tidak dipakai
-    @Multipart
-    @POST("penyakit")
-    suspend fun postDiseaseRemote(
-        @Part("nama") nama : String,
-        @Part file : MultipartBody.Part,
-        @Part("indikasi") indikasi : String,
-        @Part("deskripsi") deskripsi : String,
         @Part("latitude") latitude : Double,
-        @Part("longitude") longitude : Double,
-        @Header("Authorization") token : String
+        @Part("longitude") longitude: Double,
     ): DiseasePostResponse
-
 
     @DELETE("http://34.101.115.114:5000/penyakit/{id}")
     suspend fun deleteDiseaseRemote(
         @Path("id") id: Int,
         @Header("Authorization") token : String
     ): DiseasePostResponse
+
+
+
 
 }

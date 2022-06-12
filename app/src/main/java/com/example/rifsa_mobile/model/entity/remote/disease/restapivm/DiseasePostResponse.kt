@@ -3,7 +3,7 @@ package com.example.rifsa_mobile.model.entity.remote.disease
 
 import com.google.gson.annotations.SerializedName
 
-data class NewDiseasePostRespon(
+data class DiseasePostResponse(
  @SerializedName("data")
  val `data`: NewDiseasePostDataRespon,
  @SerializedName("message")
