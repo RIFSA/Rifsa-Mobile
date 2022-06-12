@@ -19,6 +19,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
 import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
@@ -136,14 +137,16 @@ class DisaseDetailFragment : Fragment() {
 
         if (!isDetail){
             showImageCapture()
-            postPrediction()
         }
 
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
                 binding.pgdiseaseBar.visibility = View.VISIBLE
                 showStatus("Proses")
-                postDiseaseRemote()
+//                postDiseaseRemote()
+                if (!isDetail){
+                    postPrediction()
+                }
             }
         }
 
@@ -182,7 +185,7 @@ class DisaseDetailFragment : Fragment() {
     }
 
 
-    private fun showDetailDisease(data : DiseaseResultDataResponse){
+    private fun showDetailDisease(data : NewDiseaseResultResponItem){
         binding.btnDiseaseComplete.visibility = View.VISIBLE
         binding.tvdisasaeDetailIndication.setText(data.indikasi)
 
@@ -193,35 +196,47 @@ class DisaseDetailFragment : Fragment() {
 
 
     private fun postPrediction(){
-        val image = image.toUri()
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+            val image = image.toUri()
+            val name = binding.tvdisasaeDetailIndication.text.toString()
+            val date = LocalDate.now().toString()
 
-        val currentImage = Utils.uriToFile(image,requireContext())
-        val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
-            "image",
-            currentImage.name,
-            typeFile
-        )
+            val currentImage = Utils.uriToFile(image,requireContext())
+            val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
+            val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
+                "image",
+                currentImage.name,
+                typeFile
+            )
 
-        lifecycleScope.launch {
-            remoteViewModel.postDiseasePrediction(multiPartFile)
-                .observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading->{
-                        binding.pgdiseaseBar.visibility = View.VISIBLE
+
+            lifecycleScope.launch {
+                remoteViewModel.postDiseasePrediction(
+                    multiPartFile,
+                    "test",
+                    date,
+                    "test",
+                    token
+                )
+                    .observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading->{
+                                binding.pgdiseaseBar.visibility = View.VISIBLE
+                            }
+                            is FetchResult.Success ->{
+                                binding.tvdisasaeDetailIndication.setText(it.data.data.result)
+                                binding.pgdiseaseBar.visibility = View.GONE
+                                showDescription(it.data.data.result)
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
                     }
-                    is FetchResult.Success ->{
-                        binding.tvdisasaeDetailIndication.setText(it.data.result)
-                        binding.pgdiseaseBar.visibility = View.GONE
-                        showDescription(it.data.result)
-                    }
-                    is FetchResult.Error ->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
-                }
             }
         }
+
     }
 
 

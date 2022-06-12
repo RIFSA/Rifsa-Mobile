@@ -1,58 +1,14 @@
 package com.example.rifsa_mobile.model.local.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.rifsa_mobile.model.entity.local.disase.Disease
-import com.example.rifsa_mobile.model.entity.local.finance.Finance
-import com.example.rifsa_mobile.model.entity.local.harvestresult.HarvestResult
-import com.example.rifsa_mobile.model.entity.local.inventory.Inventory
 
 @Dao
 interface LocalDao {
-
-    //harvest result
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHarvestLocal(data : HarvestResult)
-
-    @Query("select * from Harvest_Table")
-    fun getHarvestLocal(): LiveData<List<HarvestResult>>
-
-    @Query("delete from Harvest_Table where id_harvest like :id")
-    suspend fun deleteHarvestLocal(id : String)
-
-    @Query("update Harvest_Table SET valueStatus=:uploadedStatus where id_sort=:idSort ")
-    suspend fun updateHarvestLocal(uploadedStatus : String, idSort : Int)
-
-
-    //finance
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFinanceLocal(data : Finance)
-
-    @Query("select * from Finance_Table")
-    fun getFinanceLocal(): LiveData<List<Finance>>
-
-    @Query("delete from Finance_Table where id_finance like :id")
-    suspend fun deleteFinanceLocal(id : String)
-
-    @Query("select * from Finance_Table where type like :type")
-    fun calculateFinanceLocal(type : String): LiveData<List<Finance>>
-
-
-
-    //inventory
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInventoryLocal(data : Inventory)
-
-    @Query("select * from Inventory_Table")
-    fun getInventoryLocal(): LiveData<List<Inventory>>
-
-    @Query("delete from Inventory_Table where id_inventories like :id")
-    suspend fun deleteInventoryLocal(id : String)
-
-
-
-
-    //disease
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDiseaseLocal(data : Disease)
 
@@ -61,10 +17,5 @@ interface LocalDao {
 
     @Query("delete from Disease_Table where id_disease like :id")
     suspend fun deleteDiseaseLocal(id: String)
-
-
-
-
-
 
 }

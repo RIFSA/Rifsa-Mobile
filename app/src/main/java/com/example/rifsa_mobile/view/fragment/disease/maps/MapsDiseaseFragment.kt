@@ -96,7 +96,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
                 when(respon){
                     is FetchResult.Loading->{}
                     is FetchResult.Success->{
-                        respon.data.DiseaseResultDataResponse.forEach { loc->
+                        respon.data.forEach { loc->
                             showMarker(
                                 loc.latitude,
                                 loc.longitude,
@@ -146,11 +146,11 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-    private fun showMarker(lattidue : Double,longtidue : Double,title : String,id : String) {
+    private fun showMarker(lattidue : Double, longtidue : Double, title : String,id : String) {
         if (lattidue != 0.0){
             gMap.apply {
                 addMarker(MarkerOptions()
-                    .position(dummyMarker).title("Sawah anda")
+                    .position(dummyMarker)
                     .icon(vectorToBitmap(
                         R.drawable.ic_own_field,
                         Color.parseColor("#56CCF2")
@@ -178,12 +178,11 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
 
                         }
                         is FetchResult.Success->{
-                            Log.d("disease",it.data.message)
-                            findNavController().navigate(MapsDiseaseFragmentDirections
-                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
-                                    null,
-                                    it.data.DiseasePostDataResponse
-                                ))
+//                            findNavController().navigate(MapsDiseaseFragmentDirections
+//                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
+//                                    null,
+//                                    it.data
+//                                ))
                         }
                         is FetchResult.Error->{
                             Log.d("disease",it.error)

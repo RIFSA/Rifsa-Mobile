@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseaseResultDataResponse
+import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultResponItem
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
@@ -66,7 +67,7 @@ class DisaseFragment : Fragment() {
                     }
                     is FetchResult.Success -> {
                         binding.pgStatusBar.visibility = View.GONE
-                        showListDisease(respon.data.DiseaseResultDataResponse)
+                        showListDisease(respon.data)
                     }
                     is FetchResult.Error ->{
                         showStatus(respon.error)
@@ -78,7 +79,7 @@ class DisaseFragment : Fragment() {
         }
     }
 
-    private fun showListDisease(data : List<DiseaseResultDataResponse>){
+    private fun showListDisease(data : List<NewDiseaseResultResponItem>){
         val adapter = DiseaseRecyclerViewAdapter(data)
         val recyclerView = binding.recviewdisease
         recyclerView.adapter = adapter
@@ -86,7 +87,7 @@ class DisaseFragment : Fragment() {
 
 
         adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallback(data: DiseaseResultDataResponse) {
+            override fun onDetailCallback(data: NewDiseaseResultResponItem) {
                 findNavController().navigate(
                     DisaseFragmentDirections
                         .actionDisaseFragmentToDisaseDetailFragment(null,data)

@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
                 remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){
                     when(it){
                         is FetchResult.Success->{
-                            binding.tvhomeDisasecount.text = it.data.DiseaseResultDataResponse.size.toString()
+                            binding.tvhomeDisasecount.text = it.data.size.toString()
                             binding.cardViewTwo.visibility = View.VISIBLE
                             binding.cardViewOne.visibility = View.VISIBLE
                             binding.tvhomeDisasecount.setOnClickListener {
