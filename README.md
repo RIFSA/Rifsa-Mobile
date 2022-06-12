@@ -9,9 +9,10 @@
 <br />
 <div align="center">
   
-  ![](https://i.ibb.co/H2qcKwj/rifsa-banner.png)
+  ![](https://i.ibb.co/xhFbvwG/Cover-RIFSA.png)
 
-  <h3 align="center">Rifsa</h3>
+  <h1 align="center">RIFSA</h1>
+  <p align="center">Rice Farmer Assistant</p>
 
 
 </div>
