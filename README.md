@@ -1,5 +1,6 @@
 
 
+
 <div id="top"></div>
 
 
@@ -72,19 +73,12 @@ For logs HTTP request and response data
 
 <!-- GETTING STARTED -->
 ## Getting Started
-*coming soon*
-
 
 ### Prerequisites
 
 Mobile phone with android os
 
 ### Installation
-*coming soon*
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
 Install on phone
 1. Go to realease 
 2. Choose the lastest
@@ -102,6 +96,11 @@ Android Studio
    ```sh
    Run app or Shift + F10
    ```
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+
 
 <!-- ROADMAP -->
 ## Roadmap
