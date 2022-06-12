@@ -55,9 +55,8 @@ Reviewing the activities of local residents who are farmers, they often complain
  1. Kotlin
  2. Android Jetpack
  3. Navigation Component
- 4. Room
- 5. MVVM
- 6. Material Components
+ 4. MVVM
+ 5. Material Components
 
 Third-part libaries
 
@@ -119,8 +118,6 @@ Android Studio
  - [x] Insert & Detail inventory Page
  - [x] Profile Page
  - [x] Detect Page
- - [x] Room DB config
- - [x] Insert to Local
  - [x] Auth Remote
  - [x] Remote CRUD
  - [x] Prediction
