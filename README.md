@@ -1,6 +1,7 @@
 
 
 
+
 <div id="top"></div>
 
 
@@ -100,7 +101,9 @@ Android Studio
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+Apps Demo
 
+[![apps demo](https://i.ibb.co/H2qcKwj/rifsa-banner.png)](https://www.youtube.com/watch?v=E3uuOiXUytQ&ab_channel=Batata "Rifsa demo")
 
 <!-- ROADMAP -->
 ## Roadmap
