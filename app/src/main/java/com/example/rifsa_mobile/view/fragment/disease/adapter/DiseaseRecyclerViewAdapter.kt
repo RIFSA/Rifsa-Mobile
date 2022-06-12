@@ -24,7 +24,7 @@ class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultRespon
         val item = dataList[position]
         holder.binding.apply {
             if (item.createdAt != null){
-                tvDiseaseSubtitle.text = item.createdAt.removeRange(10..18)
+                tvDiseaseSubtitle.text = item.createdAt.removeRange(10..25)
                 tvDiseaseTitle.text = item.indikasi
 
                 holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)

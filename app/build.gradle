@@ -39,6 +39,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    aaptOptions { cruncherEnabled = false }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 dependencies {
