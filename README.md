@@ -114,16 +114,12 @@ Apps Demo
  - [x] Main Page
  - [x] Home page
  - [x] Harvest Result Page
- - [x] Insert & Detail Harvest Page
  - [x] Finance History Page
- - [x] Insert & Detail Finance Page
  - [x] Inventory Page
- - [x] Insert & Detail inventory Page
- - [x] Profile Page
  - [x] Detect Page
- - [x] Auth Remote
- - [x] Remote CRUD
- - [x] Prediction
+ - [x] Profile Page
+
+
 
 <!-- LICENSE -->
 ## License
