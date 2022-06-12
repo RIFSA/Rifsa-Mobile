@@ -85,14 +85,22 @@ Mobile phone with android os
 ## Usage
 
 Install on phone
-
+1. Go to realease 
+2. Choose the lastest
+3. Click on apk
+4. The apps will be downloaded
+5. Install on your phone
 
 Android Studio
 
- 1. goto Git-clone insert
-> https://github.com/Capstone-Bangkit/Rifsa-Mobile
-
-2. click clone
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Capstone-Bangkit/Rifsa-Mobile
+   ```
+2. Build the apps
+   ```sh
+   Run app or Shift + F10
+   ```
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -115,10 +123,7 @@ Android Studio
  - [x] Auth Remote
  - [x] Remote CRUD
  - [x] Prediction
-<!-- CONTRIBUTING -->
-## Contributing
 
-*coming soon*
 <!-- LICENSE -->
 ## License
 
@@ -134,8 +139,7 @@ Android Studio
 
 
 
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-*coming soon*
+To all Backendd member who created the api and database also Machine learning created prediction for disease. Also for all open source library
