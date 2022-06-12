@@ -135,7 +135,7 @@ class InvetoryInsertFragment : Fragment() {
 
     private fun insertInventoryRemote(){
 
-        //todo update
+
         val image = Utils.uriToFile(currentImage,requireContext())
 
         val typeFile = image.asRequestBody("image/jpg".toMediaTypeOrNull())

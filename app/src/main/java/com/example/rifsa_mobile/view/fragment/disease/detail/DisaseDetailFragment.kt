@@ -136,18 +136,17 @@ class DisaseDetailFragment : Fragment() {
         createLocationRequest()
 
 
+
         if (!isDetail){
             showImageCapture()
             binding.pgdiseaseBar.visibility = View.VISIBLE
             showStatus("Proses")
-        }
-
-        if (!isDetail) {
             lifecycleScope.launch {
                 delay(2000)
                 postPrediction()
             }
         }
+
 
 
         binding.btnDiseaseSave.setOnClickListener {
@@ -209,10 +208,9 @@ class DisaseDetailFragment : Fragment() {
 
     private fun postPrediction(){
         authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
-            val image = image.toUri()
 
 
-            val currentImage = Utils.uriToFile(image,requireContext())
+            val currentImage = Utils.uriToFile(image.toUri(),requireContext())
             val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
             val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
                 "image",

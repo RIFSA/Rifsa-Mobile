@@ -1,10 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.rifsa_mobile.utils
 
-import android.app.AlertDialog
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.ConnectivityManager
@@ -24,11 +24,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.streams.asSequence
 
 object Utils {
 
@@ -60,7 +56,6 @@ object Utils {
     }
 
 
-    //todo | uri to file image format
     fun uriToFile(image : Uri,context: Context): File{
         val contentResolver: ContentResolver = context.contentResolver
         val myFile = createTempFile(context)
@@ -82,15 +77,6 @@ object Utils {
     private fun createTempFile(context: Context): File {
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(timeStamp, ".jpg", storageDir)
-    }
-
-    //generate random number id
-    private const val source = "123456789"
-    fun randomId(): String{
-        return Random().ints(10, 0, source.length)
-            .asSequence()
-            .map(source::get)
-            .joinToString("")
     }
 
 
