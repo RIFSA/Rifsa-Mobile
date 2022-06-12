@@ -143,4 +143,8 @@ Android Studio
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-To all Backendd member who created the api and database also Machine learning created prediction for disease. Also for all open source library
+Thanks to
+
+- Backend team
+- Machine Learning team
+- Open source library
