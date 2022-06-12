@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.model.repository.Injection
 import com.example.rifsa_mobile.model.repository.LocalRepository
 import com.example.rifsa_mobile.model.repository.RemoteRepository
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 
@@ -20,9 +19,6 @@ class ViewModelFactory private constructor(
         return when{
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
                 UserPrefrencesViewModel(localRepository) as T
-            }
-            modelClass.isAssignableFrom(LocalViewModel::class.java)->{
-                LocalViewModel(localRepository) as T
             }
             modelClass.isAssignableFrom(RemoteViewModel::class.java)->{
                 RemoteViewModel(remoteRepository) as T

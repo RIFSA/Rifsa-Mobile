@@ -18,10 +18,8 @@ import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -32,7 +30,7 @@ import java.util.*
 
 class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
-    private lateinit var localViewModel : LocalViewModel
+
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
@@ -50,7 +48,7 @@ class FinanceInsertDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
-        localViewModel = ObtainViewModel(requireActivity())
+
 
         isConnected = Utils.internetChecker(requireContext())
 

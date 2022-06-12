@@ -18,13 +18,10 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
-import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
@@ -48,9 +45,6 @@ class DisaseDetailFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-    private lateinit var localViewModel: LocalViewModel
-
-    private lateinit var alarmReceive : AlarmReceiver
 
     private var randomId = 0
     private var image = ""
@@ -106,8 +100,7 @@ class DisaseDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDisaseDetailBinding.inflate(layoutInflater)
-        localViewModel = ObtainViewModel(requireActivity())
-        alarmReceive = AlarmReceiver()
+
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
 

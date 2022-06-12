@@ -14,10 +14,8 @@ import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponD
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.authetication.login.LoginActivity
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import kotlinx.coroutines.launch
 
@@ -26,7 +24,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
 
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
-    private lateinit var viewModel :LocalViewModel
+
     private val remoteViewModel : RemoteViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     override fun onCreateView(
@@ -34,7 +32,6 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
 
         authViewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvprofileName.text = it
@@ -45,7 +42,7 @@ class ProfileFragment : Fragment() {
             binding.tvSignupPassword.setText(it)
         }
 
-        //todo 1.5 Delete local registerData when logout
+
         binding.btnprofileLogout.setOnClickListener {
             authViewModel.saveUserPrefrences(
                 true,

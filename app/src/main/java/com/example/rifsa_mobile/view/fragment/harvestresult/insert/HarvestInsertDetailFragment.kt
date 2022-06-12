@@ -66,7 +66,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteHarvestRemote()  //TODO | menghapus data
+                        deleteHarvestRemote()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()

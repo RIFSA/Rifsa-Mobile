@@ -17,10 +17,8 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsDiseaseBinding
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -34,7 +32,7 @@ import kotlinx.coroutines.launch
 
 
 class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
-    private lateinit var viewModel : LocalViewModel
+
     private lateinit var binding : FragmentMapsDiseaseBinding
 
 
@@ -63,7 +61,7 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMapsDiseaseBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
