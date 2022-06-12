@@ -11,14 +11,12 @@ data class Disease(
     @PrimaryKey(autoGenerate = true)
     val id_sort : Int,
 
-    var id_disease : String,
-    var name : String,
+    val id_disease : String,
+
     var indication : String,
     var photoUrl : String,
-    var date : String,
     var latitude : Double,
     var longitude : Double,
-    var description : String,
 
     var reminderID : Int,
     var isUploaded : Boolean

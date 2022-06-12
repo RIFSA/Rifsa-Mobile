@@ -15,7 +15,7 @@ interface LocalDao {
     @Query("select * from Disease_Table")
     fun getDiseaseLocal(): LiveData<List<Disease>>
 
-    @Query("delete from Disease_Table where id_disease like :id")
+    @Query("delete from Disease_Table where id_sort like :id")
     suspend fun deleteDiseaseLocal(id: String)
 
 }

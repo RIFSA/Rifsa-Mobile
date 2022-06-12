@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
-import com.example.rifsa_mobile.model.entity.local.disase.Disease
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
 import com.example.rifsa_mobile.utils.AlarmReceiver
 import com.example.rifsa_mobile.utils.FetchResult
@@ -34,12 +33,11 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 
+@Suppress("DEPRECATION")
 class DisaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
 
@@ -53,12 +51,11 @@ class DisaseDetailFragment : Fragment() {
     private lateinit var localViewModel: LocalViewModel
 
     private lateinit var alarmReceive : AlarmReceiver
-    private var alarmID = (1..1000).random()
 
     private var randomId = 0
     private var image = ""
     private var isDetail = false
-    private var sortId = 0
+
 
     private var curLatitude = 0.0
     private var curLongitude = 0.0
@@ -123,8 +120,6 @@ class DisaseDetailFragment : Fragment() {
                 isDetail = true
                 randomId = detail.idPenyakit
                 binding.btnDiseaseSave.visibility = View.GONE
-//                alarmID  = detail.reminderID
-//                sortId = detail.id_sort
             }
         }catch (e : Exception){ }
 
@@ -207,7 +202,7 @@ class DisaseDetailFragment : Fragment() {
 
 
     private fun postPrediction(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ _ ->
 
 
             val currentImage = Utils.uriToFile(image.toUri(),requireContext())
@@ -288,49 +283,6 @@ class DisaseDetailFragment : Fragment() {
         binding.tvdisasaeDetailDescription.text = dataSolustion.toString()
     }
 
-    private suspend fun insertDiseaseLocal(){
-        delay(2000)
-        val date = LocalDate.now().toString()
-
-        val tempInsert = Disease(
-            sortId,
-            randomId.toString(),
-            "test peyakit",
-            binding.tvdisasaeDetailIndication.text.toString(),
-            image,
-            date,
-            curLatitude,
-            curLongitude,
-            binding.tvdisasaeDetailDescription.text.toString(),
-            alarmID,
-            isUploaded = false
-        )
-
-
-        try {
-            showStatus("Tersimpan")
-            localViewModel.insertDiseaseLocal(tempInsert)
-            setReminder()
-            findNavController().navigate(
-                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-            )
-        }catch (e : Exception){
-            showStatus(e.message.toString())
-        }
-    }
-
-    private fun deleteDiseaseLocal(){
-        try {
-            localViewModel.deleteDiseaseLocal(randomId.toString())
-            showStatus("Terhapus")
-            findNavController().navigate(
-                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-            )
-        }catch (e : Exception){
-            showStatus(e.message.toString())
-        }
-
-    }
 
 
     // Location Request
@@ -380,22 +332,7 @@ class DisaseDetailFragment : Fragment() {
         }
     }
 
-    private fun setReminder(){
-        val time = Date()
-        val currentTime = timeFormat.format(time)
 
-        alarmReceive.setRepeatReminder(
-            requireContext(),
-            AlarmReceiver.type_alarm,
-            currentTime,
-            binding.tvdisasaeDetailIndication.text.toString(),
-            alarmID
-        )
-    }
-
-    private fun stopAlarm(){
-        alarmReceive.cancelAlarm(requireContext(),alarmID)
-    }
 
     private fun showStatus(title: String){
         binding.apply {
@@ -411,7 +348,6 @@ class DisaseDetailFragment : Fragment() {
 
     companion object{
         const val page_key = "Disease_detail"
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
     }
 
 
