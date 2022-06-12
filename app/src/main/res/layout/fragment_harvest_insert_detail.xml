@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/harvest_insert_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -64,12 +65,11 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="24dp"
+                    android:contentDescription="@string/save"
                     android:src="@drawable/ic_vector_save"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black"
-                    android:contentDescription="@string/save" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,7 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -89,7 +89,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar4" />
+            app:layout_constraintTop_toBottomOf="@+id/pgbar_title" />
 
         <EditText
             android:id="@+id/tvharvest_insert_hasil"
@@ -136,7 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -150,7 +150,7 @@
         <EditText
             android:id="@+id/tvharvest_insert_catatan"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
@@ -192,7 +192,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -208,7 +208,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -224,18 +224,42 @@
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
-            android:visibility="gone"
             android:backgroundTint="@color/red"
             android:fontFamily="@font/dmsans_bold"
             android:includeFontPadding="false"
             android:text="@string/hapus"
             android:textAllCaps="false"
             android:textSize="16sp"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_catatan" />
+
+        <TextView
+            android:id="@+id/pgbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:text="Status bar"
+            android:textColor="#2E3131"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar4" />
+
+        <ProgressBar
+            android:id="@+id/pgbar_status"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="30dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/pgbar_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pgbar_title"
+            app:layout_constraintVertical_bias="0.909" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

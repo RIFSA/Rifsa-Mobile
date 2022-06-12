@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/inventory_insert_detail"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -34,7 +35,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tv_harvestresult_insertdetail"
+                    android:id="@+id/tv_inventory_insertdetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -44,11 +45,11 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/btn_harvestdetail_backhome"
+                    app:layout_constraintStart_toEndOf="@+id/btn_inventory_backhome"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/btn_harvestdetail_backhome"
+                    android:id="@+id/btn_inventory_backhome"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="24dp"
@@ -60,15 +61,15 @@
                     app:tint="@color/black" />
 
                 <ImageView
-                    android:id="@+id/btnHarvest_save"
+                    android:id="@+id/btn_Inventory_save"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_vector_save"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black"
                     android:contentDescription="@string/save" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -78,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -114,7 +115,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -130,7 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -139,7 +140,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar7" />
+            app:layout_constraintTop_toBottomOf="@+id/pgInventory_title" />
 
         <EditText
             android:id="@+id/tvinventaris_insert_amount"
@@ -164,13 +165,12 @@
         <ImageView
             android:id="@+id/img_inventory"
             android:layout_width="0dp"
-            android:layout_height="190dp"
+            android:layout_height="230dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
-            android:src="@android:drawable/ic_menu_camera"
+            android:src="@drawable/image_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView19"
             android:contentDescription="@string/image" />
@@ -180,7 +180,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/dmsans_bold"
             android:gravity="center|start"
@@ -194,7 +194,7 @@
         <EditText
             android:id="@+id/tvinventaris_insert_note"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
@@ -202,6 +202,7 @@
             android:background="@drawable/bg_tvcorner_stroke_gray"
             android:fontFamily="@font/dmsans_regular"
             android:includeFontPadding="false"
+            android:inputType="text"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="@color/black"
@@ -209,8 +210,49 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView21"
-            tools:ignore="LabelFor"
-            android:inputType="text" />
+            tools:ignore="LabelFor" />
+
+        <Button
+            android:id="@+id/btninventory_insert_delete"
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/red"
+            android:fontFamily="@font/dmsans_bold"
+            android:includeFontPadding="false"
+            android:text="@string/hapus"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvinventaris_insert_note" />
+
+        <TextView
+            android:id="@+id/pgInventory_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="15dp"
+            android:text="Status bar"
+            android:textColor="#222222"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar7" />
+
+        <ProgressBar
+            android:id="@+id/pgInventory_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="32dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/pgInventory_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pgInventory_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

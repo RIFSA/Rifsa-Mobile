@@ -23,7 +23,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="595dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
             android:background="@drawable/bg_layoutcorner_fill">
 
@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="32dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="48dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center"
                 android:text="@string/signup_title"
@@ -162,16 +162,42 @@
                 android:layout_width="0dp"
                 android:layout_height="68dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="33dp"
                 android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
                 android:text="@string/btn_signup_title"
                 android:textAllCaps="false"
                 android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pgtitle_register" />
+
+            <TextView
+                android:id="@+id/pgtitle_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="32dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:text="@string/proses"
+                android:textColor="@color/green"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_signup_password" />
+
+            <ProgressBar
+                android:id="@+id/pgbar_register"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

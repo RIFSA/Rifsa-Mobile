@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Rumah"
+        android:title="@string/rumah"
         android:id="@+id/homeFragment"
         android:visible="true"
         android:enabled="true"
@@ -9,7 +9,7 @@
         >
     </item>
     <item
-        android:title="Keuangan"
+        android:title="@string/keuangan"
         android:id="@+id/financeFragment"
         android:visible="true"
         android:enabled="true"
@@ -17,15 +17,15 @@
         >
     </item>
     <item
-        android:title="Deteksi"
+        android:title="@string/deteksi"
         android:id="@+id/disaseFragment"
         android:visible="true"
         android:enabled="true"
-        android:icon="@drawable/ic_penyakit"
+        android:icon="@drawable/ic_bug"
         >
     </item>
     <item
-        android:title="Inventaris"
+        android:title="@string/inventaris"
         android:id="@+id/inventoryFragment"
         android:visible="true"
         android:enabled="true"
@@ -33,7 +33,7 @@
         >
     </item>
     <item
-        android:title="Profile"
+        android:title="@string/profile"
         android:id="@+id/profileFragment"
         android:visible="true"
         android:enabled="true"

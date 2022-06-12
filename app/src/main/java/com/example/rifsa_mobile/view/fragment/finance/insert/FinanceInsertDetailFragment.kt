@@ -1,24 +1,26 @@
 package com.example.rifsa_mobile.view.fragment.finance.insert
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.finance.Finance
+import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
+import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
+import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
-import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment
-import com.example.rifsa_mobile.view.fragment.finance.FinanceFragment.Companion.detail_finance
-import com.example.rifsa_mobile.view.fragment.finance.FinanceFragmentDirections
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -28,25 +30,28 @@ import java.util.*
 
 class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
-    private lateinit var viewModel : LocalViewModel
 
-    private var formatDate = SimpleDateFormat("dd-MMM-yyy", Locale.ENGLISH)
 
-    private var randomId = Utils.randomId()
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+
+    private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
+
     private var currentDate = LocalDate.now().toString()
     private var type = ""
     private var isDetail = false
-    private var detailId = ""
-    private var sortId = 0
-
-
+    private var detailId = 0
+    private var isConnected = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
-        viewModel = ObtainViewModel(requireActivity())
+
+
+        isConnected = Utils.internetChecker(requireContext())
+
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
 
@@ -55,15 +60,13 @@ class FinanceInsertDetailFragment : Fragment() {
             if (data != null){
                 setDetail(data)
                 isDetail = true
-                detailId = data.id_finance
-                sortId = data.id_sort
-                type = data.type
+                detailId = data.idKeuangan
             }
         }catch (e : Exception){ }
 
+
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,70 +94,117 @@ class FinanceInsertDetailFragment : Fragment() {
             datePicker()
         }
 
-        binding.btnHarvestSave.setOnClickListener {
-            insertFinanceLocally()
+        binding.btnFinanceSave.setOnClickListener {
+            insertUpdateFinanceRemote()
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
-            lifecycleScope.launch {
-                deleteFinanceLocal()
+            AlertDialog.Builder(requireActivity()).apply {
+                setTitle("Hapus data")
+                setMessage("apakah anda ingin menghapus data ini ?")
+                apply {
+                    setPositiveButton("ya") { _, _ ->
+                        deleteFinanceRemote()
+                    }
+                    setNegativeButton("tidak") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                }
+                create()
+                show()
             }
         }
 
-        binding.btnHarvestdetailBackhome.setOnClickListener {
+        binding.btnFinanceBackhome.setOnClickListener {
             findNavController().navigate(
                 FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment()
             )
         }
-
-
     }
 
-    private fun insertFinanceLocally(){
+    private fun insertUpdateFinanceRemote(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            lifecycleScope.launch {
+                val tempData = FinancePostBody(
+                    currentDate,
+                    binding.tvfinanceInsertNama.text.toString(),
+                    type,
+                    binding.tvfinanceInsertHarga.text.toString(),
+                    binding.tvfinanceInsertCatatan.text.toString()
+                )
 
-        if (isDetail){ randomId = detailId }
+                if (!isDetail){
+                    remoteViewModel.postFinanceRemote(tempData,token).observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading ->{
 
-        val tempInsert = Finance(
-            sortId,
-            randomId,
-            currentDate,
-            binding.tvfinanceInsertNama.text.toString(),
-            type,
-            binding.tvfinanceInsertCatatan.text.toString(),
-            binding.tvfinanceInsertHarga.text.toString().toInt(),
-            false
-        )
+                            }
+                            is FetchResult.Success ->{
+                                showStatus(it.data.message)
+                                findNavController()
+                                    .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
+                    }
+                }else{
+                    remoteViewModel.updateFinanceRemote(detailId, tempData,token).observe(viewLifecycleOwner){
+                        when(it){
+                            is FetchResult.Loading ->{
 
-        try {
-            viewModel.insertFinanceLocal(tempInsert)
-            showToast("sukses menambahkan")
-            findNavController().navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-        }catch (e : Exception){
-            showToast(e.message.toString())
+                            }
+                            is FetchResult.Success ->{
+                                showStatus(it.data.message)
+                                findNavController()
+                                    .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                            }
+                            is FetchResult.Error ->{
+                                showStatus(it.error)
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+            }
+
         }
     }
 
+    private fun deleteFinanceRemote(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+            lifecycleScope.launch {
+                remoteViewModel.deleteFinanceRemote(detailId,token).observe(viewLifecycleOwner){
+                    when(it) {
+                        is FetchResult.Success -> {
+                            showStatus(it.data.message)
+                            findNavController()
+                                .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                        }
+
+                        is FetchResult.Error -> {
+                            showStatus(it.error)
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
+
+    }
 
 
-    private fun setDetail(data : Finance){
-        val amount = data.amount.toString()
+    private fun setDetail(data : FinanceResponseData){
+        val amount = data.jumlah
         binding.apply {
-            tvfinanceInsertDate.setText(data.date)
-            tvfinanceInsertNama.setText(data.title)
+            tvfinanceInsertDate.text = data.tanggal
+            tvfinanceInsertNama.setText(data.kegiatan)
             tvfinanceInsertHarga.setText(amount)
-            tvfinanceInsertCatatan.setText(data.note)
+            tvfinanceInsertCatatan.setText(data.catatan)
             btnfinanceInsertDelete.visibility = View.VISIBLE
-        }
-    }
-
-    private suspend fun deleteFinanceLocal(){
-        try {
-            viewModel.deleteFinanceLocal(detailId)
-            showToast("Berhasil terhapus")
-            findNavController().navigate(
-                FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-        }catch (e : Exception){
-            showToast(e.message.toString())
+            "Detail Data".also { tvFinanceInsertdetail.text = it }
         }
     }
 
@@ -178,8 +228,17 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
 
-    private fun showToast(title : String){
-        Toast.makeText(requireContext(),title,Toast.LENGTH_SHORT).show()
+    private fun showStatus(title : String){
+        if(title.isNotEmpty()){
+            binding.pgbFinanceStatus.visibility = View.GONE
+            binding.pgbFinanceTitle.visibility = View.VISIBLE
+        }
+        binding.pgbFinanceTitle.text = title
+        Log.d(finance_key,"status $title")
+    }
+
+    companion object{
+        const val finance_key = "FinanceInsertUpdateDetail"
     }
 
 }

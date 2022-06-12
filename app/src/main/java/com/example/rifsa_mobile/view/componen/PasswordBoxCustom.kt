@@ -16,11 +16,6 @@ class PasswordBoxCustom: AppCompatEditText, View.OnTouchListener {
     private lateinit var iconTextImage: Drawable
 
 
-    //todo 1.1 hide password
-//    private lateinit var onItemHide : SetHideCallBack
-//    fun onItemClickDetail(onItemHide : SetHideCallBack){
-//        this.onItemHide = onItemHide
-//    }
 
 
     constructor(context: Context) : super(context) {

@@ -5,31 +5,41 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
-import com.example.rifsa_mobile.model.entity.harvestresult.HarvestResult
-import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRvAdapter
-import com.example.rifsa_mobile.viewmodel.LocalViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ObtainViewModel
+import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.utils.FetchResult
+import com.example.rifsa_mobile.utils.Utils
+import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
+import com.example.rifsa_mobile.viewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 
 class HarvetResultFragment : Fragment() {
     private lateinit var binding : FragmentHarvetResultBinding
-    private lateinit var localViewModel: LocalViewModel
+
+    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+
+    private var isConnected = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHarvetResultBinding.inflate(layoutInflater)
-        localViewModel = ObtainViewModel(requireActivity())
+        isConnected = Utils.internetChecker(requireContext())
+
+
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
-
-        showResult()
 
 
         return binding.root
@@ -38,34 +48,66 @@ class HarvetResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fabHarvestToinsert.setOnClickListener {
-            findNavController()
-                .navigate(HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(null))
+            findNavController().navigate(
+                HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(null)
+            )
         }
+
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+            getResultFromRemote(token)
+        }
+
+
 
         binding.btnHarvestBackhome.setOnClickListener {
-            findNavController()
-                .navigate(
-                    HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
-                )
+            findNavController().navigate(
+                HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
+            )
         }
+
     }
 
-
-
-    private fun showResult(){
-        localViewModel.readHarvestLocal().observe(viewLifecycleOwner){ respon ->
-            val adapter = HarvestResultRvAdapter(respon)
-            val recview = binding.rvHarvestresult
-            recview.adapter = adapter
-            recview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.onDetailCallBack(object : HarvestResultRvAdapter.OnDetailCallback{
-                override fun onDetailCallback(data: HarvestResult) {
-                    findNavController().navigate(HarvetResultFragmentDirections
-                        .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))
+    private fun getResultFromRemote(token : String){
+        lifecycleScope.launch {
+            remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
+                when(it){
+                    is FetchResult.Loading->{
+                        binding.pgbHasilBar.visibility = View.VISIBLE
+                    }
+                    is FetchResult.Success->{
+                        showResult(it.data.harvestResponData)
+                        binding.pgbHasilBar.visibility = View.GONE
+                    }
+                    is FetchResult.Error ->{
+                        showStatus(it.error)
+                    }
                 }
-            })
+            }
         }
     }
+
+    private fun showResult(data : List<HarvestResponData>){
+        val adapter = HarvestResultRecyclerViewAdapter(data)
+        val recyclerView = binding.rvHarvestresult
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
+            override fun onDetailCallback(data: HarvestResponData) {
+                findNavController().navigate(HarvetResultFragmentDirections
+                    .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))
+            }
+        })
+    }
+
+    private fun showStatus(title: String){
+        binding.pgbHasilTitle.text = title
+        binding.pgbHasilTitle.visibility = View.VISIBLE
+
+        if (title.isNotEmpty()){
+            binding.pgbHasilBar.visibility = View.GONE
+        }
+    }
+
 
 
 }
