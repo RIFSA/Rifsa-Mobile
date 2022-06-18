@@ -1,8 +1,4 @@
 
-
-
-
-
 <div id="top"></div>
 
 
@@ -12,13 +8,9 @@
 <div align="center">
   
   ![](https://i.ibb.co/xhFbvwG/Cover-RIFSA.png)
-
   <h1 align="center">RIFSA</h1>
   <p align="center">Rice Farmer Assistant</p>
-
-
 </div>
-
 
 
 <!-- TABLE OF CONTENTS -->
