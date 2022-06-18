@@ -2,6 +2,7 @@
 
 
 
+
 <div id="top"></div>
 
 
@@ -107,10 +108,11 @@ Apps Demo
 
 <!-- ROADMAP -->
 ## Roadmap
-MVP
+
+Old
  - [x] Designing User interface
  - [x] OnBoard page
- - [x] Authetication page
+ - [x] Authetication page (JWT token)
  - [x] Main Page
  - [x] Home page
  - [x] Harvest Result Page
@@ -118,10 +120,14 @@ MVP
  - [x] Inventory Page
  - [x] Detect Page
  - [x] Profile Page
+ - [x] Remote CRUD (SQL)
 
 Rework
 
-
+ - [ ] Authentication with Firebase Auth
+ - [ ] Remote CRUD (NO SQL)
+ - [ ] Firebase Realtime Database
+ - [ ] Firebase Storage
 
 <!-- LICENSE -->
 ## License
