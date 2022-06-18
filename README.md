@@ -107,7 +107,7 @@ Apps Demo
 
 <!-- ROADMAP -->
 ## Roadmap
-
+MVP
  - [x] Designing User interface
  - [x] OnBoard page
  - [x] Authetication page
@@ -118,6 +118,8 @@ Apps Demo
  - [x] Inventory Page
  - [x] Detect Page
  - [x] Profile Page
+
+Rework
 
 
 
