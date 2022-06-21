@@ -40,19 +40,16 @@ class RemoteRepository(
             }
         }
 
-    suspend fun insertHarvestResult(data : HarvestFirebaseEntity,userId : String): LiveData<FetchResult<Task<Void>>> =
-        liveData {
-            emit(FetchResult.Loading)
-            try {
-                emit(FetchResult.Success(firebaseService.insertHarvestResult(data, userId)))
-            }catch (e : Exception){
-                emit(FetchResult.Error(e.message.toString()))
-            }
-        }
+    fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
+        firebaseService.insertUpdateHarvestResult(data,userId)
 
-    fun readHarvest(userId: String): DatabaseReference {
+
+    fun queryHarvestResult(userId: String): DatabaseReference {
         return firebaseService.queryHarvestResult(userId)
+    }
 
+    fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void>{
+        return firebaseService.deleteHarvestResult(date, dataId, userId)
     }
 
 

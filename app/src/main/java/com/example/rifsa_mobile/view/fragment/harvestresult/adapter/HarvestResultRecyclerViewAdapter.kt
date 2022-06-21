@@ -27,7 +27,7 @@ class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestFireba
         (item.weight + " Kg").also { holder.binding.tvCardhasilWeight.text = it }
 
         holder.binding.tvCardhasilTitle.setOnClickListener {
-//            itemCallBak.onDetailCallback(item)
+            itemCallBak.onDetailCallback(item)
         }
     }
 
@@ -35,6 +35,6 @@ class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestFireba
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : HarvestResponData)
+        fun onDetailCallback(data : HarvestFirebaseEntity)
     }
 }

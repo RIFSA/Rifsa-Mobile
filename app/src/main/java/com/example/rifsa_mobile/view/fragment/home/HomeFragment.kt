@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallback(data: HarvestResponData) {
+            override fun onDetailCallback(data: HarvestFirebaseEntity) {
                 findNavController().navigate(HomeFragmentDirections
                     .actionHomeFragmentToHarvestInsertDetailFragment(data))
             }

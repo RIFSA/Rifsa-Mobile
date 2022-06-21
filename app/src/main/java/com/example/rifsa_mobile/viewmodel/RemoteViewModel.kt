@@ -30,12 +30,16 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
     suspend fun authLogin(email : String,password : String): LiveData<FetchResult<Task<AuthResult>>> =
         remoteRepository.authLogin(email, password)
 
-    suspend fun insertHarvestResult(data : HarvestFirebaseEntity, userId : String): LiveData<FetchResult<Task<Void>>> =
-        remoteRepository.insertHarvestResult(data, userId)
+    fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
+        remoteRepository.insertUpdateHarvestResult(data, userId)
 
-    fun readHarvestResult(userId: String): DatabaseReference {
-        return remoteRepository.readHarvest(userId)
-    }
+    fun readHarvestResult(userId: String): DatabaseReference =
+        remoteRepository.queryHarvestResult(userId)
+
+
+    fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void> =
+        remoteRepository.deleteHarvestResult(date, dataId, userId)
+
 
 
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =

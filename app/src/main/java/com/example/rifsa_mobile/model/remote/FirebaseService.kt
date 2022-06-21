@@ -18,7 +18,7 @@ class FirebaseService {
         return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
     }
 
-    fun insertHarvestResult(data : HarvestFirebaseEntity,userId : String): Task<Void>{
+    fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void>{
         return FirebaseDatabase.getInstance()
                 .getReference("data")
                 .child(userId)
@@ -33,22 +33,18 @@ class FirebaseService {
             .getReference("data")
             .child(userId)
             .child("hasil")
-//            .addValueEventListener(object : ValueEventListener{
-//                override fun onDataChange(snapshot: DataSnapshot){
-//                    snapshot.children.forEach { child ->
-//                        child.children.forEach { main ->
-//                            val data = main.getValue(HarvestFirebaseEntity::class.java)
-//                            data?.let {
-//                                response.value = it
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//                }
-//            })
-
     }
+
+    fun deleteHarvestResult(date : String,dataId : String,userId: String): Task<Void>{
+        return FirebaseDatabase.getInstance()
+            .getReference("data")
+            .child(userId)
+            .child("hasil")
+            .child(date)
+            .child(dataId)
+            .removeValue()
+    }
+
+
 
 }
