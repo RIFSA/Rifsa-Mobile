@@ -17,7 +17,7 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
     private val onBoardKey  = booleanPreferencesKey("onBoard_key")
     private val nameKey = stringPreferencesKey("name_key")
     private val passKey = stringPreferencesKey("pass_key")
-    private val tokenKey = stringPreferencesKey("token_key")
+    private val userIdKey = stringPreferencesKey("token_key")
 
 
     fun getOnBoardKey(): Flow<Boolean>{
@@ -40,7 +40,7 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
 
     fun getTokenKey(): Flow<String>{
         return dataStore.data.map {
-            it[tokenKey] ?: ""
+            it[userIdKey] ?: ""
         }
     }
 
@@ -50,7 +50,7 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
             it[onBoardKey] = onBoard
             it[nameKey] = name
             it[passKey] = pass
-            it[tokenKey] = token
+            it[userIdKey] = token
         }
     }
 

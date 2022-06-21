@@ -170,11 +170,11 @@ class MapsDiseaseFragment : Fragment(), OnMapReadyCallback{
 
                         }
                         is FetchResult.Success->{
-                            findNavController().navigate(MapsDiseaseFragmentDirections
-                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
-                                    null,
-                                    it.data[0]
-                                ))
+//                            findNavController().navigate(MapsDiseaseFragmentDirections
+//                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
+//                                    null,
+//                                    it.data[0]
+//                                ))
                         }
                         is FetchResult.Error->{
                             Log.d("disease",it.error)

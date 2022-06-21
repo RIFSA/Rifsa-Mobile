@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
@@ -19,6 +21,9 @@ import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 
@@ -42,6 +47,7 @@ class HarvetResultFragment : Fragment() {
         bottomMenu.visibility = View.VISIBLE
 
 
+
         return binding.root
     }
 
@@ -54,7 +60,24 @@ class HarvetResultFragment : Fragment() {
         }
 
         authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
-            getResultFromRemote(token)
+            binding.pgbHasilBar.visibility = View.VISIBLE
+            remoteViewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { child ->
+                        child.children.forEach { main ->
+                            val data = main.getValue(HarvestFirebaseEntity::class.java)
+                            val dataList = ArrayList<HarvestFirebaseEntity>()
+                            data?.let { dataList.add(data) }
+                            binding.pgbHasilBar.visibility = View.GONE
+                            showResult(dataList)
+                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    binding.pgbHasilBar.visibility = View.GONE
+                    showStatus(error.message)
+                }
+            })
         }
 
 
@@ -75,7 +98,7 @@ class HarvetResultFragment : Fragment() {
                         binding.pgbHasilBar.visibility = View.VISIBLE
                     }
                     is FetchResult.Success->{
-                        showResult(it.data.harvestResponData)
+
                         binding.pgbHasilBar.visibility = View.GONE
                     }
                     is FetchResult.Error ->{
@@ -86,7 +109,7 @@ class HarvetResultFragment : Fragment() {
         }
     }
 
-    private fun showResult(data : List<HarvestResponData>){
+    private fun showResult(data : List<HarvestFirebaseEntity>){
         val adapter = HarvestResultRecyclerViewAdapter(data)
         val recyclerView = binding.rvHarvestresult
         recyclerView.adapter = adapter

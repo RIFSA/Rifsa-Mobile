@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.model.entity.remote.finance
 
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.google.gson.annotations.SerializedName
 
 data class FinancePostBody(

@@ -16,11 +16,26 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.repository.RemoteRepository
 import com.example.rifsa_mobile.utils.FetchResult
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.database.DatabaseReference
 import okhttp3.MultipartBody
 
 class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel() {
+
+
+    suspend fun authLogin(email : String,password : String): LiveData<FetchResult<Task<AuthResult>>> =
+        remoteRepository.authLogin(email, password)
+
+    suspend fun insertHarvestResult(data : HarvestFirebaseEntity, userId : String): LiveData<FetchResult<Task<Void>>> =
+        remoteRepository.insertHarvestResult(data, userId)
+
+    fun readHarvestResult(userId: String): DatabaseReference {
+        return remoteRepository.readHarvest(userId)
+    }
 
 
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =

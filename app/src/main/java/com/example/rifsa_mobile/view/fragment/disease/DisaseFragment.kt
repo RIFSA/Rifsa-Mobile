@@ -87,10 +87,9 @@ class DisaseFragment : Fragment() {
 
         adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
             override fun onDetailCallback(data: DiseaseResultResponse) {
-                findNavController().navigate(
-                    DisaseFragmentDirections
-                        .actionDisaseFragmentToDisaseDetailFragment(null,data)
-                )
+//                findNavController().navigate(
+//                    DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(null,data)
+//                )
 
             }
         })

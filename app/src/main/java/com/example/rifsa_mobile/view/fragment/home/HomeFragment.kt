@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
@@ -69,7 +70,7 @@ class HomeFragment : Fragment() {
             remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
                 when(it){
                     is FetchResult.Success->{
-                        showHarvestList(it.data.harvestResponData)
+
                     }
                     else -> {}
                 }
@@ -77,7 +78,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showHarvestList(data : List<HarvestResponData>){
+    private fun showHarvestList(data : List<HarvestFirebaseEntity>){
         val adapter = HarvestResultRecyclerViewAdapter(data)
         val recyclerView = binding.rvHomeHarvest
         recyclerView.adapter = adapter

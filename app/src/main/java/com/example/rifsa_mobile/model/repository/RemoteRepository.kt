@@ -16,13 +16,45 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.remote.ApiService
+import com.example.rifsa_mobile.model.remote.FirebaseService
 import com.example.rifsa_mobile.utils.FetchResult
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.database.DatabaseReference
 import okhttp3.MultipartBody
 
 class RemoteRepository(
+    private val firebaseService: FirebaseService,
     private val apiService: ApiService,
 ) {
+
+    suspend fun authLogin(email : String,password : String): LiveData<FetchResult<Task<AuthResult>>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(firebaseService.authLogin(email, password)))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
+    suspend fun insertHarvestResult(data : HarvestFirebaseEntity,userId : String): LiveData<FetchResult<Task<Void>>> =
+        liveData {
+            emit(FetchResult.Loading)
+            try {
+                emit(FetchResult.Success(firebaseService.insertHarvestResult(data, userId)))
+            }catch (e : Exception){
+                emit(FetchResult.Error(e.message.toString()))
+            }
+        }
+
+    fun readHarvest(userId: String): DatabaseReference {
+        return firebaseService.queryHarvestResult(userId)
+
+    }
+
 
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
         liveData {

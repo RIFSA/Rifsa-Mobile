@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.model.entity.remote.finance
 
 import android.os.Parcelable
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 

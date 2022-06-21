@@ -107,13 +107,13 @@ class DisaseDetailFragment : Fragment() {
 
 
         try {
-            val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
-            if (detail != null){
-                showDetailDisease(detail)
-                isDetail = true
-                randomId = detail.idPenyakit
-                binding.btnDiseaseSave.visibility = View.GONE
-            }
+//            val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
+//            if (detail != null){
+//                showDetailDisease(detail)
+//                isDetail = true
+//                randomId = detail.idPenyakit
+//                binding.btnDiseaseSave.visibility = View.GONE
+//            }
         }catch (e : Exception){ }
 
         return binding.root

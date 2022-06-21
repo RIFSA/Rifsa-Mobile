@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
@@ -22,6 +22,7 @@ import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.*
 
 class HarvestInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentHarvestInsertDetailBinding
@@ -42,12 +43,12 @@ class HarvestInsertDetailFragment : Fragment() {
         bottomMenu.visibility = View.GONE
 
         try {
-            val data = HarvestInsertDetailFragmentArgs.fromBundle(requireArguments()).detailResult
-            if (data != null) {
-                showDetailHarvest(data)
-                isDetail = true
-                detailId = data.idHasil
-            }
+//            val data = HarvestInsertDetailFragmentArgs.fromBundle(requireArguments()).detailResult
+//            if (data != null) {
+//                showDetailHarvest(data)
+//                isDetail = true
+//                detailId = data.idHasil
+//            }
         }catch (e : Exception){ }
 
         return binding.root
@@ -101,47 +102,31 @@ class HarvestInsertDetailFragment : Fragment() {
         authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
             lifecycleScope.launch {
                 val date = LocalDate.now().toString()
+                val idData = UUID.randomUUID().toString()
 
-                val tempData = HarvestPostBody(
+                val tempData = HarvestFirebaseEntity(
+                    idData,
                     date,
                     binding.tvharvestInsertName.text.toString(),
                     binding.tvharvestInsertBerat.text.toString(),
                     binding.tvharvestInsertHasil.text.toString(),
                     binding.tvharvestInsertCatatan.text.toString(),
+                    true
                 )
 
-                if (!isDetail){
-                    remoteViewModel.postHarvestRemote(tempData,token).observe(viewLifecycleOwner){
-                        when(it){
-                            is FetchResult.Loading ->{
-                                binding.pgbarStatus.visibility = View.VISIBLE
+                remoteViewModel.insertHarvestResult(tempData,token).observe(viewLifecycleOwner){
+                    when(it){
+                        is FetchResult.Loading->{ }
+                        is FetchResult.Success->{
+                            it.data.addOnSuccessListener {
+                                showStatus("berhasil menabahkan")
                             }
-                            is FetchResult.Success ->{
-                                showStatus(it.data.message)
-                                findNavController()
-                                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
+                            it.data.addOnFailureListener {
+                                showStatus(it.message.toString())
                             }
-                            is FetchResult.Error ->{
-                                showStatus(it.error)
-                            }
-                            else -> {}
                         }
-                    }
-                }else{
-                    remoteViewModel.updateHarvestRemote(detailId, tempData,token).observe(viewLifecycleOwner){
-                        when(it){
-                            is FetchResult.Loading ->{
-                                binding.pgbarStatus.visibility = View.VISIBLE
-                            }
-                            is FetchResult.Success ->{
-                                showStatus(it.data.message)
-                                findNavController()
-                                    .navigate(HarvestInsertDetailFragmentDirections.actionHarvestInsertDetailFragmentToHarvetResultFragment())
-                            }
-                            is FetchResult.Error ->{
-                                showStatus(it.error)
-                            }
-                            else -> {}
+                        is FetchResult.Error->{
+                            showStatus(it.error)
                         }
                     }
                 }
