@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.model.repository
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
@@ -18,12 +19,14 @@ import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.model.remote.FirebaseService
 import com.example.rifsa_mobile.utils.FetchResult
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.UploadTask
 import okhttp3.MultipartBody
 
 class RemoteRepository(
@@ -63,6 +66,14 @@ class RemoteRepository(
 
     fun deleteFinancial(date : String,dataId : String, userId : String): Task<Void>{
         return firebaseService.deleteFinancial(date, dataId, userId)
+    }
+
+    fun uploadInventoryFile(name : String, fileUri : Uri, userId: String): UploadTask {
+        return firebaseService.uploadInventoryFile(name, fileUri, userId)
+    }
+
+    fun insertInventory(data : InventoryFirebaseEntity,userId: String): Task<Void>{
+        return firebaseService.insertInventory(data, userId)
     }
 
 

@@ -17,16 +17,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.utils.Utils
+import com.example.rifsa_mobile.view.fragment.inventory.InventoryFragmentDirections
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import java.time.LocalDate
+import java.util.*
 
 
 class InvetoryInsertFragment : Fragment() {
@@ -35,10 +35,13 @@ class InvetoryInsertFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
+
     private var detail : InventoryResultResponData? = null
     private lateinit var currentImage : Uri
     private var isDetail = false
-    private var detailId = 0
+
+    private var date = LocalDate.now().toString()
+    private var detailId = UUID.randomUUID().toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +59,7 @@ class InvetoryInsertFragment : Fragment() {
             if (data != null){
                 showDetail(data)
                 isDetail = true
-                detailId = data.idInventaris
+                detailId = data.idInventaris.toString()
                 binding.btninventoryInsertDelete.visibility = View.VISIBLE
                 binding.btnInventorySave.visibility = View.GONE
             }
@@ -101,7 +104,7 @@ class InvetoryInsertFragment : Fragment() {
         }
 
         binding.btnInventorySave.setOnClickListener {
-            insertInventoryRemote()
+            uploadInventoryFile()
         }
 
     }
@@ -133,64 +136,51 @@ class InvetoryInsertFragment : Fragment() {
 
 
 
-    private fun insertInventoryRemote(){
-
-
-        val image = Utils.uriToFile(currentImage,requireContext())
-
-        val typeFile = image.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val multiPart : MultipartBody.Part = MultipartBody.Part.createFormData(
-            "file",
-            image.name,
-            typeFile
-        )
-
+    private fun uploadInventoryFile(){
         val name = binding.tvinventarisInsertName.text.toString()
-        val amount = binding.tvinventarisInsertAmount.text.toString().toInt()
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+            remoteViewModel.uploadInventoryFile(name,currentImage,userId).addOnSuccessListener {
+                    it.storage.downloadUrl
+                        .addOnSuccessListener { url ->
+                           insertInventory(url,name, userId)
+                        }
+                        .addOnFailureListener {
+                            showStatus("gagal menadapatkan link")
+                        }
+                }
+                .addOnFailureListener{
+                    showStatus(it.message.toString())
+                }
+        }
+    }
+
+    private fun insertInventory(imageUrl : Uri,name : String,userId : String){
+        val amount = binding.tvinventarisInsertAmount.text.toString()
         val note = binding.tvinventarisInsertNote.text.toString()
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
-            lifecycleScope.launch {
-                remoteViewModel.postInventoryRemote(name,multiPart,amount,note,token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Loading ->{
-                            binding.pgInventoryBar.visibility = View.GONE
-                        }
-                        is FetchResult.Success->{
-                            showStatus(it.data.message)
-                            findNavController()
-                                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-                        }
-                        is FetchResult.Error->{
-                            showStatus(it.error)
-                        }
-                        else -> {}
-                    }
-                }
+        val tempData = InventoryFirebaseEntity(
+            detailId,
+            name,
+            note,
+            imageUrl.toString(),
+            amount,
+            date
+        )
+        remoteViewModel.insertInventory(tempData,userId)
+            .addOnSuccessListener {
+                showStatus("berhasil menambahkan")
+                findNavController().navigate(
+                    InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
+                )
             }
-        }
+            .addOnFailureListener {
+                showStatus("gagal menambahkan")
+            }
     }
 
     private fun deleteInventoryRemote(){
         authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
-            lifecycleScope.launch {
-                remoteViewModel.deleteInventoryRemote(detailId,token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Loading->{
-                            binding.pgInventoryBar.visibility = View.VISIBLE
-                        }
-                        is FetchResult.Success->{
-                            showStatus(it.data.message)
-                            findNavController()
-                                .navigate(InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment())
-                        }
-                        is FetchResult.Error->{
-                            showStatus(it.error)
-                        }
-                        else -> {}
-                    }
-                }
-            }
+
         }
 
     }
