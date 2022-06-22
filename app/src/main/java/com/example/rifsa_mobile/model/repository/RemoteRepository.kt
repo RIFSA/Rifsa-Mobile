@@ -61,6 +61,10 @@ class RemoteRepository(
         return firebaseService.queryFinancial(userId)
     }
 
+    fun deleteFinancial(date : String,dataId : String, userId : String): Task<Void>{
+        return firebaseService.deleteFinancial(date, dataId, userId)
+    }
+
 
 
 

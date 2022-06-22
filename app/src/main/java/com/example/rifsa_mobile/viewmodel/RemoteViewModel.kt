@@ -47,6 +47,8 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
     fun readFinancial(userId: String): DatabaseReference =
         remoteRepository.queryFinancial(userId)
 
+    fun deleteFinancial(date : String,dataId : String, userId : String): Task<Void> =
+        remoteRepository.deleteFinancial(date, dataId, userId)
 
 
 

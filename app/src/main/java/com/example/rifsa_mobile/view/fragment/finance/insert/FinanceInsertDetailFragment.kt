@@ -62,6 +62,7 @@ class FinanceInsertDetailFragment : Fragment() {
                 setDetail(data)
                 isDetail = true
                 detailId = data.idFinance
+                currentDate = data.date
             }
         }catch (e : Exception){ }
 
@@ -150,10 +151,17 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
     private fun deleteFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
-            lifecycleScope.launch {
-
-            }
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+            remoteViewModel.deleteFinancial(currentDate,detailId,userId)
+                .addOnSuccessListener {
+                    showStatus("data terhapus")
+                    findNavController().navigate(
+                        FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                }
+                .addOnFailureListener {
+                    showStatus("gagal terhapus")
+                }
+            Log.d("delete finance","$userId/$currentDate/$detailId")
         }
 
     }
