@@ -25,11 +25,10 @@ import java.util.*
 class HarvestInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentHarvestInsertDetailBinding
 
-    private var idData = UUID.randomUUID().toString()
     private var date = LocalDate.now().toString()
 
     private var isDetail = false
-    private var detailId = ""
+    private var detailId = UUID.randomUUID().toString()
     private var isConnected = false
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
@@ -49,7 +48,7 @@ class HarvestInsertDetailFragment : Fragment() {
             if (data != null) {
                 showDetailHarvest(data)
                 isDetail = true
-                idData = data.id
+                detailId = data.id
                 date = data.date
             }
         }catch (e : Exception){ }
@@ -106,7 +105,7 @@ class HarvestInsertDetailFragment : Fragment() {
             lifecycleScope.launch {
 
                 val tempData = HarvestFirebaseEntity(
-                    idData,
+                    detailId,
                     date,
                     binding.tvharvestInsertName.text.toString(),
                     binding.tvharvestInsertBerat.text.toString(),
@@ -147,6 +146,7 @@ class HarvestInsertDetailFragment : Fragment() {
                     .addOnFailureListener {
                         showStatus("gagal menghapus")
                     }
+                Log.d("remove value ", "$token/$date/$detailId")
             }
         }
     }

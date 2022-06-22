@@ -57,6 +57,7 @@ class HarvetResultFragment : Fragment() {
                             val data = main.getValue(HarvestFirebaseEntity::class.java)
                             data?.let { dataList.add(data) }
                             showResult(dataList)
+
                         }
                     }
                 }

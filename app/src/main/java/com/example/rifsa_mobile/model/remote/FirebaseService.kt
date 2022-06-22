@@ -20,9 +20,9 @@ class FirebaseService {
 
     fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void>{
         return FirebaseDatabase.getInstance()
-                .getReference("data")
+                .getReference(mainPath)
                 .child(userId)
-                .child("hasil")
+                .child(harvestPath)
                 .child(data.date)
                 .child(data.id)
                 .setValue(data)
@@ -30,21 +30,27 @@ class FirebaseService {
 
     fun queryHarvestResult(userId: String): DatabaseReference{
        return FirebaseDatabase.getInstance()
-            .getReference("data")
+            .getReference(mainPath)
             .child(userId)
-            .child("hasil")
+            .child(harvestPath)
     }
 
     fun deleteHarvestResult(date : String,dataId : String,userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
-            .getReference("data")
+            .getReference(mainPath)
             .child(userId)
-            .child("hasil")
+            .child(harvestPath)
             .child(date)
             .child(dataId)
             .removeValue()
     }
 
+
+
+    companion object{
+        const val mainPath = "data"
+        const val harvestPath = "hasil"
+    }
 
 
 }
