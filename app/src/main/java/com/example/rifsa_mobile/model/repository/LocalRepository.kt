@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.rifsa_mobile.model.local.prefrences.UserPrefrences
 
-class LocalRepository(
-    private val userPrefrences : UserPrefrences
-) {
+class LocalRepository(private val userPrefrences : UserPrefrences) {
     fun getOnBoardStatus(): LiveData<Boolean> = userPrefrences.getOnBoardKey().asLiveData()
     fun getUserName(): LiveData<String> = userPrefrences.getNameKey().asLiveData()
     fun getPassword(): LiveData<String> = userPrefrences.getPassKey().asLiveData()

@@ -16,6 +16,7 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.repository.RemoteRepository
 import com.example.rifsa_mobile.utils.FetchResult
@@ -39,6 +40,23 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
 
     fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void> =
         remoteRepository.deleteHarvestResult(date, dataId, userId)
+
+    fun insertUpdateFinancial(data : FinancialFirebaseEntity, userId: String): Task<Void> =
+        remoteRepository.insertUpdateFinancial(data, userId)
+
+    fun readFinancial(userId: String): DatabaseReference =
+        remoteRepository.queryFinancial(userId)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

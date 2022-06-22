@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,9 @@ import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResul
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 
@@ -28,6 +32,7 @@ class HomeFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
+    private var dataList = ArrayList<HarvestFirebaseEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,12 +73,21 @@ class HomeFragment : Fragment() {
     private fun getHarvestRemote(token : String){
         lifecycleScope.launch {
             remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success->{
-
+                remoteViewModel.readHarvestResult(token).addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach { child ->
+                            child.children.forEach { main ->
+                                val data = main.getValue(HarvestFirebaseEntity::class.java)
+                                data?.let { dataList.add(data) }
+                                showHarvestList(dataList)
+                            }
+                        }
                     }
-                    else -> {}
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("Home Fragment",error.message)
+                    }
+                })
             }
         }
     }

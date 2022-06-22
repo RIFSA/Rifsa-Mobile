@@ -13,12 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
-import com.example.rifsa_mobile.utils.FetchResult
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 
@@ -27,7 +31,7 @@ class FinanceFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private lateinit var dataList: ArrayList<FinanceResponseData>
+    private var dataList = ArrayList<FinancialFirebaseEntity>()
 
 
     override fun onCreateView(
@@ -39,55 +43,54 @@ class FinanceFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        dataList = arrayListOf()
-
 
         binding.fabFiannceInsert.setOnClickListener {
             findNavController().navigate(
                 FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
-            showFinanceList(token)
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+            binding.pgbFinanceBar.visibility = View.VISIBLE
+            getFinanceList(userId)
         }
 
         return binding.root
     }
 
 
-    private fun showFinanceList(token : String){
+    private fun getFinanceList(userId : String){
         lifecycleScope.launch{
-            remoteViewModel.getFinanceRemote(token).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading->{
-                        binding.pgbFinanceBar.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success->{
-                        binding.pgbFinanceBar.visibility = View.GONE
-
-                        it.data.financeResponseData.forEach { respon ->
-                            dataList.add(respon)
-
-                            val adapter = FinanceRecyclerViewAdapter(dataList)
-                            val recyclerView = binding.rvFinance
-                            recyclerView.adapter = adapter
-                            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-                            adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
-                                override fun onItemCallback(data: FinanceResponseData) {
-                                    findNavController().navigate(
-                                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
-                                }
-                            })
+            remoteViewModel.readFinancial(userId).addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { child ->
+                        child.children.forEach { main ->
+                            binding.pgbFinanceBar.visibility = View.GONE
+                            val data = main.getValue(FinancialFirebaseEntity::class.java)
+                            data?.let { dataList.add(data) }
+                            showFinancialList(dataList)
                         }
                     }
-                    is FetchResult.Error->{
-                        showStatus(it.error)
-                    }
-                    else -> {}
                 }
-            }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
+    }
+
+    private fun showFinancialList(data : List<FinancialFirebaseEntity>){
+        val adapter = FinanceRecyclerViewAdapter(data)
+        val recyclerView = binding.rvFinance
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
+            override fun onItemCallback(data: FinancialFirebaseEntity) {
+                findNavController().navigate(
+                    FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
+            }
+        })
     }
 
     private fun showStatus(title : String){

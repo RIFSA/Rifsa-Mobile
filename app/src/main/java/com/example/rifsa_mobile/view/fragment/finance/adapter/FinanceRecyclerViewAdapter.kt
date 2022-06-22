@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardFinanceBinding
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 
-class FinanceRecyclerViewAdapter(private var dataList : List<FinanceResponseData>): RecyclerView.Adapter<FinanceRecyclerViewAdapter.ViewHolder>() {
+class FinanceRecyclerViewAdapter(private var dataList : List<FinancialFirebaseEntity>): RecyclerView.Adapter<FinanceRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardFinanceBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallBack : ItemDetailCallback
@@ -22,10 +23,10 @@ class FinanceRecyclerViewAdapter(private var dataList : List<FinanceResponseData
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
-        holder.binding.tvcardFinanceTitle.text = item.kegiatan
-        ("Rp "+ item.jumlah).also { holder.binding.tvcardFinancePrice.text = it }
+        holder.binding.tvcardFinanceTitle.text = item.name
+        ("Rp "+ item.price).also { holder.binding.tvcardFinancePrice.text = it }
 
-        if (item.jenis == "Pengeluaran"){
+        if (item.type == "Pengeluaran"){
             holder.binding.imageView5.setImageResource(R.drawable.ic_finance_out)
         }else{
             holder.binding.imageView5.setImageResource(R.drawable.ic_finance_in)
@@ -39,6 +40,6 @@ class FinanceRecyclerViewAdapter(private var dataList : List<FinanceResponseData
     override fun getItemCount(): Int = dataList.size
 
     interface ItemDetailCallback{
-        fun onItemCallback(data : FinanceResponseData)
+        fun onItemCallback(data : FinancialFirebaseEntity)
     }
 }

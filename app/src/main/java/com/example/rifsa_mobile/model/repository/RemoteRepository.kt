@@ -16,6 +16,7 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.model.remote.FirebaseService
@@ -51,6 +52,49 @@ class RemoteRepository(
     fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void>{
         return firebaseService.deleteHarvestResult(date, dataId, userId)
     }
+
+    fun insertUpdateFinancial(data : FinancialFirebaseEntity, userId: String): Task<Void>{
+        return firebaseService.insertUpdateFinancial(data, userId)
+    }
+
+    fun queryFinancial(userId: String): DatabaseReference{
+        return firebaseService.queryFinancial(userId)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =

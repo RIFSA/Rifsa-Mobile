@@ -3,6 +3,7 @@ package com.example.rifsa_mobile.model.remote
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
@@ -13,7 +14,6 @@ import com.google.firebase.database.*
 
 class FirebaseService {
 
-    val response = MutableLiveData<HarvestFirebaseEntity>()
     fun authLogin(email : String,password : String): Task<AuthResult>{
         return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
     }
@@ -45,11 +45,40 @@ class FirebaseService {
             .removeValue()
     }
 
+    fun insertUpdateFinancial(data : FinancialFirebaseEntity,userId: String): Task<Void>{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(financePath)
+            .child(data.date)
+            .child(data.idFinance)
+            .setValue(data)
+    }
+
+    fun queryFinancial(userId: String): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(financePath)
+    }
+
+    fun deleteFinancial(date : String,dataId : String,userId: String): Task<Void>{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(financePath)
+            .child(date)
+            .child(dataId)
+            .removeValue()
+    }
+
+
 
 
     companion object{
-        const val mainPath = "data"
-        const val harvestPath = "hasil"
+        const val mainPath = "MainData"
+        const val harvestPath = "HarvestResult"
+        const val financePath = "Financial"
     }
 
 

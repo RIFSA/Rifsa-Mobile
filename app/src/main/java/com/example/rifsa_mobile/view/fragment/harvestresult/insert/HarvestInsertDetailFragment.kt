@@ -26,9 +26,9 @@ class HarvestInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentHarvestInsertDetailBinding
 
     private var date = LocalDate.now().toString()
+    private var detailId = UUID.randomUUID().toString()
 
     private var isDetail = false
-    private var detailId = UUID.randomUUID().toString()
     private var isConnected = false
 
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
@@ -101,7 +101,7 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateHarvestRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId->
             lifecycleScope.launch {
 
                 val tempData = HarvestFirebaseEntity(
@@ -115,7 +115,7 @@ class HarvestInsertDetailFragment : Fragment() {
                 )
 
                 binding.pgbarStatus.visibility = View.VISIBLE
-                remoteViewModel.insertUpdateHarvestResult(tempData,token)
+                remoteViewModel.insertUpdateHarvestResult(tempData,userId)
                     .addOnSuccessListener {
                         showStatus("berhasil menambahkan")
                         findNavController().navigate(
@@ -133,9 +133,9 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun deleteHarvestRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
-                remoteViewModel.deleteHarvestResult(date,detailId,token)
+                remoteViewModel.deleteHarvestResult(date,detailId,userId)
                     .addOnSuccessListener {
                         showStatus("terhapus")
                         findNavController().navigate(
@@ -146,7 +146,6 @@ class HarvestInsertDetailFragment : Fragment() {
                     .addOnFailureListener {
                         showStatus("gagal menghapus")
                     }
-                Log.d("remove value ", "$token/$date/$detailId")
             }
         }
     }
@@ -165,6 +164,4 @@ class HarvestInsertDetailFragment : Fragment() {
     companion object{
         const val detail_harvest = "harvest detail"
     }
-
-
 }
