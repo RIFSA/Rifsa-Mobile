@@ -76,6 +76,18 @@ class RemoteRepository(
         return firebaseService.insertInventory(data, userId)
     }
 
+    fun readInventory(userId: String): DatabaseReference{
+        return firebaseService.readInventory(userId)
+    }
+
+    fun deleteInventoryFile(name : String, userId: String): Task<Void>{
+        return firebaseService.deleteInventoryFile(name, userId)
+    }
+
+    fun deleteInventory(date : String,dataId : String,userId: String): Task<Void> {
+        return firebaseService.deleteInventory(date, dataId, userId)
+    }
+
 
 
 

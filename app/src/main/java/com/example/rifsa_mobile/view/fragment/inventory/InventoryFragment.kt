@@ -13,12 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 
@@ -29,13 +34,12 @@ class InventoryFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private lateinit var dataList : ArrayList<InventoryResultResponData>
+    private var dataList = ArrayList<InventoryFirebaseEntity>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInventoryBinding.inflate(layoutInflater)
-        dataList = arrayListOf()
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
@@ -55,33 +59,32 @@ class InventoryFragment : Fragment() {
     }
 
     private fun inventoryList(token : String){
-        lifecycleScope.launch {
-            remoteViewModel.getInventoryRemote(token).observe(viewLifecycleOwner){ respon ->
-                when(respon){
-                    is FetchResult.Loading ->{
-                        binding.pgbInventoryBar.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success->{
+        remoteViewModel.readInventory(token).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { child ->
+                    child.children.forEach { main ->
                         binding.pgbInventoryBar.visibility = View.GONE
-                        showInventoryList(respon.data.InventoryResultResponData)
+                        val data = main.getValue(InventoryFirebaseEntity::class.java)
+                        data?.let { dataList.add(data) }
+                        showInventoryList(dataList)
                     }
-                    is FetchResult.Error ->{
-                        showStatus(respon.error)
-                    }
-                    else -> {}
                 }
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
-    private fun showInventoryList(data : List<InventoryResultResponData>) {
+    private fun showInventoryList(data : List<InventoryFirebaseEntity>) {
         val adapter = InventoryRecyclerViewAdapter(data)
         val recyclerView = binding.recviewInventory
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
-            override fun onDetailCallback(data: InventoryResultResponData) {
+            override fun onDetailCallback(data: InventoryFirebaseEntity) {
                 findNavController()
                     .navigate(
                         InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data))

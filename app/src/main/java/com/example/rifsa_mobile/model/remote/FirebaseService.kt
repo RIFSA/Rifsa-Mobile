@@ -77,10 +77,17 @@ class FirebaseService {
             .removeValue()
     }
 
+
     fun uploadInventoryFile(name : String, fileUri : Uri, userId: String): UploadTask{
         return FirebaseStorage.getInstance().reference
             .child("$userId/$inventoryFilePath/$name")
             .putFile(fileUri)
+    }
+
+    fun deleteInventoryFile(name : String, userId: String): Task<Void>{
+        return FirebaseStorage.getInstance().reference
+            .child("$userId/$inventoryFilePath/$name")
+            .delete()
     }
 
     fun insertInventory(data : InventoryFirebaseEntity,userId: String): Task<Void>{
@@ -91,6 +98,23 @@ class FirebaseService {
             .child(data.dated)
             .child(data.idInventory)
             .setValue(data)
+    }
+
+    fun readInventory(userId: String): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(inventoryFilePath)
+    }
+
+    fun deleteInventory(date : String,dataId : String,userId: String): Task<Void> {
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(inventoryFilePath)
+            .child(date)
+            .child(dataId)
+            .removeValue()
     }
 
 

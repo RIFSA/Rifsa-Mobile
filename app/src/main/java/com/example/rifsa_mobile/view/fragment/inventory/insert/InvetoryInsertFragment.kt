@@ -10,21 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
-import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.view.fragment.inventory.InventoryFragmentDirections
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
 
@@ -36,13 +31,12 @@ class InvetoryInsertFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
 
-    private var detail : InventoryResultResponData? = null
     private lateinit var currentImage : Uri
     private var isDetail = false
 
     private var date = LocalDate.now().toString()
     private var detailId = UUID.randomUUID().toString()
-
+    private var fileName = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,11 +49,12 @@ class InvetoryInsertFragment : Fragment() {
 
         try {
             val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
-            detail = data
             if (data != null){
                 showDetail(data)
                 isDetail = true
-                detailId = data.idInventaris.toString()
+                detailId = data.idInventory
+                date = data.dated
+                fileName = data.name
                 binding.btninventoryInsertDelete.visibility = View.VISIBLE
                 binding.btnInventorySave.visibility = View.GONE
             }
@@ -92,7 +87,7 @@ class InvetoryInsertFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteInventoryRemote()
+                        deleteInventory()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -109,16 +104,18 @@ class InvetoryInsertFragment : Fragment() {
 
     }
 
-    private fun showDetail(data : InventoryResultResponData){
-        val amount = data.jumlah
-        binding.tvinventarisInsertName.setText(data.nama)
+    private fun showDetail(data : InventoryFirebaseEntity){
+        val amount = data.amount
+        binding.tvinventarisInsertName.setText(data.name)
         binding.tvinventarisInsertAmount.setText(amount)
-        binding.tvinventarisInsertNote.setText(data.catatan)
+        binding.tvinventarisInsertNote.setText(data.noted)
         "Detail Data".also { binding.tvInventoryInsertdetail.text = it }
+
+        Log.d("Image url",data.imageUrl)
 
         Glide.with(requireContext())
             .asBitmap()
-            .load("http://34.101.50.17:5000/images/${data.image}")
+            .load(data.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(binding.imgInventory)
     }
@@ -178,11 +175,30 @@ class InvetoryInsertFragment : Fragment() {
             }
     }
 
-    private fun deleteInventoryRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
-
+    private fun deleteInventory(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+            remoteViewModel.deleteInventory(date,detailId,userId)
+                .addOnSuccessListener {
+                    deleteInventoryFile()
+                }
+                .addOnFailureListener {
+                    showStatus("gagal menghapus")
+                }
         }
+    }
 
+    private fun deleteInventoryFile(){
+        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+            remoteViewModel.deleteInventoryFile(fileName,userId)
+                .addOnSuccessListener {
+                    findNavController().navigate(
+                        InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
+                    )
+                }
+                .addOnFailureListener {
+                    showStatus("gagal menghapus")
+                }
+        }
     }
 
 

@@ -60,8 +60,17 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
         return remoteRepository.insertInventory(data, userId)
     }
 
+    fun readInventory(userId: String): DatabaseReference{
+        return remoteRepository.readInventory(userId)
+    }
 
+    fun deleteInventoryFile(name : String, userId: String): Task<Void>{
+        return remoteRepository.deleteInventoryFile(name, userId)
+    }
 
+    fun deleteInventory(date : String,dataId : String,userId: String): Task<Void> {
+        return remoteRepository.deleteInventory(date, dataId, userId)
+    }
 
 
 
