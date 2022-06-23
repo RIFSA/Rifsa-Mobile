@@ -135,7 +135,7 @@ class InvetoryInsertFragment : Fragment() {
 
     private fun uploadInventoryFile(){
         val name = binding.tvinventarisInsertName.text.toString()
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             remoteViewModel.uploadInventoryFile(name,currentImage,userId).addOnSuccessListener {
                     it.storage.downloadUrl
                         .addOnSuccessListener { url ->
@@ -176,7 +176,7 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun deleteInventory(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             remoteViewModel.deleteInventory(date,detailId,userId)
                 .addOnSuccessListener {
                     deleteInventoryFile()
@@ -188,7 +188,7 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun deleteInventoryFile(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             remoteViewModel.deleteInventoryFile(fileName,userId)
                 .addOnSuccessListener {
                     findNavController().navigate(

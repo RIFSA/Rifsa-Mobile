@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
@@ -57,7 +56,7 @@ class HomeFragment : Fragment() {
             getUserName().observe(viewLifecycleOwner){ name ->
                 binding.tvhomeName.text = name
             }
-            getUserToken().observe(viewLifecycleOwner){ token ->
+            getUserId().observe(viewLifecycleOwner){ token ->
                 getHarvestRemote(token)
             }
         }
@@ -72,7 +71,7 @@ class HomeFragment : Fragment() {
 
     private fun getHarvestRemote(token : String){
         lifecycleScope.launch {
-            remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
+
                 remoteViewModel.readHarvestResult(token).addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -88,7 +87,7 @@ class HomeFragment : Fragment() {
                         Log.d("Home Fragment",error.message)
                     }
                 })
-            }
+
         }
     }
 
@@ -106,7 +105,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun diseaseCount(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){token->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
             lifecycleScope.launch {
                 remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){
                     when(it){

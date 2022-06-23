@@ -12,9 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -49,7 +47,7 @@ class FinanceFragment : Fragment() {
                 FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
         }
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             binding.pgbFinanceBar.visibility = View.VISIBLE
             getFinanceList(userId)
         }

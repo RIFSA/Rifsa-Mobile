@@ -14,10 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
-import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -125,7 +122,7 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
                 val tempData = FinancialFirebaseEntity(
                     detailId,
@@ -151,7 +148,7 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
     private fun deleteFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             remoteViewModel.deleteFinancial(currentDate,detailId,userId)
                 .addOnSuccessListener {
                     showStatus("data terhapus")

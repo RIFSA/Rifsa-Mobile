@@ -29,89 +29,6 @@ interface ApiService {
         @Body body: RegisterBody
     ): RegisterResponse
 
-    @GET("hasilpanen")
-    suspend fun getHarvestResultRemote(
-        @Header("Authorization") token : String
-    ): HarvestResultRespon
-
-    @POST("hasilpanen")
-    suspend fun postHarvestResultRemote(
-        @Body body: HarvestPostBody,
-        @Header("Authorization") token : String
-    ): HarvestPostResponse
-
-    @PUT("hasilpanen/{id}")
-    suspend fun updateHarvestResultRemote(
-        @Path("id") id : Int,
-        @Body body: HarvestPostBody,
-        @Header("Authorization") token : String
-    ): HarvestPostResponse
-
-    @DELETE("hasilpanen/{id}")
-    suspend fun deleteHarvestResultRemote(
-        @Path("id") id : Int,
-        @Header("Authorization") token : String
-    ): HarvestPostResponse
-
-
-    @GET("keuangan")
-    suspend fun getFinanceRemote(
-        @Header("Authorization") token : String
-    ) : FinanceResultResponse
-
-    @POST("keuangan")
-    suspend fun postFinanceRemote(
-        @Body body: FinancePostBody,
-        @Header("Authorization") token : String
-    ): FinancePostResponse
-
-    @DELETE("keuangan/{id}")
-    suspend fun deleteFinanceRemote(
-        @Path("id") id : Int,
-        @Header("Authorization") token : String
-    ): FinancePostResponse
-
-    @PUT("keuangan/{id}")
-    suspend fun updateFinanceRemote(
-        @Path("id") id: Int,
-        @Body body: FinancePostBody,
-        @Header("Authorization") token : String
-    ): FinancePostResponse
-
-
-    @GET("inventaris")
-    suspend fun getInventoryRemote(
-        @Header("Authorization") token : String
-    ): InventoryResultRespon
-
-    @Multipart
-    @POST("inventaris")
-    suspend fun postInventoryRemote(
-        @Part("nama") name : String,
-        @Part file : MultipartBody.Part,
-        @Part("jumlah") jumlah : Int,
-        @Part("catatan") catatan : String,
-        @Header("Authorization") token : String
-    ): InventoryPostResponse
-
-    @Multipart
-    @PUT("inventaris/{id}")
-    suspend fun updateInventoryRemote(
-        @Part("nama") name : String,
-        @Part file : MultipartBody.Part,
-        @Part("jumlah") jumlah : Int,
-        @Part("catatan") catatan : String,
-        @Path("id") id : Int
-    ): InventoryPostResponse
-
-    @DELETE("inventaris/{id}")
-    suspend fun deleteInventoryRemote(
-        @Path("id") id : Int,
-        @Header("Authorization") token : String
-    ): InventoryPostResponse
-
-
-
 
     @GET("http://34.101.115.114:5000/penyakit")
     suspend fun getDiseaseRemote(
@@ -139,8 +56,6 @@ interface ApiService {
         @Path("id") id: Int,
         @Header("Authorization") token : String
     ): DiseasePostResponse
-
-
 
 
 }

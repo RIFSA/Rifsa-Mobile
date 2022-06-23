@@ -117,6 +117,13 @@ class FirebaseService {
             .removeValue()
     }
 
+    fun readFarmingData(userId: String): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(farmingPath)
+    }
+
 
 
     companion object{
@@ -124,6 +131,7 @@ class FirebaseService {
         const val harvestPath = "HarvestResult"
         const val financePath = "Financial"
         const val inventoryFilePath = "Inventory"
+        const val farmingPath = "Fields"
     }
 
 

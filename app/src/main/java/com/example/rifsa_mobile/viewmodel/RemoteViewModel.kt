@@ -31,7 +31,7 @@ import okhttp3.MultipartBody
 class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel() {
 
 
-    suspend fun authLogin(email : String,password : String): LiveData<FetchResult<Task<AuthResult>>> =
+    suspend fun authLogin(email : String,password : String): Task<AuthResult> =
         remoteRepository.authLogin(email, password)
 
     fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
@@ -72,72 +72,18 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
         return remoteRepository.deleteInventory(date, dataId, userId)
     }
 
+    fun readFarming(userId: String): DatabaseReference{
+        return remoteRepository.readFarming(userId)
+    }
 
 
-
-
-
-
-
-
+    
 
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
         remoteRepository.postLogin(data)
 
     suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> =
         remoteRepository.postRegister(data)
-
-
-    suspend fun postHarvestRemote(data : HarvestPostBody,token: String): LiveData<FetchResult<HarvestPostResponse>> =
-        remoteRepository.postHarvest(data,token)
-
-    suspend fun updateHarvestRemote(id: Int, data: HarvestPostBody,token: String): LiveData<FetchResult<HarvestPostResponse>> =
-        remoteRepository.updateHarvestRemote(id,data,token)
-
-    suspend fun deleteHarvestRemote(id: Int,token: String): LiveData<FetchResult<HarvestPostResponse>> =
-        remoteRepository.deleteHarvestRemote(id,token)
-
-    suspend fun getHarvestRemote(token: String): LiveData<FetchResult<HarvestResultRespon>> =
-        remoteRepository.getHarvestRemote(token)
-
-
-    suspend fun postFinanceRemote(data: FinancePostBody,token: String): LiveData<FetchResult<FinancePostResponse>> =
-        remoteRepository.postFinanceRemote(data,token)
-
-    suspend fun getFinanceRemote(token : String): LiveData<FetchResult<FinanceResultResponse>> =
-        remoteRepository.getFinanceRemote(token)
-
-    suspend fun deleteFinanceRemote(id: Int,token: String): LiveData<FetchResult<FinancePostResponse>> =
-        remoteRepository.deleteFinanceRemote(id,token)
-
-    suspend fun updateFinanceRemote(id: Int, data: FinancePostBody,token: String): LiveData<FetchResult<FinancePostResponse>> =
-        remoteRepository.updateFinanceRemote(id,data,token)
-
-
-
-    suspend fun getInventoryRemote(token: String): LiveData<FetchResult<InventoryResultRespon>> =
-        remoteRepository.getInventoryRemote(token)
-
-    suspend fun postInventoryRemote(
-        name : String,
-        file : MultipartBody.Part,
-        jumlah : Int,
-        catatan : String,
-        token: String
-    ): LiveData<FetchResult<InventoryPostResponse>> =
-        remoteRepository.postInventoryRemote(name, file, jumlah, catatan,token)
-
-    suspend fun updateInventoryRemote(
-        name : String,
-        file : MultipartBody.Part,
-        jumlah : Int,
-        catatan : String,
-        id : Int
-    ): LiveData<FetchResult<InventoryPostResponse>> =
-        remoteRepository.updateInventoryRemote(name, file, jumlah, catatan,id)
-
-    suspend fun deleteInventoryRemote(id: Int,token: String): LiveData<FetchResult<InventoryPostResponse>> =
-        remoteRepository.deleteInventoryRemote(id,token)
 
 
 

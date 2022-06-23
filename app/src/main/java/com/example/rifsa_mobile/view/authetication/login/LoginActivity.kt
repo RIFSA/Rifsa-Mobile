@@ -64,37 +64,43 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.tvLoginPassword.text.toString()
 
         if (!boxChecker()){
-            remoteViewModel.authLogin(email, password).observe(this){ respon ->
-                when(respon){
-                    is FetchResult.Loading->{
-                        binding.pgbarLogin.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success->{
-                        binding.pgbarLogin.visibility = View.GONE
-                        respon.data.addOnSuccessListener {
-                            showStatus("Login Berhasil")
-                            saveLoginSession(
-                                onBoard = true,
-                                binding.tvLoginEmail.text.toString(),
-                                binding.tvLoginPassword.text.toString(),
-                                it.user?.uid.toString()
-                            )
-                        }
-                        respon.data.addOnFailureListener {
-                            showStatus(it.message.toString())
-                        }
-                    }
-                    is FetchResult.Error->{
-                        binding.pgbarLogin.visibility = View.GONE
-                        showStatus("Terjadi kesalahan! Silahkan coba lagi dengan Email dan Password yang benar")
-                    }
+            remoteViewModel.authLogin(email, password)
+                .addOnSuccessListener {
+                    saveLoginSession(
+                        onBoard = true,
+                        email,
+                        "",
+                        it.user?.uid.toString()
+                    )
                 }
-            }
+                .addOnFailureListener {
+                    showStatus(it.message.toString())
+                }
         }else{
             showStatus("Oops! Box masih kosong")
         }
+    }
 
+    //TODO | tunggu api node.js diperbaiki
+    private fun loginPrediction(data : LoginBody,userId: String){
+        lifecycleScope.launch {
+            remoteViewModel.postLogin(data).observe(this@LoginActivity){
+                when(it){
+                    is FetchResult.Loading->{
 
+                    }
+                    is FetchResult.Success->{
+                        showStatus("Login Berhasil")
+
+                        //TODO | save login session
+
+                    }
+                    is FetchResult.Error->{
+                        showStatus(it.error)
+                    }
+                }
+            }
+        }
     }
 
     private fun showStatus(title : String){

@@ -70,7 +70,14 @@
         android:id="@+id/profileFragment"
         android:name="com.example.rifsa_mobile.view.fragment.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_mapsDiseaseFragment"
+            app:destination="@id/mapsDiseaseFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_fieldDetailFragment"
+            app:destination="@id/fieldDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/harvetResultFragment"
         android:name="com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment"
@@ -183,7 +190,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsDiseaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disease.maps.MapsDiseaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.maps.MapsFragment"
         android:label="MapsDiseaseFragment" >
         <action
             android:id="@+id/action_mapsDiseaseFragment_to_disaseFragment"
@@ -194,5 +201,24 @@
         <action
             android:id="@+id/action_mapsDiseaseFragment_to_disaseDetailFragment"
             app:destination="@id/disaseDetailFragment" />
+        <argument
+            android:name="maptype"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_mapsDiseaseFragment_to_fieldDetailFragment"
+            app:destination="@id/fieldDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fieldDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.farming.FieldDetailFragment"
+        android:label="fragment_field_detail"
+        tools:layout="@layout/fragment_field_detail" >
+        <action
+            android:id="@+id/action_fieldDetailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <argument
+            android:name="dataField"
+            app:argType="com.example.rifsa_mobile.model.entity.remotefirebase.FarmingFirebaseEntity" />
     </fragment>
 </navigation>

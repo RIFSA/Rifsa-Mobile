@@ -195,7 +195,7 @@ class DisaseDetailFragment : Fragment() {
 
 
     private fun postPrediction(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ _ ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ _ ->
 
 
             val currentImage = Utils.uriToFile(image.toUri(),requireContext())
@@ -238,7 +238,7 @@ class DisaseDetailFragment : Fragment() {
 
 
     private fun deleteDiseaseRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
                 remoteViewModel.deleteDiseaseRemote(randomId,token).observe(viewLifecycleOwner){
                     when(it){

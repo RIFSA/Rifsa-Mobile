@@ -5,17 +5,14 @@
     <!-- internet location permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- camera and storage permisson -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- camera and storage permisson -->
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-
-
-    <!--alarm notification permission-->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" /> <!-- alarm notification permission -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -25,13 +22,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.RifsaMobile">
+        android:theme="@style/Theme.RifsaMobile"
+        android:usesCleartextTraffic="true">
 
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCxBUaI25cpMZFaM89OdA_Uzc_6O1edq28" />
+
 
         <activity
             android:name=".view.authetication.signup.SignUpActivity"
@@ -57,12 +55,10 @@
         </activity>
 
         <receiver
+            android:name=".utils.AlarmReceiver"
             android:enabled="true"
             android:exported="false"
-            android:permission="alarm"
-            android:name=".utils.AlarmReceiver">
-        </receiver>
-
+            android:permission="alarm"></receiver>
     </application>
 
 </manifest>

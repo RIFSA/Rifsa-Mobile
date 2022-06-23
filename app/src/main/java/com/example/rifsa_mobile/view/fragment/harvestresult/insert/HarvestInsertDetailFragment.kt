@@ -101,7 +101,7 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateHarvestRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId->
             lifecycleScope.launch {
 
                 val tempData = HarvestFirebaseEntity(
@@ -133,7 +133,7 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun deleteHarvestRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ userId ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
                 remoteViewModel.deleteHarvestResult(date,detailId,userId)
                     .addOnSuccessListener {

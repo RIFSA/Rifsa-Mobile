@@ -26,8 +26,6 @@ class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebase
         holder.binding.tvcardInventTitle.text = item.name
         holder.binding.tvcardInventAmount.text = item.amount
 
-        Log.d("Image url",item.toString())
-
         Glide.with(holder.itemView.context)
             .load(item.imageUrl)
             .into(holder.binding.imgcardInvent)

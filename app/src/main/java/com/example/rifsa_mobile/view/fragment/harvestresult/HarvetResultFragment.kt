@@ -1,20 +1,16 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
-import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
@@ -24,7 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.launch
 
 
 class HarvetResultFragment : Fragment() {
@@ -47,7 +42,7 @@ class HarvetResultFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
             binding.pgbHasilBar.visibility = View.VISIBLE
             remoteViewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
