@@ -9,7 +9,7 @@
   
   ![](https://i.ibb.co/xhFbvwG/Cover-RIFSA.png)
   <h1 align="center">RIFSA</h1>
-  <p align="center">Rice Farmer Assistant</p>
+  <p align="center">Farming management apps</p>
 </div>
 
 
