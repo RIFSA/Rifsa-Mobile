@@ -1,7 +1,4 @@
 
-
-
-
 <div id="top"></div>
 
 
@@ -11,13 +8,9 @@
 <div align="center">
   
   ![](https://i.ibb.co/xhFbvwG/Cover-RIFSA.png)
-
   <h1 align="center">RIFSA</h1>
   <p align="center">Rice Farmer Assistant</p>
-
-
 </div>
-
 
 
 <!-- TABLE OF CONTENTS -->
@@ -27,7 +20,9 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Buil With</a></li>
+
+        <li><a href="#built-with">Build With</a></li>
+
       </ul>
     </li>
     <li>
@@ -108,9 +103,10 @@ Apps Demo
 <!-- ROADMAP -->
 ## Roadmap
 
+Old
  - [x] Designing User interface
  - [x] OnBoard page
- - [x] Authetication page
+ - [x] Authetication page (JWT token)
  - [x] Main Page
  - [x] Home page
  - [x] Harvest Result Page
@@ -118,8 +114,14 @@ Apps Demo
  - [x] Inventory Page
  - [x] Detect Page
  - [x] Profile Page
+ - [x] Remote CRUD (SQL)
 
+Rework
 
+ - [ ] Authentication with Firebase Auth
+ - [ ] Remote CRUD (NO SQL)
+ - [ ] Firebase Realtime Database
+ - [ ] Firebase Storage
 
 <!-- LICENSE -->
 ## License
