@@ -7,7 +7,7 @@
 <br />
 <div align="center">
   
-  ![](https://i.ibb.co/xhFbvwG/Cover-RIFSA.png)
+  ![](https://cdn.discordapp.com/attachments/989692317172641832/989692443886772264/Cover_RIFSA.png)
   <h1 align="center">RIFSA</h1>
   <p align="center">Farming management apps</p>
 </div>
