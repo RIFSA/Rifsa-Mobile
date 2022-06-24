@@ -118,10 +118,14 @@ Old
 
 Rework
 
- - [ ] Authentication with Firebase Auth
- - [ ] Remote CRUD (NO SQL)
- - [ ] Firebase Realtime Database
- - [ ] Firebase Storage
+ - [x] Authentication with Firebase Auth
+ - [x] Remote CRUD (NO SQL)
+ - [x] Firebase Realtime Database
+ - [x] Firebase Storage
+ - [ ] Room database
+ - [ ] Disease detection
+ - [ ] offline and online mode
+ 
 
 <!-- LICENSE -->
 ## License
