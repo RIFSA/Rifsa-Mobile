@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFieldDetailBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.FarmingFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
 
 
 class FieldDetailFragment : Fragment() {
@@ -25,7 +24,6 @@ class FieldDetailFragment : Fragment() {
         showDetailData(data)
 
 
-
         return binding.root
     }
 
@@ -39,7 +37,7 @@ class FieldDetailFragment : Fragment() {
         }
     }
 
-    private fun showDetailData(data : FarmingFirebaseEntity){
+    private fun showDetailData(data : FieldFirebaseEntity){
         binding.apply {
             tvfieldInsertName.setText(data.name)
             tvfieldInsertOwner.setText(data.owner)

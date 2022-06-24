@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FarmingFirebaseEntity(
+data class FieldFirebaseEntity(
     val idField : String = "",
     val name : String = "",
     val owner : String = "",

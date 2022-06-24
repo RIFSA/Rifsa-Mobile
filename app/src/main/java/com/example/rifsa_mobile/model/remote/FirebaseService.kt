@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
@@ -117,11 +118,19 @@ class FirebaseService {
             .removeValue()
     }
 
-    fun readFarmingData(userId: String): DatabaseReference{
+    fun readFieldData(userId: String): DatabaseReference{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
             .child(userId)
             .child(farmingPath)
+    }
+
+    fun insertUpdateFieldData(data : FieldFirebaseEntity,userId: String): Task<Void>{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(farmingPath)
+            .setValue(data)
     }
 
 

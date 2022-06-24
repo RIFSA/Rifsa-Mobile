@@ -219,6 +219,6 @@
             app:destination="@id/profileFragment" />
         <argument
             android:name="dataField"
-            app:argType="com.example.rifsa_mobile.model.entity.remotefirebase.FarmingFirebaseEntity" />
+            app:argType="com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity" />
     </fragment>
 </navigation>

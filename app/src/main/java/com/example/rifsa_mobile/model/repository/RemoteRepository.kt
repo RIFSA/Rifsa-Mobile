@@ -5,14 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultRespon
-import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
-import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostResponse
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResultResponse
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostBody
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestPostResponse
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResultRespon
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryPostResponse
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultRespon
 import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
@@ -81,7 +73,7 @@ class RemoteRepository(
     }
 
     fun readFarming(userId: String): DatabaseReference{
-        return firebaseService.readFarmingData(userId)
+        return firebaseService.readFieldData(userId)
     }
 
 

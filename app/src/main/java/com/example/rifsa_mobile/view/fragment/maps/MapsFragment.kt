@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.maps
 
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,12 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.FarmingFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.utils.Utils.vectorToBitmap
 import com.example.rifsa_mobile.view.fragment.disease.DisaseFragment
-import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragmentArgs
 import com.example.rifsa_mobile.view.fragment.profile.ProfileFragment
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -148,7 +144,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
     private fun getFarmingData(userId : String){
         remoteViewModel.readFarming(userId).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val data = snapshot.getValue(FarmingFirebaseEntity::class.java)
+                val data = snapshot.getValue(FieldFirebaseEntity::class.java)
                 if (data != null) {
                     showFarmingField(data)
 
@@ -160,7 +156,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         })
     }
 
-    private fun showFarmingField(data : FarmingFirebaseEntity){
+    private fun showFarmingField(data : FieldFirebaseEntity){
         val location = LatLng(data.longitude, data.latitude)
         gMap.apply {
             addMarker(MarkerOptions()
