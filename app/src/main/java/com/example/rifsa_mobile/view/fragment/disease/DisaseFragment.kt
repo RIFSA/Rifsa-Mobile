@@ -35,7 +35,7 @@ class DisaseFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+        authViewModel.getTokenKey().observe(viewLifecycleOwner){ token ->
             diseaseList(token)
         }
 
@@ -49,7 +49,7 @@ class DisaseFragment : Fragment() {
 
         binding.btnMapsDisease.setOnClickListener {
             findNavController().navigate(
-                DisaseFragmentDirections.actionDisaseFragmentToMapsDiseaseFragment()
+                DisaseFragmentDirections.actionDisaseFragmentToMapsDiseaseFragment(map_key)
             )
         }
 
@@ -88,10 +88,8 @@ class DisaseFragment : Fragment() {
         adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
             override fun onDetailCallback(data: DiseaseResultResponse) {
                 findNavController().navigate(
-                    DisaseFragmentDirections
-                        .actionDisaseFragmentToDisaseDetailFragment(null,data)
+                    DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(null,data)
                 )
-
             }
         })
     }
@@ -107,6 +105,7 @@ class DisaseFragment : Fragment() {
 
     companion object{
         const val camera_key = "next"
+        const val map_key = "disease"
     }
 
 }

@@ -7,17 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentProfileBinding
 import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
-import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
-import kotlinx.coroutines.launch
 
 
 class ProfileFragment : Fragment() {
@@ -38,8 +36,14 @@ class ProfileFragment : Fragment() {
             binding.tvSignupEmail.setText(it)
         }
 
-        authViewModel.getPassword().observe(viewLifecycleOwner){
+        authViewModel.getTokenKey().observe(viewLifecycleOwner){
             binding.tvSignupPassword.setText(it)
+        }
+
+        binding.btnShowFarming.setOnClickListener {
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToMapsDiseaseFragment(map_key)
+            )
         }
 
 
@@ -62,42 +66,8 @@ class ProfileFragment : Fragment() {
 
 
     private fun showSummaryRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){token->
-            lifecycleScope.launch {
-                remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Success->{
-                            summaryHarvest(it.data.harvestResponData)
-                        }
-                        is FetchResult.Error->{
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
 
-                        }
-                        else -> {}
-                    }
-                }
-                remoteViewModel.getFinanceRemote(token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Success->{
-                            summaryFinance(it.data.financeResponseData)
-                        }
-                        is FetchResult.Error->{
-
-                        }
-                        else -> {}
-                    }
-                }
-                remoteViewModel.getInventoryRemote(token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Success->{
-                            summaryInventory(it.data.InventoryResultResponData)
-                        }
-                        is FetchResult.Error->{
-
-                        }
-                        else -> {}
-                    }
-                }
-            }
         }
     }
 
@@ -120,6 +90,9 @@ class ProfileFragment : Fragment() {
         binding.tvsumInventoryAmount.text = data.size.toString()
     }
 
+    companion object{
+        const val map_key = "profile"
+    }
 
 
 

@@ -29,13 +29,12 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_disease_maps"
+                android:id="@+id/tv_disease_maps_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
-                android:text="Peta sebaran penyakit"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -67,19 +66,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar11"
-        tools:context=".view.fragment.disease.maps.MapsDiseaseFragment" />
+        tools:context=".view.fragment.maps.MapsFragment" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/tv_maps_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="50dp"
-        android:text="Ladang"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.439"
         app:layout_constraintStart_toStartOf="parent"

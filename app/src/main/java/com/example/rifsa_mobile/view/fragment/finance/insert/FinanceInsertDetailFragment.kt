@@ -14,9 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remote.finance.FinancePostBody
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
-import com.example.rifsa_mobile.utils.FetchResult
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -40,7 +38,9 @@ class FinanceInsertDetailFragment : Fragment() {
     private var currentDate = LocalDate.now().toString()
     private var type = ""
     private var isDetail = false
-    private var detailId = 0
+
+    private var detailId = UUID.randomUUID().toString()
+
     private var isConnected = false
 
     override fun onCreateView(
@@ -48,8 +48,6 @@ class FinanceInsertDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
-
-
         isConnected = Utils.internetChecker(requireContext())
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
@@ -60,7 +58,8 @@ class FinanceInsertDetailFragment : Fragment() {
             if (data != null){
                 setDetail(data)
                 isDetail = true
-                detailId = data.idKeuangan
+                detailId = data.idFinance
+                currentDate = data.date
             }
         }catch (e : Exception){ }
 
@@ -123,86 +122,55 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
-                val tempData = FinancePostBody(
+                val tempData = FinancialFirebaseEntity(
+                    detailId,
                     currentDate,
                     binding.tvfinanceInsertNama.text.toString(),
-                    type,
                     binding.tvfinanceInsertHarga.text.toString(),
-                    binding.tvfinanceInsertCatatan.text.toString()
+                    type,
+                    binding.tvfinanceInsertCatatan.text.toString(),
+                    true
                 )
-
-                if (!isDetail){
-                    remoteViewModel.postFinanceRemote(tempData,token).observe(viewLifecycleOwner){
-                        when(it){
-                            is FetchResult.Loading ->{
-
-                            }
-                            is FetchResult.Success ->{
-                                showStatus(it.data.message)
-                                findNavController()
-                                    .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-                            }
-                            is FetchResult.Error ->{
-                                showStatus(it.error)
-                            }
-                            else -> {}
-                        }
+                remoteViewModel.insertUpdateFinancial(tempData,userId)
+                    .addOnSuccessListener {
+                        showStatus("berhasil menambahkan")
+                        findNavController().navigate(
+                            FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                     }
-                }else{
-                    remoteViewModel.updateFinanceRemote(detailId, tempData,token).observe(viewLifecycleOwner){
-                        when(it){
-                            is FetchResult.Loading ->{
-
-                            }
-                            is FetchResult.Success ->{
-                                showStatus(it.data.message)
-                                findNavController()
-                                    .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-                            }
-                            is FetchResult.Error ->{
-                                showStatus(it.error)
-                            }
-                            else -> {}
-                        }
+                    .addOnFailureListener {
+                        showStatus("gagal menambahkan")
                     }
-                }
             }
 
         }
     }
 
     private fun deleteFinanceRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
-            lifecycleScope.launch {
-                remoteViewModel.deleteFinanceRemote(detailId,token).observe(viewLifecycleOwner){
-                    when(it) {
-                        is FetchResult.Success -> {
-                            showStatus(it.data.message)
-                            findNavController()
-                                .navigate(FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
-                        }
-
-                        is FetchResult.Error -> {
-                            showStatus(it.error)
-                        }
-                        else -> {}
-                    }
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
+            remoteViewModel.deleteFinancial(currentDate,detailId,userId)
+                .addOnSuccessListener {
+                    showStatus("data terhapus")
+                    findNavController().navigate(
+                        FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
                 }
-            }
+                .addOnFailureListener {
+                    showStatus("gagal terhapus")
+                }
+            Log.d("delete finance","$userId/$currentDate/$detailId")
         }
 
     }
 
 
-    private fun setDetail(data : FinanceResponseData){
-        val amount = data.jumlah
+    private fun setDetail(data : FinancialFirebaseEntity){
+        val amount = data.price
         binding.apply {
-            tvfinanceInsertDate.text = data.tanggal
-            tvfinanceInsertNama.setText(data.kegiatan)
+            tvfinanceInsertDate.text = data.date
+            tvfinanceInsertNama.setText(data.name)
             tvfinanceInsertHarga.setText(amount)
-            tvfinanceInsertCatatan.setText(data.catatan)
+            tvfinanceInsertCatatan.setText(data.noted)
             btnfinanceInsertDelete.visibility = View.VISIBLE
             "Detail Data".also { tvFinanceInsertdetail.text = it }
         }

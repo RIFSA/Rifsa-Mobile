@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 
@@ -27,6 +31,7 @@ class HomeFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
+    private var dataList = ArrayList<HarvestFirebaseEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +56,7 @@ class HomeFragment : Fragment() {
             getUserName().observe(viewLifecycleOwner){ name ->
                 binding.tvhomeName.text = name
             }
-            getUserToken().observe(viewLifecycleOwner){ token ->
+            getUserId().observe(viewLifecycleOwner){ token ->
                 getHarvestRemote(token)
             }
         }
@@ -66,24 +71,33 @@ class HomeFragment : Fragment() {
 
     private fun getHarvestRemote(token : String){
         lifecycleScope.launch {
-            remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Success->{
-                        showHarvestList(it.data.harvestResponData)
+
+                remoteViewModel.readHarvestResult(token).addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach { child ->
+                            child.children.forEach { main ->
+                                val data = main.getValue(HarvestFirebaseEntity::class.java)
+                                data?.let { dataList.add(data) }
+                                showHarvestList(dataList)
+                            }
+                        }
                     }
-                    else -> {}
-                }
-            }
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("Home Fragment",error.message)
+                    }
+                })
+
         }
     }
 
-    private fun showHarvestList(data : List<HarvestResponData>){
+    private fun showHarvestList(data : List<HarvestFirebaseEntity>){
         val adapter = HarvestResultRecyclerViewAdapter(data)
         val recyclerView = binding.rvHomeHarvest
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallback(data: HarvestResponData) {
+            override fun onDetailCallback(data: HarvestFirebaseEntity) {
                 findNavController().navigate(HomeFragmentDirections
                     .actionHomeFragmentToHarvestInsertDetailFragment(data))
             }
@@ -91,7 +105,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun diseaseCount(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){token->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
             lifecycleScope.launch {
                 remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){
                     when(it){

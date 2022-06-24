@@ -2,7 +2,6 @@ package com.example.rifsa_mobile.view.authetication.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -51,8 +50,7 @@ class LoginActivity : AppCompatActivity() {
         when{
             email.isEmpty() -> return true
             password.isEmpty() -> return true
-            else ->
-                (email.isNotEmpty() && password.isNotEmpty())
+            else -> (email.isNotEmpty() && password.isNotEmpty())
         }
         return false
     }
@@ -62,38 +60,47 @@ class LoginActivity : AppCompatActivity() {
             binding.tvLoginEmail.text.toString(),
             binding.tvLoginPassword.text.toString()
         )
+        val email =  binding.tvLoginEmail.text.toString()
+        val password = binding.tvLoginPassword.text.toString()
 
         if (!boxChecker()){
-            remoteViewModel.postLogin(tempForm).observe(this){ respon ->
-                when(respon){
-                    is FetchResult.Loading->{
-                        binding.pgbarLogin.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success->{
-                        binding.pgbarLogin.visibility = View.GONE
-                        saveLoginSession(
-                            onBoard = true,
-                            binding.tvLoginEmail.text.toString(),
-                            binding.tvLoginPassword.text.toString(),
-                            respon.data.token
-                        )
-
-                        Log.d("Ok Login toke",respon.data.token)
-                        showStatus("Login Berhasil")
-                        startActivity(Intent(this,MainActivity::class.java))
-                        finishAffinity()
-                    }
-                    is FetchResult.Error->{
-                        binding.pgbarLogin.visibility = View.GONE
-                        showStatus("Terjadi kesalahan! Silahkan coba lagi dengan Email dan Password yang benar")
-                    }
+            remoteViewModel.authLogin(email, password)
+                .addOnSuccessListener {
+                    saveLoginSession(
+                        onBoard = true,
+                        email,
+                        "",
+                        it.user?.uid.toString()
+                    )
                 }
-            }
+                .addOnFailureListener {
+                    showStatus(it.message.toString())
+                }
         }else{
             showStatus("Oops! Box masih kosong")
         }
+    }
 
+    //TODO | tunggu api node.js diperbaiki
+    private fun loginPrediction(data : LoginBody,userId: String){
+        lifecycleScope.launch {
+            remoteViewModel.postLogin(data).observe(this@LoginActivity){
+                when(it){
+                    is FetchResult.Loading->{
 
+                    }
+                    is FetchResult.Success->{
+                        showStatus("Login Berhasil")
+
+                        //TODO | save login session
+
+                    }
+                    is FetchResult.Error->{
+                        showStatus(it.error)
+                    }
+                }
+            }
+        }
     }
 
     private fun showStatus(title : String){
@@ -103,7 +110,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveLoginSession(onBoard : Boolean,name : String,pass: String,token : String){
-        authViewModel.saveUserPrefrences(onBoard,name,pass,"Bearer $token")
+    private fun saveLoginSession(onBoard : Boolean, name : String, pass: String, userId : String){
+        authViewModel.saveUserPrefrences(onBoard,name,pass,userId)
+        startActivity(Intent(this,MainActivity::class.java))
+        finishAffinity()
     }
 }

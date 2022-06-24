@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "428063514414",
+    "firebase_url": "https://asta-b1e00-default-rtdb.firebaseio.com",
+    "project_id": "asta-b1e00",
+    "storage_bucket": "asta-b1e00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428063514414:android:c02f73d654eec704bfe4bf",
+        "android_client_info": {
+          "package_name": "com.example.asta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428063514414-3vo4q4786ht4n8rgp66cighgbm6pqm08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtT7b36mrLGgn6gtSiYAgZv0OY44V8_Ak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428063514414-3vo4q4786ht4n8rgp66cighgbm6pqm08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428063514414:android:7383eb340910dd99bfe4bf",
+        "android_client_info": {
+          "package_name": "com.example.rifsa_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428063514414-3vo4q4786ht4n8rgp66cighgbm6pqm08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtT7b36mrLGgn6gtSiYAgZv0OY44V8_Ak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428063514414-3vo4q4786ht4n8rgp66cighgbm6pqm08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

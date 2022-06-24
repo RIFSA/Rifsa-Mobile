@@ -199,12 +199,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/dmsans_bold"
             android:includeFontPadding="false"
             android:text="Ringkasan"
             android:textColor="@color/black"
             android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_show_farming" />
+
+        <TextView
+            android:id="@+id/btn_show_farming"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="32dp"
+            android:drawableRight="@drawable/ic_maps"
+            android:fontFamily="@font/dmsans_bold"
+            android:includeFontPadding="false"
+            android:text="Lihat lahan"
+            android:textColor="@color/green"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvprofile_name" />
 

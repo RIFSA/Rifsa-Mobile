@@ -1,13 +1,15 @@
 package com.example.rifsa_mobile.view.fragment.inventory.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
 import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 
-class InventoryRecyclerViewAdapter(private val dataList : List<InventoryResultResponData>): RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
+class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebaseEntity>): RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallback : OnDetailItemCallback
@@ -21,13 +23,11 @@ class InventoryRecyclerViewAdapter(private val dataList : List<InventoryResultRe
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        val item = dataList[position]
-        holder.binding.tvcardInventTitle.text = item.nama
-        holder.binding.tvcardInventAmount.text = item.jumlah
+        holder.binding.tvcardInventTitle.text = item.name
+        holder.binding.tvcardInventAmount.text = item.amount
 
-        val url = "http://34.101.50.17:5000/images/${item.image}"
         Glide.with(holder.itemView.context)
-            .load(url)
-            .dontAnimate()
+            .load(item.imageUrl)
             .into(holder.binding.imgcardInvent)
 
         holder.itemView.setOnClickListener {
@@ -38,7 +38,7 @@ class InventoryRecyclerViewAdapter(private val dataList : List<InventoryResultRe
     override fun getItemCount(): Int = dataList.size
 
     interface OnDetailItemCallback{
-        fun onDetailCallback(data : InventoryResultResponData)
+        fun onDetailCallback(data : InventoryFirebaseEntity)
     }
 
 }

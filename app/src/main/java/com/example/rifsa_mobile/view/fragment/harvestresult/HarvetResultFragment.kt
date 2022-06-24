@@ -6,20 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
-import com.example.rifsa_mobile.utils.FetchResult
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.launch
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 
 class HarvetResultFragment : Fragment() {
@@ -29,6 +29,7 @@ class HarvetResultFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private var isConnected = false
+    private val dataList = ArrayList<HarvestFirebaseEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +41,27 @@ class HarvetResultFragment : Fragment() {
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
+
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
+            binding.pgbHasilBar.visibility = View.VISIBLE
+            remoteViewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { child ->
+                        child.children.forEach { main ->
+                            binding.pgbHasilBar.visibility = View.GONE
+                            val data = main.getValue(HarvestFirebaseEntity::class.java)
+                            data?.let { dataList.add(data) }
+                            showResult(dataList)
+                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    binding.pgbHasilBar.visibility = View.GONE
+                    showStatus(error.message)
+                }
+            })
+        }
+
 
 
         return binding.root
@@ -53,12 +75,6 @@ class HarvetResultFragment : Fragment() {
             )
         }
 
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token->
-            getResultFromRemote(token)
-        }
-
-
-
         binding.btnHarvestBackhome.setOnClickListener {
             findNavController().navigate(
                 HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
@@ -67,32 +83,13 @@ class HarvetResultFragment : Fragment() {
 
     }
 
-    private fun getResultFromRemote(token : String){
-        lifecycleScope.launch {
-            remoteViewModel.getHarvestRemote(token).observe(viewLifecycleOwner){
-                when(it){
-                    is FetchResult.Loading->{
-                        binding.pgbHasilBar.visibility = View.VISIBLE
-                    }
-                    is FetchResult.Success->{
-                        showResult(it.data.harvestResponData)
-                        binding.pgbHasilBar.visibility = View.GONE
-                    }
-                    is FetchResult.Error ->{
-                        showStatus(it.error)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showResult(data : List<HarvestResponData>){
+    private fun showResult(data : List<HarvestFirebaseEntity>){
         val adapter = HarvestResultRecyclerViewAdapter(data)
         val recyclerView = binding.rvHarvestresult
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(context)
         adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallback(data: HarvestResponData) {
+            override fun onDetailCallback(data: HarvestFirebaseEntity) {
                 findNavController().navigate(HarvetResultFragmentDirections
                     .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))
             }

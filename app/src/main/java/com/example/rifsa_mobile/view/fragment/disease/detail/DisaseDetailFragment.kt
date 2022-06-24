@@ -107,13 +107,13 @@ class DisaseDetailFragment : Fragment() {
 
 
         try {
-            val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
-            if (detail != null){
-                showDetailDisease(detail)
-                isDetail = true
-                randomId = detail.idPenyakit
-                binding.btnDiseaseSave.visibility = View.GONE
-            }
+//            val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
+//            if (detail != null){
+//                showDetailDisease(detail)
+//                isDetail = true
+//                randomId = detail.idPenyakit
+//                binding.btnDiseaseSave.visibility = View.GONE
+//            }
         }catch (e : Exception){ }
 
         return binding.root
@@ -195,7 +195,7 @@ class DisaseDetailFragment : Fragment() {
 
 
     private fun postPrediction(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ _ ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ _ ->
 
 
             val currentImage = Utils.uriToFile(image.toUri(),requireContext())
@@ -238,7 +238,7 @@ class DisaseDetailFragment : Fragment() {
 
 
     private fun deleteDiseaseRemote(){
-        authViewModel.getUserToken().observe(viewLifecycleOwner){ token ->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
             lifecycleScope.launch {
                 remoteViewModel.deleteDiseaseRemote(randomId,token).observe(viewLifecycleOwner){
                     when(it){
