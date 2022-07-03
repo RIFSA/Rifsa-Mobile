@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
@@ -25,6 +26,7 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseTreatmentEnti
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.utils.prediction.DiseasePrediction
+import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
@@ -224,7 +226,7 @@ class DisaseDetailFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         solustionList.add(it.value.toString())
-                        Log.d("detail", solustionList[0])
+                        showListTreament(solustionList)
                     }
                 }
 
@@ -232,6 +234,13 @@ class DisaseDetailFragment : Fragment() {
                     TODO("Not yet implemented")
                 }
             })
+    }
+
+    private fun showListTreament(data : List<String>){
+        val adapter = DiseaseMiscRecyclerViewAdapter(data)
+        val recyclerView = binding.recviewDiseaseTreatment
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     // Location Request
