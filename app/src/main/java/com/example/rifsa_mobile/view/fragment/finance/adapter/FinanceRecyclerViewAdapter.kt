@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardFinanceBinding
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 
 class FinanceRecyclerViewAdapter(private var dataList : List<FinancialFirebaseEntity>): RecyclerView.Adapter<FinanceRecyclerViewAdapter.ViewHolder>() {

@@ -1,12 +1,10 @@
 package com.example.rifsa_mobile.view.fragment.inventory.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 
 class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebaseEntity>): RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {

@@ -9,6 +9,7 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
@@ -66,6 +67,10 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
 
     fun readFarming(userId: String): DatabaseReference{
         return remoteRepository.readFarming(userId)
+    }
+
+    fun insertUpdateFieldData(data : FieldFirebaseEntity, userId: String): Task<Void>{
+        return remoteRepository.insertUpdateFieldData(data, userId)
     }
 
 

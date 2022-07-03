@@ -166,7 +166,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
             )
             setOnInfoWindowClickListener {
                 findNavController().navigate(
-                    MapsFragmentDirections.actionMapsDiseaseFragmentToFieldDetailFragment(data)
+                    MapsFragmentDirections.actionMapsDiseaseFragmentToFieldDetailFragment(
+                        data,"",""
+                    )
                 )
             }
 

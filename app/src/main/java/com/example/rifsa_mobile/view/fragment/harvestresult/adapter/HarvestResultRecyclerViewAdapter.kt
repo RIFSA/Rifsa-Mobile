@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardHasilBinding
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 
 class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestFirebaseEntity>): RecyclerView.Adapter<HarvestResultRecyclerViewAdapter.ViewHolder>() {

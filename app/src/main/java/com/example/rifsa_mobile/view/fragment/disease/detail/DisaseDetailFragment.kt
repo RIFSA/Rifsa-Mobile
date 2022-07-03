@@ -2,7 +2,9 @@ package com.example.rifsa_mobile.view.fragment.disease.detail
 
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
+import com.example.rifsa_mobile.utils.prediction.DiseasePrediction
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
@@ -46,8 +49,11 @@ class DisaseDetailFragment : Fragment() {
     }
 
 
+    private lateinit var classification : DiseasePrediction
+
     private var randomId = 0
     private var image = ""
+    private lateinit var imageBitmap  : Bitmap
     private var isDetail = false
 
 
@@ -100,7 +106,7 @@ class DisaseDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDisaseDetailBinding.inflate(layoutInflater)
-
+        classification = DiseasePrediction(requireContext())
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -123,19 +129,16 @@ class DisaseDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createLocationRequest()
 
-
-
         if (!isDetail){
             showImageCapture()
             binding.pgdiseaseBar.visibility = View.VISIBLE
             showStatus("Proses")
             lifecycleScope.launch {
                 delay(2000)
-                postPrediction()
+//                postPrediction()
+                predictionLocal()
             }
         }
-
-
 
         binding.btnDiseaseSave.setOnClickListener {
             lifecycleScope.launch {
@@ -151,6 +154,7 @@ class DisaseDetailFragment : Fragment() {
                 DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
         }
+
         binding.btnDiseaseComplete.setOnClickListener {
             AlertDialog.Builder(requireActivity()).apply {
                 setTitle("Selesai teratasi")
@@ -176,8 +180,11 @@ class DisaseDetailFragment : Fragment() {
 
     private fun showImageCapture(){
         image = DisaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase.toString()
-        binding.imgDisaseDetail.setImageURI(image.toUri())
 
+        val bitmapImage = MediaStore.Images.Media.getBitmap(requireContext().contentResolver,image.toUri())
+
+        imageBitmap = bitmapImage
+        binding.imgDisaseDetail.setImageBitmap(bitmapImage)
     }
 
 
@@ -196,8 +203,6 @@ class DisaseDetailFragment : Fragment() {
 
     private fun postPrediction(){
         authViewModel.getUserId().observe(viewLifecycleOwner){ _ ->
-
-
             val currentImage = Utils.uriToFile(image.toUri(),requireContext())
             val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
             val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -206,14 +211,12 @@ class DisaseDetailFragment : Fragment() {
                 typeFile
             )
 
-
             lifecycleScope.launch {
                 remoteViewModel.postDiseasePrediction(
                     multiPartFile,
                     curLatitude,
                     curLongitude
-                )
-                    .observe(viewLifecycleOwner){
+                ).observe(viewLifecycleOwner){
                         when(it){
                             is FetchResult.Loading->{
                                 binding.pgdiseaseBar.visibility = View.VISIBLE
@@ -235,6 +238,14 @@ class DisaseDetailFragment : Fragment() {
 
     }
 
+
+    private fun predictionLocal(){
+        classification
+            .initPrediction(imageBitmap)
+            .addOnSuccessListener { result ->
+                binding.tvdisasaeDetailIndication.setText(result.name)
+            }
+    }
 
 
     private fun deleteDiseaseRemote(){

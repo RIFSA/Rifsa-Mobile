@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentProfileBinding
-import com.example.rifsa_mobile.model.entity.remote.finance.FinanceResponseData
-import com.example.rifsa_mobile.model.entity.remote.harvestresult.HarvestResponData
-import com.example.rifsa_mobile.model.entity.remote.inventory.InventoryResultResponData
+
 import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -69,25 +67,6 @@ class ProfileFragment : Fragment() {
         authViewModel.getUserId().observe(viewLifecycleOwner){ token->
 
         }
-    }
-
-
-    private fun summaryHarvest(harvest : List<HarvestResponData>){
-        harvest.forEach { value->
-            binding.tvsumHarvestAmount.text = harvest.size.toString()
-            (harvest.sumOf { value.berat.toInt() }.toString() + "  kg").also { binding.tvsumHarvestWeight.text = it }
-            ("Rp " + harvest.sumOf { value.jual.toInt() }.toString()).also { binding.tvsumHarvestHarga.text = it }
-        }
-    }
-
-    private fun summaryFinance(finance : List<FinanceResponseData>){
-        finance.forEach { _ ->
-            ("Rp " + finance.sumOf { it.jumlah.toInt() }.toString()).also { binding.tvsumFinanceOut.text = it }
-        }
-    }
-
-    private fun summaryInventory(data : List<InventoryResultResponData>){
-        binding.tvsumInventoryAmount.text = data.size.toString()
     }
 
     companion object{

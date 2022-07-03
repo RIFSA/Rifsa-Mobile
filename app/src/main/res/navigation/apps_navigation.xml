@@ -220,5 +220,13 @@
         <argument
             android:name="dataField"
             app:argType="com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity" />
+        <argument
+            android:name="currLongitude"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="currLatitude"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>
