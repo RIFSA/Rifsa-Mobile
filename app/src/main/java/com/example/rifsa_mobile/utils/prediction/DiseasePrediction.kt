@@ -43,6 +43,7 @@ class DiseasePrediction(val context : Context) {
         val labelOutput = labelPrediction.split("\n")
         val maxArray = getMaxIndex(resultPrediction.intArray)
 
+        model.close()
         return PredictionResult(
             maxArray,
             labelOutput[maxArray]

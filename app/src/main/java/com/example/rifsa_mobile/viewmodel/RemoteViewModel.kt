@@ -73,6 +73,14 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
         return remoteRepository.insertUpdateFieldData(data, userId)
     }
 
+    fun getDiseaseInformation(id : String): DatabaseReference{
+        return remoteRepository.getDiseaseInformation(id)
+    }
+
+    fun getDiseaseInformationMisc(id : String,parent : String): DatabaseReference{
+        return remoteRepository.getDiseaseInformationMisc(id, parent)
+    }
+
 
 
     

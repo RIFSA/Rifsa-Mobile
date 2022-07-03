@@ -82,6 +82,16 @@ class RemoteRepository(
         return firebaseService.insertUpdateFieldData(data, userId)
     }
 
+    fun getDiseaseInformation(id : String): DatabaseReference{
+        return firebaseService.getDiseaseInformation(id)
+    }
+
+    fun getDiseaseInformationMisc(id : String,parent : String): DatabaseReference{
+        return firebaseService.getDiseaseInformationMisc(id, parent)
+    }
+
+
+
 
 
 

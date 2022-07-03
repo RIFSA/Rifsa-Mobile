@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseTreatmentEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.utils.prediction.DiseasePrediction
@@ -27,6 +29,9 @@ import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.location.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -35,6 +40,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONObject
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
@@ -50,6 +56,7 @@ class DisaseDetailFragment : Fragment() {
 
 
     private lateinit var classification : DiseasePrediction
+    private var solustionList = ArrayList<String>()
 
     private var randomId = 0
     private var image = ""
@@ -99,8 +106,6 @@ class DisaseDetailFragment : Fragment() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -109,8 +114,6 @@ class DisaseDetailFragment : Fragment() {
         classification = DiseasePrediction(requireContext())
         fusedLocation =
             LocationServices.getFusedLocationProviderClient(requireContext())
-
-
 
         try {
 //            val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
@@ -135,7 +138,6 @@ class DisaseDetailFragment : Fragment() {
             showStatus("Proses")
             lifecycleScope.launch {
                 delay(2000)
-//                postPrediction()
                 predictionLocal()
             }
         }
@@ -164,7 +166,6 @@ class DisaseDetailFragment : Fragment() {
                         binding.pgdiseaseBar.visibility = View.VISIBLE
 //                        stopAlarm()
 //                        deleteDiseaseLocal()
-                        deleteDiseaseRemote()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -188,106 +189,50 @@ class DisaseDetailFragment : Fragment() {
     }
 
 
-    private fun showDetailDisease(data : DiseaseResultResponse){
-        binding.btnDiseaseComplete.visibility = View.VISIBLE
-        binding.tvdisasaeDetailIndication.setText(data.indikasi)
-
-        Glide.with(requireContext())
-            .load("http://34.101.115.114:5000/${data.url}")
-            .into(binding.imgDisaseDetail)
-
-        showDescription(data.indikasi)
-        binding.btnDiseaseComplete.visibility = View.VISIBLE
-    }
-
-
-    private fun postPrediction(){
-        authViewModel.getUserId().observe(viewLifecycleOwner){ _ ->
-            val currentImage = Utils.uriToFile(image.toUri(),requireContext())
-            val typeFile = currentImage.asRequestBody("image/jpg".toMediaTypeOrNull())
-            val multiPartFile : MultipartBody.Part = MultipartBody.Part.createFormData(
-                "image",
-                currentImage.name,
-                typeFile
-            )
-
-            lifecycleScope.launch {
-                remoteViewModel.postDiseasePrediction(
-                    multiPartFile,
-                    curLatitude,
-                    curLongitude
-                ).observe(viewLifecycleOwner){
-                        when(it){
-                            is FetchResult.Loading->{
-                                binding.pgdiseaseBar.visibility = View.VISIBLE
-                            }
-                            is FetchResult.Success ->{
-                                showStatus("Berhasil")
-                                binding.tvdisasaeDetailIndication.setText(it.data.data.result)
-                                binding.pgdiseaseBar.visibility = View.GONE
-                                showDescription(it.data.data.result)
-                            }
-                            is FetchResult.Error ->{
-                                showStatus(it.error)
-                            }
-                            else -> {}
-                        }
-                    }
-            }
-        }
-
-    }
-
-
     private fun predictionLocal(){
         classification
             .initPrediction(imageBitmap)
             .addOnSuccessListener { result ->
                 binding.tvdisasaeDetailIndication.setText(result.name)
+                showDiseaseInformation(result.id)
             }
     }
 
 
-    private fun deleteDiseaseRemote(){
-        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
-            lifecycleScope.launch {
-                remoteViewModel.deleteDiseaseRemote(randomId,token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Loading->{
-                            binding.pgdiseaseBar.visibility = View.VISIBLE
-                        }
-                        is FetchResult.Success->{
-                            showStatus(it.data.message)
-                            findNavController().navigate(
-                                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-                            )
-                        }
-                        is FetchResult.Error->{
-                            showStatus(it.error)
-                        }
+    private fun showDiseaseInformation(id : Int){
+        remoteViewModel.getDiseaseInformation(id.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val data = snapshot.getValue(DiseaseFirebaseEntity::class.java)
+                    if (data != null) {
+                        binding.tvdisasaeDetailDescription.text = data.Cause
+                        binding.tvdisasaeDetailIndecation.text = data.Indetfy
                     }
                 }
-            }
-        }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+
+        showTreatment(id.toString(),"Treatment")
     }
 
-    private fun showDescription(search : String){
-        val inputStream = resources.openRawResource(R.raw.disease_solustion)
-        val jsonString: String = Scanner(inputStream).useDelimiter("\\A").next()
+    private fun showTreatment(id: String,parent : String){
+        remoteViewModel.getDiseaseInformationMisc(id,parent)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        solustionList.add(it.value.toString())
+                        Log.d("detail", solustionList[0])
+                    }
+                }
 
-        val jsonObj = JSONObject(jsonString)
-
-        val dataSolustion = jsonObj.getJSONObject("Solusi")
-            .getJSONObject(search)["deskripsi"]
-
-        Log.d("Disease",dataSolustion.toString())
-
-
-        binding.btnDiseaseSave.visibility = View.VISIBLE
-        binding.tvdisasaeDetailDescription.text = dataSolustion.toString()
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
     }
-
-
 
     // Location Request
     private fun createLocationRequest(){

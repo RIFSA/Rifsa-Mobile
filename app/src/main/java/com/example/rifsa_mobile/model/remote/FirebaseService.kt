@@ -133,6 +133,19 @@ class FirebaseService {
             .setValue(data)
     }
 
+    fun getDiseaseInformation(id : String): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(diseasePath)
+            .child(id)
+    }
+
+    fun getDiseaseInformationMisc(id : String,parent : String): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(diseasePath)
+            .child(id)
+            .child(parent)
+    }
+
 
 
     companion object{
@@ -141,6 +154,7 @@ class FirebaseService {
         const val financePath = "Financial"
         const val inventoryFilePath = "Inventory"
         const val farmingPath = "Fields"
+        const val diseasePath = "Disease"
     }
 
 
