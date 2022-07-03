@@ -17,14 +17,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseTreatmentEntity
-import com.example.rifsa_mobile.utils.FetchResult
-import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.utils.prediction.DiseasePrediction
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
@@ -36,11 +30,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import org.json.JSONObject
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
@@ -58,7 +47,8 @@ class DisaseDetailFragment : Fragment() {
 
 
     private lateinit var classification : DiseasePrediction
-    private var solustionList = ArrayList<String>()
+    private var solutionList = ArrayList<String>()
+    private var indicationList = ArrayList<String>()
 
     private var randomId = 0
     private var image = ""
@@ -137,7 +127,6 @@ class DisaseDetailFragment : Fragment() {
         if (!isDetail){
             showImageCapture()
             binding.pgdiseaseBar.visibility = View.VISIBLE
-            showStatus("Proses")
             lifecycleScope.launch {
                 delay(2000)
                 predictionLocal()
@@ -195,8 +184,9 @@ class DisaseDetailFragment : Fragment() {
         classification
             .initPrediction(imageBitmap)
             .addOnSuccessListener { result ->
-                binding.tvdisasaeDetailIndication.setText(result.name)
+                binding.tvdisasaeDetailIndication.text = result.name
                 showDiseaseInformation(result.id)
+                binding.pgdiseaseBar.visibility = View.VISIBLE
             }
     }
 
@@ -208,16 +198,17 @@ class DisaseDetailFragment : Fragment() {
                     val data = snapshot.getValue(DiseaseFirebaseEntity::class.java)
                     if (data != null) {
                         binding.tvdisasaeDetailDescription.text = data.Cause
-                        binding.tvdisasaeDetailIndecation.text = data.Indetfy
+                        binding.pgdiseaseBar.visibility = View.GONE
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    showStatus(error.message)
                 }
             })
 
         showTreatment(id.toString(),"Treatment")
+        showIndication(id.toString(),"Indication")
     }
 
     private fun showTreatment(id: String,parent : String){
@@ -225,13 +216,29 @@ class DisaseDetailFragment : Fragment() {
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
-                        solustionList.add(it.value.toString())
-                        showListTreament(solustionList)
+                        solutionList.add(it.value.toString())
+                        showListTreament(solutionList)
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    showStatus(error.message)
+                }
+            })
+    }
+
+    private fun showIndication(id: String,parent : String){
+        remoteViewModel.getDiseaseInformationMisc(id,parent)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        indicationList.add(it.value.toString())
+                        showListIndication(indicationList)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    showStatus(error.message)
                 }
             })
     }
@@ -239,6 +246,13 @@ class DisaseDetailFragment : Fragment() {
     private fun showListTreament(data : List<String>){
         val adapter = DiseaseMiscRecyclerViewAdapter(data)
         val recyclerView = binding.recviewDiseaseTreatment
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun showListIndication(data: List<String>){
+        val adapter = DiseaseMiscRecyclerViewAdapter(data)
+        val recyclerView = binding.recviewDiseaseIndication
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }

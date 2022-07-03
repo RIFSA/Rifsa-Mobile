@@ -83,22 +83,6 @@
             </androidx.appcompat.widget.Toolbar>
 
             <TextView
-                android:id="@+id/textView23"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/dmsans_bold"
-                android:gravity="center|start"
-                android:text="@string/indikasi"
-                android:textColor="@color/main_color"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_location" />
-
-            <TextView
                 android:id="@+id/tvdisasae_detail_location"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -122,12 +106,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/deskripsi"
                 android:textColor="@color/main_color"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_indication" />
 
@@ -153,13 +137,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="20dp"
+                android:drawableLeft="@drawable/ic_add_line"
+                android:drawablePadding="5dp"
+                android:drawableTint="#009688"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
-                android:text="Indikasi"
+                android:text="Kenali"
                 android:textColor="@color/main_color"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_description" />
@@ -169,34 +156,38 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
+                android:drawableLeft="@drawable/ic_add_line"
+                android:drawablePadding="5dp"
+                android:drawableTint="#009688"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="Pengobatan"
                 android:textColor="@color/main_color"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_indecation" />
+                app:layout_constraintTop_toBottomOf="@+id/recview_disease_indication" />
 
             <TextView
                 android:id="@+id/tvdisasae_detail_indication"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:autofillHints="name"
                 android:fontFamily="@font/dmsans_regular"
+                android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="asdasd"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23"
+                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail"
                 tools:ignore="LabelFor" />
 
             <TextView
@@ -208,29 +199,12 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/dmsans_regular"
                 android:gravity="center|start"
-                android:text="@string/deksripsi_penyakit"
+                android:textAlignment="textStart"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView28" />
-
-            <TextView
-                android:id="@+id/tvdisasae_detail_indecation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/dmsans_regular"
-                android:gravity="center|start"
-                android:text="Indikasi Penyakit"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
             <ImageView
                 android:id="@+id/img_disase_detail"
@@ -303,6 +277,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView36"
+                tools:listitem="@layout/itemcard_disease_misc" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview_disease_indication"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView30"
                 tools:listitem="@layout/itemcard_disease_misc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
