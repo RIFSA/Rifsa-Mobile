@@ -118,7 +118,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                                     it.latitude.toDouble(),
                                     it.longitude.toDouble(),
                                     it.nameDisease,
-                                    it.idDisease
+                                    it.id
                                 )
                             }
                         }
@@ -141,7 +141,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                     .title(title)
                 )
                 setOnInfoWindowClickListener {
-                    detailDisease(it.snippet!!.toInt())
+                    detailDisease(it.snippet!!.toString())
                 }
             }
         }
@@ -156,7 +156,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                showStatus(error.message)
             }
         })
     }
@@ -169,6 +169,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                 .snippet(data.idField)
                 .title("Ladang anda")
             )
+
             setOnInfoWindowClickListener {
                 findNavController().navigate(
                     MapsFragmentDirections.actionMapsDiseaseFragmentToFieldDetailFragment(
@@ -183,8 +184,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
     }
 
 
-    private fun detailDisease(id : Int){
+    private fun detailDisease(id : String){
+        authViewModel.getUserId().observe(viewLifecycleOwner){userId->
+            remoteViewModel.readDiseaseList(userId).addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { child ->
+                        val data = child.child(id).getValue(DiseaseFirebaseEntity::class.java)
+                        if (data != null){
+                            findNavController().navigate(
+                                MapsFragmentDirections.actionMapsDiseaseFragmentToDisaseDetailFragment(
+                                    "",
+                                    data
+                                )
+                            )
+                        }
+                    }
+                }
 
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+        }
     }
 
     private fun getCurrentLocation(){
