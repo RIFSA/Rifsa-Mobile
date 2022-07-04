@@ -87,6 +87,7 @@ class InvetoryInsertFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
+                        binding.pgInventoryBar.visibility = View.VISIBLE
                         deleteInventory()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
@@ -99,6 +100,7 @@ class InvetoryInsertFragment : Fragment() {
         }
 
         binding.btnInventorySave.setOnClickListener {
+            binding.pgInventoryBar.visibility = View.VISIBLE
             uploadInventoryFile()
         }
 
@@ -172,7 +174,7 @@ class InvetoryInsertFragment : Fragment() {
                 )
             }
             .addOnFailureListener {
-                showStatus("gagal menambahkan")
+                showStatus(it.message.toString())
             }
     }
 
@@ -181,9 +183,10 @@ class InvetoryInsertFragment : Fragment() {
             remoteViewModel.deleteInventory(date,detailId,userId)
                 .addOnSuccessListener {
                     deleteInventoryFile()
+                    showStatus("berhasil mengahpus")
                 }
                 .addOnFailureListener {
-                    showStatus("gagal menghapus")
+                    showStatus(it.message.toString())
                 }
         }
     }
@@ -193,7 +196,8 @@ class InvetoryInsertFragment : Fragment() {
             remoteViewModel.deleteInventoryFile(fileName,userId)
                 .addOnSuccessListener {
                     findNavController().navigate(
-                        InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
+                        InvetoryInsertFragmentDirections
+                            .actionInvetoryInsertFragmentToInventoryFragment()
                     )
                 }
                 .addOnFailureListener {
@@ -210,8 +214,6 @@ class InvetoryInsertFragment : Fragment() {
     }
 
     private fun showStatus(title : String){
-        Toast.makeText(requireContext(),title, Toast.LENGTH_SHORT).show()
-
         if (title.isNotEmpty()){
             binding.pgInventoryBar.visibility = View.GONE
             binding.pgInventoryTitle.apply {

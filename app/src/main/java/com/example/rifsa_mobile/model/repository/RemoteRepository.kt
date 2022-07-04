@@ -96,6 +96,17 @@ class RemoteRepository(
         return firebaseService.saveDisease(data, userId)
     }
 
+    fun readDiseaseList(userId : String): DatabaseReference{
+        return firebaseService.readDiseaseList(userId)
+    }
+
+    fun deleteDisease(date : String,dataId : String,userId: String): Task<Void> {
+        return firebaseService.deleteDisease(date, dataId, userId)
+    }
+
+    fun deleteDiseaseImage(name : String, userId: String): Task<Void>{
+        return firebaseService.deleteDiseaseImage(name, userId)
+    }
 
 
 

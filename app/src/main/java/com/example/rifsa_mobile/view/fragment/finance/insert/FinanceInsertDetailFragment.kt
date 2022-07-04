@@ -153,7 +153,8 @@ class FinanceInsertDetailFragment : Fragment() {
                 .addOnSuccessListener {
                     showStatus("data terhapus")
                     findNavController().navigate(
-                        FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                        FinanceInsertDetailFragmentDirections
+                            .actionFinanceInsertDetailFragmentToFinanceFragment())
                 }
                 .addOnFailureListener {
                     showStatus("gagal terhapus")

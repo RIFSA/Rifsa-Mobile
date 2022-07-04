@@ -71,7 +71,7 @@ class FinanceFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    showStatus(error.message)
                 }
             })
         }

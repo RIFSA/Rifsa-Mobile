@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
 import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 
-class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultResponse>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
+class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseFirebaseEntity>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var diseaseDetail : OnDetailCallback
@@ -23,13 +24,8 @@ class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultRespon
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.apply {
-            if (item.createdAt != null){
-                tvDiseaseSubtitle.text = item.createdAt.removeRange(10..25)
-                tvDiseaseTitle.text = item.indikasi
-
-                holder.binding.imgIcondisease.setImageResource(R.drawable.ic_warning)
-            }
-
+            tvDiseaseSubtitle.text = item.dateDisease
+            tvDiseaseTitle.text = item.nameDisease
         }
 
         holder.itemView.setOnClickListener {
@@ -41,7 +37,7 @@ class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseResultRespon
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : DiseaseResultResponse)
+        fun onDetailCallback(data : DiseaseFirebaseEntity)
     }
 
 }

@@ -25,7 +25,6 @@ import com.google.firebase.database.ValueEventListener
 class InventoryFragment : Fragment() {
     private lateinit var binding : FragmentInventoryBinding
 
-
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
@@ -73,18 +72,22 @@ class InventoryFragment : Fragment() {
     }
 
     private fun showInventoryList(data : List<InventoryFirebaseEntity>) {
-        val adapter = InventoryRecyclerViewAdapter(data)
-        val recyclerView = binding.recviewInventory
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        try {
+            val adapter = InventoryRecyclerViewAdapter(data)
+            val recyclerView = binding.recviewInventory
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
-            override fun onDetailCallback(data: InventoryFirebaseEntity) {
-                findNavController()
-                    .navigate(
-                        InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data))
-            }
-        })
+            adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
+                override fun onDetailCallback(data: InventoryFirebaseEntity) {
+                    findNavController().navigate(
+                            InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data)
+                    )
+                }
+            })
+        }catch (e : Exception){
+            showStatus(e.message.toString())
+        }
     }
 
     private fun showStatus(title : String){

@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
@@ -49,14 +50,13 @@ class DiseaseDetailFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-
     private lateinit var classification : DiseasePrediction
     private var solutionList = ArrayList<String>()
     private var indicationList = ArrayList<String>()
 
     private var currentDate = LocalDate.now().toString()
-    private var randomId = UUID.randomUUID().toString()
-    private var diseaeId = ""
+    private var diseaseId = UUID.randomUUID().toString()
+    private var indicationId = ""
     private var isDetail = false
 
     private lateinit var imageUri : Uri
@@ -110,17 +110,18 @@ class DiseaseDetailFragment : Fragment() {
     ): View {
         binding = FragmentDisaseDetailBinding.inflate(layoutInflater)
         classification = DiseasePrediction(requireContext())
-        fusedLocation =
-            LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext())
 
         try {
-//            val detail = DisaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
-//            if (detail != null){
-//                showDetailDisease(detail)
-//                isDetail = true
-//                randomId = detail.idPenyakit
-//                binding.btnDiseaseSave.visibility = View.GONE
-//            }
+            val detail = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
+            if (detail != null){
+                showDetailDisease(detail)
+                isDetail = true
+                currentDate = detail.dateDisease
+                diseaseId = detail.id
+                binding.btnSaveDisease.visibility = View.GONE
+                binding.btnDiseaseComplete.visibility = View.VISIBLE
+            }
         }catch (e : Exception){ }
 
         return binding.root
@@ -128,9 +129,9 @@ class DiseaseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createLocationRequest()
 
         if (!isDetail){
+            createLocationRequest()
             showImageCapture()
             binding.pgdiseaseBar.visibility = View.VISIBLE
             lifecycleScope.launch {
@@ -152,7 +153,7 @@ class DiseaseDetailFragment : Fragment() {
                 apply {
                     setPositiveButton("ya") { _, _ ->
                         binding.pgdiseaseBar.visibility = View.VISIBLE
-                        //todo delete disease
+                        deleteDiseaseImage()
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -173,11 +174,17 @@ class DiseaseDetailFragment : Fragment() {
 
     private fun showImageCapture(){
         imageUri = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase?.toUri()!!
-
         val bitmapImage = MediaStore.Images.Media.getBitmap(requireContext().contentResolver,imageUri)
-
         imageBitmap = bitmapImage
         binding.imgDisaseDetail.setImageBitmap(bitmapImage)
+    }
+
+    private fun showDetailDisease(data : DiseaseFirebaseEntity){
+        binding.tvdisasaeDetailIndication.text = data.nameDisease
+        Glide.with(requireContext())
+            .load(data.imageUrl)
+            .into(binding.imgDisaseDetail)
+        showDiseaseInformation(data.idDisease.toInt())
     }
 
 
@@ -188,7 +195,7 @@ class DiseaseDetailFragment : Fragment() {
                 binding.tvdisasaeDetailIndication.text = result.name
                 binding.pgdiseaseBar.visibility = View.VISIBLE
                 showDiseaseInformation(result.id)
-                diseaeId = result.id.toString()
+                indicationId = result.id.toString()
             }
             .addOnFailureListener { expectation ->
                 showStatus(expectation.message.toString())
@@ -266,7 +273,7 @@ class DiseaseDetailFragment : Fragment() {
         val diseaseIndication = binding.tvdisasaeDetailIndication.text.toString()
 
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            remoteViewModel.uploadDiseaseImage(randomId,imageUri,userId)
+            remoteViewModel.uploadDiseaseImage(diseaseId,imageUri,userId)
                 .addOnSuccessListener {
                     it.storage.downloadUrl
                         .addOnSuccessListener { respon ->
@@ -284,9 +291,9 @@ class DiseaseDetailFragment : Fragment() {
 
     private fun saveDisease(imageUrl : Uri,name : String,userId : String){
         val tempData = DiseaseFirebaseEntity(
-            randomId,
+            diseaseId,
             name,
-            diseaeId,
+            indicationId,
             currentDate,
             curLatitude.toString(),
             curLatitude.toString(),
@@ -303,6 +310,32 @@ class DiseaseDetailFragment : Fragment() {
             .addOnFailureListener {
                 showStatus(it.message.toString())
             }
+    }
+
+    private fun deleteDiseaseImage(){
+        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
+            remoteViewModel.deleteDiseaseImage(diseaseId,userId)
+                .addOnSuccessListener {
+                    deleteDisease()
+                }
+                .addOnFailureListener {
+                    showStatus(it.message.toString())
+                }
+        }
+    }
+
+    private fun deleteDisease(){
+        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
+            remoteViewModel.deleteDisease(currentDate,diseaseId,userId)
+                .addOnSuccessListener {
+                    findNavController().navigate(
+                        DiseaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                    )
+                }
+                .addOnFailureListener {
+                    showStatus(it.message.toString())
+                }
+        }
     }
 
     // Location Request
@@ -342,7 +375,6 @@ class DiseaseDetailFragment : Fragment() {
                 }
                 .addOnFailureListener {
                     Log.d(page_key,it.message.toString())
-
                 }
         }else{
             requestPermissionLauncher.launch(arrayOf(
@@ -362,8 +394,6 @@ class DiseaseDetailFragment : Fragment() {
         }
         Log.d(page_key,title)
     }
-
-
 
 
     companion object{

@@ -130,6 +130,7 @@ class FirebaseService {
             .setValue(data)
     }
 
+
     fun getDiseaseInformation(id : String): DatabaseReference{
         return FirebaseDatabase.getInstance()
             .getReference(diseasePath)
@@ -149,6 +150,12 @@ class FirebaseService {
             .putFile(fileUri)
     }
 
+    fun deleteDiseaseImage(name : String, userId: String): Task<Void>{
+        return FirebaseStorage.getInstance().reference
+            .child("$userId/$diseasePath/$name")
+            .delete()
+    }
+
     fun saveDisease(data : DiseaseFirebaseEntity,userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
@@ -159,6 +166,22 @@ class FirebaseService {
             .setValue(data)
     }
 
+    fun readDiseaseList(userId : String): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(diseasePath)
+    }
+
+    fun deleteDisease(date : String,dataId : String,userId: String): Task<Void> {
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(diseasePath)
+            .child(date)
+            .child(dataId)
+            .removeValue()
+    }
 
 
     companion object{

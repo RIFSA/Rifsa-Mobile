@@ -4,7 +4,6 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
@@ -252,7 +251,7 @@ class UserActivityTest {
         onView(withId(R.id.disease_detail_layout))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.btn_Disease_save))
+        onView(withId(R.id.btn_Disease_Complete))
             .perform(click())
 
     }

@@ -86,7 +86,17 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
         return remoteRepository.saveDisease(data, userId)
     }
 
+    fun readDiseaseList(userId : String): DatabaseReference{
+        return remoteRepository.readDiseaseList(userId)
+    }
 
+    fun deleteDisease(date : String,dataId : String,userId: String): Task<Void> {
+        return remoteRepository.deleteDisease(date, dataId, userId)
+    }
+
+    fun deleteDiseaseImage(name : String, userId: String): Task<Void>{
+        return remoteRepository.deleteDiseaseImage(name, userId)
+    }
     
 
     suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
