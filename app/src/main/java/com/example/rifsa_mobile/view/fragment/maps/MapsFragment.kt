@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsBinding
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
 import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.disease.DisaseFragment
@@ -44,7 +45,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var gMap : GoogleMap
-
+    private var diseaseList = ArrayList<DiseaseFirebaseEntity>()
 
     private var fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
 
@@ -70,7 +71,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         authViewModel.apply {
             when(mapType){
                 DisaseFragment.map_key ->{
-                    getTokenKey().observe(viewLifecycleOwner){getDiseaseData(it)}
+                    getUserId().observe(viewLifecycleOwner){getDiseaseData(it)}
                     binding.tvDiseaseMapsTitle.text = "Peta persebaran penyakit"
                 }
                 ProfileFragment.map_key ->{
@@ -104,26 +105,31 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         }
 
     }
-    private fun getDiseaseData(token : String){
-        lifecycleScope.launch {
-            remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){ respon ->
-                when(respon){
-                    is FetchResult.Loading->{}
-                    is FetchResult.Success->{
-                        respon.data.forEach { loc->
-                            showDiseaseMarker(
-                                loc.latitude,
-                                loc.longitude,
-                                loc.indikasi,
-                                loc.idPenyakit.toString()
-                            )
+    private fun getDiseaseData(userId : String){
+        remoteViewModel.readDiseaseList(userId).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { child ->
+                    child.children.forEach { main ->
+                        val data = main.getValue(DiseaseFirebaseEntity::class.java)
+                        if (data != null) {
+                            diseaseList.add(data)
+                            diseaseList.forEach {
+                                showDiseaseMarker(
+                                    it.latitude.toDouble(),
+                                    it.longitude.toDouble(),
+                                    it.nameDisease,
+                                    it.idDisease
+                                )
+                            }
                         }
                     }
-                    is FetchResult.Error->{}
-                    else -> {}
                 }
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {
+               showStatus(error.message)
+            }
+        })
     }
 
     private fun showDiseaseMarker(lattidue : Double, longtidue : Double, title : String, id : String) {
@@ -147,7 +153,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                 val data = snapshot.getValue(FieldFirebaseEntity::class.java)
                 if (data != null) {
                     showFarmingField(data)
-
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -179,29 +184,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
 
     private fun detailDisease(id : Int){
-        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
-            lifecycleScope.launch {
-                remoteViewModel.getDiseaseRemoteById(token,id).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Loading->{
 
-                        }
-                        is FetchResult.Success->{
-//                            findNavController().navigate(MapsDiseaseFragmentDirections
-//                                .actionMapsDiseaseFragmentToDisaseDetailFragment(
-//                                    null,
-//                                    it.data[0]
-//                                ))
-                        }
-                        is FetchResult.Error->{
-                            Log.d("disease",it.error)
-                        }
-                        else -> {}
-                    }
-
-                }
-            }
-        }
     }
 
     private fun getCurrentLocation(){
