@@ -139,15 +139,6 @@ class DiseaseDetailFragment : Fragment() {
             }
         }
 
-        binding.btnDiseaseSave.setOnClickListener {
-            lifecycleScope.launch {
-                binding.pgdiseaseBar.visibility = View.VISIBLE
-                findNavController().navigate(
-                    DiseaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
-                )
-            }
-        }
-
         binding.btnDiseaseBackhome.setOnClickListener {
             findNavController().navigate(
                 DiseaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
@@ -278,11 +269,11 @@ class DiseaseDetailFragment : Fragment() {
             remoteViewModel.uploadDiseaseImage(randomId,imageUri,userId)
                 .addOnSuccessListener {
                     it.storage.downloadUrl
-                        .addOnSuccessListener {
-                            saveDisease(it,diseaseIndication,userId)
+                        .addOnSuccessListener { respon ->
+                            saveDisease(respon,diseaseIndication,userId)
                         }
-                        .addOnFailureListener {
-                            showStatus(it.message.toString())
+                        .addOnFailureListener { respon ->
+                            showStatus(respon.message.toString())
                         }
                 }
                 .addOnFailureListener {
@@ -305,6 +296,9 @@ class DiseaseDetailFragment : Fragment() {
         remoteViewModel.saveDisease(tempData,userId)
             .addOnSuccessListener {
                 showStatus("penyakit tersimpan")
+                findNavController().navigate(
+                    DiseaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                )
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
