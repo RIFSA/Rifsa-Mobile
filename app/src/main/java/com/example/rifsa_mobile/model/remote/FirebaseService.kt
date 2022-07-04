@@ -4,10 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
-import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.*
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
 import com.google.android.gms.tasks.Task
@@ -144,6 +141,22 @@ class FirebaseService {
             .getReference(diseasePath)
             .child(id)
             .child(parent)
+    }
+
+    fun uploadDiseaseImage(name : String, fileUri : Uri, userId: String): UploadTask{
+        return FirebaseStorage.getInstance().reference
+            .child("$userId/$diseasePath/$name")
+            .putFile(fileUri)
+    }
+
+    fun saveDisease(data : DiseaseFirebaseEntity,userId: String): Task<Void>{
+        return FirebaseDatabase.getInstance()
+            .getReference(mainPath)
+            .child(userId)
+            .child(diseasePath)
+            .child(data.dateDisease)
+            .child(data.id)
+            .setValue(data)
     }
 
 

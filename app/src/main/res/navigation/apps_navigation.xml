@@ -167,7 +167,7 @@
     </fragment>
     <fragment
         android:id="@+id/disaseDetailFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disease.detail.DisaseDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.detail.DiseaseDetailFragment"
         android:label="fragment_disase_detail"
         tools:layout="@layout/fragment_disase_detail" >
         <action

@@ -3,6 +3,7 @@ package com.example.rifsa_mobile.view.fragment.disease.detail
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.utils.prediction.DiseasePrediction
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
@@ -30,12 +32,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
-class DisaseDetailFragment : Fragment() {
+class DiseaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
 
     private val remoteViewModel : RemoteViewModel by viewModels{
@@ -50,11 +54,13 @@ class DisaseDetailFragment : Fragment() {
     private var solutionList = ArrayList<String>()
     private var indicationList = ArrayList<String>()
 
-    private var randomId = 0
-    private var image = ""
-    private lateinit var imageBitmap  : Bitmap
+    private var currentDate = LocalDate.now().toString()
+    private var randomId = UUID.randomUUID().toString()
+    private var diseaeId = ""
     private var isDetail = false
 
+    private lateinit var imageUri : Uri
+    private lateinit var imageBitmap  : Bitmap
 
     private var curLatitude = 0.0
     private var curLongitude = 0.0
@@ -137,14 +143,14 @@ class DisaseDetailFragment : Fragment() {
             lifecycleScope.launch {
                 binding.pgdiseaseBar.visibility = View.VISIBLE
                 findNavController().navigate(
-                    DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                    DiseaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
                 )
             }
         }
 
         binding.btnDiseaseBackhome.setOnClickListener {
             findNavController().navigate(
-                DisaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
+                DiseaseDetailFragmentDirections.actionDisaseDetailFragmentToDisaseFragment()
             )
         }
 
@@ -155,8 +161,7 @@ class DisaseDetailFragment : Fragment() {
                 apply {
                     setPositiveButton("ya") { _, _ ->
                         binding.pgdiseaseBar.visibility = View.VISIBLE
-//                        stopAlarm()
-//                        deleteDiseaseLocal()
+                        //todo delete disease
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -167,13 +172,18 @@ class DisaseDetailFragment : Fragment() {
             }
         }
 
+        binding.btnSaveDisease.setOnClickListener {
+            uploadDiseaseImage()
+            binding.pgdiseaseBar.visibility = View.VISIBLE
+        }
+
     }
 
 
     private fun showImageCapture(){
-        image = DisaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase.toString()
+        imageUri = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase?.toUri()!!
 
-        val bitmapImage = MediaStore.Images.Media.getBitmap(requireContext().contentResolver,image.toUri())
+        val bitmapImage = MediaStore.Images.Media.getBitmap(requireContext().contentResolver,imageUri)
 
         imageBitmap = bitmapImage
         binding.imgDisaseDetail.setImageBitmap(bitmapImage)
@@ -185,8 +195,12 @@ class DisaseDetailFragment : Fragment() {
             .initPrediction(imageBitmap)
             .addOnSuccessListener { result ->
                 binding.tvdisasaeDetailIndication.text = result.name
-                showDiseaseInformation(result.id)
                 binding.pgdiseaseBar.visibility = View.VISIBLE
+                showDiseaseInformation(result.id)
+                diseaeId = result.id.toString()
+            }
+            .addOnFailureListener { expectation ->
+                showStatus(expectation.message.toString())
             }
     }
 
@@ -195,7 +209,7 @@ class DisaseDetailFragment : Fragment() {
         remoteViewModel.getDiseaseInformation(id.toString())
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.getValue(DiseaseFirebaseEntity::class.java)
+                    val data = snapshot.getValue(DiseaseDetailFirebaseEntity::class.java)
                     if (data != null) {
                         binding.tvdisasaeDetailDescription.text = data.Cause
                         binding.pgdiseaseBar.visibility = View.GONE
@@ -211,13 +225,13 @@ class DisaseDetailFragment : Fragment() {
         showIndication(id.toString(),"Indication")
     }
 
-    private fun showTreatment(id: String,parent : String){
-        remoteViewModel.getDiseaseInformationMisc(id,parent)
+    private fun showTreatment(id: String, path : String){
+        remoteViewModel.getDiseaseInformationMisc(id,path)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         solutionList.add(it.value.toString())
-                        showListTreament(solutionList)
+                        showListTreatment(solutionList)
                     }
                 }
 
@@ -243,7 +257,7 @@ class DisaseDetailFragment : Fragment() {
             })
     }
 
-    private fun showListTreament(data : List<String>){
+    private fun showListTreatment(data : List<String>){
         val adapter = DiseaseMiscRecyclerViewAdapter(data)
         val recyclerView = binding.recviewDiseaseTreatment
         recyclerView.adapter = adapter
@@ -255,6 +269,46 @@ class DisaseDetailFragment : Fragment() {
         val recyclerView = binding.recviewDiseaseIndication
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun uploadDiseaseImage(){
+        val diseaseIndication = binding.tvdisasaeDetailIndication.text.toString()
+
+        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
+            remoteViewModel.uploadDiseaseImage(randomId,imageUri,userId)
+                .addOnSuccessListener {
+                    it.storage.downloadUrl
+                        .addOnSuccessListener {
+                            saveDisease(it,diseaseIndication,userId)
+                        }
+                        .addOnFailureListener {
+                            showStatus(it.message.toString())
+                        }
+                }
+                .addOnFailureListener {
+                    showStatus(it.message.toString())
+                }
+        }
+    }
+
+    private fun saveDisease(imageUrl : Uri,name : String,userId : String){
+        val tempData = DiseaseFirebaseEntity(
+            randomId,
+            name,
+            diseaeId,
+            currentDate,
+            curLatitude.toString(),
+            curLatitude.toString(),
+            imageUrl.toString()
+        )
+
+        remoteViewModel.saveDisease(tempData,userId)
+            .addOnSuccessListener {
+                showStatus("penyakit tersimpan")
+            }
+            .addOnFailureListener {
+                showStatus(it.message.toString())
+            }
     }
 
     // Location Request

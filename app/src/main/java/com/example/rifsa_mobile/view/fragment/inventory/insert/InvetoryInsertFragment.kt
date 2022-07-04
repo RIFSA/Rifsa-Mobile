@@ -136,7 +136,8 @@ class InvetoryInsertFragment : Fragment() {
     private fun uploadInventoryFile(){
         val name = binding.tvinventarisInsertName.text.toString()
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
-            remoteViewModel.uploadInventoryFile(name,currentImage,userId).addOnSuccessListener {
+            remoteViewModel.uploadInventoryFile(name,currentImage,userId)
+                .addOnSuccessListener {
                     it.storage.downloadUrl
                         .addOnSuccessListener { url ->
                            insertInventory(url,name, userId)

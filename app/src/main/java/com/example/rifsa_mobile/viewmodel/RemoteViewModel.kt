@@ -9,10 +9,7 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
-import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.*
 import com.example.rifsa_mobile.model.repository.RemoteRepository
 import com.example.rifsa_mobile.utils.FetchResult
 import com.google.android.gms.tasks.Task
@@ -81,6 +78,13 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
         return remoteRepository.getDiseaseInformationMisc(id, parent)
     }
 
+    fun uploadDiseaseImage(name : String, fileUri : Uri, userId: String): UploadTask{
+        return remoteRepository.uploadDiseaseImage(name, fileUri, userId)
+    }
+
+    fun saveDisease(data : DiseaseFirebaseEntity, userId: String): Task<Void>{
+        return remoteRepository.saveDisease(data, userId)
+    }
 
 
     

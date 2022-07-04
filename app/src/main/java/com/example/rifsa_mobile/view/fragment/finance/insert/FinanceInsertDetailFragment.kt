@@ -184,9 +184,9 @@ class FinanceInsertDetailFragment : Fragment() {
             calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth)
             calendar.set(Calendar.MONTH,month)
             calendar.set(Calendar.YEAR,year)
-            val setdate = formatDate.format(calendar.time)
-            binding.tvfinanceInsertDate.text = setdate.toString()
-            currentDate = setdate
+            val setDate = formatDate.format(calendar.time)
+            binding.tvfinanceInsertDate.text = setDate.toString()
+            currentDate = setDate
         },
             instance.get(Calendar.YEAR),
             instance.get(Calendar.MONTH),

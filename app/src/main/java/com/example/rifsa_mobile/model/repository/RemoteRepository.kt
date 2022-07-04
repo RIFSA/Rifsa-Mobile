@@ -9,10 +9,7 @@ import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
 import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
 import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
-import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.*
 import com.example.rifsa_mobile.model.remote.ApiService
 import com.example.rifsa_mobile.model.remote.FirebaseService
 import com.example.rifsa_mobile.utils.FetchResult
@@ -20,6 +17,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import okhttp3.MultipartBody
 
@@ -90,6 +88,13 @@ class RemoteRepository(
         return firebaseService.getDiseaseInformationMisc(id, parent)
     }
 
+    fun uploadDiseaseImage(name : String, fileUri : Uri, userId: String): UploadTask{
+        return firebaseService.uploadDiseaseImage(name, fileUri, userId)
+    }
+
+    fun saveDisease(data : DiseaseFirebaseEntity, userId: String): Task<Void>{
+        return firebaseService.saveDisease(data, userId)
+    }
 
 
 
