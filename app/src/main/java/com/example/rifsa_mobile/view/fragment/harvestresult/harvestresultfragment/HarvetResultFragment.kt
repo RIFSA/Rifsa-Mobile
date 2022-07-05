@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult.harvestresultfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,15 +47,16 @@ class HarvetResultFragment : Fragment() {
             binding.pgbHasilBar.visibility = View.VISIBLE
             remoteViewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach { child ->
-                        child.children.forEach { main ->
-                            binding.pgbHasilBar.visibility = View.GONE
-                            val data = main.getValue(HarvestFirebaseEntity::class.java)
-                            data?.let { dataList.add(data) }
-                            showResult(dataList)
-                            dataChecker(dataList.size)
+                    if (snapshot.exists()){
+                        snapshot.children.forEach { child ->
+                            child.children.forEach { main ->
+                                val data = main.getValue(HarvestFirebaseEntity::class.java)
+                                data?.let { dataList.add(data) }
+                                showResult(dataList)
+                                dataChecker(dataList.size)
+                            }
                         }
-                    }
+                    }else{ dataChecker(0) }
                 }
                 override fun onCancelled(error: DatabaseError) {
                     binding.pgbHasilBar.visibility = View.GONE
@@ -62,9 +64,6 @@ class HarvetResultFragment : Fragment() {
                 }
             })
         }
-
-
-
         return binding.root
     }
 
@@ -77,35 +76,34 @@ class HarvetResultFragment : Fragment() {
                 )
             )
         }
-
         binding.btnHarvestBackhome.setOnClickListener {
-            findNavController().navigate(
-                HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
-            )
+            findNavController().navigate(HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment())
         }
 
     }
 
     private fun showResult(data : List<HarvestFirebaseEntity>){
-        val adapter = HarvestResultRecyclerViewAdapter(data)
-        val recyclerView = binding.rvHarvestresult
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallback(data: HarvestFirebaseEntity) {
-                findNavController().navigate(
-                    HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(
-                        data
+        try {
+            binding.pgbHasilBar.visibility = View.GONE
+            val adapter = HarvestResultRecyclerViewAdapter(data)
+            val recyclerView = binding.rvHarvestresult
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
+                override fun onDetailCallback(data: HarvestFirebaseEntity) {
+                    findNavController().navigate(
+                        HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(data)
                     )
-                )
-            }
-        })
+                }
+            })
+        }catch (e : Exception){
+            Log.d("HarvestFragment",e.message.toString())
+        }
     }
 
     private fun showStatus(title: String){
         binding.pgbHasilTitle.text = title
         binding.pgbHasilTitle.visibility = View.VISIBLE
-
         if (title.isNotEmpty()){
             binding.pgbHasilBar.visibility = View.GONE
         }
@@ -113,6 +111,7 @@ class HarvetResultFragment : Fragment() {
 
     private fun dataChecker(total : Int){
         if (total == 0){
+            binding.pgbHasilBar.visibility = View.GONE
             binding.harvestEmptyState.emptyState.visibility = View.VISIBLE
         }
     }

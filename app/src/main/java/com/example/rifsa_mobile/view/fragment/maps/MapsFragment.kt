@@ -139,6 +139,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                 setOnInfoWindowClickListener {
                     detailDisease(it.snippet!!.toString())
                 }
+                moveCamera(CameraUpdateFactory.newLatLng(LatLng(lattidue, longtidue)))
+                animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lattidue, longtidue), 19f))
             }
         }
     }
@@ -173,7 +175,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                     )
                 )
             }
-
             moveCamera(CameraUpdateFactory.newLatLng(location))
             animateCamera(CameraUpdateFactory.newLatLngZoom(location, 19f))
         }

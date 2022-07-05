@@ -63,14 +63,17 @@ class FinanceFragment : Fragment() {
         lifecycleScope.launch{
             remoteViewModel.readFinancial(userId).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach { child ->
-                        child.children.forEach { main ->
-                            binding.pgbFinanceBar.visibility = View.GONE
-                            val data = main.getValue(FinancialFirebaseEntity::class.java)
-                            data?.let { dataList.add(data) }
-                            showFinancialList(dataList)
-                            dataChecker(dataList.size)
+                    if (snapshot.exists()){
+                        snapshot.children.forEach { child ->
+                            child.children.forEach { main ->
+                                val data = main.getValue(FinancialFirebaseEntity::class.java)
+                                data?.let { dataList.add(data) }
+                                showFinancialList(dataList)
+                                dataChecker(dataList.size)
+                            }
                         }
+                    }else{
+                        dataChecker(0)
                     }
                 }
 
@@ -82,26 +85,27 @@ class FinanceFragment : Fragment() {
     }
 
     private fun showFinancialList(data : List<FinancialFirebaseEntity>){
-        val adapter = FinanceRecyclerViewAdapter(data)
-        val recyclerView = binding.rvFinance
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
-            override fun onItemCallback(data: FinancialFirebaseEntity) {
-                findNavController().navigate(
-                    FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(
-                        data
+        try {
+            binding.pgbFinanceBar.visibility = View.GONE
+            val adapter = FinanceRecyclerViewAdapter(data)
+            val recyclerView = binding.rvFinance
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
+                override fun onItemCallback(data: FinancialFirebaseEntity) {
+                    findNavController().navigate(
+                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data)
                     )
-                )
-            }
-        })
+                }
+            })
+        }catch (e : Exception){
+            Log.d("FinanceFragment",e.message.toString())
+        }
     }
 
     private fun showStatus(title : String){
         binding.pgbKeaunganTitle.visibility = View.VISIBLE
         binding.pgbKeaunganTitle.text = title
-
         if (title.isNotEmpty()){
             binding.pgbFinanceBar.visibility = View.GONE
         }
@@ -110,6 +114,7 @@ class FinanceFragment : Fragment() {
 
     private fun dataChecker(total : Int){
         if (total == 0){
+            binding.pgbFinanceBar.visibility = View.GONE
             binding.financeEmptyState.emptyState.visibility = View.VISIBLE
         }
     }

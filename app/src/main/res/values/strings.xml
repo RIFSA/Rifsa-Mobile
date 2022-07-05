@@ -111,7 +111,7 @@
     <string name="maps">Maps</string>
     <string name="_0">0</string>
     <string name="penyakit_terdeteksi">Penyakit Terdeteksi</string>
-    <string name="tidak_ada_data">Oops.! \nTidak ada data</string>
+    <string name="tidak_ada_data">data kosong</string>
     <string name="pengeluaran">Pengeluaran</string>
     <string name="pemasukan">Pemasukan</string>
     <string name="jumlah_barang">Jumlah Barang</string>

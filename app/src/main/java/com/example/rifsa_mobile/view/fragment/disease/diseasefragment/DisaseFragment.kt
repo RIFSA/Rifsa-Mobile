@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.disease.diseasefragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,6 @@ class DisaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.fabScanDisase.setOnClickListener {
             findNavController().navigate(
                 DisaseFragmentDirections.actionDisaseFragmentToCameraFragment(
@@ -53,7 +53,6 @@ class DisaseFragment : Fragment() {
                 )
             )
         }
-
         binding.btnMapsDisease.setOnClickListener {
             findNavController().navigate(
                 DisaseFragmentDirections.actionDisaseFragmentToMapsDiseaseFragment(
@@ -66,16 +65,19 @@ class DisaseFragment : Fragment() {
     private fun diseaseList(token : String){
         remoteViewModel.readDiseaseList(token).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach { child ->
-                    child.children.forEach { main ->
-                        val data = main.getValue(DiseaseFirebaseEntity::class.java)
-                        data?.let { dataList.add(it) }
-                        showListDisease(dataList)
-                        dataChecker(dataList.size)
+                if (snapshot.exists()){
+                    snapshot.children.forEach { child ->
+                        child.children.forEach { main ->
+                            val data = main.getValue(DiseaseFirebaseEntity::class.java)
+                            data?.let { dataList.add(it) }
+                            showListDisease(dataList)
+                            dataChecker(dataList.size)
+                        }
                     }
+                }else{
+                    dataChecker(0)
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 showStatus(error.message)
             }
@@ -102,7 +104,7 @@ class DisaseFragment : Fragment() {
             })
 
         }catch (e : Exception){
-            showStatus(e.message.toString())
+            Log.d("DiseaseFragment",e.message.toString())
         }
     }
 
@@ -116,6 +118,7 @@ class DisaseFragment : Fragment() {
 
     private fun dataChecker(total : Int){
         if (total == 0){
+            binding.pgStatusBar.visibility = View.GONE
             binding.diseaseEmptyState.emptyState.visibility = View.VISIBLE
         }
     }

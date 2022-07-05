@@ -40,34 +40,32 @@ class InventoryFragment : Fragment() {
 
         binding.fabInventoryAdd.setOnClickListener {
             findNavController().navigate(
-                InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(
-                    null
-                )
+                InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(null)
             )
         }
-
         authViewModel.getUserId().observe(viewLifecycleOwner){ token->
             inventoryList(token)
         }
-
-
         return binding.root
     }
 
     private fun inventoryList(token : String){
         remoteViewModel.readInventory(token).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach { child ->
-                    child.children.forEach { main ->
-                        binding.pgbInventoryBar.visibility = View.GONE
-                        val data = main.getValue(InventoryFirebaseEntity::class.java)
-                        data?.let { dataList.add(data) }
-                        showInventoryList(dataList)
-                        dataChecker(dataList.size)
+                if (snapshot.exists()){
+                    snapshot.children.forEach { child ->
+                        child.children.forEach { main ->
+                            binding.pgbInventoryBar.visibility = View.GONE
+                            val data = main.getValue(InventoryFirebaseEntity::class.java)
+                            data?.let { dataList.add(data) }
+                            showInventoryList(dataList)
+                            dataChecker(dataList.size)
+                        }
                     }
+                }else{
+                    dataChecker(0)
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 showStatus(error.message)
             }
@@ -92,7 +90,7 @@ class InventoryFragment : Fragment() {
                 }
             })
         }catch (e : Exception){
-            showStatus(e.message.toString())
+            Log.d("InventoryFragment",e.message.toString())
         }
     }
 
@@ -107,6 +105,7 @@ class InventoryFragment : Fragment() {
 
     private fun dataChecker(total : Int){
         if (total == 0){
+            binding.pgbInventoryBar.visibility = View.GONE
             binding.inventoryEmptyState.emptyState.visibility = View.VISIBLE
         }
     }

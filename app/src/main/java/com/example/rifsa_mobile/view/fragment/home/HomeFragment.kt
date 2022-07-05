@@ -70,39 +70,41 @@ class HomeFragment : Fragment() {
 
 
     private fun getHarvestRemote(token : String){
-        lifecycleScope.launch {
-
-                remoteViewModel.readHarvestResult(token)
-                    .addValueEventListener(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        snapshot.children.forEach { child ->
-                            child.children.forEach { main ->
-                                val data = main.getValue(HarvestFirebaseEntity::class.java)
-                                data?.let { dataList.add(data) }
-                                showHarvestList(dataList)
-                            }
+        remoteViewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    snapshot.children.forEach { child ->
+                        child.children.forEach { main ->
+                            val data = main.getValue(HarvestFirebaseEntity::class.java)
+                            data?.let { dataList.add(data) }
+                            showHarvestList(dataList)
                         }
                     }
-                    override fun onCancelled(error: DatabaseError) {
-                        showStatus(error.message)
-                    }
-                })
-
-        }
+                }else{
+                    showStatus(requireContext().getString(R.string.tidak_ada_data))
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                showStatus(error.message)
+            }
+        })
     }
 
     private fun showHarvestList(data : List<HarvestFirebaseEntity>){
-        binding.barhomeHarvest.visibility = View.GONE
-        val adapter = HarvestResultRecyclerViewAdapter(data)
-        val recyclerView = binding.rvHomeHarvest
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallback(data: HarvestFirebaseEntity) {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHarvestInsertDetailFragment(data))
-            }
-        })
+        try {
+            binding.barhomeHarvest.visibility = View.GONE
+            val adapter = HarvestResultRecyclerViewAdapter(data)
+            val recyclerView = binding.rvHomeHarvest
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
+                override fun onDetailCallback(data: HarvestFirebaseEntity) {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHarvestInsertDetailFragment(data))
+                }
+            })
+        }catch (e : Exception){
+            Log.d("HomeFragment",e.message.toString())
+        }
     }
 
     private fun diseaseCount(){
@@ -112,9 +114,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun showStatus(title : String){
-        binding.barhomeHarvest.visibility = View.GONE
-        binding.tvhomeHarvestStatus.visibility = View.VISIBLE
-        binding.tvhomeHarvestStatus.text = title
-        Log.d("HomeFragment", title)
+        binding.apply {
+            cardViewOne.visibility = View.VISIBLE
+            tvhomeHarvestStatus.visibility = View.VISIBLE
+            barhomeHarvest.visibility = View.GONE
+            barhomeHarvest.visibility = View.GONE
+            tvhomeHarvestStatus.text = title
+            Log.d("HomeFragment", title)
+        }
     }
 }
