@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.remote
+package com.example.rifsa_mobile.model.remote.firebase
 
 import android.net.Uri
 import com.example.rifsa_mobile.model.entity.remotefirebase.*

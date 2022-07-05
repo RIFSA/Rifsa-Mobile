@@ -55,7 +55,7 @@
         </activity>
 
         <receiver
-            android:name=".utils.AlarmReceiver"
+            android:name=".helpers.AlarmReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="alarm"></receiver>

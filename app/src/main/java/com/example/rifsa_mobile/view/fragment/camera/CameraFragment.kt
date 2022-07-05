@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
-import com.example.rifsa_mobile.utils.Utils
+import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key_inventory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

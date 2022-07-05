@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.rifsa_mobile.utils
+package com.example.rifsa_mobile.helpers.utils
 
 import android.app.Application
 import android.content.ContentResolver

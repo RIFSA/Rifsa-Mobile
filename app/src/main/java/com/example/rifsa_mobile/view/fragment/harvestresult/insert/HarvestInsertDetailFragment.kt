@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
-import com.example.rifsa_mobile.utils.Utils
+import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory

@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.repository
+package com.example.rifsa_mobile.model.repository.local
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData

@@ -3,7 +3,7 @@ package com.example.rifsa_mobile.viewmodel.remoteviewmodel
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.remotefirebase.*
-import com.example.rifsa_mobile.model.repository.RemoteRepository
+import com.example.rifsa_mobile.model.repository.remote.RemoteRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference

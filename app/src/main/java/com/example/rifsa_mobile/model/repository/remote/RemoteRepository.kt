@@ -1,8 +1,8 @@
-package com.example.rifsa_mobile.model.repository
+package com.example.rifsa_mobile.model.repository.remote
 
 import android.net.Uri
 import com.example.rifsa_mobile.model.entity.remotefirebase.*
-import com.example.rifsa_mobile.model.remote.FirebaseService
+import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference

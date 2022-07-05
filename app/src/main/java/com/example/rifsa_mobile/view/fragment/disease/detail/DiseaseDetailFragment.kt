@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
-import com.example.rifsa_mobile.utils.prediction.DiseasePrediction
+import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel

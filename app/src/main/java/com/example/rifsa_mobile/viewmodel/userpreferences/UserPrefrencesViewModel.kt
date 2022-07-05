@@ -3,7 +3,7 @@ package com.example.rifsa_mobile.viewmodel.userpreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rifsa_mobile.model.repository.LocalRepository
+import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import kotlinx.coroutines.launch
 
 class UserPrefrencesViewModel(private val localRepository : LocalRepository): ViewModel() {

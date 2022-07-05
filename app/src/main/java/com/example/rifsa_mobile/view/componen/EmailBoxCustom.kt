@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
-import com.example.rifsa_mobile.utils.Utils.validEmailChecker
+import com.example.rifsa_mobile.helpers.utils.Utils.validEmailChecker
 
 class EmailBoxCustom: AppCompatEditText,View.OnTouchListener {
     constructor(context: Context) : super(context) {

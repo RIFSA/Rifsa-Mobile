@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.remote
+package com.example.rifsa_mobile.model.remote.restapi
 
 import com.example.rifsa_mobile.BuildConfig
 import okhttp3.OkHttpClient
@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiConfig {
     private const val base_url = "http://34.101.50.17:5000/"
 
-    fun setApiService(): ApiService{
+    fun setApiService(): ApiService {
         val loggingInterceptor =
             if (BuildConfig.DEBUG){
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

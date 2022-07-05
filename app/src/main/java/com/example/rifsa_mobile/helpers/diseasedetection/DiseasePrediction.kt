@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.utils.prediction
+package com.example.rifsa_mobile.helpers.diseasedetection
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.utils
+package com.example.rifsa_mobile.helpers.fetching
 
 sealed class FetchResult <out R> private constructor(){
     data class Success<out T>(val data: T): FetchResult<T>()
