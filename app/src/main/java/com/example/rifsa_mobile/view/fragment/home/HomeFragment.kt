@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
 
         diseaseCount()
 
+
         return binding.root
     }
 
@@ -71,7 +72,8 @@ class HomeFragment : Fragment() {
     private fun getHarvestRemote(token : String){
         lifecycleScope.launch {
 
-                remoteViewModel.readHarvestResult(token).addValueEventListener(object :
+                remoteViewModel.readHarvestResult(token)
+                    .addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         snapshot.children.forEach { child ->
@@ -83,7 +85,7 @@ class HomeFragment : Fragment() {
                         }
                     }
                     override fun onCancelled(error: DatabaseError) {
-                        Log.d("Home Fragment",error.message)
+                        showStatus(error.message)
                     }
                 })
 
@@ -91,14 +93,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun showHarvestList(data : List<HarvestFirebaseEntity>){
+        binding.barhomeHarvest.visibility = View.GONE
         val adapter = HarvestResultRecyclerViewAdapter(data)
         val recyclerView = binding.rvHomeHarvest
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
             override fun onDetailCallback(data: HarvestFirebaseEntity) {
-                findNavController().navigate(HomeFragmentDirections
-                    .actionHomeFragmentToHarvestInsertDetailFragment(data))
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHarvestInsertDetailFragment(data))
             }
         })
     }
@@ -107,5 +109,12 @@ class HomeFragment : Fragment() {
         authViewModel.getUserId().observe(viewLifecycleOwner){ token->
 
         }
+    }
+
+    private fun showStatus(title : String){
+        binding.barhomeHarvest.visibility = View.GONE
+        binding.tvhomeHarvestStatus.visibility = View.VISIBLE
+        binding.tvhomeHarvestStatus.text = title
+        Log.d("HomeFragment", title)
     }
 }

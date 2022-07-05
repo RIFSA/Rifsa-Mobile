@@ -120,7 +120,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="63dp"
         android:layout_height="57dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

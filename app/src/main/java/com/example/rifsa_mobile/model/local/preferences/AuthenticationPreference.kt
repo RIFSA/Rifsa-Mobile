@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.local.prefrences
+package com.example.rifsa_mobile.model.local.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -13,12 +13,12 @@ import kotlinx.coroutines.flow.Flow
 
 val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "userPrefrences")
 
-class UserPrefrences(private val dataStore : DataStore<Preferences>) {
+class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
+
     private val onBoardKey  = booleanPreferencesKey("onBoard_key")
     private val nameKey = stringPreferencesKey("name_key")
     private val tokenKey = stringPreferencesKey("token_key")
     private val userIdKey = stringPreferencesKey("userId_key")
-
 
 
     fun getOnBoardKey(): Flow<Boolean>{
@@ -46,7 +46,9 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
     }
 
 
-    suspend fun savePrefrences(onBoard : Boolean, name : String, tokenId:String, userId : String){
+
+
+    suspend fun savePreferences(onBoard : Boolean, name : String, tokenId:String, userId : String){
         dataStore.edit {
             it[onBoardKey] = onBoard
             it[nameKey] = name
@@ -56,13 +58,15 @@ class UserPrefrences(private val dataStore : DataStore<Preferences>) {
     }
 
 
+
+
     companion object{
         @Volatile
-        private var INSTANCE: UserPrefrences? = null
+        private var INSTANCE: AuthenticationPreference? = null
 
-        fun getInstance(dataStore: DataStore<Preferences>):UserPrefrences{
+        fun getInstance(dataStore: DataStore<Preferences>):AuthenticationPreference{
             return INSTANCE ?: synchronized(this){
-                val instance = UserPrefrences(dataStore)
+                val instance = AuthenticationPreference(dataStore)
                 INSTANCE = instance
                 instance
             }

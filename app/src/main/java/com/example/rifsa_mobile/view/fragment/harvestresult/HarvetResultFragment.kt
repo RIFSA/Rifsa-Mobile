@@ -52,6 +52,7 @@ class HarvetResultFragment : Fragment() {
                             val data = main.getValue(HarvestFirebaseEntity::class.java)
                             data?.let { dataList.add(data) }
                             showResult(dataList)
+                            dataChecker(dataList.size)
                         }
                     }
                 }
@@ -102,6 +103,12 @@ class HarvetResultFragment : Fragment() {
 
         if (title.isNotEmpty()){
             binding.pgbHasilBar.visibility = View.GONE
+        }
+    }
+
+    private fun dataChecker(total : Int){
+        if (total == 0){
+            binding.harvestEmptyState.emptyState.visibility = View.VISIBLE
         }
     }
 

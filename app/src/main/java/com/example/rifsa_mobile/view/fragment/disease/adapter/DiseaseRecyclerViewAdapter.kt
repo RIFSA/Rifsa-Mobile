@@ -3,9 +3,7 @@ package com.example.rifsa_mobile.view.fragment.disease.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.DiseaseResultResponse
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 
 class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseFirebaseEntity>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {

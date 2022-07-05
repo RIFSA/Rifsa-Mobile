@@ -11,11 +11,14 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.io.File
 
 class FirebaseService {
+
 
     fun authLogin(email : String,password : String): Task<AuthResult>{
         return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)

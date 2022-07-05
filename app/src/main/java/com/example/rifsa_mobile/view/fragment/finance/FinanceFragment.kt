@@ -66,6 +66,7 @@ class FinanceFragment : Fragment() {
                             val data = main.getValue(FinancialFirebaseEntity::class.java)
                             data?.let { dataList.add(data) }
                             showFinancialList(dataList)
+                            dataChecker(dataList.size)
                         }
                     }
                 }
@@ -98,7 +99,12 @@ class FinanceFragment : Fragment() {
         if (title.isNotEmpty()){
             binding.pgbFinanceBar.visibility = View.GONE
         }
-
         Log.d("FinanceFragment",title)
+    }
+
+    private fun dataChecker(total : Int){
+        if (total == 0){
+            binding.financeEmptyState.emptyState.visibility = View.VISIBLE
+        }
     }
 }

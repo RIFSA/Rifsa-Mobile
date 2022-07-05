@@ -61,6 +61,7 @@ class InventoryFragment : Fragment() {
                         val data = main.getValue(InventoryFirebaseEntity::class.java)
                         data?.let { dataList.add(data) }
                         showInventoryList(dataList)
+                        dataChecker(dataList.size)
                     }
                 }
             }
@@ -73,6 +74,7 @@ class InventoryFragment : Fragment() {
 
     private fun showInventoryList(data : List<InventoryFirebaseEntity>) {
         try {
+            binding.pgbInventoryBar.visibility = View.GONE
             val adapter = InventoryRecyclerViewAdapter(data)
             val recyclerView = binding.recviewInventory
             recyclerView.adapter = adapter
@@ -93,12 +95,16 @@ class InventoryFragment : Fragment() {
     private fun showStatus(title : String){
         binding.pgbInventoryStatus.text = title
         binding.pgbInventoryStatus.visibility = View.VISIBLE
-
         if (title.isNotEmpty()){
             binding.pgbInventoryBar.visibility = View.GONE
         }
-
         Log.d("InventoryFragment",title)
+    }
+
+    private fun dataChecker(total : Int){
+        if (total == 0){
+            binding.inventoryEmptyState.emptyState.visibility = View.VISIBLE
+        }
     }
 
 }

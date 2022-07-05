@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardOnboardingBinding
-import com.example.rifsa_mobile.model.entity.local.OnBoardRef
+import com.example.rifsa_mobile.model.entity.local.onboarding.OnBoardingPreference
 
-class OnBoardAdapter(var data : List<OnBoardRef>) : RecyclerView.Adapter<OnBoardAdapter.ViewHolder>() {
+class OnBoardAdapter(var data : List<OnBoardingPreference>) : RecyclerView.Adapter<OnBoardAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardOnboardingBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

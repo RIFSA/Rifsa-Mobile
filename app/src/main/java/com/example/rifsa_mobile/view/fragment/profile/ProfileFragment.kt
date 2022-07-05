@@ -14,6 +14,9 @@ import com.example.rifsa_mobile.view.authetication.login.LoginActivity
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 
 class ProfileFragment : Fragment() {
@@ -64,10 +67,11 @@ class ProfileFragment : Fragment() {
 
 
     private fun showSummaryRemote(){
-        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
+        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
 
         }
     }
+
 
     companion object{
         const val map_key = "profile"

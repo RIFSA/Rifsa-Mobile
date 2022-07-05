@@ -36,15 +36,15 @@ class DisaseFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
+        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
+            diseaseList(token)
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
-            diseaseList(token)
-        }
 
         binding.fabScanDisase.setOnClickListener {
             findNavController().navigate(
@@ -67,6 +67,7 @@ class DisaseFragment : Fragment() {
                         val data = main.getValue(DiseaseFirebaseEntity::class.java)
                         data?.let { dataList.add(it) }
                         showListDisease(dataList)
+                        dataChecker(dataList.size)
                     }
                 }
             }
@@ -79,6 +80,7 @@ class DisaseFragment : Fragment() {
 
     private fun showListDisease(data : List<DiseaseFirebaseEntity>){
         try {
+            binding.pgStatusBar.visibility = View.GONE
             val adapter = DiseaseRecyclerViewAdapter(data)
             val recyclerView = binding.recviewdisease
             recyclerView.adapter = adapter
@@ -100,9 +102,14 @@ class DisaseFragment : Fragment() {
     private fun showStatus(title : String){
         binding.pgStatusTitle.text = title
         binding.pgStatusTitle.visibility = View.VISIBLE
-
         if (title.isNotEmpty()){
             binding.pgStatusBar.visibility = View.GONE
+        }
+    }
+
+    private fun dataChecker(total : Int){
+        if (total == 0){
+            binding.diseaseEmptyState.emptyState.visibility = View.VISIBLE
         }
     }
 

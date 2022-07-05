@@ -1,22 +1,13 @@
 package com.example.rifsa_mobile.viewmodel
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.rifsa_mobile.model.entity.remote.disease.DiseasePostResponse
-import com.example.rifsa_mobile.model.entity.remote.disease.restapivm.NewDiseaseResultRespon
-import com.example.rifsa_mobile.model.entity.remote.login.LoginBody
-import com.example.rifsa_mobile.model.entity.remote.login.LoginResponse
-import com.example.rifsa_mobile.model.entity.remote.signup.RegisterBody
-import com.example.rifsa_mobile.model.entity.remote.signup.RegisterResponse
 import com.example.rifsa_mobile.model.entity.remotefirebase.*
 import com.example.rifsa_mobile.model.repository.RemoteRepository
-import com.example.rifsa_mobile.utils.FetchResult
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.UploadTask
-import okhttp3.MultipartBody
 
 class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel() {
 
