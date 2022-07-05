@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.viewmodel
+package com.example.rifsa_mobile.viewmodel.userpreferences
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -10,13 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentProfileBinding
 
-import com.example.rifsa_mobile.view.authetication.login.LoginActivity
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.example.rifsa_mobile.view.activity.authetication.login.LoginActivity
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 
 
 class ProfileFragment : Fragment() {
@@ -55,7 +52,7 @@ class ProfileFragment : Fragment() {
                 "",
                 ""
             )
-            startActivity(Intent(requireContext(),LoginActivity::class.java))
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
             activity?.finishAffinity()
         }
 

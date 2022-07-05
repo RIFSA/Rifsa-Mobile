@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.onboarding.adapter
+package com.example.rifsa_mobile.view.activity.onboarding.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

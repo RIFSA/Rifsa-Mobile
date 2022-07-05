@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.authetication.login
+package com.example.rifsa_mobile.view.activity.authetication.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +9,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityLoginBinding
-import com.example.rifsa_mobile.view.MainActivity
-import com.example.rifsa_mobile.view.authetication.signup.SignUpActivity
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.example.rifsa_mobile.view.activity.MainActivity
+import com.example.rifsa_mobile.view.activity.authetication.signup.SignUpActivity
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this,R.color.main_color)
 
         binding.btnLoginSignup.setOnClickListener {
-            startActivity(Intent(this,SignUpActivity::class.java))
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
         binding.btnLoginEnter.setOnClickListener {
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun saveLoginSession(onBoard : Boolean, name : String, pass: String, userId : String){
         authViewModel.saveUserPrefrences(onBoard,name,pass,userId)
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         finishAffinity()
     }
 }

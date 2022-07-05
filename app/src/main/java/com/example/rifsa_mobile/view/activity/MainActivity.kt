@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view
+package com.example.rifsa_mobile.view.activity
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding

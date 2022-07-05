@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.viewmodel.utils
+package com.example.rifsa_mobile.viewmodel.viewmodelfactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.model.repository.Injection
 import com.example.rifsa_mobile.model.repository.LocalRepository
 import com.example.rifsa_mobile.model.repository.RemoteRepository
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(

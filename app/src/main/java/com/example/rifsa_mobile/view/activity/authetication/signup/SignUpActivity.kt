@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.authetication.signup
+package com.example.rifsa_mobile.view.activity.authetication.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivitySignUpBinding
-import com.example.rifsa_mobile.view.MainActivity
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.example.rifsa_mobile.view.activity.MainActivity
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySignUpBinding
@@ -70,7 +70,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun saveLoginSession(onBoard : Boolean, name : String, pass: String, userId : String){
         authViewModel.saveUserPrefrences(onBoard,name,pass,userId)
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         finishAffinity()
     }
 

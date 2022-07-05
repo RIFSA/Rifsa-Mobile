@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.viewmodel
+package com.example.rifsa_mobile.viewmodel.remoteviewmodel
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel

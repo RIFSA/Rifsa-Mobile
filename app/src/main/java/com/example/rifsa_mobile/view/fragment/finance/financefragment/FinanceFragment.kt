@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.finance
+package com.example.rifsa_mobile.view.fragment.finance.financefragment
 
 import android.os.Bundle
 import android.util.Log
@@ -14,9 +14,9 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -44,7 +44,10 @@ class FinanceFragment : Fragment() {
 
         binding.fabFiannceInsert.setOnClickListener {
             findNavController().navigate(
-                FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(null))
+                FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(
+                    null
+                )
+            )
         }
 
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
@@ -87,7 +90,10 @@ class FinanceFragment : Fragment() {
         adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
             override fun onItemCallback(data: FinancialFirebaseEntity) {
                 findNavController().navigate(
-                    FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data))
+                    FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(
+                        data
+                    )
+                )
             }
         })
     }

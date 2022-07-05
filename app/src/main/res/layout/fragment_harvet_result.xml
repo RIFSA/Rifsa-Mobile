@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.harvestresult.HarvetResultFragment">
+    tools:context=".view.fragment.harvestresult.harvestresultfragment.HarvetResultFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar3"

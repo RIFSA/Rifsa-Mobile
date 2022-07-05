@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.authetication.login.LoginActivity">
+    tools:context=".view.activity.authetication.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

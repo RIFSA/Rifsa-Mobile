@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.disease
+package com.example.rifsa_mobile.view.fragment.disease.diseasefragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -48,13 +48,17 @@ class DisaseFragment : Fragment() {
 
         binding.fabScanDisase.setOnClickListener {
             findNavController().navigate(
-                DisaseFragmentDirections.actionDisaseFragmentToCameraFragment(camera_key)
+                DisaseFragmentDirections.actionDisaseFragmentToCameraFragment(
+                    camera_key
+                )
             )
         }
 
         binding.btnMapsDisease.setOnClickListener {
             findNavController().navigate(
-                DisaseFragmentDirections.actionDisaseFragmentToMapsDiseaseFragment(map_key)
+                DisaseFragmentDirections.actionDisaseFragmentToMapsDiseaseFragment(
+                    map_key
+                )
             )
         }
     }
@@ -89,7 +93,10 @@ class DisaseFragment : Fragment() {
             adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: DiseaseFirebaseEntity) {
                     findNavController().navigate(
-                        DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(null,data)
+                        DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(
+                            null,
+                            data
+                        )
                     )
                 }
             })

@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.rifsa_mobile.view.MainActivity"
+        android:name="com.example.rifsa_mobile.view.activity.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/financeFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.finance.FinanceFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.finance.financefragment.FinanceFragment"
         android:label="fragment_finance"
         tools:layout="@layout/fragment_finance" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/disaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disease.DisaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.diseasefragment.DisaseFragment"
         android:label="fragment_disase"
         tools:layout="@layout/fragment_disase" >
         <action
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/inventoryFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.inventory.InventoryFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.inventory.inventoryfragment.InventoryFragment"
         android:label="fragment_inventory"
         tools:layout="@layout/fragment_inventory" >
         <action
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/harvetResultFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.HarvetResultFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.harvestresultfragment.HarvetResultFragment"
         android:label="fragment_harvet_result"
         tools:layout="@layout/fragment_harvet_result" >
         <action

@@ -7,7 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import com.example.rifsa_mobile.view.MainActivity
+import com.example.rifsa_mobile.view.activity.MainActivity
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

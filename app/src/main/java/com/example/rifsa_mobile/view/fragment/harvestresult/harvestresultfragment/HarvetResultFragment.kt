@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.harvestresult
+package com.example.rifsa_mobile.view.fragment.harvestresult.harvestresultfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +13,9 @@ import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.utils.Utils
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -72,7 +72,9 @@ class HarvetResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.fabHarvestToinsert.setOnClickListener {
             findNavController().navigate(
-                HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(null)
+                HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(
+                    null
+                )
             )
         }
 
@@ -91,8 +93,11 @@ class HarvetResultFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
             override fun onDetailCallback(data: HarvestFirebaseEntity) {
-                findNavController().navigate(HarvetResultFragmentDirections
-                    .actionHarvetResultFragmentToHarvestInsertDetailFragment(data))
+                findNavController().navigate(
+                    HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(
+                        data
+                    )
+                )
             }
         })
     }

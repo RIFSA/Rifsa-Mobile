@@ -32,20 +32,20 @@
 
 
         <activity
-            android:name=".view.authetication.signup.SignUpActivity"
+            android:name=".view.activity.authetication.signup.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".view.authetication.login.LoginActivity"
+            android:name=".view.activity.authetication.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.onboarding.OnBoarding"
+            android:name=".view.activity.onboarding.onboarding.OnBoarding"
             android:exported="false" />
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.activity.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".view.splashscreen.SplashScreen"
+            android:name=".view.activity.splashscreen.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

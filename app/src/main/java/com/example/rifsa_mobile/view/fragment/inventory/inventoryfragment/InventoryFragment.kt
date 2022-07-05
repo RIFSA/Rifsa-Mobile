@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.inventory
+package com.example.rifsa_mobile.view.fragment.inventory.inventoryfragment
 
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +13,9 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
-import com.example.rifsa_mobile.viewmodel.utils.ViewModelFactory
+import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
+import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,7 +40,9 @@ class InventoryFragment : Fragment() {
 
         binding.fabInventoryAdd.setOnClickListener {
             findNavController().navigate(
-                InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(null)
+                InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(
+                    null
+                )
             )
         }
 
@@ -83,7 +85,9 @@ class InventoryFragment : Fragment() {
             adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
                 override fun onDetailCallback(data: InventoryFirebaseEntity) {
                     findNavController().navigate(
-                            InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(data)
+                        InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(
+                            data
+                        )
                     )
                 }
             })
