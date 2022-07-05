@@ -2,7 +2,6 @@ package com.example.rifsa_mobile.view.fragment.maps
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
-import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.disease.DisaseFragment
 import com.example.rifsa_mobile.view.fragment.profile.ProfileFragment
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
@@ -33,7 +30,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.launch
 
 
 class MapsFragment : Fragment(), OnMapReadyCallback{

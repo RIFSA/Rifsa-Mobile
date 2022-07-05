@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
-import com.example.rifsa_mobile.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.UserPrefrencesViewModel
@@ -106,23 +105,7 @@ class HomeFragment : Fragment() {
 
     private fun diseaseCount(){
         authViewModel.getUserId().observe(viewLifecycleOwner){ token->
-            lifecycleScope.launch {
-                remoteViewModel.getDiseaseRemote(token).observe(viewLifecycleOwner){
-                    when(it){
-                        is FetchResult.Success->{
-                            binding.tvhomeDisasecount.text = it.data.size.toString()
-                            binding.cardViewTwo.visibility = View.VISIBLE
-                            binding.cardViewOne.visibility = View.VISIBLE
-                            binding.tvhomeDisasecount.setOnClickListener {
-                                findNavController().navigate(
-                                    HomeFragmentDirections.actionHomeFragmentToDisaseFragment()
-                                )
-                            }
-                        }
-                        else -> {}
-                    }
-                }
-            }
+
         }
     }
 }

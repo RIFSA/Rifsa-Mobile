@@ -101,32 +101,4 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
     fun deleteDiseaseImage(name : String, userId: String): Task<Void>{
         return remoteRepository.deleteDiseaseImage(name, userId)
     }
-    
-
-    suspend fun postLogin(data : LoginBody): LiveData<FetchResult<LoginResponse>> =
-        remoteRepository.postLogin(data)
-
-    suspend fun postRegister(data : RegisterBody): LiveData<FetchResult<RegisterResponse>> =
-        remoteRepository.postRegister(data)
-
-
-
-    suspend fun getDiseaseRemote(token: String): LiveData<FetchResult<NewDiseaseResultRespon>> =
-        remoteRepository.getDiseaseRemote(token)
-
-    suspend fun getDiseaseRemoteById(token: String,id: Int): LiveData<FetchResult<NewDiseaseResultRespon>> =
-        remoteRepository.getDiseaseRemoteById(token, id)
-
-
-    suspend fun postDiseasePrediction(
-        file: MultipartBody.Part,
-        latitude : Double,
-        longitude: Double,
-    ): LiveData<FetchResult<DiseasePostResponse>> =
-        remoteRepository.postDiseasePredictionRemote(
-            file,latitude, longitude
-        )
-
-    suspend fun deleteDiseaseRemote(id : Int,token: String): LiveData<FetchResult<DiseasePostResponse>> =
-        remoteRepository.deleteDiseaseRemote(id,token)
 }
