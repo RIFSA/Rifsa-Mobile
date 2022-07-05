@@ -21,8 +21,12 @@ import okhttp3.MultipartBody
 class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel() {
 
 
-    suspend fun authLogin(email : String,password : String): Task<AuthResult> =
+    fun authLogin(email : String,password : String): Task<AuthResult> =
         remoteRepository.authLogin(email, password)
+
+    fun authSignUp(email: String,password: String): Task<AuthResult>{
+        return remoteRepository.authSignUp(email, password)
+    }
 
     fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
         remoteRepository.insertUpdateHarvestResult(data, userId)

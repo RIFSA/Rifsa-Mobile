@@ -15,6 +15,7 @@ import com.example.rifsa_mobile.model.remote.FirebaseService
 import com.example.rifsa_mobile.utils.FetchResult
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -28,6 +29,10 @@ class RemoteRepository(
 
     fun authLogin(email : String,password : String): Task<AuthResult> =
         firebaseService.authLogin(email, password)
+
+    fun authSignUp(email: String,password: String): Task<AuthResult>{
+        return firebaseService.authSignUp(email, password)
+    }
 
     fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
         firebaseService.insertUpdateHarvestResult(data,userId)

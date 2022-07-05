@@ -21,6 +21,10 @@ class FirebaseService {
         return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
     }
 
+    fun authSignUp(email: String,password: String): Task<AuthResult>{
+        return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+    }
+
     fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void>{
         return FirebaseDatabase.getInstance()
                 .getReference(mainPath)

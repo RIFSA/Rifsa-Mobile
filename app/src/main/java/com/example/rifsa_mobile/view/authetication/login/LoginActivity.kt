@@ -55,11 +55,8 @@ class LoginActivity : AppCompatActivity() {
         return false
     }
 
-    private suspend fun postLogin(){
-        val tempForm = LoginBody(
-            binding.tvLoginEmail.text.toString(),
-            binding.tvLoginPassword.text.toString()
-        )
+    private fun postLogin(){
+
         val email =  binding.tvLoginEmail.text.toString()
         val password = binding.tvLoginPassword.text.toString()
 
@@ -81,27 +78,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    //TODO | tunggu api node.js diperbaiki
-    private fun loginPrediction(data : LoginBody,userId: String){
-        lifecycleScope.launch {
-            remoteViewModel.postLogin(data).observe(this@LoginActivity){
-                when(it){
-                    is FetchResult.Loading->{
-
-                    }
-                    is FetchResult.Success->{
-                        showStatus("Login Berhasil")
-
-                        //TODO | save login session
-
-                    }
-                    is FetchResult.Error->{
-                        showStatus(it.error)
-                    }
-                }
-            }
-        }
-    }
 
     private fun showStatus(title : String){
         binding.apply {

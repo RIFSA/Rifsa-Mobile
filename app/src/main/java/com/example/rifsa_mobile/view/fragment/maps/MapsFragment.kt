@@ -202,7 +202,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    showStatus(error.message)
                 }
             })
         }
