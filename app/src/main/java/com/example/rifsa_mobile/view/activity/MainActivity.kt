@@ -17,9 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
         binding.mainBottommenu.visibility = View.VISIBLE
-
         val navControl = findNavController(R.id.mainnav_framgent)
         binding.mainBottommenu.apply {
             setupWithNavController(navControl)

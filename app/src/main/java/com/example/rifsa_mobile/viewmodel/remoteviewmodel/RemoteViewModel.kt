@@ -92,4 +92,8 @@ class RemoteViewModel(private val remoteRepository: RemoteRepository): ViewModel
     fun deleteDiseaseImage(name : String, userId: String): Task<Void>{
         return remoteRepository.deleteDiseaseImage(name, userId)
     }
+
+    fun getDiseaseWiki(): DatabaseReference{
+        return remoteRepository.getDiseaseWiki()
+    }
 }

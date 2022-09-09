@@ -20,14 +20,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         android:id="@+id/main_bottommenu"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
+        android:layout_margin="5dp"
         android:background="@color/green"
         android:padding="5dp"
         app:itemIconTint="@color/white"
         app:labelVisibilityMode="unlabeled"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

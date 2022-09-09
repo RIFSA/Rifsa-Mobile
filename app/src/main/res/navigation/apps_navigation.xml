@@ -56,6 +56,9 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/apps_navigation"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_disaseFragment_to_diseaseBookFragment"
+            app:destination="@id/diseaseBookFragment" />
     </fragment>
     <fragment
         android:id="@+id/inventoryFragment"
@@ -229,4 +232,9 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/diseaseBookFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.diseasewiki.DiseaseBookFragment"
+        android:label="fragment_disease_book"
+        tools:layout="@layout/fragment_disease_book" />
 </navigation>

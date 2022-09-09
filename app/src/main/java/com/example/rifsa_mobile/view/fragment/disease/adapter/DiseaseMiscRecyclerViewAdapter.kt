@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardDiseaseMiscBinding
 
 class DiseaseMiscRecyclerViewAdapter(private var dataList: List<String>): RecyclerView.Adapter<DiseaseMiscRecyclerViewAdapter.ViewHolder>() {
-    class ViewHolder(var binding : ItemcardDiseaseMiscBinding): RecyclerView.ViewHolder(binding.root) {
 
-    }
+    class ViewHolder(var binding : ItemcardDiseaseMiscBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
        return ViewHolder(ItemcardDiseaseMiscBinding.inflate(LayoutInflater.from(parent.context),parent,false))

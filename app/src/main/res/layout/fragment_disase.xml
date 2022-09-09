@@ -38,7 +38,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:includeFontPadding="false"
-                android:text="@string/rekam_penyakit"
+                android:text="Penyakit Tanaman"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,12 +49,25 @@
                 android:id="@+id/btn_maps_disease"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/maps"
                 android:src="@drawable/ic_maps"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_search_disease"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.421" />
+
+            <ImageView
+                android:id="@+id/btn_search_disease"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="28dp"
+                android:contentDescription="@string/maps"
+                android:src="@drawable/ic_baseline_content_paste_search_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/maps" />
+                app:layout_constraintVertical_bias="0.421" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>

@@ -14,18 +14,24 @@
         android:background="@color/green"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="42dp"
-            app:srcCompat="@drawable/logo_rifsa_transparent_2"
-            android:contentDescription="@string/app_name" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/dmsans_bold"
+            android:gravity="center"
+            android:text="Rifsa"
+            android:textColor="@color/light_gray"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
+            android:layout_height="688dp"
             android:background="@drawable/bg_layoutcorner_fill">
 
             <TextView
@@ -53,7 +59,6 @@
                 android:layout_marginEnd="50dp"
                 android:fontFamily="@font/dmsans_regular"
                 android:gravity="center"
-                android:text="tset"
                 android:textColor="@color/gray"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -126,8 +131,8 @@
                 android:layout_width="0dp"
                 android:layout_height="68dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
                 android:text="@string/btn_enter_title"

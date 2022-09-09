@@ -19,17 +19,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
+import com.example.rifsa_mobile.databinding.FragmentDiseaseBookBinding
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key_inventory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class CameraFragment : Fragment() {
-    private lateinit var binding : FragmentCameraBinding
+    private var _binding : FragmentCameraBinding? = null
+    private val binding get() = _binding!!
+
     private var imageCapture : ImageCapture? = null
 
     private var type = ""
-
 
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
@@ -61,7 +62,7 @@ class CameraFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCameraBinding.inflate(layoutInflater)
+        _binding = FragmentCameraBinding.inflate(layoutInflater)
 
         type = CameraFragmentArgs.fromBundle(requireArguments()).pageKey.toString()
 
@@ -96,7 +97,9 @@ class CameraFragment : Fragment() {
             val provider : ProcessCameraProvider = cameraProvider.get()
             val preview = Preview.Builder()
                 .build()
-                .also { it.setSurfaceProvider(binding.previewView.surfaceProvider) }
+                .also {
+                    it.setSurfaceProvider(binding.previewView.surfaceProvider)
+                }
 
             imageCapture = ImageCapture.Builder().build()
             try {
@@ -170,5 +173,9 @@ class CameraFragment : Fragment() {
         private const val camera_fragment = "camera_fragment"
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }

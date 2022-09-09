@@ -15,7 +15,6 @@ import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 
-
 class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
 
@@ -31,12 +30,8 @@ class ProfileFragment : Fragment() {
 
         authViewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvprofileName.text = it
-            binding.tvSignupEmail.setText(it)
         }
 
-        authViewModel.getTokenKey().observe(viewLifecycleOwner){
-            binding.tvSignupPassword.setText(it)
-        }
 
         binding.btnShowFarming.setOnClickListener {
             findNavController().navigate(

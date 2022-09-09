@@ -44,6 +44,7 @@ class HarvetResultFragment : Fragment() {
         bottomMenu.visibility = View.VISIBLE
 
         authViewModel.getUserId().observe(viewLifecycleOwner){ token->
+            Log.d("userId",token)
             binding.pgbHasilBar.visibility = View.VISIBLE
             remoteViewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {

@@ -11,89 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="Akun"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_profile_three" />
-
-        <com.example.rifsa_mobile.view.componen.PasswordBoxCustom
-            android:id="@+id/tv_signup_password"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/bg_tvcorner_stroke_green"
-            android:fontFamily="@font/dmsans_regular"
-            android:includeFontPadding="false"
-            android:inputType="textPassword"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView43" />
-
-        <TextView
-            android:id="@+id/textView43"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="@string/tv_password_title"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signup_email" />
-
-        <TextView
-            android:id="@+id/textView46"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="@string/tv_email_title"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView48" />
-
-        <com.example.rifsa_mobile.view.componen.EmailBoxCustom
-            android:id="@+id/tv_signup_email"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/bg_tvcorner_stroke_green"
-            android:fontFamily="@font/dmsans_regular"
-            android:includeFontPadding="false"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView46" />
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar6"
             android:layout_width="match_parent"
@@ -177,7 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/light_green"
@@ -191,8 +108,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signup_password"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/card_profile_three" />
 
         <TextView
             android:id="@+id/textView31"

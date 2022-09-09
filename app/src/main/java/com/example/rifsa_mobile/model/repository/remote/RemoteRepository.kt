@@ -96,4 +96,8 @@ class RemoteRepository(private val firebaseService: FirebaseService) {
         return firebaseService.deleteDiseaseImage(name, userId)
     }
 
+    fun getDiseaseWiki(): DatabaseReference{
+        return firebaseService.getDiseaseWiki()
+    }
+
 }

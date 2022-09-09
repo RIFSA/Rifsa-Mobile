@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
@@ -127,6 +128,11 @@ class FirebaseService {
             .child(userId)
             .child(farmingPath)
             .setValue(data)
+    }
+
+    fun getDiseaseWiki(): DatabaseReference{
+        return FirebaseDatabase.getInstance()
+            .getReference(diseasePath)
     }
 
 
