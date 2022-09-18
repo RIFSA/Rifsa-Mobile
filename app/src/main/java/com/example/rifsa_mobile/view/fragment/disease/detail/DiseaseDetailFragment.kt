@@ -113,7 +113,10 @@ class DiseaseDetailFragment : Fragment() {
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext())
 
         try {
-            val detail = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
+            val detail = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseData
+            val isDiseaseBook = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).diseaseDetail
+            val imageUrl = DiseaseDetailFragmentArgs.fromBundle(requireArguments()).photoDisase
+
             if (detail != null){
                 showDetailDisease(detail)
                 isDetail = true
@@ -121,7 +124,11 @@ class DiseaseDetailFragment : Fragment() {
                 diseaseId = detail.id
                 binding.btnSaveDisease.visibility = View.GONE
                 binding.btnDiseaseComplete.visibility = View.VISIBLE
+            }else if(isDiseaseBook != null){
+                showDetailDiseaseBook(isDiseaseBook)
+                isDetail = true
             }
+
         }catch (e : Exception){ }
 
         return binding.root
@@ -185,6 +192,14 @@ class DiseaseDetailFragment : Fragment() {
             .load(data.imageUrl)
             .into(binding.imgDisaseDetail)
         showDiseaseInformation(data.idDisease.toInt())
+    }
+
+    private fun showDetailDiseaseBook(data : DiseaseDetailFirebaseEntity){
+        binding.tvdisasaeDetailIndication.text = data.Name
+        Glide.with(requireContext())
+            .load(data.imageUrl)
+            .into(binding.imgDisaseDetail)
+        showDiseaseInformation(data.id.toInt())
     }
 
 

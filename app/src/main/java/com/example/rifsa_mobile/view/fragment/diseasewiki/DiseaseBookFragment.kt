@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDiseaseBookBinding
+import com.example.rifsa_mobile.helpers.utils.DataMapper
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.view.fragment.diseasewiki.adapter.DiseaseBookRecyclerViewAdapter
@@ -40,6 +42,15 @@ class DiseaseBookFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnDiseasebookBack.setOnClickListener {
+            findNavController().navigate(
+                DiseaseBookFragmentDirections.actionDiseaseBookFragmentToDisaseFragment()
+            )
+        }
+    }
+
     private fun getDiseaseWiki(){
         remoteViewModel.getDiseaseWiki().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -67,6 +78,18 @@ class DiseaseBookFragment : Fragment() {
         val recyclerView = binding.listPenyakit
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter.onDetailCallback(object : DiseaseBookRecyclerViewAdapter.OnDetailCallback{
+            override fun onDetailCallBack(data: DiseaseDetailFirebaseEntity) {
+                findNavController().navigate(
+                    DiseaseBookFragmentDirections.actionDiseaseBookFragmentToDisaseDetailFragment(
+                        "",
+                        null,
+                        data
+                    )
+                )
+            }
+        })
     }
 
     override fun onDestroy() {

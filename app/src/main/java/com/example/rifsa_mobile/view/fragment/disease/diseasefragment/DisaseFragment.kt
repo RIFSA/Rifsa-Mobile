@@ -103,7 +103,8 @@ class DisaseFragment : Fragment() {
                     findNavController().navigate(
                         DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(
                             null,
-                            data
+                            data,
+                            null,
                         )
                     )
                 }

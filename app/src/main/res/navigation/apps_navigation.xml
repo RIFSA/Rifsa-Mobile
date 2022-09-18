@@ -187,8 +187,12 @@
             app:popUpTo="@id/apps_navigation"
             app:popUpToInclusive="true" />
         <argument
-            android:name="Disease_detail"
+            android:name="DiseaseData"
             app:argType="com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity"
+            app:nullable="true" />
+        <argument
+            android:name="DiseaseDetail"
+            app:argType="com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity"
             app:nullable="true" />
     </fragment>
     <fragment
@@ -236,5 +240,12 @@
         android:id="@+id/diseaseBookFragment"
         android:name="com.example.rifsa_mobile.view.fragment.diseasewiki.DiseaseBookFragment"
         android:label="fragment_disease_book"
-        tools:layout="@layout/fragment_disease_book" />
+        tools:layout="@layout/fragment_disease_book" >
+        <action
+            android:id="@+id/action_diseaseBookFragment_to_disaseFragment"
+            app:destination="@id/disaseFragment" />
+        <action
+            android:id="@+id/action_diseaseBookFragment_to_disaseDetailFragment"
+            app:destination="@id/disaseDetailFragment" />
+    </fragment>
 </navigation>

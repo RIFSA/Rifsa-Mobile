@@ -157,6 +157,7 @@ class CameraFragment : Fragment() {
             findNavController().navigate(
                 CameraFragmentDirections.actionCameraFragmentToDisaseDetailFragment(
                     data.toString(),
+                    null,
                     null
                 )
             )

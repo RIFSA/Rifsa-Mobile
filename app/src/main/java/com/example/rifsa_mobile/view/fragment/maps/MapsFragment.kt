@@ -191,7 +191,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                             findNavController().navigate(
                                 MapsFragmentDirections.actionMapsDiseaseFragmentToDisaseDetailFragment(
                                     "",
-                                    data
+                                    data,
+                                    null
                                 )
                             )
                         }
