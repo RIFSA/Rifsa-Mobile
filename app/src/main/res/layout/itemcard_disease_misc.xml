@@ -15,7 +15,7 @@
         android:includeFontPadding="false"
         android:text="Text"
         android:textColor="#2A2828"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -260,7 +260,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recview_disease_treatment"
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="500dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="2dp"
@@ -273,7 +273,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recview_disease_indication"
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="500dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
