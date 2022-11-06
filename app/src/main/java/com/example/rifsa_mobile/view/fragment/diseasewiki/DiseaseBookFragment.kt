@@ -58,6 +58,7 @@ class DiseaseBookFragment : Fragment() {
                    snapshot.children.forEach { child ->
                        val data = child.getValue(DiseaseDetailFirebaseEntity::class.java)
                        if (data != null) {
+                           binding.pgbarKamus.visibility = View.GONE
                            dataList.add(data)
                            showDiseaseList(dataList)
                        }
@@ -66,7 +67,8 @@ class DiseaseBookFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                binding.pgbarKamus.visibility = View.GONE
+                showError(error.message.toString())
             }
 
         })
@@ -90,6 +92,11 @@ class DiseaseBookFragment : Fragment() {
                 )
             }
         })
+    }
+
+    private fun showError(text : String){
+        binding.tvErrorView.visibility = View.VISIBLE
+        binding.tvErrorView.text = text
     }
 
     override fun onDestroy() {
