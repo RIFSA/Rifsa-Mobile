@@ -8,12 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
+import com.example.rifsa_mobile.databinding.FragmentWeatherBinding
+import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import kotlinx.coroutines.launch
+import kotlin.math.round
 
 class WeatherFragment : Fragment() {
+    private lateinit var binding : FragmentWeatherBinding
+
     private val viewModel : WeatherFragmentViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
@@ -22,11 +28,11 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
+        binding = FragmentWeatherBinding.inflate(layoutInflater)
         lifecycleScope.launch {
             getWeatherDataBySearch("london")
         }
-        return inflater.inflate(R.layout.fragment_weather, container, false)
+        return binding.root
     }
 
     private suspend fun getWeatherDataBySearch(location : String){
@@ -36,7 +42,8 @@ class WeatherFragment : Fragment() {
 
                 }
                 is FetchResult.Success->{
-                    Log.d(TAG,respon.data.weather[0].description)
+
+                    setWeatherDetail(respon.data)
                 }
                 is FetchResult.Error->{
 
@@ -48,6 +55,23 @@ class WeatherFragment : Fragment() {
         }
     }
 
+    private fun setWeatherDetail(data : WeatherDetailResponse){
+        binding.tvWeatherCity.text = "london"
+
+        val url = data.weather[0].icon
+        val icon = "http://openweathermap.org/img/w/${url}.png"
+        Glide.with(requireContext())
+            .asBitmap()
+            .load(icon)
+            .into(binding.imgWeatherIcon)
+
+        val temp = round(data.main.temp).toInt()
+        binding.tvWeatherTemp.text = "$temp c"
+
+        binding.tvWeatherCloud.text = "${data.clouds.all} %"
+        binding.tvWeatherHumid.text = "${data.main.humidity} %"
+
+    }
     companion object{
         private const val TAG = "weather_fragment"
     }
