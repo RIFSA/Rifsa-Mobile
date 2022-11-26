@@ -8,7 +8,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.UploadTask
 
-class RemoteRepository(private val firebaseService: FirebaseService) {
+class RemoteFirebaseRepository(private val firebaseService: FirebaseService) {
 
     fun authLogin(email : String,password : String): Task<AuthResult> =
         firebaseService.authLogin(email, password)

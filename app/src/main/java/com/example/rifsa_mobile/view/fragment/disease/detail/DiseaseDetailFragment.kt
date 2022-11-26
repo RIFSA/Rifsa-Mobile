@@ -38,7 +38,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-
 @Suppress("DEPRECATION")
 class DiseaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding

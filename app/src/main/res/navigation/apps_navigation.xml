@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeFragment_to_harvestInsertDetailFragment"
             app:destination="@id/harvestInsertDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment" />
     </fragment>
     <fragment
         android:id="@+id/financeFragment"
@@ -248,4 +251,9 @@
             android:id="@+id/action_diseaseBookFragment_to_disaseDetailFragment"
             app:destination="@id/disaseDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.weather.WeatherFragment"
+        android:label="fragment_weather"
+        tools:layout="@layout/fragment_weather" />
 </navigation>

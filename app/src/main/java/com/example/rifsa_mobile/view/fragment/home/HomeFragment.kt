@@ -42,9 +42,13 @@ class HomeFragment : Fragment() {
 
         binding.imageView2.setImageResource(R.drawable.mockprofile)
 
-
         diseaseCount()
 
+        binding.cardWeather.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToWeatherFragment()
+            )
+        }
 
         return binding.root
     }
