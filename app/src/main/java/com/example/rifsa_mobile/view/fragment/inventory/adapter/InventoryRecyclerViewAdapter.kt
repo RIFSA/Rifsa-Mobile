@@ -7,7 +7,8 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
 
-class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebaseEntity>): RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
+class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebaseEntity>)
+    : RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallback : OnDetailItemCallback
@@ -16,7 +17,12 @@ class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebase
         this.itemCallback = callback
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemcardInventoryBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(ItemcardInventoryBinding.inflate(
+            LayoutInflater.from(parent.context
+            )
+            ,parent,
+            false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

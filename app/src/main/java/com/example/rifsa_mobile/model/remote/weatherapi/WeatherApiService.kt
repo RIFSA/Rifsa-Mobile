@@ -13,14 +13,16 @@ interface WeatherApiService {
     suspend fun getWeatherDataBySearch(
         @Query("q") location : String,
         @Query("units") units : String = Constant.weatherUnit,
-        @Query("appid") apiKey : String = Constant.weatherApiKey
+        @Query("appid") apiKey : String = Constant.weatherApiKey,
+        @Query("lang") language : String = "id"
     ):WeatherDetailResponse
 
     @GET("forecast")
-    fun getWeatherForecastData(
+    suspend fun getWeatherForecastData(
         @Query("q") location : String,
         @Query("units") units : String = Constant.weatherUnit,
-        @Query("appid") apiKey : String = Constant.weatherApiKey
+        @Query("appid") apiKey : String = Constant.weatherApiKey,
+        @Query("lang") language : String = "id"
     ): WeatherForecastResponse
 
 }

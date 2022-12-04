@@ -23,7 +23,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
-
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
@@ -41,7 +40,6 @@ class HomeFragment : Fragment() {
         binding.mainHomeLayout.fullScroll(ScrollView.FOCUS_UP)
 
         binding.imageView2.setImageResource(R.drawable.mockprofile)
-
         diseaseCount()
 
         binding.cardWeather.setOnClickListener {

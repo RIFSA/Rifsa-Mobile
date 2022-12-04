@@ -277,7 +277,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_weather_humid"
+                    android:id="@+id/tv_weather_date"
                     android:layout_width="0dp"
                     android:layout_height="25sp"
                     android:layout_marginEnd="16dp"
@@ -293,7 +293,7 @@
                     app:layout_constraintTop_toTopOf="@+id/tv_weather_temp" />
 
                 <TextView
-                    android:id="@+id/tv_weather_cloud"
+                    android:id="@+id/tv_weather_desc"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="16dp"
@@ -307,7 +307,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/tv_weather_temp"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_humid" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_date" />
 
                 <ImageView
                     android:id="@+id/img_weather_icon"

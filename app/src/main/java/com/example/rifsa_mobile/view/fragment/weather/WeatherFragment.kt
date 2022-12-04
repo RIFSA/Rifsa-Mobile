@@ -2,19 +2,22 @@ package com.example.rifsa_mobile.view.fragment.weather
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentWeatherBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
+import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.ForecastItem
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
+import com.example.rifsa_mobile.view.fragment.weather.adapter.ForecastRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.math.round
 
 class WeatherFragment : Fragment() {
@@ -30,7 +33,7 @@ class WeatherFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentWeatherBinding.inflate(layoutInflater)
         lifecycleScope.launch {
-            getWeatherDataBySearch("london")
+            getWeatherDataBySearch("surabaya")
         }
         return binding.root
     }
@@ -39,14 +42,33 @@ class WeatherFragment : Fragment() {
         viewModel.getWeatherDataBySearch(location).observe(viewLifecycleOwner){ respon->
             when(respon){
                 is FetchResult.Loading->{
-
+                    binding.pgbarWeather.visibility = View.VISIBLE
                 }
-                is FetchResult.Success->{
 
+                is FetchResult.Success->{
+                    binding.pgbarWeather.visibility = View.INVISIBLE
                     setWeatherDetail(respon.data)
                 }
                 is FetchResult.Error->{
+                    binding.pgbarWeather.visibility = View.INVISIBLE
+                }
+                else -> {
+                    Log.d(TAG,"no data")
+                }
+            }
+        }
+        viewModel.getWeatherForecastData(location).observe(viewLifecycleOwner){ respon ->
+            when(respon){
+                is FetchResult.Loading->{
+                    binding.pgbarForecast.visibility = View.VISIBLE
+                }
 
+                is FetchResult.Success->{
+                    binding.pgbarForecast.visibility = View.INVISIBLE
+                    setForecast(respon.data.list)
+                }
+                is FetchResult.Error->{
+                    binding.pgbarForecast.visibility = View.INVISIBLE
                 }
                 else -> {
                     Log.d(TAG,"no data")
@@ -66,12 +88,29 @@ class WeatherFragment : Fragment() {
             .into(binding.imgWeatherIcon)
 
         val temp = round(data.main.temp).toInt()
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = data.timezone.toLong() * 1000
+
+        val year = calendar[Calendar.YEAR]
+        val month = calendar[Calendar.MONTH]
+        val day = calendar[Calendar.DAY_OF_MONTH]
+
         binding.tvWeatherTemp.text = "$temp c"
+        binding.tvWeatherDate.text = "${day}-${month}-${year}"
+        binding.tvWeatherDesc.text = data.weather[0].description
 
         binding.tvWeatherCloud.text = "${data.clouds.all} %"
         binding.tvWeatherHumid.text = "${data.main.humidity} %"
-
+        binding.tvWeatherWind.text = "${data.wind.speed} km/h"
     }
+
+    private fun setForecast(forecast : List<ForecastItem>){
+        val adapter = ForecastRecyclerViewAdapter(forecast)
+        binding.recviewForecast.adapter = adapter
+        binding.recviewForecast.layoutManager = LinearLayoutManager(requireContext())
+    }
+
     companion object{
         private const val TAG = "weather_fragment"
     }
