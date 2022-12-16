@@ -1,5 +1,7 @@
 
 
+### Temporarily moving to [Rifsa-v2](https://github.com/Alstonargodi/Rifsa-Apps) for live apps
+
 
 
 <div id="top"></div>
