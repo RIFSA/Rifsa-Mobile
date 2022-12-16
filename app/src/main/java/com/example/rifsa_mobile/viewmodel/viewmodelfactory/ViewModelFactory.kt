@@ -7,6 +7,8 @@ import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
+import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
+import com.example.rifsa_mobile.view.fragment.setting.SettingFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -28,6 +30,12 @@ class ViewModelFactory private constructor(
             }
             modelClass.isAssignableFrom(WeatherFragmentViewModel::class.java)->{
                 WeatherFragmentViewModel(weatherRepository) as T
+            }
+            modelClass.isAssignableFrom(HomeFragmentViewModel::class.java)->{
+                HomeFragmentViewModel(weatherRepository,remoteFirebaseRepository,localRepository) as T
+            }
+            modelClass.isAssignableFrom(SettingFragmentViewModel::class.java)->{
+                SettingFragmentViewModel(localRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

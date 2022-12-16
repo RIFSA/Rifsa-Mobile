@@ -39,6 +39,8 @@ class WeatherFragment : Fragment() {
     }
 
     private suspend fun getWeatherDataBySearch(location : String){
+        binding.tvWeatherCity.text = location
+
         viewModel.getWeatherDataBySearch(location).observe(viewLifecycleOwner){ respon->
             when(respon){
                 is FetchResult.Loading->{
@@ -78,8 +80,6 @@ class WeatherFragment : Fragment() {
     }
 
     private fun setWeatherDetail(data : WeatherDetailResponse){
-        binding.tvWeatherCity.text = "london"
-
         val url = data.weather[0].icon
         val icon = "http://openweathermap.org/img/w/${url}.png"
         Glide.with(requireContext())

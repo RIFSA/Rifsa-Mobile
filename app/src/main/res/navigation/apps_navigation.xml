@@ -83,6 +83,9 @@
         <action
             android:id="@+id/action_profileFragment_to_fieldDetailFragment"
             app:destination="@id/fieldDetailFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/harvetResultFragment"
@@ -256,4 +259,13 @@
         android:name="com.example.rifsa_mobile.view.fragment.weather.WeatherFragment"
         android:label="fragment_weather"
         tools:layout="@layout/fragment_weather" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

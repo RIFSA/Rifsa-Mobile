@@ -24,7 +24,6 @@ class RemoteViewModel(private val remoteFirebaseRepository: RemoteFirebaseReposi
     fun readHarvestResult(userId: String): DatabaseReference =
         remoteFirebaseRepository.queryHarvestResult(userId)
 
-
     fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void> =
         remoteFirebaseRepository.deleteHarvestResult(date, dataId, userId)
 

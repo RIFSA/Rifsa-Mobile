@@ -32,13 +32,18 @@ class ProfileFragment : Fragment() {
             binding.tvprofileName.text = it
         }
 
+        showSummaryRemote()
 
-        binding.btnShowFarming.setOnClickListener {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnProfileSetting.setOnClickListener {
             findNavController().navigate(
-                ProfileFragmentDirections.actionProfileFragmentToMapsDiseaseFragment(map_key)
+                ProfileFragmentDirections.actionProfileFragmentToSettingFragment()
             )
         }
-
 
         binding.btnprofileLogout.setOnClickListener {
             authViewModel.saveUserPrefrences(
@@ -51,11 +56,12 @@ class ProfileFragment : Fragment() {
             activity?.finishAffinity()
         }
 
-        showSummaryRemote()
-
-        return binding.root
+        binding.btnShowFarming.setOnClickListener {
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToMapsDiseaseFragment(map_key)
+            )
+        }
     }
-
 
 
     private fun showSummaryRemote(){

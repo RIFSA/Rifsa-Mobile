@@ -2,10 +2,7 @@ package com.example.rifsa_mobile.model.local.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +17,9 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
     private val tokenKey = stringPreferencesKey("token_key")
     private val userIdKey = stringPreferencesKey("userId_key")
 
+    private val locationLatitude = floatPreferencesKey("locationLat_key")
+    private val locationLongitude = floatPreferencesKey("locationLong_key")
+    private val isGetLocation = booleanPreferencesKey("isGetLocation_key")
 
     fun getOnBoardKey(): Flow<Boolean>{
         return dataStore.data.map {
@@ -45,7 +45,33 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
         }
     }
 
+    fun getUserLocation(): Flow<List<Float>> {
+        return dataStore.data.map {
+            listOf(
+                it[locationLongitude] ?: 0F,
+                it[locationLatitude] ?: 0F
+            )
+        }
+    }
 
+    fun getLocationListener(): Flow<Boolean>{
+        return dataStore.data.map {
+            it[isGetLocation] ?: false
+        }
+    }
+
+    suspend fun saveLocation(latitude : Float,longitude: Float){
+        dataStore.edit {
+            it[locationLatitude] = latitude
+            it[locationLongitude] = longitude
+        }
+    }
+
+    suspend fun setGetLocation(getlocation : Boolean){
+        dataStore.edit {
+            it[isGetLocation] = getlocation
+        }
+    }
 
 
     suspend fun savePreferences(onBoard : Boolean, name : String, tokenId:String, userId : String){
