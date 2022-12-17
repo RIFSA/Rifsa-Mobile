@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.view.fragment.setting
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentSettingBinding
+import com.example.rifsa_mobile.helpers.update.LocationUpdate
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -21,8 +27,10 @@ class SettingFragment : Fragment() {
     private var currentLatitude = 0F
     private var currentLongtitude = 0F
 
+    private var isTracking = false
     private lateinit var fusedLocation : FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
 
     private val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -47,6 +55,7 @@ class SettingFragment : Fragment() {
             requireContext()
         )
         viewModel.getLocationListener().observe(viewLifecycleOwner){
+            isTracking = it
             binding.switchLocation.isChecked = it
         }
         return binding.root
@@ -54,17 +63,37 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnSettingBackhome.setOnClickListener {
 
+        binding.switchLocation.apply {
+            setOnCheckedChangeListener { _, checked ->
+                if(checked){
+                    createLocationRequest()
+                    setUpdatelocation()
+                    locationListener(true)
+                }else{
+                    stopTracking()
+                    locationListener(false)
+                }
+            }
         }
-        binding.switchLocation.setOnCheckedChangeListener { _, checked ->
-            if(checked){
-               createLocationRequest()
-               locationListener(true)
-            }else{
-                //location worker off
-                locationListener(false)
-                Log.d("check","off")
+
+        binding.btnSettingBackhome.setOnClickListener {
+            findNavController().navigate(
+                SettingFragmentDirections.actionSettingFragmentToProfileFragment()
+            )
+        }
+    }
+
+    private fun setUpdatelocation(){
+        locationCallback = object : LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations){
+                    Log.d("location",location.latitude.toString())
+                    saveLocation(
+                        latitude = location.latitude,
+                        longitude = location.longitude
+                    )
+                }
             }
         }
     }
@@ -94,20 +123,44 @@ class SettingFragment : Fragment() {
             .addOnFailureListener {
                 Log.d("settingFragment",it.message.toString())
             }
-
     }
 
     private fun getCurrentLocation(){
         if (checkPermission(fineLocation) && checkPermission(coarseLocation)){
+            fusedLocation.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
             fusedLocation.lastLocation
                 .addOnSuccessListener { location ->
-                    if (location != null){
-                        Log.d("location",location.latitude.toString())
+                    if (location != null) {
+                        saveLocation(
+                            latitude = location.latitude,
+                            longitude = location.longitude
+                        )
                     }
                 }
                 .addOnFailureListener {
-
+                    Log.d("settingFragment",it.message.toString())
                 }
         }
     }
+
+    private fun stopTracking(){
+        fusedLocation.removeLocationUpdates(locationCallback)
+    }
+    private fun saveLocation(latitude : Double,longitude : Double){
+        lifecycleScope.launch {
+            viewModel.saveLocation(latitude,longitude)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isTracking){
+            setUpdatelocation()
+        }
+    }
+
 }

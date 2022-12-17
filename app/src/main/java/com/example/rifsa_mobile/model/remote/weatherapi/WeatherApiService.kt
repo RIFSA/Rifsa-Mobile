@@ -25,4 +25,14 @@ interface WeatherApiService {
         @Query("lang") language : String = "id"
     ): WeatherForecastResponse
 
+    @GET("weather")
+    suspend fun getWeatherByLocation(
+        @Query("lat") latitude : Float,
+        @Query("lon") longtitude : Float,
+        @Query("units") units : String = Constant.weatherUnit,
+        @Query("appid") apiKey : String = Constant.weatherApiKey,
+        @Query("lang") language : String = "id"
+    )
+
+
 }

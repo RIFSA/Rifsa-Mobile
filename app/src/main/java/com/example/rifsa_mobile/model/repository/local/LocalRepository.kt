@@ -14,7 +14,7 @@ class LocalRepository(private val preferences : AuthenticationPreference) {
 
     fun getUserIdKey(): LiveData<String> = preferences.getUserId().asLiveData()
 
-    fun getLocationUser(): LiveData<List<Float>> = preferences.getUserLocation().asLiveData()
+    fun getLocationUser(): LiveData<List<Double>> = preferences.getUserLocation().asLiveData()
 
     fun getLocationReceiver(): LiveData<Boolean> = preferences.getLocationListener().asLiveData()
 
@@ -22,7 +22,7 @@ class LocalRepository(private val preferences : AuthenticationPreference) {
         preferences.savePreferences(onBoard,userName,pass,token)
     }
 
-    suspend fun saveLocation(longitude : Float,latitude : Float){
+    suspend fun saveLocation(longitude : Double,latitude : Double){
         preferences.saveLocation(latitude,longitude)
     }
 

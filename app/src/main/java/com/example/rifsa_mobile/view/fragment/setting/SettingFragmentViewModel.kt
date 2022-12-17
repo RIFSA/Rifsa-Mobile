@@ -7,9 +7,9 @@ import com.example.rifsa_mobile.model.repository.local.LocalRepository
 class SettingFragmentViewModel(
     private var preferences : LocalRepository
 ): ViewModel() {
-    fun getUserLocation(): LiveData<List<Float>> = preferences.getLocationUser()
+    fun getUserLocation(): LiveData<List<Double>> = preferences.getLocationUser()
 
-    suspend fun saveLocation(lattidue : Float, longtitude : Float){
+    suspend fun saveLocation(lattidue : Double, longtitude : Double){
         preferences.saveLocation(longtitude,lattidue)
     }
 

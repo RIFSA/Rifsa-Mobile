@@ -7,7 +7,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
 
-
 val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "userPrefrences")
 
 class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
@@ -17,8 +16,8 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
     private val tokenKey = stringPreferencesKey("token_key")
     private val userIdKey = stringPreferencesKey("userId_key")
 
-    private val locationLatitude = floatPreferencesKey("locationLat_key")
-    private val locationLongitude = floatPreferencesKey("locationLong_key")
+    private val locationLatitude = doublePreferencesKey("locationLat_key")
+    private val locationLongitude = doublePreferencesKey("locationLong_key")
     private val isGetLocation = booleanPreferencesKey("isGetLocation_key")
 
     fun getOnBoardKey(): Flow<Boolean>{
@@ -45,11 +44,11 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
         }
     }
 
-    fun getUserLocation(): Flow<List<Float>> {
+    fun getUserLocation(): Flow<List<Double>> {
         return dataStore.data.map {
             listOf(
-                it[locationLongitude] ?: 0F,
-                it[locationLatitude] ?: 0F
+                it[locationLongitude] ?: 0.0,
+                it[locationLatitude] ?: 0.0
             )
         }
     }
@@ -60,7 +59,7 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
         }
     }
 
-    suspend fun saveLocation(latitude : Float,longitude: Float){
+    suspend fun saveLocation(latitude : Double,longitude: Double){
         dataStore.edit {
             it[locationLatitude] = latitude
             it[locationLongitude] = longitude
