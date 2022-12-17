@@ -13,19 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentSettingBinding
-import com.example.rifsa_mobile.helpers.update.LocationUpdate
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class SettingFragment : Fragment() {
     private lateinit var binding : FragmentSettingBinding
-    private var currentLatitude = 0F
-    private var currentLongtitude = 0F
 
     private var isTracking = false
     private lateinit var fusedLocation : FusedLocationProviderClient
@@ -49,7 +44,7 @@ class SettingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSettingBinding.inflate(layoutInflater)
         fusedLocation = LocationServices.getFusedLocationProviderClient(
             requireContext()
@@ -90,9 +85,11 @@ class SettingFragment : Fragment() {
                 for (location in locationResult.locations){
                     Log.d("location",location.latitude.toString())
                     saveLocation(
-                        latitude = location.latitude,
-                        longitude = location.longitude
-                    )
+                        WeatherRequest(
+                            location = null,
+                            latitude = location.latitude,
+                            longtitude = location.longitude
+                    ))
                 }
             }
         }
@@ -135,10 +132,11 @@ class SettingFragment : Fragment() {
             fusedLocation.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        saveLocation(
+                        saveLocation(WeatherRequest(
+                            location = null,
                             latitude = location.latitude,
-                            longitude = location.longitude
-                        )
+                            longtitude = location.longitude
+                        ))
                     }
                 }
                 .addOnFailureListener {
@@ -150,9 +148,9 @@ class SettingFragment : Fragment() {
     private fun stopTracking(){
         fusedLocation.removeLocationUpdates(locationCallback)
     }
-    private fun saveLocation(latitude : Double,longitude : Double){
+    private fun saveLocation(request: WeatherRequest){
         lifecycleScope.launch {
-            viewModel.saveLocation(latitude,longitude)
+            viewModel.saveLocation(request)
         }
     }
 

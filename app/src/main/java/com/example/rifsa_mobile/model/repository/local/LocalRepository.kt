@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.model.repository.local
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import com.example.rifsa_mobile.model.local.preferences.AuthenticationPreference
 
 class LocalRepository(private val preferences : AuthenticationPreference) {
@@ -14,7 +15,7 @@ class LocalRepository(private val preferences : AuthenticationPreference) {
 
     fun getUserIdKey(): LiveData<String> = preferences.getUserId().asLiveData()
 
-    fun getLocationUser(): LiveData<List<Double>> = preferences.getUserLocation().asLiveData()
+    fun getLocationUser(): LiveData<WeatherRequest> = preferences.getUserLocation().asLiveData()
 
     fun getLocationReceiver(): LiveData<Boolean> = preferences.getLocationListener().asLiveData()
 
@@ -22,8 +23,12 @@ class LocalRepository(private val preferences : AuthenticationPreference) {
         preferences.savePreferences(onBoard,userName,pass,token)
     }
 
-    suspend fun saveLocation(longitude : Double,latitude : Double){
-        preferences.saveLocation(latitude,longitude)
+    suspend fun saveLocation(request: WeatherRequest){
+        preferences.saveLocation(
+            request.location ?: "",
+            request.latitude ?: 0.0,
+            request.longtitude ?: 0.0
+        )
     }
 
     suspend fun saveLocationListener(location : Boolean){

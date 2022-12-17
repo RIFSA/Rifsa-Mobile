@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.WeatherForecastResponse
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherDetailRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherForecastRequest
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
@@ -15,18 +15,18 @@ class WeatherFragmentViewModel(
     private val localRepository: LocalRepository
     ): ViewModel() {
 
-    fun getUserLocation():LiveData<List<Double>> =
+    fun getUserLocation():LiveData<WeatherRequest> =
         localRepository.getLocationUser()
 
     suspend fun getWeatherDataBySearch(location : String)
     : LiveData<FetchResult<WeatherDetailResponse>> =
         weatherRepository.getWeatherDataBySearch(location)
 
-    suspend fun getWeatherForecastData(request: WeatherForecastRequest)
+    suspend fun getWeatherForecastData(request: WeatherRequest)
     : LiveData<FetchResult<WeatherForecastResponse>> =
         weatherRepository.getWeatherForecastData(request)
 
-    suspend fun getWeatherDataByLocation(request : WeatherDetailRequest)
+    suspend fun getWeatherDataByLocation(request : WeatherRequest)
     : LiveData<FetchResult<WeatherDetailResponse>> =
         weatherRepository.getWeatherDataByLocation(request)
 }

@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentWeatherBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.ForecastItem
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherDetailRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherForecastRequest
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.weather.adapter.ForecastRecyclerViewAdapter
@@ -37,8 +37,8 @@ class WeatherFragment : Fragment() {
         viewModel.getUserLocation().observe(viewLifecycleOwner){ location ->
             lifecycleScope.launch {
                 getWeatherData(
-                    location[1],
-                    location[0]
+                    location.latitude ?: 0.0,
+                    location.longtitude ?: 0.0
                 )
             }
         }
@@ -46,7 +46,7 @@ class WeatherFragment : Fragment() {
     }
 
     private suspend fun getWeatherData(latitude: Double,longitude: Double){
-        viewModel.getWeatherDataByLocation(WeatherDetailRequest(
+        viewModel.getWeatherDataByLocation(WeatherRequest(
             location = null,
             latitude = latitude,
             longtitude = longitude
@@ -69,7 +69,7 @@ class WeatherFragment : Fragment() {
             }
         }
 
-        viewModel.getWeatherForecastData(WeatherForecastRequest(
+        viewModel.getWeatherForecastData(WeatherRequest(
             location = null,
             latitude = latitude,
             longtitude = longitude

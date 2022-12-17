@@ -1,6 +1,5 @@
 package com.example.rifsa_mobile.view.fragment.home
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherDetailRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
@@ -57,11 +56,11 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.getUserLocation().observe(viewLifecycleOwner){ respon->
+        viewModel.getUserLocation().observe(viewLifecycleOwner){ location->
             lifecycleScope.launch {
                 getWeatherData(
-                    respon[1],
-                    respon[0]
+                    location.latitude ?: 0.0,
+                    location.longtitude ?: 0.0
                 )
             }
         }
@@ -87,7 +86,7 @@ class HomeFragment : Fragment() {
 
 
     private suspend fun getWeatherData(latitude : Double,longitude: Double){
-        viewModel.getWeatherByLocation(WeatherDetailRequest(
+        viewModel.getWeatherByLocation(WeatherRequest(
                 null,
                 latitude = latitude,
                 longtitude = longitude

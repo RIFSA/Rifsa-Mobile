@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +17,7 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
     private val tokenKey = stringPreferencesKey("token_key")
     private val userIdKey = stringPreferencesKey("userId_key")
 
+    private val locationCity = stringPreferencesKey("locationCity_key")
     private val locationLatitude = doublePreferencesKey("locationLat_key")
     private val locationLongitude = doublePreferencesKey("locationLong_key")
     private val isGetLocation = booleanPreferencesKey("isGetLocation_key")
@@ -44,11 +46,12 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
         }
     }
 
-    fun getUserLocation(): Flow<List<Double>> {
+    fun getUserLocation(): Flow<WeatherRequest> {
         return dataStore.data.map {
-            listOf(
-                it[locationLongitude] ?: 0.0,
-                it[locationLatitude] ?: 0.0
+            WeatherRequest(
+                it[locationCity],
+                it[locationLatitude] ?: 0.0,
+                it[locationLongitude] ?: 0.0
             )
         }
     }
@@ -59,8 +62,9 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
         }
     }
 
-    suspend fun saveLocation(latitude : Double,longitude: Double){
+    suspend fun saveLocation(cityName : String,latitude : Double,longitude: Double){
         dataStore.edit {
+            it[locationCity] = cityName
             it[locationLatitude] = latitude
             it[locationLongitude] = longitude
         }
