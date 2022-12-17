@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.home
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherDetailRequest
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
@@ -46,18 +48,6 @@ class HomeFragment : Fragment() {
         binding.imageView2.setImageResource(R.drawable.mockprofile)
         diseaseCount()
 
-        binding.cardWeather.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToWeatherFragment()
-            )
-        }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         viewModel.apply {
             getUserName().observe(viewLifecycleOwner){ name ->
                 binding.tvhomeName.text = name
@@ -67,34 +57,55 @@ class HomeFragment : Fragment() {
             }
         }
 
+        viewModel.getUserLocation().observe(viewLifecycleOwner){ respon->
+            lifecycleScope.launch {
+                getWeatherData(
+                    respon[1],
+                    respon[0]
+                )
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.cardWeather.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToWeatherFragment()
+            )
+        }
+
         binding.btnHomeHasil.setOnClickListener {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToHarvetResultFragment()
             )
         }
-
-        lifecycleScope.launch {
-            getWeatherData("surabaya")
-        }
     }
 
 
-    private suspend fun getWeatherData(location : String){
-        binding.tvCityName.text = location
-        viewModel.getWeatherData(location).observe(viewLifecycleOwner){ respon ->
+    private suspend fun getWeatherData(latitude : Double,longitude: Double){
+        viewModel.getWeatherByLocation(WeatherDetailRequest(
+                null,
+                latitude = latitude,
+                longtitude = longitude
+            )).observe(viewLifecycleOwner){ respon ->
             when(respon){
                 is FetchResult.Loading->{
-
+                    binding.pgbarWeatherHome.visibility = View.VISIBLE
                 }
                 is FetchResult.Success->{
+                    binding.pgbarWeatherHome.visibility = View.GONE
                     showWeather(respon.data)
                 }
                 is FetchResult.Error->{
-
+                    binding.pgbarWeatherHome.visibility = View.GONE
+                    Log.d("homeFragment",respon.error)
                 }
                 else -> {}
             }
-
         }
     }
 
@@ -141,7 +152,7 @@ class HomeFragment : Fragment() {
         val url = data.weather[0].icon
 
         val icon = "http://openweathermap.org/img/w/${url}.png"
-
+        binding.tvCityName.text = data.name
         binding.tvWeatherhomeDesc.text = data.weather[0].description
         binding.tvWeatherhomeTemp.text = "$temp c"
         Glide.with(requireContext())

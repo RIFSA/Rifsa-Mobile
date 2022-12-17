@@ -127,4 +127,7 @@ dependencies {
 
     //firebase storage
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
+
+    //workermanager
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
 }

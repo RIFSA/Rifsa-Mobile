@@ -4,6 +4,7 @@ import android.provider.ContactsContract
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherDetailRequest
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
@@ -15,8 +16,10 @@ class HomeFragmentViewModel(
     private val firebaseRepository: RemoteFirebaseRepository,
     private val localRepository: LocalRepository
 ): ViewModel() {
-    fun getUserName(): LiveData<String> = localRepository.getUserName()
-    fun getUserId(): LiveData<String> = localRepository.getUserIdKey()
+    fun getUserName(): LiveData<String> =
+        localRepository.getUserName()
+    fun getUserId(): LiveData<String> =
+        localRepository.getUserIdKey()
 
     fun readHarvestResult(userId: String): DatabaseReference =
         firebaseRepository.queryHarvestResult(userId)
@@ -24,6 +27,15 @@ class HomeFragmentViewModel(
     fun readDiseaseResult(userId: String): DatabaseReference =
         firebaseRepository.readDiseaseList(userId)
 
-    suspend fun getWeatherData(location : String): LiveData<FetchResult<WeatherDetailResponse>> =
+    suspend fun getWeatherData(location : String)
+    : LiveData<FetchResult<WeatherDetailResponse>> =
         weatherRepository.getWeatherDataBySearch(location)
+
+    suspend fun getWeatherByLocation(request: WeatherDetailRequest)
+    : LiveData<FetchResult<WeatherDetailResponse>> =
+        weatherRepository.getWeatherDataByLocation(request)
+
+    fun getUserLocation(): LiveData<List<Double>> =
+        localRepository.getLocationUser()
+
 }

@@ -29,10 +29,17 @@ class ViewModelFactory private constructor(
                 RemoteViewModel(remoteFirebaseRepository) as T
             }
             modelClass.isAssignableFrom(WeatherFragmentViewModel::class.java)->{
-                WeatherFragmentViewModel(weatherRepository) as T
+                WeatherFragmentViewModel(
+                    weatherRepository,
+                    localRepository
+                ) as T
             }
             modelClass.isAssignableFrom(HomeFragmentViewModel::class.java)->{
-                HomeFragmentViewModel(weatherRepository,remoteFirebaseRepository,localRepository) as T
+                HomeFragmentViewModel(
+                    weatherRepository,
+                    remoteFirebaseRepository,
+                    localRepository
+                ) as T
             }
             modelClass.isAssignableFrom(SettingFragmentViewModel::class.java)->{
                 SettingFragmentViewModel(localRepository) as T

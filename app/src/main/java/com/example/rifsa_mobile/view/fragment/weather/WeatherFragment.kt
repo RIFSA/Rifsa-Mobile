@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentWeatherBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.ForecastItem
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherDetailRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherForecastRequest
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.weather.adapter.ForecastRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -32,16 +34,23 @@ class WeatherFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentWeatherBinding.inflate(layoutInflater)
-        lifecycleScope.launch {
-            getWeatherDataBySearch("surabaya")
+        viewModel.getUserLocation().observe(viewLifecycleOwner){ location ->
+            lifecycleScope.launch {
+                getWeatherData(
+                    location[1],
+                    location[0]
+                )
+            }
         }
         return binding.root
     }
 
-    private suspend fun getWeatherDataBySearch(location : String){
-        binding.tvWeatherCity.text = location
-
-        viewModel.getWeatherDataBySearch(location).observe(viewLifecycleOwner){ respon->
+    private suspend fun getWeatherData(latitude: Double,longitude: Double){
+        viewModel.getWeatherDataByLocation(WeatherDetailRequest(
+            location = null,
+            latitude = latitude,
+            longtitude = longitude
+        )).observe(viewLifecycleOwner){ respon->
             when(respon){
                 is FetchResult.Loading->{
                     binding.pgbarWeather.visibility = View.VISIBLE
@@ -59,7 +68,12 @@ class WeatherFragment : Fragment() {
                 }
             }
         }
-        viewModel.getWeatherForecastData(location).observe(viewLifecycleOwner){ respon ->
+
+        viewModel.getWeatherForecastData(WeatherForecastRequest(
+            location = null,
+            latitude = latitude,
+            longtitude = longitude
+        )).observe(viewLifecycleOwner){ respon ->
             when(respon){
                 is FetchResult.Loading->{
                     binding.pgbarForecast.visibility = View.VISIBLE
@@ -96,6 +110,7 @@ class WeatherFragment : Fragment() {
         val month = calendar[Calendar.MONTH]
         val day = calendar[Calendar.DAY_OF_MONTH]
 
+        binding.tvWeatherCity.text = data.name
         binding.tvWeatherTemp.text = "$temp c"
         binding.tvWeatherDate.text = "${day}-${month}-${year}"
         binding.tvWeatherDesc.text = data.weather[0].description
@@ -104,6 +119,7 @@ class WeatherFragment : Fragment() {
         binding.tvWeatherHumid.text = "${data.main.humidity} %"
         binding.tvWeatherWind.text = "${data.wind.speed} km/h"
     }
+
 
     private fun setForecast(forecast : List<ForecastItem>){
         val adapter = ForecastRecyclerViewAdapter(forecast)

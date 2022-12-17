@@ -19,7 +19,9 @@ interface WeatherApiService {
 
     @GET("forecast")
     suspend fun getWeatherForecastData(
-        @Query("q") location : String,
+        @Query("q") location: String? = null,
+        @Query("lat") latitude: Double,
+        @Query("lon") longtitude: Double,
         @Query("units") units : String = Constant.weatherUnit,
         @Query("appid") apiKey : String = Constant.weatherApiKey,
         @Query("lang") language : String = "id"
@@ -27,12 +29,13 @@ interface WeatherApiService {
 
     @GET("weather")
     suspend fun getWeatherByLocation(
-        @Query("lat") latitude : Float,
-        @Query("lon") longtitude : Float,
-        @Query("units") units : String = Constant.weatherUnit,
-        @Query("appid") apiKey : String = Constant.weatherApiKey,
-        @Query("lang") language : String = "id"
-    )
+        @Query("q") location: String? = null,
+        @Query("lat") latitude: Double,
+        @Query("lon") longtitude: Double,
+        @Query("units") units: String = Constant.weatherUnit,
+        @Query("appid") apiKey: String = Constant.weatherApiKey,
+        @Query("lang") language: String = "id"
+    ): WeatherDetailResponse
 
 
 }
