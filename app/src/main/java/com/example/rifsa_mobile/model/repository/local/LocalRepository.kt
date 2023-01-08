@@ -5,7 +5,9 @@ import androidx.lifecycle.asLiveData
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
 import com.example.rifsa_mobile.model.local.preferences.AuthenticationPreference
 
-class LocalRepository(private val preferences : AuthenticationPreference) {
+class LocalRepository(
+    private val preferences : AuthenticationPreference
+) {
 
     fun getOnBoardStatus(): LiveData<Boolean> = preferences.getOnBoardKey().asLiveData()
 
