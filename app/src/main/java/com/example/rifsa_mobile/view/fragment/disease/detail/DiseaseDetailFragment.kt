@@ -23,6 +23,7 @@ import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
+import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -57,6 +58,7 @@ class DiseaseDetailFragment : Fragment() {
     private var diseaseId = UUID.randomUUID().toString()
     private var indicationId = ""
     private var isDetail = false
+    private var alarmId = (1..1000).random()
 
     private lateinit var imageUri : Uri
     private lateinit var imageBitmap  : Bitmap
@@ -152,7 +154,7 @@ class DiseaseDetailFragment : Fragment() {
             binding.pgdiseaseBar.visibility = View.VISIBLE
             lifecycleScope.launch {
                 delay(2000)
-                predictionLocal()
+                localDiseasePrediction()
             }
         }
 
@@ -182,6 +184,7 @@ class DiseaseDetailFragment : Fragment() {
         }
 
         binding.btnSaveDisease.setOnClickListener {
+            //add local save
             uploadDiseaseImage()
             binding.pgdiseaseBar.visibility = View.VISIBLE
         }
@@ -218,7 +221,7 @@ class DiseaseDetailFragment : Fragment() {
     }
 
 
-    private fun predictionLocal(){
+    private fun localDiseasePrediction(){
         classification
             .initPrediction(imageBitmap)
             .addOnSuccessListener { result ->
@@ -307,7 +310,7 @@ class DiseaseDetailFragment : Fragment() {
                 .addOnSuccessListener {
                     it.storage.downloadUrl
                         .addOnSuccessListener { respon ->
-                            saveDisease(respon,diseaseIndication,userId)
+                            insertDiseaseRemote(respon,diseaseIndication,userId)
                         }
                         .addOnFailureListener { respon ->
                             showStatus(respon.message.toString())
@@ -319,7 +322,7 @@ class DiseaseDetailFragment : Fragment() {
         }
     }
 
-    private fun saveDisease(imageUrl : Uri,name : String,userId : String){
+    private fun insertDiseaseRemote(imageUrl : Uri, name : String, userId : String){
         val tempData = DiseaseFirebaseEntity(
             diseaseId,
             name,
@@ -343,6 +346,30 @@ class DiseaseDetailFragment : Fragment() {
             }
     }
 
+    private fun insertDiseaseLocal(imageUrl: Uri,name: String,userId: String){
+        val indication = binding.tvdisasaeDetailIndication.text.toString()
+        val description = binding.tvdisasaeDetailDescription.text.toString()
+
+        val disease = DiseaseLocal(
+            id_disease = diseaseId.toInt(),
+            name = name,
+            indication = indication,
+            photoUrl = imageUrl.toString(),
+            date = currentDate,
+            latitude = curLatitude,
+            longitude = curLongitude,
+            description = description,
+            reminderID = alarmId,
+            isUploaded = false
+        )
+
+        try {
+
+        }catch (e : Exception){
+            showStatus("gagal menyimpan")
+            Log.d("diseaseDetail",e.toString())
+        }
+    }
     private fun deleteDiseaseImage(){
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
             remoteViewModel.deleteDiseaseImage(diseaseId,userId)
