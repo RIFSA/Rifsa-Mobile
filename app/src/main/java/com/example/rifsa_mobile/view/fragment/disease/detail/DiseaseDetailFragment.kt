@@ -58,8 +58,10 @@ class DiseaseDetailFragment : Fragment() {
     private var diseaseId = UUID.randomUUID().toString()
     private var indicationId = ""
     private var isDetail = false
+    private var isUploaded = false
     private var alarmId = (1..1000).random()
 
+    private lateinit var firebaseUserId : String
     private lateinit var imageUri : Uri
     private lateinit var imageBitmap  : Bitmap
 
@@ -115,6 +117,9 @@ class DiseaseDetailFragment : Fragment() {
             requireContext()
         )
 
+        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
+            firebaseUserId = userId
+        }
         try {
             val detail = DiseaseDetailFragmentArgs.fromBundle(
                 requireArguments()
@@ -193,7 +198,6 @@ class DiseaseDetailFragment : Fragment() {
 
     }
 
-
     private fun showImageCapture(){
         imageUri = DiseaseDetailFragmentArgs.fromBundle(
             requireArguments()
@@ -258,8 +262,8 @@ class DiseaseDetailFragment : Fragment() {
         showIndication(id.toString(),"Indication")
     }
 
-    private fun showTreatment(id: String, path : String){
-        viewModel.getDiseaseInformationMisc(id,path)
+    private fun showTreatment(id: String, parentDisease : String){
+        viewModel.getDiseaseInformationMisc(id,parentDisease)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
@@ -306,22 +310,19 @@ class DiseaseDetailFragment : Fragment() {
 
     private fun uploadDiseaseImage(){
         val diseaseIndication = binding.tvdisasaeDetailIndication.text.toString()
-
-        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            viewModel.uploadDiseaseImage(diseaseId,imageUri,userId)
-                .addOnSuccessListener {
-                    it.storage.downloadUrl
-                        .addOnSuccessListener { respon ->
-                            insertDiseaseRemote(respon,diseaseIndication,userId)
-                        }
-                        .addOnFailureListener { respon ->
-                            showStatus(respon.message.toString())
-                        }
-                }
-                .addOnFailureListener {
-                    showStatus(it.message.toString())
-                }
-        }
+        viewModel.uploadDiseaseImage(diseaseId,imageUri,firebaseUserId)
+            .addOnSuccessListener {
+                it.storage.downloadUrl
+                    .addOnSuccessListener { respon ->
+                        insertDiseaseRemote(respon,diseaseIndication,firebaseUserId)
+                    }
+                    .addOnFailureListener { respon ->
+                        showStatus(respon.message.toString())
+                    }
+            }
+            .addOnFailureListener {
+                showStatus(it.message.toString())
+            }
     }
 
     private fun insertDiseaseRemote(imageUrl : Uri, name : String, userId : String){
@@ -342,9 +343,11 @@ class DiseaseDetailFragment : Fragment() {
                     DiseaseDetailFragmentDirections
                         .actionDisaseDetailFragmentToDisaseFragment()
                 )
+                isUploaded = true
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
+                isUploaded = false
             }
     }
 
