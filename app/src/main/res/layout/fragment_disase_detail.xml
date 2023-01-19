@@ -168,7 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:drawableLeft="@drawable/ic_add_line"
                 android:drawablePadding="5dp"
@@ -181,7 +181,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recview_disease_indication" />
+                app:layout_constraintTop_toBottomOf="@+id/recv_indefication" />
 
             <TextView
                 android:id="@+id/tvdisasae_detail_indication"
@@ -257,29 +257,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/pgdisease_title" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recview_disease_treatment"
+            <include
+                android:id="@+id/recv_treatment"
+                layout="@layout/recyclerview_disease_detail"
                 android:layout_width="0dp"
                 android:layout_height="500dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView36"
-                tools:listitem="@layout/itemcard_disease_misc" />
+                app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recview_disease_indication"
+            <include
+                android:id="@+id/recv_indefication"
+                layout="@layout/recyclerview_disease_detail"
                 android:layout_width="0dp"
                 android:layout_height="500dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView30"
-                tools:listitem="@layout/itemcard_disease_misc" />
+                app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

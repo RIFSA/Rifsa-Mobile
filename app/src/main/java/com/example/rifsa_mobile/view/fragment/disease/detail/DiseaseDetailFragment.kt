@@ -24,8 +24,8 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebas
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
+import com.example.rifsa_mobile.view.fragment.disease.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
@@ -43,7 +43,7 @@ import kotlin.collections.ArrayList
 class DiseaseDetailFragment : Fragment() {
     private lateinit var binding : FragmentDisaseDetailBinding
 
-    private val remoteViewModel : RemoteViewModel by viewModels{
+    private val viewModel : DiseaseDetailViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
     private val authViewModel : UserPrefrencesViewModel by viewModels {
@@ -184,8 +184,10 @@ class DiseaseDetailFragment : Fragment() {
         }
 
         binding.btnSaveDisease.setOnClickListener {
-            //add local save
             uploadDiseaseImage()
+            lifecycleScope.launch {
+                insertDiseaseLocal()
+            }
             binding.pgdiseaseBar.visibility = View.VISIBLE
         }
 
@@ -237,7 +239,7 @@ class DiseaseDetailFragment : Fragment() {
 
 
     private fun showDiseaseInformation(id : Int){
-        remoteViewModel.getDiseaseInformation(id.toString())
+        viewModel.getDiseaseInformation(id.toString())
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val data = snapshot.getValue(DiseaseDetailFirebaseEntity::class.java)
@@ -257,7 +259,7 @@ class DiseaseDetailFragment : Fragment() {
     }
 
     private fun showTreatment(id: String, path : String){
-        remoteViewModel.getDiseaseInformationMisc(id,path)
+        viewModel.getDiseaseInformationMisc(id,path)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
@@ -273,7 +275,7 @@ class DiseaseDetailFragment : Fragment() {
     }
 
     private fun showIndication(id: String,parent : String){
-        remoteViewModel.getDiseaseInformationMisc(id,parent)
+        viewModel.getDiseaseInformationMisc(id,parent)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
@@ -290,14 +292,14 @@ class DiseaseDetailFragment : Fragment() {
 
     private fun showListTreatment(data : List<String>){
         val adapter = DiseaseMiscRecyclerViewAdapter(data)
-        val recyclerView = binding.recviewDiseaseTreatment
+        val recyclerView = binding.recvTreatment.recyclerviewTreatment
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun showListIndication(data: List<String>){
         val adapter = DiseaseMiscRecyclerViewAdapter(data)
-        val recyclerView = binding.recviewDiseaseIndication
+        val recyclerView = binding.recvIndefication.recyclerviewTreatment
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -306,7 +308,7 @@ class DiseaseDetailFragment : Fragment() {
         val diseaseIndication = binding.tvdisasaeDetailIndication.text.toString()
 
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            remoteViewModel.uploadDiseaseImage(diseaseId,imageUri,userId)
+            viewModel.uploadDiseaseImage(diseaseId,imageUri,userId)
                 .addOnSuccessListener {
                     it.storage.downloadUrl
                         .addOnSuccessListener { respon ->
@@ -333,7 +335,7 @@ class DiseaseDetailFragment : Fragment() {
             imageUrl.toString()
         )
 
-        remoteViewModel.saveDisease(tempData,userId)
+        viewModel.saveDisease(tempData,userId)
             .addOnSuccessListener {
                 showStatus("penyakit tersimpan")
                 findNavController().navigate(
@@ -346,15 +348,17 @@ class DiseaseDetailFragment : Fragment() {
             }
     }
 
-    private fun insertDiseaseLocal(imageUrl: Uri,name: String,userId: String){
+    private suspend fun insertDiseaseLocal(){
+        delay(2000)
         val indication = binding.tvdisasaeDetailIndication.text.toString()
         val description = binding.tvdisasaeDetailDescription.text.toString()
 
         val disease = DiseaseLocal(
-            id_disease = diseaseId.toInt(),
-            name = name,
+            id_disease = 0,
+            key_disease = diseaseId,
+            name = indication,
             indication = indication,
-            photoUrl = imageUrl.toString(),
+            photoUrl = imageUri.toString(),
             date = currentDate,
             latitude = curLatitude,
             longitude = curLongitude,
@@ -364,7 +368,9 @@ class DiseaseDetailFragment : Fragment() {
         )
 
         try {
-
+            viewModel.insertDiseaseLocal(data = disease)
+            showStatus("tersimpan lokal")
+            //add setReminder
         }catch (e : Exception){
             showStatus("gagal menyimpan")
             Log.d("diseaseDetail",e.toString())
@@ -372,7 +378,7 @@ class DiseaseDetailFragment : Fragment() {
     }
     private fun deleteDiseaseImage(){
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            remoteViewModel.deleteDiseaseImage(diseaseId,userId)
+            viewModel.deleteDiseaseImage(diseaseId,userId)
                 .addOnSuccessListener {
                     deleteDisease()
                 }
@@ -384,7 +390,7 @@ class DiseaseDetailFragment : Fragment() {
 
     private fun deleteDisease(){
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            remoteViewModel.deleteDisease(currentDate,diseaseId,userId)
+            viewModel.deleteDisease(currentDate,diseaseId,userId)
                 .addOnSuccessListener {
                     findNavController().navigate(
                         DiseaseDetailFragmentDirections

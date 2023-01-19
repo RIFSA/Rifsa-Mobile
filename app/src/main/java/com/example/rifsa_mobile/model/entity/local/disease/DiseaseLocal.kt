@@ -10,6 +10,7 @@ import kotlinx.parcelize.Parcelize
 data class DiseaseLocal(
     @PrimaryKey(autoGenerate = true)
     var id_disease : Int,
+    val key_disease : String,
     var name : String,
     var indication : String,
     var photoUrl : String,

@@ -3,9 +3,11 @@ package com.example.rifsa_mobile.injection
 import android.content.Context
 import com.example.rifsa_mobile.model.local.preferences.AuthenticationPreference
 import com.example.rifsa_mobile.model.local.preferences.dataStore
+import com.example.rifsa_mobile.model.local.room.dbconfig.DbConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiConfig
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiService
+import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
@@ -24,6 +26,10 @@ object Injection {
         return LocalRepository(
             AuthenticationPreference.getInstance(context.dataStore)
         )
+    }
+
+    fun provideDiseaseRepository(context: Context): DiseaseRepository{
+        return DiseaseRepository(DbConfig.setDatabase(context))
     }
 
 

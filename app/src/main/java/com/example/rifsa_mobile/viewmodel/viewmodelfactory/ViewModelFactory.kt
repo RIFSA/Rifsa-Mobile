@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.injection.Injection
+import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
+import com.example.rifsa_mobile.view.fragment.disease.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel
@@ -17,6 +19,7 @@ import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewMode
 class ViewModelFactory private constructor(
     private val remoteFirebaseRepository: RemoteFirebaseRepository,
     private val localRepository : LocalRepository,
+    private val diseaseRepository: DiseaseRepository,
     private val weatherRepository: RemoteWeatherRepository
     ): ViewModelProvider.Factory {
 
@@ -44,6 +47,9 @@ class ViewModelFactory private constructor(
             modelClass.isAssignableFrom(SettingFragmentViewModel::class.java)->{
                 SettingFragmentViewModel(localRepository) as T
             }
+            modelClass.isAssignableFrom(DiseaseDetailViewModel::class.java)->{
+                DiseaseDetailViewModel(diseaseRepository,remoteFirebaseRepository) as T
+            }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -57,6 +63,7 @@ class ViewModelFactory private constructor(
                 instance ?: ViewModelFactory(
                     Injection.provideRemoteRepository(),
                     Injection.provideLocalRepository(context),
+                    Injection.provideDiseaseRepository(context),
                     Injection.provideWeatherRepository()
                 )
             }.also { instance = it }
