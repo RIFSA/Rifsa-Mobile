@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardDiseaseBookBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 
-class DiseaseBookRecyclerViewAdapter(private var dataList : List<DiseaseDetailFirebaseEntity>)
+class DiseaseBookRecyclerViewAdapter(private var dataList : List<DiseaseDetailEntity>)
     : RecyclerView.Adapter<DiseaseBookRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDiseaseBookBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -42,7 +41,7 @@ class DiseaseBookRecyclerViewAdapter(private var dataList : List<DiseaseDetailFi
     override fun getItemCount(): Int = dataList.size
 
     interface OnDetailCallback{
-        fun onDetailCallBack(data : DiseaseDetailFirebaseEntity)
+        fun onDetailCallBack(data : DiseaseDetailEntity)
     }
 
 }

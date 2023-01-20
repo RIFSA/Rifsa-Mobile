@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.disease.detail
 
 import android.app.AlertDialog
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -10,20 +9,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
-import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
 import com.example.rifsa_mobile.view.fragment.disease.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -32,11 +27,8 @@ import com.google.android.gms.location.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
@@ -82,17 +74,13 @@ class DiseaseDetailFragment : Fragment() {
             ).diseaseDetail
 
 
-            if (detail != null){
+            if (detail != null) {
                 showDetailDisease(detail)
                 isDetail = true
                 currentDate = detail.dateDisease
-                diseaseId = detail.id
-                binding.btnSaveDisease.visibility = View.GONE
-                binding.btnDiseaseComplete.visibility = View.VISIBLE
-            }else if(isDiseaseBook != null){
-                showDetailDisease(isDiseaseBook)
-                isDetail = true
+                diseaseId = detail.indexDisease.toString()
             }
+            showDiseaseImage()
 
         }catch (e : Exception){ }
 
@@ -115,6 +103,17 @@ class DiseaseDetailFragment : Fragment() {
         }
     }
 
+    private fun showDiseaseImage(){
+        imageUri = DiseaseDetailFragmentArgs.fromBundle(
+            requireArguments()
+        ).photoDisase?.toUri()!!
+
+        val bitmapImage = MediaStore.Images.Media.getBitmap(
+            requireContext().contentResolver,imageUri
+        )
+        imageBitmap = bitmapImage
+        binding.imgDisaseDetail.setImageBitmap(bitmapImage)
+    }
 
 
     private fun deleteDiseaseImage(){
@@ -140,7 +139,7 @@ class DiseaseDetailFragment : Fragment() {
             }
     }
 
-    private fun showDetailDisease(data : DiseaseDetailFirebaseEntity){
+    private fun showDetailDisease(data : DiseaseDetailEntity){
         binding.tvdisasaeDetailIndication.text = data.Name
         Glide.with(requireContext())
             .load(data.imageUrl)
@@ -148,31 +147,19 @@ class DiseaseDetailFragment : Fragment() {
         showDiseaseInformation(data.id.toInt())
     }
 
-    private fun showImageCapture(){
-        imageUri = DiseaseDetailFragmentArgs.fromBundle(
-            requireArguments()
-        ).photoDisase?.toUri()!!
-
-        val bitmapImage = MediaStore.Images.Media.getBitmap(
-            requireContext().contentResolver,imageUri
-        )
-        imageBitmap = bitmapImage
-        binding.imgDisaseDetail.setImageBitmap(bitmapImage)
-    }
-
-    private fun showDetailDisease(data : DiseaseFirebaseEntity){
+    private fun showDetailDisease(data : DiseaseEntity){
         binding.tvdisasaeDetailIndication.text = data.nameDisease
         Glide.with(requireContext())
             .load(data.imageUrl)
             .into(binding.imgDisaseDetail)
-        showDiseaseInformation(data.idDisease.toInt())
+        showDiseaseInformation(data.indexDisease)
     }
 
     private fun showDiseaseInformation(id : Int){
         viewModel.getDiseaseInformation(id.toString())
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.getValue(DiseaseDetailFirebaseEntity::class.java)
+                    val data = snapshot.getValue(DiseaseDetailEntity::class.java)
                     if (data != null) {
                         binding.tvdisasaeDetailDescription.text = data.Cause
                         binding.pgdiseaseBar.visibility = View.GONE

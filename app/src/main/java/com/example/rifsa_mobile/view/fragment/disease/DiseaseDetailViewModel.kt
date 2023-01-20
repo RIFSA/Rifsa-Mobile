@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
@@ -35,7 +35,7 @@ class DiseaseDetailViewModel(
         return remoteRespository.uploadDiseaseImage(name, fileUri, userId)
     }
 
-    fun saveDisease(data : DiseaseFirebaseEntity, userId: String): Task<Void> {
+    fun saveDisease(data : DiseaseEntity, userId: String): Task<Void> {
         return remoteRespository.saveDisease(data, userId)
     }
 
@@ -47,7 +47,7 @@ class DiseaseDetailViewModel(
         return remoteRespository.deleteDiseaseImage(name, userId)
     }
 
-    suspend fun insertDiseaseLocal(data : DiseaseLocal){
+    suspend fun insertDiseaseLocal(data : DiseaseEntity){
         diseaseRepository.insertLocalDisease(data)
     }
 

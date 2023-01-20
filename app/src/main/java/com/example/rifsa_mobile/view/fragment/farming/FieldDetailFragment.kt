@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentFieldDetailBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.FieldFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FieldDetailEntity
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -67,7 +67,7 @@ class FieldDetailFragment : Fragment() {
         }
     }
 
-    private fun showDetailData(data : FieldFirebaseEntity){
+    private fun showDetailData(data : FieldDetailEntity){
         binding.apply {
             tvfieldInsertName.setText(data.name)
             tvfieldInsertOwner.setText(data.owner)
@@ -77,7 +77,7 @@ class FieldDetailFragment : Fragment() {
     }
 
     private fun insertUpdateField(){
-        val requestBody = FieldFirebaseEntity(
+        val requestBody = FieldDetailEntity(
             detailId,
             binding.tvfieldInsertName.text.toString(),
             binding.tvfieldInsertOwner.text.toString(),

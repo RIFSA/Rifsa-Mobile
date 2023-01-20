@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
@@ -30,7 +30,7 @@ class HarvetResultFragment : Fragment() {
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private var isConnected = false
-    private val dataList = ArrayList<HarvestFirebaseEntity>()
+    private val dataList = ArrayList<HarvestEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +51,7 @@ class HarvetResultFragment : Fragment() {
                     if (snapshot.exists()){
                         snapshot.children.forEach { child ->
                             child.children.forEach { main ->
-                                val data = main.getValue(HarvestFirebaseEntity::class.java)
+                                val data = main.getValue(HarvestEntity::class.java)
                                 data?.let { dataList.add(data) }
                                 showResult(dataList)
                                 dataChecker(dataList.size)
@@ -83,7 +83,7 @@ class HarvetResultFragment : Fragment() {
 
     }
 
-    private fun showResult(data : List<HarvestFirebaseEntity>){
+    private fun showResult(data : List<HarvestEntity>){
         try {
             binding.pgbHasilBar.visibility = View.GONE
             val adapter = HarvestResultRecyclerViewAdapter(data)
@@ -91,7 +91,7 @@ class HarvetResultFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
             adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-                override fun onDetailCallback(data: HarvestFirebaseEntity) {
+                override fun onDetailCallback(data: HarvestEntity) {
                     findNavController().navigate(
                         HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(data)
                     )

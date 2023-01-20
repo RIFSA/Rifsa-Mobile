@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -105,7 +105,7 @@ class InvetoryInsertFragment : Fragment() {
 
     }
 
-    private fun showDetail(data : InventoryFirebaseEntity){
+    private fun showDetail(data : InventoryEntity){
         val amount = data.amount
         binding.tvinventarisInsertName.setText(data.name)
         binding.tvinventarisInsertAmount.setText(amount)
@@ -157,7 +157,7 @@ class InvetoryInsertFragment : Fragment() {
         val amount = binding.tvinventarisInsertAmount.text.toString()
         val note = binding.tvinventarisInsertNote.text.toString()
 
-        val tempData = InventoryFirebaseEntity(
+        val tempData = InventoryEntity(
             detailId,
             name,
             note,

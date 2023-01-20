@@ -17,7 +17,7 @@ class RemoteFirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.authSignUp(email, password)
     }
 
-    fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
+    fun insertUpdateHarvestResult(data : HarvestEntity, userId : String): Task<Void> =
         firebaseService.insertUpdateHarvestResult(data,userId)
 
     fun queryHarvestResult(userId: String): DatabaseReference {
@@ -28,7 +28,7 @@ class RemoteFirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.deleteHarvestResult(date, dataId, userId)
     }
 
-    fun insertUpdateFinancial(data : FinancialFirebaseEntity, userId: String): Task<Void>{
+    fun insertUpdateFinancial(data : FinancialEntity, userId: String): Task<Void>{
         return firebaseService.insertUpdateFinancial(data, userId)
     }
 
@@ -44,7 +44,7 @@ class RemoteFirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.uploadInventoryFile(name, fileUri, userId)
     }
 
-    fun insertInventory(data : InventoryFirebaseEntity,userId: String): Task<Void>{
+    fun insertInventory(data : InventoryEntity, userId: String): Task<Void>{
         return firebaseService.insertInventory(data, userId)
     }
 
@@ -64,7 +64,7 @@ class RemoteFirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.readFieldData(userId)
     }
 
-    fun insertUpdateFieldData(data : FieldFirebaseEntity, userId: String): Task<Void>{
+    fun insertUpdateFieldData(data : FieldDetailEntity, userId: String): Task<Void>{
         return firebaseService.insertUpdateFieldData(data, userId)
     }
 
@@ -80,7 +80,7 @@ class RemoteFirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.uploadDiseaseImage(name, fileUri, userId)
     }
 
-    fun saveDisease(data : DiseaseFirebaseEntity, userId: String): Task<Void>{
+    fun saveDisease(data : DiseaseEntity, userId: String): Task<Void>{
         return firebaseService.saveDisease(data, userId)
     }
 

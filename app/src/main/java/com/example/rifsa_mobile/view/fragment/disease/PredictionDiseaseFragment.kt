@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.databinding.FragmentPredictionDiseaseBinding
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.view.fragment.disease.detail.DiseaseDetailFragment
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -52,8 +52,9 @@ class PredictionDiseaseFragment : Fragment() {
 
     private var currentDate = LocalDate.now().toString()
     private var diseaseId = UUID.randomUUID().toString()
+    private var diseaseIndex = 0
     private var indicationName = ""
-    private var isUploaded = false
+    private var isUploaded = true
     private var alarmId = (1..1000).random()
 
     private lateinit var firebaseUserId : String
@@ -126,78 +127,6 @@ class PredictionDiseaseFragment : Fragment() {
 
         binding.btnSaveDisease2.setOnClickListener {
             uploadDiseaseImage()
-            lifecycleScope.launch {
-                insertDiseaseLocal()
-            }
-        }
-    }
-
-
-    private fun uploadDiseaseImage(){
-        val diseaseIndication = binding.tvdisasaeDetailIndication2.text.toString()
-        viewModel.uploadDiseaseImage(diseaseId,imageUri,firebaseUserId)
-            .addOnSuccessListener {
-                it.storage.downloadUrl
-                    .addOnSuccessListener { respon ->
-                        insertDiseaseRemote(respon,"test remote",firebaseUserId)
-                    }
-                    .addOnFailureListener { respon ->
-                        showStatus(respon.message.toString())
-                    }
-            }
-            .addOnFailureListener {
-                showStatus(it.message.toString())
-            }
-    }
-
-    private fun insertDiseaseRemote(imageUrl : Uri, name : String, userId : String){
-        val tempData = DiseaseFirebaseEntity(
-            diseaseId,
-            name,
-            indicationName,
-            currentDate,
-            curLatitude.toString(),
-            curLatitude.toString(),
-            imageUrl.toString()
-        )
-
-        viewModel.saveDisease(tempData,userId)
-            .addOnSuccessListener {
-                showStatus("penyakit tersimpan")
-                isUploaded = true
-            }
-            .addOnFailureListener {
-                showStatus(it.message.toString())
-                isUploaded = false
-            }
-    }
-
-    private suspend fun insertDiseaseLocal(){
-        delay(5000)
-        val indication = binding.tvdisasaeDetailIndication2.text.toString()
-        val description = binding.tvdisasaeDetailDescription3.text.toString()
-
-        val disease = DiseaseLocal(
-            id_disease = 0,
-            key_disease = diseaseId,
-            name = indication,
-            indication = indication,
-            photoUrl = imageUri.toString(),
-            date = currentDate,
-            latitude = curLatitude,
-            longitude = curLongitude,
-            description = description,
-            reminderID = alarmId,
-            isUploaded = isUploaded
-        )
-
-        try {
-            viewModel.insertDiseaseLocal(data = disease)
-            showStatus("tersimpan lokal")
-            //add setReminder
-        }catch (e : Exception){
-            showStatus("gagal menyimpan")
-            Log.d("diseaseDetail",e.toString())
         }
     }
 
@@ -217,18 +146,74 @@ class PredictionDiseaseFragment : Fragment() {
         ).diseaseName
         binding.tvdisasaeDetailIndication2.text = indicationName
 
-        val diseaseId = PredictionDiseaseFragmentArgs.fromBundle(
+        diseaseIndex = PredictionDiseaseFragmentArgs.fromBundle(
             requireArguments()
         ).diseaseId
-        showDiseaseInformation(diseaseId)
+        showDiseaseInformation(diseaseIndex)
     }
 
+    private fun uploadDiseaseImage(){
+        viewModel.uploadDiseaseImage(diseaseId,imageUri,firebaseUserId)
+            .addOnSuccessListener {
+                it.storage.downloadUrl
+                    .addOnSuccessListener { imgUrl ->
+                        insertDiseaseRemote(imgUrl)
+                    }
+                    .addOnFailureListener { respon ->
+                        showStatus(respon.message.toString())
+                    }
+            }
+            .addOnFailureListener {
+                showStatus(it.message.toString())
+            }
+    }
+
+    private fun insertDiseaseRemote(imageUrl : Uri){
+        val tempData = DiseaseEntity(
+            id_local = 0,
+            idDisease = diseaseId,
+            nameDisease = indicationName,
+            indexDisease = diseaseIndex,
+            dateDisease = currentDate,
+            latitude = curLatitude.toString(),
+            longitude = curLatitude.toString(),
+            imageUrl = imageUrl.toString(),
+            reminderID = alarmId,
+            isUploaded = isUploaded
+        )
+
+        viewModel.saveDisease(tempData,firebaseUserId)
+            .addOnSuccessListener {
+                showStatus("penyakit tersimpan")
+                isUploaded = true
+                insertDiseaseLocal(tempData)
+            }
+            .addOnFailureListener {
+                showStatus(it.message.toString())
+                insertDiseaseLocal(tempData)
+                isUploaded = false
+            }
+    }
+
+    private fun insertDiseaseLocal(newData : DiseaseEntity){
+        lifecycleScope.launch {
+            delay(2000)
+            try {
+                viewModel.insertDiseaseLocal(data = newData)
+                showStatus("tersimpan lokal")
+                //add setReminder
+            }catch (e : Exception){
+                showStatus("gagal menyimpan")
+                Log.d("diseaseDetail",e.toString())
+            }
+        }
+    }
 
     private fun showDiseaseInformation(id : Int){
         viewModel.getDiseaseInformation(id.toString())
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.getValue(DiseaseDetailFirebaseEntity::class.java)
+                    val data = snapshot.getValue(DiseaseDetailEntity::class.java)
                     if (data != null) {
                         binding.tvdisasaeDetailDescription3.text = data.Cause
                         binding.pgdiseaseBar2.visibility = View.GONE

@@ -18,7 +18,7 @@ class RemoteViewModel(private val remoteFirebaseRepository: RemoteFirebaseReposi
         return remoteFirebaseRepository.authSignUp(email, password)
     }
 
-    fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void> =
+    fun insertUpdateHarvestResult(data : HarvestEntity, userId : String): Task<Void> =
         remoteFirebaseRepository.insertUpdateHarvestResult(data, userId)
 
     fun readHarvestResult(userId: String): DatabaseReference =
@@ -27,7 +27,7 @@ class RemoteViewModel(private val remoteFirebaseRepository: RemoteFirebaseReposi
     fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void> =
         remoteFirebaseRepository.deleteHarvestResult(date, dataId, userId)
 
-    fun insertUpdateFinancial(data : FinancialFirebaseEntity, userId: String): Task<Void> =
+    fun insertUpdateFinancial(data : FinancialEntity, userId: String): Task<Void> =
         remoteFirebaseRepository.insertUpdateFinancial(data, userId)
 
     fun readFinancial(userId: String): DatabaseReference =
@@ -39,7 +39,7 @@ class RemoteViewModel(private val remoteFirebaseRepository: RemoteFirebaseReposi
     fun uploadInventoryFile(name : String, fileUri : Uri, userId: String): UploadTask =
         remoteFirebaseRepository.uploadInventoryFile(name, fileUri, userId)
 
-    fun insertInventory(data : InventoryFirebaseEntity, userId: String): Task<Void>{
+    fun insertInventory(data : InventoryEntity, userId: String): Task<Void>{
         return remoteFirebaseRepository.insertInventory(data, userId)
     }
 
@@ -59,7 +59,7 @@ class RemoteViewModel(private val remoteFirebaseRepository: RemoteFirebaseReposi
         return remoteFirebaseRepository.readFarming(userId)
     }
 
-    fun insertUpdateFieldData(data : FieldFirebaseEntity, userId: String): Task<Void>{
+    fun insertUpdateFieldData(data : FieldDetailEntity, userId: String): Task<Void>{
         return remoteFirebaseRepository.insertUpdateFieldData(data, userId)
     }
 
@@ -75,7 +75,7 @@ class RemoteViewModel(private val remoteFirebaseRepository: RemoteFirebaseReposi
         return remoteFirebaseRepository.uploadDiseaseImage(name, fileUri, userId)
     }
 
-    fun saveDisease(data : DiseaseFirebaseEntity, userId: String): Task<Void>{
+    fun saveDisease(data : DiseaseEntity, userId: String): Task<Void>{
         return remoteFirebaseRepository.saveDisease(data, userId)
     }
 

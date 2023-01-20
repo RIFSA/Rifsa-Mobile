@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardDisaseBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 
-class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseFirebaseEntity>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
+class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseEntity>): RecyclerView.Adapter<DiseaseRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardDisaseBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var diseaseDetail : OnDetailCallback
@@ -35,7 +35,7 @@ class DiseaseRecyclerViewAdapter(private var dataList : List<DiseaseFirebaseEnti
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : DiseaseFirebaseEntity)
+        fun onDetailCallback(data : DiseaseEntity)
     }
 
 }

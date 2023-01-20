@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.diseasewiki
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDiseaseBookBinding
-import com.example.rifsa_mobile.helpers.utils.DataMapper
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.view.fragment.diseasewiki.adapter.DiseaseBookRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -29,7 +25,7 @@ class DiseaseBookFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-    private var dataList = ArrayList<DiseaseDetailFirebaseEntity>()
+    private var dataList = ArrayList<DiseaseDetailEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +52,7 @@ class DiseaseBookFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                if(snapshot.exists()){
                    snapshot.children.forEach { child ->
-                       val data = child.getValue(DiseaseDetailFirebaseEntity::class.java)
+                       val data = child.getValue(DiseaseDetailEntity::class.java)
                        if (data != null) {
                            binding.pgbarKamus.visibility = View.GONE
                            dataList.add(data)
@@ -75,14 +71,14 @@ class DiseaseBookFragment : Fragment() {
     }
 
 
-    private fun showDiseaseList(data : List<DiseaseDetailFirebaseEntity>){
+    private fun showDiseaseList(data : List<DiseaseDetailEntity>){
         val adapter = DiseaseBookRecyclerViewAdapter(data)
         val recyclerView = binding.listPenyakit
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.onDetailCallback(object : DiseaseBookRecyclerViewAdapter.OnDetailCallback{
-            override fun onDetailCallBack(data: DiseaseDetailFirebaseEntity) {
+            override fun onDetailCallBack(data: DiseaseDetailEntity) {
                 findNavController().navigate(
                     DiseaseBookFragmentDirections.actionDiseaseBookFragmentToDisaseDetailFragment(
                         "",

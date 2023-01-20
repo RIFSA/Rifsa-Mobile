@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -89,7 +89,7 @@ class HarvestInsertDetailFragment : Fragment() {
 
 
     //showing delete button
-    private fun showDetailHarvest(data : HarvestFirebaseEntity){
+    private fun showDetailHarvest(data : HarvestEntity){
         binding.apply {
             tvharvestInsertName.setText(data.typeOfGrain)
             tvharvestInsertBerat.setText(data.weight)
@@ -104,7 +104,7 @@ class HarvestInsertDetailFragment : Fragment() {
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId->
             lifecycleScope.launch {
 
-                val tempData = HarvestFirebaseEntity(
+                val tempData = HarvestEntity(
                     detailId,
                     date,
                     binding.tvharvestInsertName.text.toString(),

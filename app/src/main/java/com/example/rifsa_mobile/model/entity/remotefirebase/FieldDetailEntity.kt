@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FieldFirebaseEntity(
+data class FieldDetailEntity(
     val idField : String = "",
     val name : String = "",
     val owner : String = "",

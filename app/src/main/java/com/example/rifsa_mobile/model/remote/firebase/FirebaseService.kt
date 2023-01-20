@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
@@ -21,7 +20,7 @@ class FirebaseService {
         return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
     }
 
-    fun insertUpdateHarvestResult(data : HarvestFirebaseEntity, userId : String): Task<Void>{
+    fun insertUpdateHarvestResult(data : HarvestEntity, userId : String): Task<Void>{
         return FirebaseDatabase.getInstance()
                 .getReference(mainPath)
                 .child(userId)
@@ -48,7 +47,7 @@ class FirebaseService {
             .removeValue()
     }
 
-    fun insertUpdateFinancial(data : FinancialFirebaseEntity,userId: String): Task<Void>{
+    fun insertUpdateFinancial(data : FinancialEntity, userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
             .child(userId)
@@ -88,7 +87,7 @@ class FirebaseService {
             .delete()
     }
 
-    fun insertInventory(data : InventoryFirebaseEntity,userId: String): Task<Void>{
+    fun insertInventory(data : InventoryEntity, userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
             .child(userId)
@@ -122,7 +121,7 @@ class FirebaseService {
             .child(farmingPath)
     }
 
-    fun insertUpdateFieldData(data : FieldFirebaseEntity,userId: String): Task<Void>{
+    fun insertUpdateFieldData(data : FieldDetailEntity, userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
             .child(userId)
@@ -161,13 +160,13 @@ class FirebaseService {
             .delete()
     }
 
-    fun saveDisease(data : DiseaseFirebaseEntity,userId: String): Task<Void>{
+    fun saveDisease(data : DiseaseEntity, userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
             .child(userId)
             .child(diseasePath)
             .child(data.dateDisease)
-            .child(data.id)
+            .child(data.idDisease)
             .setValue(data)
     }
 

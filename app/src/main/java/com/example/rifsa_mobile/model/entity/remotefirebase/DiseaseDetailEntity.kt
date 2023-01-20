@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DiseaseDetailFirebaseEntity(
+data class DiseaseDetailEntity(
     val id : String = "",
     val Name : String = "",
     val Bioname : String = "",

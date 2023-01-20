@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ItemcardFinanceBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 
-class FinanceRecyclerViewAdapter(private var dataList : List<FinancialFirebaseEntity>): RecyclerView.Adapter<FinanceRecyclerViewAdapter.ViewHolder>() {
+class FinanceRecyclerViewAdapter(private var dataList : List<FinancialEntity>): RecyclerView.Adapter<FinanceRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardFinanceBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallBack : ItemDetailCallback
@@ -39,6 +39,6 @@ class FinanceRecyclerViewAdapter(private var dataList : List<FinancialFirebaseEn
     override fun getItemCount(): Int = dataList.size
 
     interface ItemDetailCallback{
-        fun onItemCallback(data : FinancialFirebaseEntity)
+        fun onItemCallback(data : FinancialEntity)
     }
 }

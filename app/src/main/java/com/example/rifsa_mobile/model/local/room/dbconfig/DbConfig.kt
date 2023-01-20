@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.local.room.dao.DiseaseDao
 
 @Database(
     entities = [
-        DiseaseLocal::class
+        DiseaseEntity::class
     ],
     version = 1,
     exportSchema = false

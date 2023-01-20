@@ -11,9 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRecyclerViewAdapter
-import com.example.rifsa_mobile.view.fragment.disease.detail.DiseaseDetailFragmentDirections
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -28,7 +27,7 @@ class DisaseFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private var dataList = ArrayList<DiseaseFirebaseEntity>()
+    private var dataList = ArrayList<DiseaseEntity>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +73,7 @@ class DisaseFragment : Fragment() {
                 if (snapshot.exists()){
                     snapshot.children.forEach { child ->
                         child.children.forEach { main ->
-                            val data = main.getValue(DiseaseFirebaseEntity::class.java)
+                            val data = main.getValue(DiseaseEntity::class.java)
                             data?.let { dataList.add(it) }
                             showListDisease(dataList)
                             dataChecker(dataList.size)
@@ -90,7 +89,7 @@ class DisaseFragment : Fragment() {
         })
     }
 
-    private fun showListDisease(data : List<DiseaseFirebaseEntity>){
+    private fun showListDisease(data : List<DiseaseEntity>){
         try {
             binding.pgStatusBar.visibility = View.GONE
             val adapter = DiseaseRecyclerViewAdapter(data)
@@ -99,7 +98,7 @@ class DisaseFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
-                override fun onDetailCallback(data: DiseaseFirebaseEntity) {
+                override fun onDetailCallback(data: DiseaseEntity) {
                     findNavController().navigate(
                         DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(
                             null,

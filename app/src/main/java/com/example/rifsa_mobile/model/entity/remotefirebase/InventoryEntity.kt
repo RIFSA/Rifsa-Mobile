@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class InventoryFirebaseEntity(
+data class InventoryEntity(
     val idInventory: String = "",
     val name: String = "",
     val noted: String = "",

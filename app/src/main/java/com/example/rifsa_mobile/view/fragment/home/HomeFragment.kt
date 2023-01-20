@@ -16,8 +16,8 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
-import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -33,8 +33,8 @@ class HomeFragment : Fragment() {
 
     private val viewModel : HomeFragmentViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
 
-    private var harvestList = ArrayList<HarvestFirebaseEntity>()
-    private var diseaseList = ArrayList<DiseaseFirebaseEntity>()
+    private var harvestList = ArrayList<HarvestEntity>()
+    private var diseaseList = ArrayList<DiseaseEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
                 if (snapshot.exists()){
                     snapshot.children.forEach { child ->
                         child.children.forEach { main ->
-                            val data = main.getValue(HarvestFirebaseEntity::class.java)
+                            val data = main.getValue(HarvestEntity::class.java)
                             data?.let { harvestList.add(data) }
                             showHarvestList(harvestList)
                         }
@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun showHarvestList(data : List<HarvestFirebaseEntity>){
+    private fun showHarvestList(data : List<HarvestEntity>){
         try {
             binding.barhomeHarvest.visibility = View.GONE
             val adapter = HarvestResultRecyclerViewAdapter(data)
@@ -137,7 +137,7 @@ class HomeFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-                override fun onDetailCallback(data: HarvestFirebaseEntity) {
+                override fun onDetailCallback(data: HarvestEntity) {
                     findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHarvestInsertDetailFragment(data))
                 }
             })
@@ -166,7 +166,7 @@ class HomeFragment : Fragment() {
                     if (snapshot.exists()){
                         snapshot.children.forEach { child->
                             child.children.forEach{ main ->
-                                val data = main.getValue(DiseaseFirebaseEntity::class.java)
+                                val data = main.getValue(DiseaseEntity::class.java)
                                 data?.let { diseaseList.add(it) }
                                 showDiseaseTotal(diseaseList.size)
                             }

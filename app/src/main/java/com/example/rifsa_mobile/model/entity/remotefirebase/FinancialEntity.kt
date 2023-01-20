@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FinancialFirebaseEntity(
+data class FinancialEntity(
     val idFinance : String = "",
     val date : String = "",
     val name : String = "",

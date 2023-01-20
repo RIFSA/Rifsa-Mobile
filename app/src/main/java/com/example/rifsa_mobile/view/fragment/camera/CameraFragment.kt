@@ -150,6 +150,7 @@ class CameraFragment : Fragment() {
 
     //predict
     private fun diseaseClassificer(image: Uri){
+        binding.pgbarClassficer.visibility = View.VISIBLE
         val bitmapImage = MediaStore.Images.Media.getBitmap(
             requireContext().contentResolver,image
         )
@@ -162,9 +163,11 @@ class CameraFragment : Fragment() {
                     diseaseName,
                     result.id
                 )
+                binding.pgbarClassficer.visibility = View.GONE
             }
             .addOnFailureListener { e ->
                 Log.d("disease",e.message.toString())
+                binding.pgbarClassficer.visibility = View.GONE
             }
     }
 

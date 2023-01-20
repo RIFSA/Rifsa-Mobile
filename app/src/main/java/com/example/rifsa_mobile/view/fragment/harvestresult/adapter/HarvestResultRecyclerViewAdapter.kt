@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rifsa_mobile.databinding.ItemcardHasilBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 
-class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestFirebaseEntity>): RecyclerView.Adapter<HarvestResultRecyclerViewAdapter.ViewHolder>() {
+class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestEntity>): RecyclerView.Adapter<HarvestResultRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(var binding : ItemcardHasilBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallBak : OnDetailCallback
@@ -34,6 +34,6 @@ class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestFireba
 
 
     interface OnDetailCallback{
-        fun onDetailCallback(data : HarvestFirebaseEntity)
+        fun onDetailCallback(data : HarvestEntity)
     }
 }

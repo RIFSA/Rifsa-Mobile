@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 
-class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebaseEntity>)
+class InventoryRecyclerViewAdapter(private val dataList : List<InventoryEntity>)
     : RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -42,7 +42,7 @@ class InventoryRecyclerViewAdapter(private val dataList : List<InventoryFirebase
     override fun getItemCount(): Int = dataList.size
 
     interface OnDetailItemCallback{
-        fun onDetailCallback(data : InventoryFirebaseEntity)
+        fun onDetailCallback(data : InventoryEntity)
     }
 
 }

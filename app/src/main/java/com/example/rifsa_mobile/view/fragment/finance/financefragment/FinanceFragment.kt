@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -29,8 +29,7 @@ class FinanceFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private var dataList = ArrayList<FinancialFirebaseEntity>()
-
+    private var dataList = ArrayList<FinancialEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +65,7 @@ class FinanceFragment : Fragment() {
                     if (snapshot.exists()){
                         snapshot.children.forEach { child ->
                             child.children.forEach { main ->
-                                val data = main.getValue(FinancialFirebaseEntity::class.java)
+                                val data = main.getValue(FinancialEntity::class.java)
                                 data?.let { dataList.add(data) }
                                 showFinancialList(dataList)
                                 dataChecker(dataList.size)
@@ -84,7 +83,7 @@ class FinanceFragment : Fragment() {
         }
     }
 
-    private fun showFinancialList(data : List<FinancialFirebaseEntity>){
+    private fun showFinancialList(data : List<FinancialEntity>){
         try {
             binding.pgbFinanceBar.visibility = View.GONE
             val adapter = FinanceRecyclerViewAdapter(data)
@@ -92,7 +91,7 @@ class FinanceFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
             adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
-                override fun onItemCallback(data: FinancialFirebaseEntity) {
+                override fun onItemCallback(data: FinancialEntity) {
                     findNavController().navigate(
                         FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data)
                     )

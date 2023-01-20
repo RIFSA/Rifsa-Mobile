@@ -71,47 +71,17 @@
                         android:id="@+id/btn_Disease_Complete"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginEnd="24dp"
+                        android:layout_marginEnd="20dp"
                         android:contentDescription="@string/save"
                         android:src="@drawable/ic_baseline_check_box_24"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tint="@color/green" />
 
-                    <ImageView
-                        android:id="@+id/btn_save_disease"
-                        android:layout_width="27dp"
-                        android:layout_height="26dp"
-                        android:layout_marginEnd="35dp"
-                        android:src="@drawable/ic_vector_save"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_harvestresult_insertdetail"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/tv_harvestresult_insertdetail"
-                        app:layout_constraintTop_toTopOf="@+id/tv_harvestresult_insertdetail" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
-
-            <TextView
-                android:id="@+id/tvdisasae_detail_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="32dp"
-                android:fontFamily="@font/dmsans_bold"
-                android:gravity="center|start"
-                android:text="@string/lokasi_ditemukan"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:drawableEndCompat="@drawable/ic_check"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -188,7 +158,7 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:autofillHints="name"
                 android:fontFamily="@font/dmsans_regular"
@@ -199,7 +169,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_location"
+                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail"
                 tools:ignore="LabelFor" />
 
             <TextView

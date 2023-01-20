@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class HarvestFirebaseEntity(
+class HarvestEntity(
     var id : String="",
     var date : String="",
     var typeOfGrain : String="",

@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -124,7 +124,7 @@ class FinanceInsertDetailFragment : Fragment() {
     private fun insertUpdateFinanceRemote(){
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
-                val tempData = FinancialFirebaseEntity(
+                val tempData = FinancialEntity(
                     detailId,
                     currentDate,
                     binding.tvfinanceInsertNama.text.toString(),
@@ -165,7 +165,7 @@ class FinanceInsertDetailFragment : Fragment() {
     }
 
 
-    private fun setDetail(data : FinancialFirebaseEntity){
+    private fun setDetail(data : FinancialEntity){
         val amount = data.price
         binding.apply {
             tvfinanceInsertDate.text = data.date

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
-import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryFirebaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -28,7 +28,7 @@ class InventoryFragment : Fragment() {
     private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
-    private var dataList = ArrayList<InventoryFirebaseEntity>()
+    private var dataList = ArrayList<InventoryEntity>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +56,7 @@ class InventoryFragment : Fragment() {
                     snapshot.children.forEach { child ->
                         child.children.forEach { main ->
                             binding.pgbInventoryBar.visibility = View.GONE
-                            val data = main.getValue(InventoryFirebaseEntity::class.java)
+                            val data = main.getValue(InventoryEntity::class.java)
                             data?.let { dataList.add(data) }
                             showInventoryList(dataList)
                             dataChecker(dataList.size)
@@ -72,7 +72,7 @@ class InventoryFragment : Fragment() {
         })
     }
 
-    private fun showInventoryList(data : List<InventoryFirebaseEntity>) {
+    private fun showInventoryList(data : List<InventoryEntity>) {
         try {
             binding.pgbInventoryBar.visibility = View.GONE
             val adapter = InventoryRecyclerViewAdapter(data)
@@ -81,7 +81,7 @@ class InventoryFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
-                override fun onDetailCallback(data: InventoryFirebaseEntity) {
+                override fun onDetailCallback(data: InventoryEntity) {
                     findNavController().navigate(
                         InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(
                             data
