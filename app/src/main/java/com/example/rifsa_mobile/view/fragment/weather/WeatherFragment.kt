@@ -13,8 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentWeatherBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.ForecastItem
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherForecastRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.weather.adapter.ForecastRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -46,7 +45,7 @@ class WeatherFragment : Fragment() {
     }
 
     private suspend fun getWeatherData(latitude: Double,longitude: Double){
-        viewModel.getWeatherDataByLocation(WeatherRequest(
+        viewModel.getWeatherDataByLocation(UserLocation(
             location = null,
             latitude = latitude,
             longtitude = longitude
@@ -69,7 +68,7 @@ class WeatherFragment : Fragment() {
             }
         }
 
-        viewModel.getWeatherForecastData(WeatherRequest(
+        viewModel.getWeatherForecastData(UserLocation(
             location = null,
             latitude = latitude,
             longtitude = longitude

@@ -173,6 +173,12 @@
             android:name="Page_Key"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_cameraFragment_to_predictionDiseaseFragment"
+            app:destination="@id/predictionDiseaseFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_predictionDiseaseFragment2"
+            app:destination="@id/predictionDiseaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/disaseDetailFragment"
@@ -267,5 +273,20 @@
         <action
             android:id="@+id/action_settingFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/predictionDiseaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.PredictionDiseaseFragment"
+        android:label="fragment_prediction_disease"
+        tools:layout="@layout/fragment_prediction_disease" >
+        <argument
+            android:name="disease_image"
+            app:argType="string" />
+        <argument
+            android:name="disease_name"
+            app:argType="string" />
+        <argument
+            android:name="disease_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

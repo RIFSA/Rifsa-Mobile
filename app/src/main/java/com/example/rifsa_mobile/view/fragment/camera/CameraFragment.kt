@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
-import com.example.rifsa_mobile.databinding.FragmentDiseaseBookBinding
+import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key_inventory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,6 +29,8 @@ class CameraFragment : Fragment() {
     private var _binding : FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var classification : DiseasePrediction
+    private var diseaseName = ""
     private var imageCapture : ImageCapture? = null
 
     private var type = ""
@@ -35,7 +38,7 @@ class CameraFragment : Fragment() {
     private val launchIntentGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ respon ->
         if (respon.resultCode == Activity.RESULT_OK){
             val uriImage : Uri = respon.data?.data as Uri
-            showImageToPage(uriImage)
+            diseaseClassificer(uriImage)
         }
     }
 
@@ -63,7 +66,7 @@ class CameraFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCameraBinding.inflate(layoutInflater)
-
+        classification = DiseasePrediction(requireContext())
         type = CameraFragmentArgs.fromBundle(requireArguments()).pageKey.toString()
 
 
@@ -134,7 +137,7 @@ class CameraFragment : Fragment() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     showToast("berhasil mengambil gambar")
                     val uriCapture = Uri.fromFile(imageFile)
-                    showImageToPage(uriCapture)
+                    diseaseClassificer(uriCapture)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -145,8 +148,27 @@ class CameraFragment : Fragment() {
         )
     }
 
+    //predict
+    private fun diseaseClassificer(image: Uri){
+        val bitmapImage = MediaStore.Images.Media.getBitmap(
+            requireContext().contentResolver,image
+        )
+        classification
+            .initPrediction(bitmapImage)
+            .addOnSuccessListener { result ->
+                diseaseName = result.name
+                goToDetailDisease(
+                    image,
+                    diseaseName,
+                    result.id
+                )
+            }
+            .addOnFailureListener { e ->
+                Log.d("disease",e.message.toString())
+            }
+    }
 
-    private fun showImageToPage(data : Uri){
+    private fun goToDetailDisease(data : Uri,diseaseName : String,diseaseId : Int){
         if (type == "back"){
             findNavController()
                 .previousBackStackEntry?.savedStateHandle
@@ -155,10 +177,10 @@ class CameraFragment : Fragment() {
                 .popBackStack()
         }else{
             findNavController().navigate(
-                CameraFragmentDirections.actionCameraFragmentToDisaseDetailFragment(
+                CameraFragmentDirections.actionCameraFragmentToPredictionDiseaseFragment(
                     data.toString(),
-                    null,
-                    null
+                    diseaseName,
+                    diseaseId
                 )
             )
         }

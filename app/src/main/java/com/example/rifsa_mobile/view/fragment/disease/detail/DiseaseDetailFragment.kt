@@ -56,56 +56,11 @@ class DiseaseDetailFragment : Fragment() {
 
     private var currentDate = LocalDate.now().toString()
     private var diseaseId = UUID.randomUUID().toString()
-    private var indicationId = ""
     private var isDetail = false
-    private var isUploaded = false
-    private var alarmId = (1..1000).random()
 
     private lateinit var firebaseUserId : String
     private lateinit var imageUri : Uri
     private lateinit var imageBitmap  : Bitmap
-
-    private var curLatitude = 0.0
-    private var curLongitude = 0.0
-
-    private val fineLocation =
-        android.Manifest.permission.ACCESS_FINE_LOCATION
-    private val coarseLocation =
-        android.Manifest.permission.ACCESS_COARSE_LOCATION
-
-    private lateinit var fusedLocation :
-            FusedLocationProviderClient
-
-    private lateinit var locationRequest :
-            LocationRequest
-
-    //launch after permit granted
-    private var requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ){ permission ->
-            when{
-                permission[fineLocation] ?: false -> {
-                    lifecycleScope.launch {
-                        getCurrentLocation()
-                    }
-                }
-                permission[coarseLocation] ?: false ->{
-                    lifecycleScope.launch {
-                        getCurrentLocation()
-                    }
-                }
-                else ->{}
-            }
-        }
-
-    //launch and check permission
-    private fun checkPermission(permission : String): Boolean{
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,9 +68,6 @@ class DiseaseDetailFragment : Fragment() {
     ): View {
         binding = FragmentDisaseDetailBinding.inflate(layoutInflater)
         classification = DiseasePrediction(requireContext())
-        fusedLocation = LocationServices.getFusedLocationProviderClient(
-            requireContext()
-        )
 
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
             firebaseUserId = userId
@@ -129,9 +81,6 @@ class DiseaseDetailFragment : Fragment() {
                 requireArguments()
             ).diseaseDetail
 
-            val imageUrl = DiseaseDetailFragmentArgs.fromBundle(
-                requireArguments()
-            ).photoDisase
 
             if (detail != null){
                 showDetailDisease(detail)
@@ -141,7 +90,7 @@ class DiseaseDetailFragment : Fragment() {
                 binding.btnSaveDisease.visibility = View.GONE
                 binding.btnDiseaseComplete.visibility = View.VISIBLE
             }else if(isDiseaseBook != null){
-                showDetailDiseaseBook(isDiseaseBook)
+                showDetailDisease(isDiseaseBook)
                 isDetail = true
             }
 
@@ -153,15 +102,6 @@ class DiseaseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isDetail){
-            createLocationRequest()
-            showImageCapture()
-            binding.pgdiseaseBar.visibility = View.VISIBLE
-            lifecycleScope.launch {
-                delay(2000)
-                localDiseasePrediction()
-            }
-        }
 
         binding.btnDiseaseBackhome.setOnClickListener {
             findNavController().navigate(
@@ -171,31 +111,41 @@ class DiseaseDetailFragment : Fragment() {
         }
 
         binding.btnDiseaseComplete.setOnClickListener {
-            AlertDialog.Builder(requireActivity()).apply {
-                setTitle("Selesai teratasi")
-                setMessage("apakah penyakit telah teratasi ?")
-                apply {
-                    setPositiveButton("ya") { _, _ ->
-                        binding.pgdiseaseBar.visibility = View.VISIBLE
-                        deleteDiseaseImage()
-                    }
-                    setNegativeButton("tidak") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                }
-                create()
-                show()
-            }
+            alertDialogComplete()
         }
+    }
 
-        binding.btnSaveDisease.setOnClickListener {
-            uploadDiseaseImage()
-            lifecycleScope.launch {
-                insertDiseaseLocal()
+
+
+    private fun deleteDiseaseImage(){
+        viewModel.deleteDiseaseImage(diseaseId,firebaseUserId)
+            .addOnSuccessListener {
+                deleteDisease()
             }
-            binding.pgdiseaseBar.visibility = View.VISIBLE
-        }
+            .addOnFailureListener {
+                showStatus(it.message.toString())
+            }
+    }
 
+    private fun deleteDisease(){
+        viewModel.deleteDisease(currentDate,diseaseId,firebaseUserId)
+            .addOnSuccessListener {
+                findNavController().navigate(
+                    DiseaseDetailFragmentDirections
+                        .actionDisaseDetailFragmentToDisaseFragment()
+                )
+            }
+            .addOnFailureListener {
+                showStatus(it.message.toString())
+            }
+    }
+
+    private fun showDetailDisease(data : DiseaseDetailFirebaseEntity){
+        binding.tvdisasaeDetailIndication.text = data.Name
+        Glide.with(requireContext())
+            .load(data.imageUrl)
+            .into(binding.imgDisaseDetail)
+        showDiseaseInformation(data.id.toInt())
     }
 
     private fun showImageCapture(){
@@ -218,30 +168,6 @@ class DiseaseDetailFragment : Fragment() {
         showDiseaseInformation(data.idDisease.toInt())
     }
 
-    private fun showDetailDiseaseBook(data : DiseaseDetailFirebaseEntity){
-        binding.tvdisasaeDetailIndication.text = data.Name
-        Glide.with(requireContext())
-            .load(data.imageUrl)
-            .into(binding.imgDisaseDetail)
-        showDiseaseInformation(data.id.toInt())
-    }
-
-
-    private fun localDiseasePrediction(){
-        classification
-            .initPrediction(imageBitmap)
-            .addOnSuccessListener { result ->
-                binding.tvdisasaeDetailIndication.text = result.name
-                binding.pgdiseaseBar.visibility = View.VISIBLE
-                showDiseaseInformation(result.id)
-                indicationId = result.id.toString()
-            }
-            .addOnFailureListener { expectation ->
-                showStatus(expectation.message.toString())
-            }
-    }
-
-
     private fun showDiseaseInformation(id : Int){
         viewModel.getDiseaseInformation(id.toString())
             .addValueEventListener(object : ValueEventListener{
@@ -257,7 +183,6 @@ class DiseaseDetailFragment : Fragment() {
                     showStatus(error.message)
                 }
             })
-
         showTreatment(id.toString(),"Treatment")
         showIndication(id.toString(),"Indication")
     }
@@ -268,7 +193,10 @@ class DiseaseDetailFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         solutionList.add(it.value.toString())
-                        showListTreatment(solutionList)
+                        val adapter = DiseaseMiscRecyclerViewAdapter(solutionList)
+                        val recyclerView = binding.recvTreatment.recyclerviewTreatment
+                        recyclerView.adapter = adapter
+                        recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     }
                 }
 
@@ -278,181 +206,23 @@ class DiseaseDetailFragment : Fragment() {
             })
     }
 
-    private fun showIndication(id: String,parent : String){
-        viewModel.getDiseaseInformationMisc(id,parent)
+    private fun showIndication(id: String, parentInformation : String){
+        viewModel.getDiseaseInformationMisc(id,parentInformation)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         indicationList.add(it.value.toString())
-                        showListIndication(indicationList)
+                        val adapter = DiseaseMiscRecyclerViewAdapter(indicationList)
+                        val recyclerView = binding.recvIndefication.recyclerviewTreatment
+                        recyclerView.adapter = adapter
+                        recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     showStatus(error.message)
                 }
             })
     }
-
-    private fun showListTreatment(data : List<String>){
-        val adapter = DiseaseMiscRecyclerViewAdapter(data)
-        val recyclerView = binding.recvTreatment.recyclerviewTreatment
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    private fun showListIndication(data: List<String>){
-        val adapter = DiseaseMiscRecyclerViewAdapter(data)
-        val recyclerView = binding.recvIndefication.recyclerviewTreatment
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    private fun uploadDiseaseImage(){
-        val diseaseIndication = binding.tvdisasaeDetailIndication.text.toString()
-        viewModel.uploadDiseaseImage(diseaseId,imageUri,firebaseUserId)
-            .addOnSuccessListener {
-                it.storage.downloadUrl
-                    .addOnSuccessListener { respon ->
-                        insertDiseaseRemote(respon,diseaseIndication,firebaseUserId)
-                    }
-                    .addOnFailureListener { respon ->
-                        showStatus(respon.message.toString())
-                    }
-            }
-            .addOnFailureListener {
-                showStatus(it.message.toString())
-            }
-    }
-
-    private fun insertDiseaseRemote(imageUrl : Uri, name : String, userId : String){
-        val tempData = DiseaseFirebaseEntity(
-            diseaseId,
-            name,
-            indicationId,
-            currentDate,
-            curLatitude.toString(),
-            curLatitude.toString(),
-            imageUrl.toString()
-        )
-
-        viewModel.saveDisease(tempData,userId)
-            .addOnSuccessListener {
-                showStatus("penyakit tersimpan")
-                findNavController().navigate(
-                    DiseaseDetailFragmentDirections
-                        .actionDisaseDetailFragmentToDisaseFragment()
-                )
-                isUploaded = true
-            }
-            .addOnFailureListener {
-                showStatus(it.message.toString())
-                isUploaded = false
-            }
-    }
-
-    private suspend fun insertDiseaseLocal(){
-        delay(2000)
-        val indication = binding.tvdisasaeDetailIndication.text.toString()
-        val description = binding.tvdisasaeDetailDescription.text.toString()
-
-        val disease = DiseaseLocal(
-            id_disease = 0,
-            key_disease = diseaseId,
-            name = indication,
-            indication = indication,
-            photoUrl = imageUri.toString(),
-            date = currentDate,
-            latitude = curLatitude,
-            longitude = curLongitude,
-            description = description,
-            reminderID = alarmId,
-            isUploaded = false
-        )
-
-        try {
-            viewModel.insertDiseaseLocal(data = disease)
-            showStatus("tersimpan lokal")
-            //add setReminder
-        }catch (e : Exception){
-            showStatus("gagal menyimpan")
-            Log.d("diseaseDetail",e.toString())
-        }
-    }
-    private fun deleteDiseaseImage(){
-        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            viewModel.deleteDiseaseImage(diseaseId,userId)
-                .addOnSuccessListener {
-                    deleteDisease()
-                }
-                .addOnFailureListener {
-                    showStatus(it.message.toString())
-                }
-        }
-    }
-
-    private fun deleteDisease(){
-        authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
-            viewModel.deleteDisease(currentDate,diseaseId,userId)
-                .addOnSuccessListener {
-                    findNavController().navigate(
-                        DiseaseDetailFragmentDirections
-                            .actionDisaseDetailFragmentToDisaseFragment()
-                    )
-                }
-                .addOnFailureListener {
-                    showStatus(it.message.toString())
-                }
-        }
-    }
-
-    // Location Request
-    private fun createLocationRequest(){
-        locationRequest = LocationRequest.create().apply {
-            interval = TimeUnit.SECONDS.toMillis(1)
-            maxWaitTime = TimeUnit.SECONDS.toMillis(1)
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-
-        val client: SettingsClient = LocationServices.getSettingsClient(requireActivity())
-        client.checkLocationSettings(builder.build())
-            .addOnSuccessListener {
-                lifecycleScope.launch {
-                    getCurrentLocation()
-                }
-            }
-            .addOnFailureListener {
-                Log.d(page_key,it.message.toString())
-            }
-
-    }
-
-    private fun getCurrentLocation(){
-        if (checkPermission(fineLocation) && checkPermission(coarseLocation)){
-            fusedLocation.lastLocation
-                .addOnSuccessListener { location ->
-                    if (location != null) {
-                        curLatitude = location.latitude
-                        curLongitude = location.longitude
-                        Log.d("disease", curLatitude.toString())
-                        binding.tvdisasaeDetailLocation.visibility = View.VISIBLE
-                    }
-                }
-                .addOnFailureListener {
-                    Log.d(page_key,it.message.toString())
-                }
-        }else{
-            requestPermissionLauncher.launch(arrayOf(
-                fineLocation,
-                coarseLocation
-            ))
-        }
-    }
-
-
 
     private fun showStatus(title: String){
         binding.apply {
@@ -463,6 +233,23 @@ class DiseaseDetailFragment : Fragment() {
         Log.d(page_key,title)
     }
 
+    private fun alertDialogComplete(){
+        AlertDialog.Builder(requireActivity()).apply {
+            setTitle("Selesai teratasi")
+            setMessage("apakah penyakit telah teratasi ?")
+            apply {
+                setPositiveButton("ya") { _, _ ->
+                    binding.pgdiseaseBar.visibility = View.VISIBLE
+                    deleteDiseaseImage()
+                }
+                setNegativeButton("tidak") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            }
+            create()
+            show()
+        }
+    }
 
     companion object{
         const val page_key = "Disease_detail"

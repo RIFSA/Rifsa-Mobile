@@ -3,7 +3,7 @@ package com.example.rifsa_mobile.view.fragment.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
@@ -26,11 +26,11 @@ class HomeFragmentViewModel(
     fun readDiseaseResult(userId: String): DatabaseReference =
         firebaseRepository.readDiseaseList(userId)
 
-    suspend fun getWeatherByLocation(request: WeatherRequest)
+    suspend fun getWeatherByLocation(request: UserLocation)
     : LiveData<FetchResult<WeatherDetailResponse>> =
         weatherRepository.getWeatherDataByLocation(request)
 
-    fun getUserLocation(): LiveData<WeatherRequest> =
+    fun getUserLocation(): LiveData<UserLocation> =
         localRepository.getLocationUser()
 
 }

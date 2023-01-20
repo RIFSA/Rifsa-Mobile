@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.WeatherForecastResponse
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherForecastRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiService
 
@@ -23,7 +22,7 @@ class RemoteWeatherRepository(private var weatherApiService: WeatherApiService) 
             }
         }
 
-    suspend fun getWeatherForecastData(request: WeatherRequest)
+    suspend fun getWeatherForecastData(request: UserLocation)
     : LiveData<FetchResult<WeatherForecastResponse>> =
         liveData {
             emit(FetchResult.Loading)
@@ -39,7 +38,7 @@ class RemoteWeatherRepository(private var weatherApiService: WeatherApiService) 
             }
         }
 
-    suspend fun getWeatherDataByLocation(request : WeatherRequest)
+    suspend fun getWeatherDataByLocation(request : UserLocation)
     : LiveData<FetchResult<WeatherDetailResponse>> =
         liveData {
             emit(FetchResult.Loading)

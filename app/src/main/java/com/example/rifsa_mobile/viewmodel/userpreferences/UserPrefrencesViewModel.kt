@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.rifsa_mobile.model.repository.local.LocalRepository
 import kotlinx.coroutines.launch
 
-class UserPrefrencesViewModel(private val localRepository : LocalRepository): ViewModel() {
+class UserPrefrencesViewModel(
+    private val localRepository : LocalRepository
+): ViewModel() {
 
     fun getOnBoardStatus(): LiveData<Boolean> = localRepository.getOnBoardStatus()
     fun getUserName(): LiveData<String> = localRepository.getUserName()

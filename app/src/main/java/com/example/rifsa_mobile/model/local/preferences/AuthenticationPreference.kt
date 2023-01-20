@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
 
@@ -46,9 +46,9 @@ class AuthenticationPreference(private val dataStore : DataStore<Preferences>) {
         }
     }
 
-    fun getUserLocation(): Flow<WeatherRequest> {
+    fun getUserLocation(): Flow<UserLocation> {
         return dataStore.data.map {
-            WeatherRequest(
+            UserLocation(
                 it[locationCity],
                 it[locationLatitude] ?: 0.0,
                 it[locationLongitude] ?: 0.0

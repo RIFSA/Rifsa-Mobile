@@ -48,7 +48,11 @@ class ViewModelFactory private constructor(
                 SettingFragmentViewModel(localRepository) as T
             }
             modelClass.isAssignableFrom(DiseaseDetailViewModel::class.java)->{
-                DiseaseDetailViewModel(diseaseRepository,remoteFirebaseRepository) as T
+                DiseaseDetailViewModel(
+                    diseaseRepository,
+                    localRepository,
+                    remoteFirebaseRepository,
+                ) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

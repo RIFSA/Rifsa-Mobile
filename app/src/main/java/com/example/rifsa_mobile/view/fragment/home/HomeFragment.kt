@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.WeatherRequest
+import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseFirebaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestFirebaseEntity
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
 
 
     private suspend fun getWeatherData(latitude : Double,longitude: Double){
-        viewModel.getWeatherByLocation(WeatherRequest(
+        viewModel.getWeatherByLocation(UserLocation(
                 null,
                 latitude = latitude,
                 longtitude = longitude
