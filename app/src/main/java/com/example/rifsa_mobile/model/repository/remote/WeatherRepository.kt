@@ -8,7 +8,7 @@ import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiService
 
-class RemoteWeatherRepository(private var weatherApiService: WeatherApiService) {
+class WeatherRepository(private var weatherApiService: WeatherApiService) {
 
     suspend fun getWeatherDataBySearch(location : String)
     : LiveData<FetchResult<WeatherDetailResponse>> =

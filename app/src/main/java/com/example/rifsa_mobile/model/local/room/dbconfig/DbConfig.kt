@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.local.room.dao.DiseaseDao
 
@@ -30,6 +29,7 @@ abstract class DbConfig: RoomDatabase() {
                     DbConfig::class.java,"RifsaLocalDB"
                 )
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
                     .also { INSTANCE = it }
             }

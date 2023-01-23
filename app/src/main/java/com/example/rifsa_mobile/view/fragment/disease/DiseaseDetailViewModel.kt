@@ -3,26 +3,22 @@ package com.example.rifsa_mobile.view.fragment.disease
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
-import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
-import com.example.rifsa_mobile.model.repository.local.LocalRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
+import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.UploadTask
 
 class DiseaseDetailViewModel(
     private val diseaseRepository: DiseaseRepository,
-    private val referenceRepository : LocalRepository,
-    private val remoteRespository: RemoteFirebaseRepository
+    private val referenceRepository : preferenceRepository,
+    private val remoteRespository: FirebaseRepository
 ): ViewModel() {
     fun getUserId(): LiveData<String> =
         referenceRepository.getUserIdKey()
-    fun getUserLocation(): LiveData<UserLocation> =
-        referenceRepository.getLocationUser()
-    
+
     fun getDiseaseInformation(id : String): DatabaseReference {
         return remoteRespository.getDiseaseInformation(id)
     }
@@ -51,4 +47,7 @@ class DiseaseDetailViewModel(
         diseaseRepository.insertLocalDisease(data)
     }
 
+    suspend fun deleteDiseaseLocal(idDisease : String){
+        diseaseRepository.deleteLocalDisease(idDisease)
+    }
 }

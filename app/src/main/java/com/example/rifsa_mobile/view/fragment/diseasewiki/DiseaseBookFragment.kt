@@ -79,13 +79,11 @@ class DiseaseBookFragment : Fragment() {
 
         adapter.onDetailCallback(object : DiseaseBookRecyclerViewAdapter.OnDetailCallback{
             override fun onDetailCallBack(data: DiseaseDetailEntity) {
-                findNavController().navigate(
-                    DiseaseBookFragmentDirections.actionDiseaseBookFragmentToDisaseDetailFragment(
-                        "",
-                        null,
-                        data
-                    )
-                )
+//                findNavController().navigate(
+//                    DiseaseBookFragmentDirections.actionDiseaseBookFragmentToDisaseDetailFragment(
+//                        data
+//                    )
+//                )
             }
         })
     }

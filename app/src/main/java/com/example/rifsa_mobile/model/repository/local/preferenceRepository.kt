@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.local.preferences.AuthenticationPreference
 
-class LocalRepository(
+class preferenceRepository(
     private val preferences : AuthenticationPreference
 ) {
 

@@ -5,20 +5,20 @@ import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
-import com.example.rifsa_mobile.model.repository.local.LocalRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
+import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
+import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 import com.google.firebase.database.DatabaseReference
 
 class HomeFragmentViewModel(
-    private val weatherRepository: RemoteWeatherRepository,
-    private val firebaseRepository: RemoteFirebaseRepository,
-    private val localRepository: LocalRepository
+    private val weatherRepository: WeatherRepository,
+    private val firebaseRepository: FirebaseRepository,
+    private val preferenceRepository: preferenceRepository
 ): ViewModel() {
     fun getUserName(): LiveData<String> =
-        localRepository.getUserName()
+        preferenceRepository.getUserName()
     fun getUserId(): LiveData<String> =
-        localRepository.getUserIdKey()
+        preferenceRepository.getUserIdKey()
 
     fun readHarvestResult(userId: String): DatabaseReference =
         firebaseRepository.queryHarvestResult(userId)
@@ -31,6 +31,6 @@ class HomeFragmentViewModel(
         weatherRepository.getWeatherDataByLocation(request)
 
     fun getUserLocation(): LiveData<UserLocation> =
-        localRepository.getLocationUser()
+        preferenceRepository.getLocationUser()
 
 }

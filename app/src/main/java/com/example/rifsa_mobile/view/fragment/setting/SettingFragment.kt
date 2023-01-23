@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentSettingBinding
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
+import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
@@ -27,10 +29,11 @@ class SettingFragment : Fragment() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
 
+    private var userFirebaseId = ""
     private val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
 
-    private val viewModel : SettingFragmentViewModel by viewModels{
+    private val viewModel : SettingViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
 
@@ -49,16 +52,18 @@ class SettingFragment : Fragment() {
         fusedLocation = LocationServices.getFusedLocationProviderClient(
             requireContext()
         )
-        viewModel.getLocationListener().observe(viewLifecycleOwner){
-            isTracking = it
-            binding.switchLocation.isChecked = it
+        viewModel.getLocationListener().observe(viewLifecycleOwner){ state->
+            isTracking = state
+            binding.switchLocation.isChecked = state
+        }
+        viewModel.getFirebaseUserId().observe(viewLifecycleOwner){ id->
+            userFirebaseId = id
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.switchLocation.apply {
             setOnCheckedChangeListener { _, checked ->
                 if(checked){
@@ -71,14 +76,48 @@ class SettingFragment : Fragment() {
                 }
             }
         }
-
         binding.btnSettingBackhome.setOnClickListener {
             findNavController().navigate(
                 SettingFragmentDirections.actionSettingFragmentToProfileFragment()
             )
         }
+        binding.btnUnggahdata.setOnClickListener {
+            viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
+                try {
+                    data.forEach { value-> uploadDiseaseImage(value) }
+                }catch (e : Exception){
+                    Log.d("settingFragment",e.message.toString())
+                }
+            }
+        }
     }
 
+
+    /*
+    uploaded checker
+     */
+    private fun uploadDiseaseImage(data : DiseaseEntity){
+        viewModel.insertDiseaseImage(
+            name = data.idDisease,
+            fileUri = data.imageUrl.toUri(),
+            userId = userFirebaseId
+        )
+            .addOnSuccessListener {
+                it.storage.downloadUrl
+                    .addOnSuccessListener { imgUrl ->
+                        Log.d("settingFragment",imgUrl.toString())
+                    }
+                    .addOnFailureListener { e ->
+                        Log.d("settingFragment",e.message.toString())
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.d("settingFragment",e.message.toString())
+            }
+    }
+    /*
+    Get Location
+     */
     private fun setUpdatelocation(){
         locationCallback = object : LocationCallback(){
             override fun onLocationResult(locationResult: LocationResult) {
@@ -95,7 +134,6 @@ class SettingFragment : Fragment() {
             }
         }
     }
-
     private fun locationListener(condition : Boolean){
         lifecycleScope.launch{
             viewModel.saveLocationListener(condition)
@@ -122,7 +160,6 @@ class SettingFragment : Fragment() {
                 Log.d("settingFragment",it.message.toString())
             }
     }
-
     private fun getCurrentLocation(){
         if (checkPermission(fineLocation) && checkPermission(coarseLocation)){
             fusedLocation.requestLocationUpdates(
@@ -147,7 +184,6 @@ class SettingFragment : Fragment() {
                 }
         }
     }
-
     private fun stopTracking(){
         fusedLocation.removeLocationUpdates(locationCallback)
     }

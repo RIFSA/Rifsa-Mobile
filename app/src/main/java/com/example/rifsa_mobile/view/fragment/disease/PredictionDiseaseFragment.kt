@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.databinding.FragmentPredictionDiseaseBinding
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
-import com.example.rifsa_mobile.model.entity.local.disease.DiseaseLocal
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
@@ -54,7 +53,7 @@ class PredictionDiseaseFragment : Fragment() {
     private var diseaseId = UUID.randomUUID().toString()
     private var diseaseIndex = 0
     private var indicationName = ""
-    private var isUploaded = true
+    private var isUploaded = false
     private var alarmId = (1..1000).random()
 
     private lateinit var firebaseUserId : String
@@ -127,6 +126,7 @@ class PredictionDiseaseFragment : Fragment() {
 
         binding.btnSaveDisease2.setOnClickListener {
             uploadDiseaseImage()
+            insertDiseaseLocal()
         }
     }
 
@@ -158,13 +158,16 @@ class PredictionDiseaseFragment : Fragment() {
                 it.storage.downloadUrl
                     .addOnSuccessListener { imgUrl ->
                         insertDiseaseRemote(imgUrl)
+                        imageUri = imgUrl
                     }
                     .addOnFailureListener { respon ->
                         showStatus(respon.message.toString())
+                        isUploaded = false
                     }
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
+                isUploaded = false
             }
     }
 
@@ -176,7 +179,7 @@ class PredictionDiseaseFragment : Fragment() {
             indexDisease = diseaseIndex,
             dateDisease = currentDate,
             latitude = curLatitude.toString(),
-            longitude = curLatitude.toString(),
+            longitude = curLongitude.toString(),
             imageUrl = imageUrl.toString(),
             reminderID = alarmId,
             isUploaded = isUploaded
@@ -186,20 +189,31 @@ class PredictionDiseaseFragment : Fragment() {
             .addOnSuccessListener {
                 showStatus("penyakit tersimpan")
                 isUploaded = true
-                insertDiseaseLocal(tempData)
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
-                insertDiseaseLocal(tempData)
                 isUploaded = false
             }
     }
 
-    private fun insertDiseaseLocal(newData : DiseaseEntity){
+    private fun insertDiseaseLocal(){
         lifecycleScope.launch {
             delay(2000)
+            val localData = DiseaseEntity(
+                id_local = 0,
+                idDisease = diseaseId,
+                nameDisease = indicationName,
+                indexDisease = diseaseIndex,
+                dateDisease = currentDate,
+                latitude = curLatitude.toString(),
+                longitude = curLongitude.toString(),
+                imageUrl = imageUri.toString(),
+                reminderID = alarmId,
+                isUploaded = isUploaded
+            )
+
             try {
-                viewModel.insertDiseaseLocal(data = newData)
+                viewModel.insertDiseaseLocal(localData)
                 showStatus("tersimpan lokal")
                 //add setReminder
             }catch (e : Exception){

@@ -5,53 +5,64 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
-import com.example.rifsa_mobile.model.repository.local.LocalRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
+import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
+import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 import com.example.rifsa_mobile.view.fragment.disease.DiseaseDetailViewModel
+import com.example.rifsa_mobile.view.fragment.disease.DiseaseViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
-import com.example.rifsa_mobile.view.fragment.setting.SettingFragmentViewModel
+import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
-    private val remoteFirebaseRepository: RemoteFirebaseRepository,
-    private val localRepository : LocalRepository,
+    private val firebaseRepository: FirebaseRepository,
+    private val preferenceRepository : preferenceRepository,
     private val diseaseRepository: DiseaseRepository,
-    private val weatherRepository: RemoteWeatherRepository
+    private val weatherRepository: WeatherRepository
     ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
-                UserPrefrencesViewModel(localRepository) as T
+                UserPrefrencesViewModel(preferenceRepository) as T
             }
             modelClass.isAssignableFrom(RemoteViewModel::class.java)->{
-                RemoteViewModel(remoteFirebaseRepository) as T
+                RemoteViewModel(firebaseRepository) as T
             }
             modelClass.isAssignableFrom(WeatherFragmentViewModel::class.java)->{
                 WeatherFragmentViewModel(
                     weatherRepository,
-                    localRepository
+                    preferenceRepository
                 ) as T
             }
             modelClass.isAssignableFrom(HomeFragmentViewModel::class.java)->{
                 HomeFragmentViewModel(
                     weatherRepository,
-                    remoteFirebaseRepository,
-                    localRepository
+                    firebaseRepository,
+                    preferenceRepository
                 ) as T
             }
-            modelClass.isAssignableFrom(SettingFragmentViewModel::class.java)->{
-                SettingFragmentViewModel(localRepository) as T
+            modelClass.isAssignableFrom(SettingViewModel::class.java)->{
+                SettingViewModel(
+                    firebaseRepository,
+                    diseaseRepository,
+                    preferenceRepository
+                ) as T
             }
             modelClass.isAssignableFrom(DiseaseDetailViewModel::class.java)->{
                 DiseaseDetailViewModel(
                     diseaseRepository,
-                    localRepository,
-                    remoteFirebaseRepository,
+                    preferenceRepository,
+                    firebaseRepository,
+                ) as T
+            }
+            modelClass.isAssignableFrom(DiseaseViewModel::class.java)->{
+                DiseaseViewModel(
+                    diseaseRepository,
+                    firebaseRepository
                 ) as T
             }
 

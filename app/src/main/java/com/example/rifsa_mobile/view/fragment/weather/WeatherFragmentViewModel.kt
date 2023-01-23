@@ -6,16 +6,16 @@ import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailRespons
 import com.example.rifsa_mobile.model.entity.openweatherapi.forecast.WeatherForecastResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
-import com.example.rifsa_mobile.model.repository.local.LocalRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
+import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 
 class WeatherFragmentViewModel(
-    private val weatherRepository: RemoteWeatherRepository,
-    private val localRepository: LocalRepository
+    private val weatherRepository: WeatherRepository,
+    private val preferenceRepository: preferenceRepository
     ): ViewModel() {
 
     fun getUserLocation():LiveData<UserLocation> =
-        localRepository.getLocationUser()
+        preferenceRepository.getLocationUser()
 
     suspend fun getWeatherDataBySearch(location : String)
     : LiveData<FetchResult<WeatherDetailResponse>> =

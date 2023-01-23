@@ -80,11 +80,10 @@ class CameraFragment : Fragment() {
             capturePhoto()
         }
 
-
         binding.btnGallery.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
-            intent.type = "image/*"
+            intent.type = "*/*"
             launchIntentGallery.launch(intent)
         }
 

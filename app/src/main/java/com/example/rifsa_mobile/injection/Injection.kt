@@ -6,24 +6,23 @@ import com.example.rifsa_mobile.model.local.preferences.dataStore
 import com.example.rifsa_mobile.model.local.room.dbconfig.DbConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiConfig
-import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiService
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
-import com.example.rifsa_mobile.model.repository.local.LocalRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteFirebaseRepository
-import com.example.rifsa_mobile.model.repository.remote.RemoteWeatherRepository
+import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
+import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 
 object Injection {
-    fun provideRemoteRepository(): RemoteFirebaseRepository {
-        return RemoteFirebaseRepository(
+    fun provideRemoteRepository(): FirebaseRepository {
+        return FirebaseRepository(
             FirebaseService(),
         )
     }
-    fun provideWeatherRepository(): RemoteWeatherRepository{
-        return  RemoteWeatherRepository(WeatherApiConfig.setApiService())
+    fun provideWeatherRepository(): WeatherRepository{
+        return  WeatherRepository(WeatherApiConfig.setApiService())
     }
 
-    fun provideLocalRepository(context: Context): LocalRepository {
-        return LocalRepository(
+    fun provideLocalRepository(context: Context): preferenceRepository {
+        return preferenceRepository(
             AuthenticationPreference.getInstance(context.dataStore)
         )
     }

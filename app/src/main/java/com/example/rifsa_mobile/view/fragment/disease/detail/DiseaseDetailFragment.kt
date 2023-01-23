@@ -1,6 +1,8 @@
 package com.example.rifsa_mobile.view.fragment.disease.detail
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -12,24 +14,23 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.databinding.FragmentDisaseDetailBinding
+import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
-import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.view.fragment.disease.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
-import com.google.android.gms.location.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import java.time.LocalDate
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlinx.coroutines.launch
+import java.io.File
 
 @Suppress("DEPRECATION")
 class DiseaseDetailFragment : Fragment() {
@@ -46,10 +47,9 @@ class DiseaseDetailFragment : Fragment() {
     private var solutionList = ArrayList<String>()
     private var indicationList = ArrayList<String>()
 
-    private var currentDate = LocalDate.now().toString()
-    private var diseaseId = UUID.randomUUID().toString()
     private var isDetail = false
-
+    private var dateRecord = ""
+    private var diseaseId = ""
     private lateinit var firebaseUserId : String
     private lateinit var imageUri : Uri
     private lateinit var imageBitmap  : Bitmap
@@ -64,21 +64,16 @@ class DiseaseDetailFragment : Fragment() {
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
             firebaseUserId = userId
         }
+
+        //insert disease
         try {
             val detail = DiseaseDetailFragmentArgs.fromBundle(
                 requireArguments()
             ).diseaseData
 
-            val isDiseaseBook = DiseaseDetailFragmentArgs.fromBundle(
-                requireArguments()
-            ).diseaseDetail
-
-
             if (detail != null) {
                 showDetailDisease(detail)
                 isDetail = true
-                currentDate = detail.dateDisease
-                diseaseId = detail.indexDisease.toString()
             }
             showDiseaseImage()
 
@@ -89,7 +84,6 @@ class DiseaseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.btnDiseaseBackhome.setOnClickListener {
             findNavController().navigate(
@@ -106,29 +100,41 @@ class DiseaseDetailFragment : Fragment() {
     private fun showDiseaseImage(){
         imageUri = DiseaseDetailFragmentArgs.fromBundle(
             requireArguments()
-        ).photoDisase?.toUri()!!
+        ).diseaseData.imageUrl.toUri()
 
         val bitmapImage = MediaStore.Images.Media.getBitmap(
             requireContext().contentResolver,imageUri
         )
+        dateRecord = DiseaseDetailFragmentArgs.fromBundle(
+            requireArguments()
+        ).diseaseData.dateDisease
+
+        diseaseId = DiseaseDetailFragmentArgs.fromBundle(
+            requireArguments()
+        ).diseaseData.idDisease
+
         imageBitmap = bitmapImage
-        binding.imgDisaseDetail.setImageBitmap(bitmapImage)
+
+        Glide.with(requireContext())
+            .load(imageUri)
+            .into(binding.imgDisaseDetail)
     }
 
 
-    private fun deleteDiseaseImage(){
+    private fun deleteImageRemote(){
         viewModel.deleteDiseaseImage(diseaseId,firebaseUserId)
             .addOnSuccessListener {
-                deleteDisease()
+                deleteDataRemote()
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
             }
     }
 
-    private fun deleteDisease(){
-        viewModel.deleteDisease(currentDate,diseaseId,firebaseUserId)
+    private fun deleteDataRemote(){
+        viewModel.deleteDisease(dateRecord,diseaseId,firebaseUserId)
             .addOnSuccessListener {
+                deleteDataLocal()
                 findNavController().navigate(
                     DiseaseDetailFragmentDirections
                         .actionDisaseDetailFragmentToDisaseFragment()
@@ -139,12 +145,11 @@ class DiseaseDetailFragment : Fragment() {
             }
     }
 
-    private fun showDetailDisease(data : DiseaseDetailEntity){
-        binding.tvdisasaeDetailIndication.text = data.Name
-        Glide.with(requireContext())
-            .load(data.imageUrl)
-            .into(binding.imgDisaseDetail)
-        showDiseaseInformation(data.id.toInt())
+    private fun deleteDataLocal(){
+        lifecycleScope.launch {
+            viewModel.deleteDiseaseLocal(diseaseId)
+            Log.d("diseae",diseaseId)
+        }
     }
 
     private fun showDetailDisease(data : DiseaseEntity){
@@ -227,7 +232,7 @@ class DiseaseDetailFragment : Fragment() {
             apply {
                 setPositiveButton("ya") { _, _ ->
                     binding.pgdiseaseBar.visibility = View.VISIBLE
-                    deleteDiseaseImage()
+                    deleteDataLocal()
                 }
                 setNegativeButton("tidak") { dialog, _ ->
                     dialog.dismiss()

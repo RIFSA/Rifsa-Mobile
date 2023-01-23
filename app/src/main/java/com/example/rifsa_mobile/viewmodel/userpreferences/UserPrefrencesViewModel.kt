@@ -3,21 +3,21 @@ package com.example.rifsa_mobile.viewmodel.userpreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rifsa_mobile.model.repository.local.LocalRepository
+import com.example.rifsa_mobile.model.repository.local.preferenceRepository
 import kotlinx.coroutines.launch
 
 class UserPrefrencesViewModel(
-    private val localRepository : LocalRepository
+    private val preferenceRepository : preferenceRepository
 ): ViewModel() {
 
-    fun getOnBoardStatus(): LiveData<Boolean> = localRepository.getOnBoardStatus()
-    fun getUserName(): LiveData<String> = localRepository.getUserName()
-    fun getTokenKey(): LiveData<String> = localRepository.getTokenKey()
-    fun getUserId(): LiveData<String> = localRepository.getUserIdKey()
+    fun getOnBoardStatus(): LiveData<Boolean> = preferenceRepository.getOnBoardStatus()
+    fun getUserName(): LiveData<String> = preferenceRepository.getUserName()
+    fun getTokenKey(): LiveData<String> = preferenceRepository.getTokenKey()
+    fun getUserId(): LiveData<String> = preferenceRepository.getUserIdKey()
 
     fun saveUserPrefrences(onBoard : Boolean, userName : String, tokenKey: String, userId : String){
         viewModelScope.launch {
-            localRepository.savePrefrences(onBoard,userName,tokenKey,userId)
+            preferenceRepository.savePrefrences(onBoard,userName,tokenKey,userId)
         }
     }
 

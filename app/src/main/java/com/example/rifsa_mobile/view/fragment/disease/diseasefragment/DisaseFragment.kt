@@ -7,27 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentDisaseBinding
+import com.example.rifsa_mobile.helpers.fetching.StatusRespons
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
+import com.example.rifsa_mobile.view.fragment.disease.DiseaseViewModel
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
 
 class DisaseFragment : Fragment() {
     private lateinit var binding : FragmentDisaseBinding
 
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val viewModel : DiseaseViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
 
-    private var dataList = ArrayList<DiseaseEntity>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,9 +36,15 @@ class DisaseFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        authViewModel.getUserId().observe(viewLifecycleOwner){ token ->
-            diseaseList(token)
+        viewModel.readDiseaseLocal().observe(viewLifecycleOwner){ respons->
+            try {
+                dataChecker(respons.size)
+                showListDisease(respons)
+            }catch (e : Exception){
+                Log.d("disease",e.message.toString())
+            }
         }
+
 
         return binding.root
     }
@@ -67,27 +72,6 @@ class DisaseFragment : Fragment() {
         }
     }
 
-    private fun diseaseList(token : String){
-        remoteViewModel.readDiseaseList(token).addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    snapshot.children.forEach { child ->
-                        child.children.forEach { main ->
-                            val data = main.getValue(DiseaseEntity::class.java)
-                            data?.let { dataList.add(it) }
-                            showListDisease(dataList)
-                            dataChecker(dataList.size)
-                        }
-                    }
-                }else{
-                    dataChecker(0)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                showStatus(error.message)
-            }
-        })
-    }
 
     private fun showListDisease(data : List<DiseaseEntity>){
         try {
@@ -100,25 +84,15 @@ class DisaseFragment : Fragment() {
             adapter.onDiseaseDetailCallback(object : DiseaseRecyclerViewAdapter.OnDetailCallback{
                 override fun onDetailCallback(data: DiseaseEntity) {
                     findNavController().navigate(
-                        DisaseFragmentDirections.actionDisaseFragmentToDisaseDetailFragment(
-                            null,
-                            data,
-                            null,
-                        )
+                        DisaseFragmentDirections
+                            .actionDisaseFragmentToDisaseDetailFragment(data)
                     )
+                    Log.d("diseaseId",data.idDisease)
                 }
             })
 
         }catch (e : Exception){
             Log.d("DiseaseFragment",e.message.toString())
-        }
-    }
-
-    private fun showStatus(title : String){
-        binding.pgStatusTitle.text = title
-        binding.pgStatusTitle.visibility = View.VISIBLE
-        if (title.isNotEmpty()){
-            binding.pgStatusBar.visibility = View.GONE
         }
     }
 
