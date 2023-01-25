@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.model.remote.firebase
 
 import android.net.Uri
+import android.util.Log
 import com.example.rifsa_mobile.model.entity.remotefirebase.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

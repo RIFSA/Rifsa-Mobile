@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.model.repository.local
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.rifsa_mobile.helpers.fetching.StatusRespons
@@ -22,4 +23,7 @@ class DiseaseRepository(
 
     suspend fun deleteLocalDisease(id: String) =
         dao.deleteDiseaseLocal(id)
+
+    suspend fun updateDiseaseUpload(imageUri : Uri, idDisease : String) =
+        dao.updateDiseaseUpload(imageUri.toString(), idDisease)
 }

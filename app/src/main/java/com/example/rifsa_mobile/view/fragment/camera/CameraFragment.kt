@@ -176,7 +176,6 @@ class CameraFragment : Fragment() {
                 .previousBackStackEntry?.savedStateHandle
                 ?.set(camera_key_inventory,data)
             findNavController()
-                .popBackStack()
         }else{
             findNavController().navigate(
                 CameraFragmentDirections.actionCameraFragmentToPredictionDiseaseFragment(
@@ -198,9 +197,6 @@ class CameraFragment : Fragment() {
         private const val camera_fragment = "camera_fragment"
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
+
 
 }

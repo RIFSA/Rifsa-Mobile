@@ -1,10 +1,8 @@
 package com.example.rifsa_mobile.model.local.room.dao
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 
 @Dao
@@ -20,4 +18,7 @@ interface DiseaseDao {
 
     @Query("select*from DiseaseTable where isUploaded = 0")
     fun getDiseaseNotUploaded(): LiveData<List<DiseaseEntity>>
+
+    @Query("update DiseaseTable set imageUrl=:imageUri,isUploaded = 1 where idDisease=:idDisease")
+    suspend fun updateDiseaseUpload(imageUri : String,idDisease : String)
 }

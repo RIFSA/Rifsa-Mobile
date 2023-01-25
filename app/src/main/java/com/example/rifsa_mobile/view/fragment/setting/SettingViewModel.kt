@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.setting
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
@@ -17,19 +18,17 @@ class SettingViewModel(
     private var preferences : preferenceRepository
 ): ViewModel() {
     fun getDiseaseNotUploaded(): LiveData<List<DiseaseEntity>> =
-        localRepository.getDiseaseNotUploaded()
+        localRepository.readLocalDisease()
 
-    fun insertDiseaseImage(name : String, fileUri : Uri, userId: String): UploadTask =
-        remoteRepository.uploadDiseaseImage(name, fileUri, userId)
-
+    fun insertDiseaseImage(name : String, fileUri : Uri, userId: String): UploadTask {
+        return remoteRepository.uploadDiseaseImage(name, fileUri, userId)
+    }
 
     fun insertDiseaseRemote(data : DiseaseEntity, userId: String): Task<Void> =
         remoteRepository.saveDisease(data, userId)
 
-
     fun getFirebaseUserId(): LiveData<String> =
         preferences.getUserIdKey()
-
 
     fun getLocationListener(): LiveData<Boolean> =
         preferences.getLocationReceiver()
@@ -40,5 +39,9 @@ class SettingViewModel(
 
     suspend fun saveLocationListener(location : Boolean){
         preferences.saveLocationListener(location)
+    }
+
+    suspend fun updateDiseaseUpload(imageUri : Uri,idDisease : String){
+        localRepository.updateDiseaseUpload(imageUri, idDisease)
     }
 }

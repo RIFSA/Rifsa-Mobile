@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.setting
 
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -18,6 +19,7 @@ import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -84,14 +86,17 @@ class SettingFragment : Fragment() {
         binding.btnUnggahdata.setOnClickListener {
             viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
                 try {
-                    data.forEach { value-> uploadDiseaseImage(value) }
+                    val notUploaded = data.filter { key->(!key.isUploaded) }
+                    notUploaded.forEach { value ->
+                        Log.d("settingFragment",value.toString())
+                        uploadDiseaseImage(value)
+                    }
                 }catch (e : Exception){
                     Log.d("settingFragment",e.message.toString())
                 }
             }
         }
     }
-
 
     /*
     uploaded checker
@@ -106,6 +111,9 @@ class SettingFragment : Fragment() {
                 it.storage.downloadUrl
                     .addOnSuccessListener { imgUrl ->
                         Log.d("settingFragment",imgUrl.toString())
+                        lifecycleScope.launch {
+                            updateDiseaseLocal(imgUrl,data)
+                        }
                     }
                     .addOnFailureListener { e ->
                         Log.d("settingFragment",e.message.toString())
@@ -115,6 +123,29 @@ class SettingFragment : Fragment() {
                 Log.d("settingFragment",e.message.toString())
             }
     }
+
+    private suspend fun updateDiseaseLocal(url : Uri,data : DiseaseEntity){
+        delay(5000)
+        viewModel.updateDiseaseUpload(url,data.idDisease)
+        uploadDiseaseData(data)
+    }
+
+    private suspend fun uploadDiseaseData(data : DiseaseEntity){
+        delay(10000)
+        try {
+            viewModel.insertDiseaseRemote(
+                data,
+                userFirebaseId
+            ).addOnSuccessListener {
+                Log.d("settingFragment","berhasil")
+            }.addOnFailureListener {
+                Log.d("settingFragment",it.message.toString())
+            }
+        }catch (e : Exception){
+            Log.d("settingFragment",e.message.toString())
+        }
+    }
+
     /*
     Get Location
      */
