@@ -19,6 +19,9 @@ interface DiseaseDao {
     @Query("select*from DiseaseTable where isUploaded = 0")
     fun getDiseaseNotUploaded(): LiveData<List<DiseaseEntity>>
 
+    @Query("select*from DiseaseTable where isUploaded = 0")
+    fun getNotUploaded(): List<DiseaseEntity>
+
     @Query("update DiseaseTable set imageUrl=:imageUri,isUploaded = 1 where diseaseId=:idDisease")
     fun updateDiseaseUpload(imageUri : String,idDisease : String)
 }

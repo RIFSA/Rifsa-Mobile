@@ -15,14 +15,15 @@ import java.util.concurrent.Executors
 
 class DataUpload: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
-        Executors.newSingleThreadExecutor().execute {
-            val localData = Injection.provideDiseaseRepository(
-                context
-            ).readLocalDisease()
-            localData.value?.forEach { data ->
-                uploadData(context,data)
-            }
-        }
+//        Executors.newSingleThreadExecutor().execute {
+//            val localData = Injection.provideDiseaseRepository(
+//                context
+//            ).readLocalDisease()
+//            localData.observeForever { data ->
+//                data.forEach { uploadData(context,it)}
+//            }
+//        }
+        Log.d("dataupload","test upload")
     }
 
     fun setDailyUpload(context: Context){
@@ -46,7 +47,7 @@ class DataUpload: BroadcastReceiver() {
         workManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            1800000, //2 hours
+            100, //2 hours 1800000
             pendingIntent
         )
     }

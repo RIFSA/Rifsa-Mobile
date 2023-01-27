@@ -15,6 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentSettingBinding
+import com.example.rifsa_mobile.helpers.update.DataUpload
+import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -84,25 +86,29 @@ class SettingFragment : Fragment() {
             )
         }
         binding.btnUnggahdata.setOnClickListener {
-            binding.pgbarUnggah.visibility = View.VISIBLE
-            viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
-                try {
-                    val notUploaded = data.filter { key->(!key.isUploaded) }
-                    notUploaded.forEach { value ->
-                        Log.d("settingFragment",value.toString())
-                        uploadDiseaseImage(value)
-                    }
-                }catch (e : Exception){
-                    binding.pgbarUnggah.visibility = View.GONE
-                    Log.d("settingFragment",e.message.toString())
-                }
-            }
+//            uploadData()
+            DataUpload().setDailyUpload(requireContext())
         }
     }
 
     /*
     uploaded offline data
      */
+    private fun uploadData(){
+        binding.pgbarUnggah.visibility = View.VISIBLE
+        viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
+            try {
+                val notUploaded = data.filter { key->(!key.isUploaded) }
+                notUploaded.forEach { value ->
+                    Log.d("settingFragment",value.toString())
+                    uploadDiseaseImage(value)
+                }
+                }catch (e : Exception){
+                    binding.pgbarUnggah.visibility = View.GONE
+                    Log.d("settingFragment",e.message.toString())
+                }
+            }
+    }
     private fun uploadDiseaseImage(data : DiseaseEntity){
         viewModel.insertDiseaseImage(
             name = data.diseaseId,
