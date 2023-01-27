@@ -8,17 +8,17 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 @Dao
 interface DiseaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertDiseaseLocal(data : DiseaseEntity)
+    fun insertDiseaseLocal(data : DiseaseEntity)
 
     @Query("select * from DiseaseTable")
     fun getDiseaseLocal(): LiveData<List<DiseaseEntity>>
 
-    @Query("delete from DiseaseTable where idDisease like :id")
-    suspend fun deleteDiseaseLocal(id: String)
+    @Query("delete from DiseaseTable where diseaseId like :id")
+    fun deleteDiseaseLocal(id: String)
 
     @Query("select*from DiseaseTable where isUploaded = 0")
     fun getDiseaseNotUploaded(): LiveData<List<DiseaseEntity>>
 
-    @Query("update DiseaseTable set imageUrl=:imageUri,isUploaded = 1 where idDisease=:idDisease")
-    suspend fun updateDiseaseUpload(imageUri : String,idDisease : String)
+    @Query("update DiseaseTable set imageUrl=:imageUri,isUploaded = 1 where diseaseId=:idDisease")
+    fun updateDiseaseUpload(imageUri : String,idDisease : String)
 }

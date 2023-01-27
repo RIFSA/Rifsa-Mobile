@@ -9,14 +9,15 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "DiseaseTable")
 data class DiseaseEntity(
     @PrimaryKey(autoGenerate = true)
-    var id_local : Int = 0,
-    var idDisease: String = "",
+    var localId : Int = 0,
+    var diseaseId: String = "",
+    val firebaseUserId : String = "",
     var indexDisease : Int = 0,
+    var reminderID : Int = 0,
     var nameDisease : String = "",
     var dateDisease : String = "",
     var latitude : String = "",
     var longitude : String = "",
     var imageUrl : String = "",
-    var reminderID : Int = 0,
     var isUploaded : Boolean = false
 ): Parcelable

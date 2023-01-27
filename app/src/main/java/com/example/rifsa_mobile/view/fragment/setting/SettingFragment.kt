@@ -84,6 +84,7 @@ class SettingFragment : Fragment() {
             )
         }
         binding.btnUnggahdata.setOnClickListener {
+            binding.pgbarUnggah.visibility = View.VISIBLE
             viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
                 try {
                     val notUploaded = data.filter { key->(!key.isUploaded) }
@@ -92,6 +93,7 @@ class SettingFragment : Fragment() {
                         uploadDiseaseImage(value)
                     }
                 }catch (e : Exception){
+                    binding.pgbarUnggah.visibility = View.GONE
                     Log.d("settingFragment",e.message.toString())
                 }
             }
@@ -99,49 +101,52 @@ class SettingFragment : Fragment() {
     }
 
     /*
-    uploaded checker
+    uploaded offline data
      */
     private fun uploadDiseaseImage(data : DiseaseEntity){
         viewModel.insertDiseaseImage(
-            name = data.idDisease,
+            name = data.diseaseId,
             fileUri = data.imageUrl.toUri(),
             userId = userFirebaseId
         )
             .addOnSuccessListener {
                 it.storage.downloadUrl
                     .addOnSuccessListener { imgUrl ->
-                        Log.d("settingFragment",imgUrl.toString())
                         lifecycleScope.launch {
                             updateDiseaseLocal(imgUrl,data)
                         }
                     }
                     .addOnFailureListener { e ->
+                        binding.pgbarUnggah.visibility = View.GONE
                         Log.d("settingFragment",e.message.toString())
                     }
             }
             .addOnFailureListener { e ->
+                binding.pgbarUnggah.visibility = View.GONE
                 Log.d("settingFragment",e.message.toString())
             }
     }
 
     private suspend fun updateDiseaseLocal(url : Uri,data : DiseaseEntity){
         delay(5000)
-        viewModel.updateDiseaseUpload(url,data.idDisease)
+        viewModel.updateDiseaseUpload(url,data.diseaseId)
         uploadDiseaseData(data)
     }
 
     private suspend fun uploadDiseaseData(data : DiseaseEntity){
-        delay(10000)
+        delay(8000)
         try {
             viewModel.insertDiseaseRemote(
                 data,
                 userFirebaseId
             ).addOnSuccessListener {
-                Log.d("settingFragment","berhasil")
+                showMessage("berhasil terunggah")
             }.addOnFailureListener {
+                showMessage("gagal menggungah")
                 Log.d("settingFragment",it.message.toString())
             }
         }catch (e : Exception){
+            showMessage("gagal menggungah")
             Log.d("settingFragment",e.message.toString())
         }
     }
@@ -221,6 +226,18 @@ class SettingFragment : Fragment() {
     private fun saveLocation(request: UserLocation){
         lifecycleScope.launch {
             viewModel.saveLocation(request)
+        }
+    }
+
+    private fun showMessage(title : String){
+        binding.pgbarUnggah.visibility = View.GONE
+        binding.tvNotifUpload.apply {
+            visibility = View.VISIBLE
+            text = title
+            lifecycleScope.launch {
+                delay(3000)
+                visibility = View.GONE
+            }
         }
     }
 

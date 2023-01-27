@@ -12,7 +12,7 @@ import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 
 object Injection {
-    fun provideRemoteRepository(): FirebaseRepository {
+    fun provideFirebaseRepsitory(): FirebaseRepository {
         return FirebaseRepository(
             FirebaseService(),
         )

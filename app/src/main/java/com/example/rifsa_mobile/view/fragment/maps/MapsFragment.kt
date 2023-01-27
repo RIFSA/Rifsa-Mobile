@@ -114,7 +114,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                                     it.latitude.toDouble(),
                                     it.longitude.toDouble(),
                                     it.nameDisease,
-                                    it.idDisease
+                                    it.diseaseId
                                 )
                             }
                         }

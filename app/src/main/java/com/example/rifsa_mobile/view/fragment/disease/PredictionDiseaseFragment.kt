@@ -173,15 +173,16 @@ class PredictionDiseaseFragment : Fragment() {
 
     private fun insertDiseaseRemote(imageUrl : Uri){
         val tempData = DiseaseEntity(
-            id_local = 0,
-            idDisease = diseaseId,
+            localId = 0,
+            diseaseId = diseaseId,
+            reminderID = alarmId,
+            firebaseUserId = firebaseUserId,
             nameDisease = indicationName,
             indexDisease = diseaseIndex,
             dateDisease = currentDate,
             latitude = curLatitude.toString(),
             longitude = curLongitude.toString(),
             imageUrl = imageUrl.toString(),
-            reminderID = alarmId,
             isUploaded = isUploaded
         )
 
@@ -200,8 +201,9 @@ class PredictionDiseaseFragment : Fragment() {
         lifecycleScope.launch {
             delay(2000)
             val localData = DiseaseEntity(
-                id_local = 0,
-                idDisease = diseaseId,
+                localId = 0,
+                diseaseId = diseaseId,
+                firebaseUserId = firebaseUserId,
                 nameDisease = indicationName,
                 indexDisease = diseaseIndex,
                 dateDisease = currentDate,

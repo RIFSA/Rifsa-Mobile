@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.model.repository.remote
 
 import android.net.Uri
-import android.util.Log
 import com.example.rifsa_mobile.model.entity.remotefirebase.*
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.google.android.gms.tasks.Task
@@ -77,8 +76,8 @@ class FirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.getDiseaseInformationMisc(id, parent)
     }
 
-    fun uploadDiseaseImage(name : String, fileUri : Uri, userId: String): UploadTask{
-        return firebaseService.uploadDiseaseImage(name, fileUri, userId)
+    fun uploadDiseaseImage(idDisease : String, fileUri : Uri, userId: String): UploadTask{
+        return firebaseService.uploadDiseaseImage(idDisease, fileUri, userId)
     }
 
     fun saveDisease(data : DiseaseEntity, userId: String): Task<Void>{

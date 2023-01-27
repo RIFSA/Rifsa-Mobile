@@ -76,7 +76,7 @@ class ViewModelFactory private constructor(
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this){
                 instance ?: ViewModelFactory(
-                    Injection.provideRemoteRepository(),
+                    Injection.provideFirebaseRepsitory(),
                     Injection.provideLocalRepository(context),
                     Injection.provideDiseaseRepository(context),
                     Injection.provideWeatherRepository()

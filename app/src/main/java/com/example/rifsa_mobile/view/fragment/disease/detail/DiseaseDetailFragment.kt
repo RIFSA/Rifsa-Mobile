@@ -1,8 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.disease.detail
 
 import android.app.AlertDialog
-import android.content.Intent
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -30,7 +28,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
-import java.io.File
 
 @Suppress("DEPRECATION")
 class DiseaseDetailFragment : Fragment() {
@@ -111,7 +108,7 @@ class DiseaseDetailFragment : Fragment() {
 
         diseaseId = DiseaseDetailFragmentArgs.fromBundle(
             requireArguments()
-        ).diseaseData.idDisease
+        ).diseaseData.diseaseId
 
         imageBitmap = bitmapImage
 

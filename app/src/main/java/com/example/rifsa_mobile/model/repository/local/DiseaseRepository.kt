@@ -18,12 +18,12 @@ class DiseaseRepository(
     fun getDiseaseNotUploaded(): LiveData<List<DiseaseEntity>> =
         dao.getDiseaseNotUploaded()
 
-    suspend fun insertLocalDisease(data : DiseaseEntity) =
+    fun insertLocalDisease(data : DiseaseEntity) =
         dao.insertDiseaseLocal(data)
 
-    suspend fun deleteLocalDisease(id: String) =
+    fun deleteLocalDisease(id: String) =
         dao.deleteDiseaseLocal(id)
 
-    suspend fun updateDiseaseUpload(imageUri : Uri, idDisease : String) =
+    fun updateDiseaseUpload(imageUri : Uri, idDisease : String) =
         dao.updateDiseaseUpload(imageUri.toString(), idDisease)
 }
