@@ -36,6 +36,7 @@ class SettingFragment : Fragment() {
     private var userFirebaseId = ""
     private val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
+    private var uploadedReminderId = (1..1000).random()
 
     private val viewModel : SettingViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
@@ -87,7 +88,10 @@ class SettingFragment : Fragment() {
         }
         binding.btnUnggahdata.setOnClickListener {
 //            uploadData()
-            DataUpload().setDailyUpload(requireContext())
+            DataUpload().setDailyUpload(
+                requireContext(),
+                uploadedReminderId
+            )
         }
     }
 

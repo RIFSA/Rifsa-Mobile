@@ -10,25 +10,35 @@ import android.util.Log
 import androidx.core.net.toUri
 import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.Executors
 
 class DataUpload: BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent?) {
-//        Executors.newSingleThreadExecutor().execute {
-//            val localData = Injection.provideDiseaseRepository(
-//                context
-//            ).readLocalDisease()
-//            localData.observeForever { data ->
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onReceive(context: Context, intent: Intent) {
+//        val localData = Injection.provideDiseaseRepository(
+//            context
+//        ).getDiseaseNotUploaded()
+//        GlobalScope.launch(Dispatchers.IO) {
+//            localData.observe(this.coroutineContext.view) { data ->
 //                data.forEach { uploadData(context,it)}
 //            }
 //        }
-        Log.d("dataupload","test upload")
+        val id = intent.getIntExtra("uploadId",0)
+        Log.d("uploadId",id.toString())
     }
 
-    fun setDailyUpload(context: Context){
+    fun setDailyUpload(
+        context: Context,
+        uploadId : Int
+    ){
         val workManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context,DataUpload::class.java)
+        intent.putExtra("uploadId",uploadId)
 
         val calendar = Calendar.getInstance()
         calendar.apply {
@@ -47,7 +57,7 @@ class DataUpload: BroadcastReceiver() {
         workManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            100, //2 hours 1800000
+            1000, //2 hours 1800000
             pendingIntent
         )
     }

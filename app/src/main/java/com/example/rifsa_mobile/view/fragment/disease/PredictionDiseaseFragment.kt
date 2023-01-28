@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.databinding.FragmentPredictionDiseaseBinding
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
+import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
@@ -34,6 +35,7 @@ import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 
 class PredictionDiseaseFragment : Fragment() {
@@ -55,7 +57,9 @@ class PredictionDiseaseFragment : Fragment() {
     private var indicationName = ""
     private var isUploaded = false
     private var alarmId = (1..1000).random()
+    private var uploadedReminderId = (1..1000).random()
 
+    private var internetCheck by Delegates.notNull<Boolean>()
     private lateinit var firebaseUserId : String
     private lateinit var imageUri : Uri
     private lateinit var imageBitmap  : Bitmap
@@ -105,8 +109,9 @@ class PredictionDiseaseFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPredictionDiseaseBinding.inflate(layoutInflater)
+        internetCheck = Utils.internetChecker(requireContext())
         classification = DiseasePrediction(requireContext())
         fusedLocation = LocationServices.getFusedLocationProviderClient(
             requireContext()
@@ -125,8 +130,11 @@ class PredictionDiseaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSaveDisease2.setOnClickListener {
-            uploadDiseaseImage()
-            insertDiseaseLocal()
+            if(!internetCheck){
+                insertDiseaseLocal()
+            }else{
+                uploadDiseaseImage()
+            }
         }
     }
 
@@ -159,15 +167,18 @@ class PredictionDiseaseFragment : Fragment() {
                     .addOnSuccessListener { imgUrl ->
                         insertDiseaseRemote(imgUrl)
                         imageUri = imgUrl
+                        isUploaded = true
                     }
                     .addOnFailureListener { respon ->
                         showStatus(respon.message.toString())
                         isUploaded = false
+                        insertDiseaseLocal()
                     }
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
                 isUploaded = false
+                insertDiseaseLocal()
             }
     }
 
@@ -183,21 +194,25 @@ class PredictionDiseaseFragment : Fragment() {
             latitude = curLatitude.toString(),
             longitude = curLongitude.toString(),
             imageUrl = imageUrl.toString(),
-            isUploaded = isUploaded
+            isUploaded = isUploaded,
+            uploadReminderId = uploadedReminderId
         )
 
         viewModel.saveDisease(tempData,firebaseUserId)
             .addOnSuccessListener {
                 showStatus("penyakit tersimpan")
                 isUploaded = true
+                insertDiseaseLocal()
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
                 isUploaded = false
+                insertDiseaseLocal()
             }
     }
 
     private fun insertDiseaseLocal(){
+        Log.d("insertDiseae","$isUploaded")
         lifecycleScope.launch {
             delay(2000)
             val localData = DiseaseEntity(
@@ -211,7 +226,8 @@ class PredictionDiseaseFragment : Fragment() {
                 longitude = curLongitude.toString(),
                 imageUrl = imageUri.toString(),
                 reminderID = alarmId,
-                isUploaded = isUploaded
+                isUploaded = isUploaded,
+                uploadReminderId = uploadedReminderId
             )
 
             try {

@@ -59,10 +59,10 @@
         </activity>
 
         <receiver
-            android:name=".helpers.AlarmReceiver"
+            android:name=".helpers.update.DataUpload"
             android:enabled="true"
             android:exported="false"
-            android:permission="alarm"></receiver>
+            android:permission="alarm" />
     </application>
 
 </manifest>

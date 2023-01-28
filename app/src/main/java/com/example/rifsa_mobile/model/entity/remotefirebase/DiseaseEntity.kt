@@ -19,5 +19,6 @@ data class DiseaseEntity(
     var latitude : String = "",
     var longitude : String = "",
     var imageUrl : String = "",
-    var isUploaded : Boolean = false
+    var isUploaded : Boolean = false,
+    var uploadReminderId : Int = 0
 ): Parcelable
