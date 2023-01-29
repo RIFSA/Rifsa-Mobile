@@ -15,6 +15,9 @@ class DiseaseRepository(
     fun readLocalDisease(): LiveData<List<DiseaseEntity>> =
         dao.getDiseaseLocal()
 
+    fun getNotUploaded(): List<DiseaseEntity> =
+        dao.getNotUploaded()
+
     fun getDiseaseNotUploaded(): LiveData<List<DiseaseEntity>> =
         dao.getDiseaseNotUploaded()
 

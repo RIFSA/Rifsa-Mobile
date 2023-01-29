@@ -217,9 +217,9 @@ class PredictionDiseaseFragment : Fragment() {
     }
 
     private fun insertDiseaseLocal(){
-        if (!isUploaded){
-            setUploadReminder()
-        }
+//        if (!isUploaded){
+//            setUploadReminder()
+//        }
         lifecycleScope.launch {
             delay(2000)
             val localData = DiseaseEntity(

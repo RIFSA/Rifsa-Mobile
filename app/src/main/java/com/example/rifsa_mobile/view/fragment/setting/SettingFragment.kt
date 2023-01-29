@@ -91,14 +91,10 @@ class SettingFragment : Fragment() {
     }
 
     private fun setUploadReminder(){
-        viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
-            data.forEach { value ->
-                UploadDataWorker().setDailyUpload(
-                    requireContext(),
-                    value.uploadReminderId
-                )
-            }
-        }
+        UploadDataWorker().setDailyUpload(
+            requireContext(),
+            uploadedReminderId
+        )
     }
 
     /*

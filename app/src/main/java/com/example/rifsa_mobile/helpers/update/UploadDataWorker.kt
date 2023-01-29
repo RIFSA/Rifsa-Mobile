@@ -27,9 +27,12 @@ class UploadDataWorker: BroadcastReceiver() {
             val uploadId = intent.getIntExtra("uploadId",0)
             val dataNotUploaded = Injection.provideDiseaseRepository(
                 context
-            ).getDataNotUploaded(uploadId)
-            uploadData(context,dataNotUploaded)
+            ).getNotUploaded()
 
+            dataNotUploaded.forEach { data->
+                uploadData(context,data)
+                Log.d("test", data.diseaseId)
+            }
             showUploadNotification(
                 context,
                 "upload data",
