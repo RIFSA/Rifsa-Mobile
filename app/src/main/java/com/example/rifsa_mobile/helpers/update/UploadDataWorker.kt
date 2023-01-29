@@ -21,6 +21,7 @@ import java.util.concurrent.Executors
 class UploadDataWorker: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        //todo uploadchecker by live data
         Executors.newSingleThreadExecutor().execute {
             val randomNotificationId = UUID.randomUUID().toString()
             val uploadId = intent.getIntExtra("uploadId",0)
