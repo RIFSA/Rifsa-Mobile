@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.databinding.FragmentPredictionDiseaseBinding
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
+import com.example.rifsa_mobile.helpers.update.UploadDataWorker
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
@@ -31,6 +32,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -56,8 +58,10 @@ class PredictionDiseaseFragment : Fragment() {
     private var diseaseIndex = 0
     private var indicationName = ""
     private var isUploaded = false
-    private var alarmId = (1..1000).random()
+
     private var uploadedReminderId = (1..1000).random()
+    private lateinit var uploadDataReceiver : UploadDataWorker
+    private var alarmId = (1..1000).random()
 
     private var internetCheck by Delegates.notNull<Boolean>()
     private lateinit var firebaseUserId : String
@@ -111,6 +115,7 @@ class PredictionDiseaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPredictionDiseaseBinding.inflate(layoutInflater)
+        uploadDataReceiver = UploadDataWorker()
         internetCheck = Utils.internetChecker(requireContext())
         classification = DiseasePrediction(requireContext())
         fusedLocation = LocationServices.getFusedLocationProviderClient(
@@ -212,7 +217,9 @@ class PredictionDiseaseFragment : Fragment() {
     }
 
     private fun insertDiseaseLocal(){
-        Log.d("insertDiseae","$isUploaded")
+        if (!isUploaded){
+            setUploadReminder()
+        }
         lifecycleScope.launch {
             delay(2000)
             val localData = DiseaseEntity(
@@ -234,6 +241,7 @@ class PredictionDiseaseFragment : Fragment() {
                 viewModel.insertDiseaseLocal(localData)
                 showStatus("tersimpan lokal")
                 //add setReminder
+
             }catch (e : Exception){
                 showStatus("gagal menyimpan")
                 Log.d("diseaseDetail",e.toString())
@@ -306,6 +314,12 @@ class PredictionDiseaseFragment : Fragment() {
         Log.d(DiseaseDetailFragment.page_key,title)
     }
 
+    private fun setUploadReminder(){
+        uploadDataReceiver.setDailyUpload(
+            requireContext(),
+            uploadedReminderId
+        )
+    }
     /*
         Location Request
      */
@@ -354,4 +368,7 @@ class PredictionDiseaseFragment : Fragment() {
         }
     }
 
+    companion object{
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+    }
 }

@@ -15,8 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentSettingBinding
-import com.example.rifsa_mobile.helpers.update.DataUpload
-import com.example.rifsa_mobile.injection.Injection
+import com.example.rifsa_mobile.helpers.update.UploadDataWorker
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -87,11 +86,18 @@ class SettingFragment : Fragment() {
             )
         }
         binding.btnUnggahdata.setOnClickListener {
-//            uploadData()
-            DataUpload().setDailyUpload(
-                requireContext(),
-                uploadedReminderId
-            )
+            setUploadReminder()
+        }
+    }
+
+    private fun setUploadReminder(){
+        viewModel.getDiseaseNotUploaded().observe(viewLifecycleOwner){ data->
+            data.forEach { value ->
+                UploadDataWorker().setDailyUpload(
+                    requireContext(),
+                    value.uploadReminderId
+                )
+            }
         }
     }
 

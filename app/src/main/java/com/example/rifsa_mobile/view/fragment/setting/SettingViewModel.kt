@@ -44,4 +44,5 @@ class SettingViewModel(
     suspend fun updateDiseaseUpload(imageUri : Uri,idDisease : String){
         localRepository.updateDiseaseUpload(imageUri, idDisease)
     }
+
 }

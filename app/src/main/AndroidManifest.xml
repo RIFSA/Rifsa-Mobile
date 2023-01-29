@@ -59,7 +59,7 @@
         </activity>
 
         <receiver
-            android:name=".helpers.update.DataUpload"
+            android:name=".helpers.update.UploadDataWorker"
             android:enabled="true"
             android:exported="false"
             android:permission="alarm" />

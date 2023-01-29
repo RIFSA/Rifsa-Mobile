@@ -21,6 +21,9 @@ class DiseaseRepository(
     fun checkNotUploaded(): List<DiseaseEntity> =
         dao.getNotUploaded()
 
+    fun getDataNotUploaded(alarmId : Int): DiseaseEntity =
+        dao.getDataNotUploaded(alarmId)
+
     fun insertLocalDisease(data : DiseaseEntity) =
         dao.insertDiseaseLocal(data)
 

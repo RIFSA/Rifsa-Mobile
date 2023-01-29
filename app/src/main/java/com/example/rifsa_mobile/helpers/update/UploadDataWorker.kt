@@ -1,35 +1,41 @@
 package com.example.rifsa_mobile.helpers.update
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
+import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.Executors
 
-class DataUpload: BroadcastReceiver() {
-    @OptIn(DelicateCoroutinesApi::class)
+class UploadDataWorker: BroadcastReceiver() {
+
     override fun onReceive(context: Context, intent: Intent) {
-//        val localData = Injection.provideDiseaseRepository(
-//            context
-//        ).getDiseaseNotUploaded()
-//        GlobalScope.launch(Dispatchers.IO) {
-//            localData.observe(this.coroutineContext.view) { data ->
-//                data.forEach { uploadData(context,it)}
-//            }
-//        }
-        val id = intent.getIntExtra("uploadId",0)
-        Log.d("uploadId",id.toString())
+        Executors.newSingleThreadExecutor().execute {
+            val randomNotificationId = UUID.randomUUID().toString()
+            val uploadId = intent.getIntExtra("uploadId",0)
+            val dataNotUploaded = Injection.provideDiseaseRepository(
+                context
+            ).getDataNotUploaded(uploadId)
+            uploadData(context,dataNotUploaded)
+
+            showUploadNotification(
+                context,
+                "upload data",
+                uploadId,
+                randomNotificationId
+            )
+        }
     }
 
     fun setDailyUpload(
@@ -37,7 +43,7 @@ class DataUpload: BroadcastReceiver() {
         uploadId : Int
     ){
         val workManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context,DataUpload::class.java)
+        val intent = Intent(context,UploadDataWorker::class.java)
         intent.putExtra("uploadId",uploadId)
 
         val calendar = Calendar.getInstance()
@@ -49,7 +55,7 @@ class DataUpload: BroadcastReceiver() {
 
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            100,
+            uploadId,
             intent,
             PendingIntent.FLAG_IMMUTABLE
         )
@@ -57,7 +63,7 @@ class DataUpload: BroadcastReceiver() {
         workManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            1000, //2 hours 1800000
+            10000, //2 hours 1800000
             pendingIntent
         )
     }
@@ -92,15 +98,20 @@ class DataUpload: BroadcastReceiver() {
     ){
         val storage = Injection.provideDiseaseRepository(context)
         storage.updateDiseaseUpload(url,data.diseaseId)
-        uploadDiseaseData(data)
+        Thread.sleep(5000)
+        uploadDiseaseData(context,data)
     }
 
-    private fun uploadDiseaseData(data : DiseaseEntity){
+    private fun uploadDiseaseData(
+        context: Context,
+        data : DiseaseEntity
+    ){
         try {
             Injection.provideFirebaseRepsitory()
                 .saveDisease(data,data.firebaseUserId)
                 .addOnSuccessListener {
                     Log.d("settingFragment","succes upload")
+                    cancelWorker(context,data.uploadReminderId)
                 }
                 .addOnFailureListener {
                     Log.d("settingFragment",it.message.toString())
@@ -110,4 +121,55 @@ class DataUpload: BroadcastReceiver() {
         }
     }
 
+    private fun showUploadNotification(
+        context: Context,
+        title : String,
+        dataId : Int,
+        notificationId : String
+    ){
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val builder =
+            NotificationCompat.Builder(context,notificationId)
+                .setSmallIcon(R.drawable.ic_back)
+                .setContentTitle(title)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel(
+                    notificationId,
+                    notificationId,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+
+            channel.enableLights(true)
+            builder.setChannelId(notificationId)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = builder.build()
+        notificationManager.notify(dataId,notification)
+    }
+
+    fun cancelWorker(
+        context: Context,
+        workerId : Int
+    ){
+        val alarmManager =
+            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent =
+            Intent(context,UploadDataWorker::class.java)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            workerId,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        pendingIntent.cancel()
+        alarmManager.cancel(pendingIntent)
+    }
 }
