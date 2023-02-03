@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
+import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
 import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
 import com.example.rifsa_mobile.model.repository.local.preferenceRepository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseViewModel
+import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestInsertViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
@@ -25,6 +27,7 @@ class ViewModelFactory private constructor(
     private val diseaseRepository: DiseaseRepository,
     private val weatherRepository: WeatherRepository,
     private val harvestRepository: HarvestRepository,
+    private val FinancialRepository : FinancialRepository,
 ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -32,6 +35,11 @@ class ViewModelFactory private constructor(
             modelClass.isAssignableFrom(HarvestInsertViewModel::class.java)->{
                 HarvestInsertViewModel(
                     harvestRepository
+                ) as T
+            }
+            modelClass.isAssignableFrom(FinancialInsertViewModel::class.java)->{
+                FinancialInsertViewModel(
+                    FinancialRepository,
                 ) as T
             }
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
@@ -88,7 +96,8 @@ class ViewModelFactory private constructor(
                     Injection.provideLocalRepository(context),
                     Injection.provideDiseaseRepository(context),
                     Injection.provideWeatherRepository(),
-                    Injection.provideHarvestRepository(context)
+                    Injection.provideHarvestRepository(context),
+                    Injection.provideFinancialRepository(context)
                 )
             }.also { instance = it }
     }

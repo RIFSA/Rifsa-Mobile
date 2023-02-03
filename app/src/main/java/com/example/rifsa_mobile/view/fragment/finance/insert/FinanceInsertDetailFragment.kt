@@ -16,10 +16,12 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
+import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -29,19 +31,23 @@ import java.util.*
 class FinanceInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentFinanceInsertDetailBinding
 
-
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val viewModel : FinancialInsertViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
 
-    private var currentDate = LocalDate.now().toString()
     private var type = ""
-    private var isDetail = false
-
+    private var firebaseId = ""
+    private var currentDate = LocalDate.now().toString()
     private var detailId = UUID.randomUUID().toString()
-
+    private val uploadReminderId = (1..1000).random()
+    private var isDetail = false
     private var isConnected = false
+    private var isUploaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +55,7 @@ class FinanceInsertDetailFragment : Fragment() {
     ): View {
         binding = FragmentFinanceInsertDetailBinding.inflate(layoutInflater)
         isConnected = Utils.internetChecker(requireContext())
+        authViewModel.getUserId().observe(viewLifecycleOwner){ firebaseId = it}
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
@@ -61,8 +68,9 @@ class FinanceInsertDetailFragment : Fragment() {
                 detailId = data.idFinance
                 currentDate = data.date
             }
-        }catch (e : Exception){ }
-
+        }catch (e : Exception){
+            Log.d("financeDetailFragment",e.toString())
+        }
 
         return binding.root
     }
@@ -94,7 +102,11 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnFinanceSave.setOnClickListener {
-            insertUpdateFinanceRemote()
+            if(!isConnected){
+                insertFinancialLocally()
+            }else{
+                insertUpdateFinanceRemote()
+            }
         }
 
         binding.btnfinanceInsertDelete.setOnClickListener {
@@ -121,25 +133,41 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
+    private fun setDetail(data : FinancialEntity){
+        val amount = data.price
+        binding.apply {
+            tvfinanceInsertDate.text = data.date
+            tvfinanceInsertNama.setText(data.name)
+            tvfinanceInsertHarga.setText(amount)
+            tvfinanceInsertCatatan.setText(data.noted)
+            btnfinanceInsertDelete.visibility = View.VISIBLE
+            "Detail Data".also { tvFinanceInsertdetail.text = it }
+        }
+    }
+
     private fun insertUpdateFinanceRemote(){
+        val tempData = FinancialEntity(
+            localId = 0,
+            firebaseUserId = "",
+            idFinance = detailId,
+            date = currentDate,
+            name = binding.tvfinanceInsertNama.text.toString(),
+            price = binding.tvfinanceInsertHarga.text.toString(),
+            type = type,
+            noted = binding.tvfinanceInsertCatatan.text.toString(),
+            isUploaded = true,
+            uploadReminderId = uploadReminderId
+        )
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
-                val tempData = FinancialEntity(
-                    detailId,
-                    currentDate,
-                    binding.tvfinanceInsertNama.text.toString(),
-                    binding.tvfinanceInsertHarga.text.toString(),
-                    type,
-                    binding.tvfinanceInsertCatatan.text.toString(),
-                    true
-                )
-                remoteViewModel.insertUpdateFinancial(tempData,userId)
+                viewModel.insertUpdateFinancial(tempData,userId)
                     .addOnSuccessListener {
                         showStatus("berhasil menambahkan")
-                        findNavController().navigate(
-                            FinanceInsertDetailFragmentDirections.actionFinanceInsertDetailFragmentToFinanceFragment())
+                        isUploaded = true
+                        insertFinancialLocally()
                     }
                     .addOnFailureListener {
+                        isUploaded = false
                         showStatus("gagal menambahkan")
                     }
             }
@@ -149,7 +177,7 @@ class FinanceInsertDetailFragment : Fragment() {
 
     private fun deleteFinanceRemote(){
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
-            remoteViewModel.deleteFinancial(currentDate,detailId,userId)
+            viewModel.deleteFinancial(currentDate,detailId,userId)
                 .addOnSuccessListener {
                     showStatus("data terhapus")
                     findNavController().navigate(
@@ -163,20 +191,6 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
     }
-
-
-    private fun setDetail(data : FinancialEntity){
-        val amount = data.price
-        binding.apply {
-            tvfinanceInsertDate.text = data.date
-            tvfinanceInsertNama.setText(data.name)
-            tvfinanceInsertHarga.setText(amount)
-            tvfinanceInsertCatatan.setText(data.noted)
-            btnfinanceInsertDelete.visibility = View.VISIBLE
-            "Detail Data".also { tvFinanceInsertdetail.text = it }
-        }
-    }
-
 
     private fun datePicker(){
         val instance = Calendar.getInstance()
@@ -196,6 +210,32 @@ class FinanceInsertDetailFragment : Fragment() {
         datePicker.show()
     }
 
+    private fun insertFinancialLocally(){
+        val data = FinancialEntity(
+            localId = 0,
+            firebaseUserId = firebaseId,
+            idFinance = detailId,
+            date = currentDate,
+            name = binding.tvfinanceInsertNama.text.toString(),
+            price = binding.tvfinanceInsertHarga.text.toString(),
+            type = type,
+            noted = binding.tvfinanceInsertCatatan.text.toString(),
+            isUploaded = isUploaded,
+            uploadReminderId = uploadReminderId
+        )
+        lifecycleScope.launch {
+            delay(2000)
+            try {
+                viewModel.insertFinanceLocally(data)
+                findNavController().navigate(
+                    FinanceInsertDetailFragmentDirections
+                        .actionFinanceInsertDetailFragmentToFinanceFragment()
+                )
+            }catch (e : Exception){
+                Log.d("financeDetail",e.toString())
+            }
+        }
+    }
 
     private fun showStatus(title : String){
         if(title.isNotEmpty()){

@@ -7,6 +7,7 @@ import com.example.rifsa_mobile.model.local.room.dbconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiConfig
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
+import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
 import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
 import com.example.rifsa_mobile.model.repository.local.preferenceRepository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
@@ -34,6 +35,13 @@ object Injection {
 
     fun provideHarvestRepository(context: Context): HarvestRepository {
         return HarvestRepository(
+            DatabaseConfig.setDatabase(context),
+            FirebaseService()
+        )
+    }
+
+    fun provideFinancialRepository(context: Context): FinancialRepository{
+        return FinancialRepository(
             DatabaseConfig.setDatabase(context),
             FirebaseService()
         )
