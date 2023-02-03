@@ -124,10 +124,8 @@ class PredictionDiseaseFragment : Fragment() {
         authViewModel.getUserId().observe(viewLifecycleOwner){userId ->
             firebaseUserId = userId
         }
-
         createLocationRequest()
         showDiseaseDetail()
-
         return binding.root
     }
 
@@ -135,33 +133,40 @@ class PredictionDiseaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSaveDisease2.setOnClickListener {
+            binding.pgbarDisease.visibility = View.VISIBLE
             if(!internetCheck){
                 insertDiseaseLocal()
             }else{
                 uploadDiseaseImage()
             }
         }
+
+        if (!internetCheck){
+            offlineView()
+        }
     }
 
     private fun showDiseaseDetail(){
+        binding.pgbarDisease.visibility = View.VISIBLE
         imageUri = PredictionDiseaseFragmentArgs.fromBundle(
             requireArguments()
         ).diseaseImage.toUri()
 
-        val bitmapImage = MediaStore.Images.Media.getBitmap(
-            requireContext().contentResolver,imageUri
-        )
-        imageBitmap = bitmapImage
-        binding.imgDisaseDetail2.setImageBitmap(bitmapImage)
-
         indicationName = PredictionDiseaseFragmentArgs.fromBundle(
             requireArguments()
         ).diseaseName
-        binding.tvdisasaeDetailIndication2.text = indicationName
 
         diseaseIndex = PredictionDiseaseFragmentArgs.fromBundle(
             requireArguments()
         ).diseaseId
+
+        binding.tvdisasaeDetailIndication2.text = indicationName
+        val bitmapImage = MediaStore.Images.Media.getBitmap(
+            requireContext().contentResolver,imageUri
+        )
+
+        imageBitmap = bitmapImage
+        binding.imgDisaseDetail2.setImageBitmap(bitmapImage)
         showDiseaseInformation(diseaseIndex)
     }
 
@@ -205,7 +210,6 @@ class PredictionDiseaseFragment : Fragment() {
 
         viewModel.saveDisease(tempData,firebaseUserId)
             .addOnSuccessListener {
-                showStatus("penyakit tersimpan")
                 isUploaded = true
                 insertDiseaseLocal()
             }
@@ -217,9 +221,6 @@ class PredictionDiseaseFragment : Fragment() {
     }
 
     private fun insertDiseaseLocal(){
-//        if (!isUploaded){
-//            setUploadReminder()
-//        }
         lifecycleScope.launch {
             delay(2000)
             val localData = DiseaseEntity(
@@ -239,7 +240,7 @@ class PredictionDiseaseFragment : Fragment() {
 
             try {
                 viewModel.insertDiseaseLocal(localData)
-                showStatus("tersimpan lokal")
+                binding.pgCheck.visibility = View.VISIBLE
                 //add setReminder
 
             }catch (e : Exception){
@@ -256,12 +257,11 @@ class PredictionDiseaseFragment : Fragment() {
                     val data = snapshot.getValue(DiseaseDetailEntity::class.java)
                     if (data != null) {
                         binding.tvdisasaeDetailDescription3.text = data.Cause
-                        binding.pgdiseaseBar2.visibility = View.GONE
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     showStatus(error.message)
+                    binding.pgbarDisease.visibility = View.GONE
                 }
             })
         showTreatment(id.toString(),"Treatment")
@@ -294,32 +294,38 @@ class PredictionDiseaseFragment : Fragment() {
                     snapshot.children.forEach {
                         indicationList.add(it.value.toString())
                         val adapter = DiseaseMiscRecyclerViewAdapter(indicationList)
-                        val recyclerView = binding.recvIndefication.recyclerviewTreatment
+                        val recyclerView = binding.recvIndefication.recyclerviewCharacteristic
                         recyclerView.adapter = adapter
                         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        binding.pgbarDisease.visibility = View.GONE
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {
                     showStatus(error.message)
+                    binding.pgbarDisease.visibility = View.GONE
                 }
             })
     }
 
     private fun showStatus(title: String){
         binding.apply {
-            pgdiseaseTitle2.text = title
-            pgdiseaseBar2.visibility = View.GONE
-            pgdiseaseTitle2.visibility = View.VISIBLE
+            tvdisasaeStatus.text = title
+            pgbarDisease.visibility = View.GONE
+            tvdisasaeStatus.visibility = View.VISIBLE
         }
         Log.d(DiseaseDetailFragment.page_key,title)
     }
 
-    private fun setUploadReminder(){
-        uploadDataReceiver.setDailyUpload(
-            requireContext(),
-            uploadedReminderId
-        )
+    private fun offlineView(){
+        binding.pgbarDisease.visibility = View.GONE
+        binding.recvIndefication.apply {
+            characteristicLayouts.visibility = View.GONE
+        }
+        binding.recvTreatment.apply {
+            treatmentsLayouts.visibility = View.GONE
+        }
     }
+
     /*
         Location Request
      */
@@ -366,9 +372,5 @@ class PredictionDiseaseFragment : Fragment() {
                 coarseLocation
             ))
         }
-    }
-
-    companion object{
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
     }
 }

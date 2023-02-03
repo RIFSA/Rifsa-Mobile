@@ -22,6 +22,7 @@ class UploadDataWorker: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         //todo uploadchecker by live data
+        //todo no itnernet connection view
         Executors.newSingleThreadExecutor().execute {
             val randomNotificationId = UUID.randomUUID().toString()
             val uploadId = intent.getIntExtra("uploadId",0)

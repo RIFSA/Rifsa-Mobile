@@ -183,7 +183,7 @@ class DiseaseDetailFragment : Fragment() {
                     snapshot.children.forEach {
                         solutionList.add(it.value.toString())
                         val adapter = DiseaseMiscRecyclerViewAdapter(solutionList)
-                        val recyclerView = binding.recvTreatment.recyclerviewTreatment
+                        val recyclerView = binding.recvTreatment.recyclerviewCharacteristic
                         recyclerView.adapter = adapter
                         recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     }
@@ -202,7 +202,7 @@ class DiseaseDetailFragment : Fragment() {
                     snapshot.children.forEach {
                         indicationList.add(it.value.toString())
                         val adapter = DiseaseMiscRecyclerViewAdapter(indicationList)
-                        val recyclerView = binding.recvIndefication.recyclerviewTreatment
+                        val recyclerView = binding.recvIndefication.recyclerviewCharacteristic
                         recyclerView.adapter = adapter
                         recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     }
