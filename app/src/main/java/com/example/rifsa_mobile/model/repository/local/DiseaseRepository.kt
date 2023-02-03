@@ -2,13 +2,11 @@ package com.example.rifsa_mobile.model.repository.local
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import com.example.rifsa_mobile.helpers.fetching.StatusRespons
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
-import com.example.rifsa_mobile.model.local.room.dbconfig.DbConfig
+import com.example.rifsa_mobile.model.local.room.dbconfig.DatabaseConfig
 
 class DiseaseRepository(
-    database : DbConfig,
+    database : DatabaseConfig,
 ) {
     private val dao = database.diseaseDao()
 

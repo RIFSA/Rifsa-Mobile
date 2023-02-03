@@ -14,7 +14,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
-import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestInsertViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,35 +24,42 @@ import java.util.*
 
 class HarvestInsertDetailFragment : Fragment() {
     private lateinit var binding : FragmentHarvestInsertDetailBinding
+    private val viewModel : HarvestInsertViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var date = LocalDate.now().toString()
-    private var detailId = UUID.randomUUID().toString()
-
+    private var firebaseUserId = ""
+    private var harvestId = UUID.randomUUID().toString()
+    private var uploadedReminderId = (1..1000).random()
+    private var localId = 0
     private var isDetail = false
     private var isConnected = false
-
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext())  }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private var isUploaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
-
         isConnected = Utils.internetChecker(requireContext())
-
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.GONE
 
+        authViewModel.getUserId().observe(viewLifecycleOwner){ firebaseUserId = it}
         try {
             val data = HarvestInsertDetailFragmentArgs.fromBundle(requireArguments()).detailResult
             if (data != null) {
                 showDetailHarvest(data)
+                localId = data.localId
                 isDetail = true
-                detailId = data.id
+                harvestId = data.id
                 date = data.date
             }
-        }catch (e : Exception){ }
-
+        }catch (e : Exception){
+            Log.d("HarvestInsertDetail",e.toString())
+        }
         return binding.root
     }
 
@@ -60,7 +67,11 @@ class HarvestInsertDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnHarvestSave.setOnClickListener {
-            insertUpdateHarvestRemote()
+            if (!isConnected){
+                insertHarvestLocally()
+            }else{
+                insertUpdateHarvestRemote()
+            }
         }
 
         binding.btnharvestInsertDelete.setOnClickListener {
@@ -69,7 +80,11 @@ class HarvestInsertDetailFragment : Fragment() {
                 setMessage("apakah anda ingin menghapus data ini ?")
                 apply {
                     setPositiveButton("ya") { _, _ ->
-                        deleteHarvestRemote()
+                        if (!isUploaded){
+                            deleteHarvest(localId)
+                        }else{
+                            deleteHarvestRemote()
+                        }
                     }
                     setNegativeButton("tidak") { dialog, _ ->
                         dialog.dismiss()
@@ -101,52 +116,85 @@ class HarvestInsertDetailFragment : Fragment() {
     }
 
     private fun insertUpdateHarvestRemote(){
+        val harvestData = HarvestEntity(
+            localId = 0,
+            id = harvestId,
+            firebaseUserId = firebaseUserId,
+            date = date,
+            typeOfGrain = binding.tvharvestInsertName.text.toString(),
+            weight = binding.tvharvestInsertBerat.text.toString(),
+            income = binding.tvharvestInsertHasil.text.toString(),
+            note = binding.tvharvestInsertCatatan.text.toString(),
+            isUploaded = true,
+            uploadReminderId = uploadedReminderId
+        )
+
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId->
             lifecycleScope.launch {
-
-                val tempData = HarvestEntity(
-                    detailId,
-                    date,
-                    binding.tvharvestInsertName.text.toString(),
-                    binding.tvharvestInsertBerat.text.toString(),
-                    binding.tvharvestInsertHasil.text.toString(),
-                    binding.tvharvestInsertCatatan.text.toString(),
-                    true
-                )
-
                 binding.pgbarStatus.visibility = View.VISIBLE
-                remoteViewModel.insertUpdateHarvestResult(tempData,userId)
+                viewModel.insertUpdateHarvestResult(harvestData,userId)
                     .addOnSuccessListener {
                         showStatus("berhasil menambahkan")
                         findNavController().navigate(
                             HarvestInsertDetailFragmentDirections
                                 .actionHarvestInsertDetailFragmentToHarvetResultFragment()
                         )
+                        isUploaded = true
+                        insertHarvestLocally()
                     }
-                   .addOnFailureListener {
-                        showStatus(it.message.toString())
+                    .addOnFailureListener { error->
+                        isUploaded = false
+                        showStatus(error.toString())
                     }
-                }
-
+            }
         }
-
     }
 
     private fun deleteHarvestRemote(){
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
-                remoteViewModel.deleteHarvestResult(date,detailId,userId)
+                viewModel.deleteHarvestResult(date,harvestId,userId)
                     .addOnSuccessListener {
                         showStatus("terhapus")
                         findNavController().navigate(
                             HarvestInsertDetailFragmentDirections
                                 .actionHarvestInsertDetailFragmentToHarvetResultFragment()
                         )
+                        deleteHarvest(localId)
                     }
                     .addOnFailureListener {
                         showStatus("gagal menghapus")
                     }
             }
+        }
+    }
+
+    private fun insertHarvestLocally(){
+        val harvestData = HarvestEntity(
+            localId = 0,
+            id = harvestId,
+            firebaseUserId = firebaseUserId,
+            date = date,
+            typeOfGrain = binding.tvharvestInsertName.text.toString(),
+            weight = binding.tvharvestInsertBerat.text.toString(),
+            income = binding.tvharvestInsertHasil.text.toString(),
+            note = binding.tvharvestInsertCatatan.text.toString(),
+            isUploaded = isUploaded,
+            uploadReminderId = uploadedReminderId
+        )
+
+        try {
+            viewModel.insertHarvestLocally(harvestData)
+        }catch (e : Exception){
+            Log.d("HarvestInsert",e.toString())
+        }
+    }
+
+    private fun deleteHarvest(localid : Int){
+        try {
+            viewModel.deleteHarvestLocal(localid)
+        }catch (e : Exception){
+            Log.d("HarvestInsert",e.toString())
         }
     }
 

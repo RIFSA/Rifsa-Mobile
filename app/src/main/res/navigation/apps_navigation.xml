@@ -267,7 +267,7 @@
     </fragment>
     <fragment
         android:id="@+id/predictionDiseaseFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.disease.PredictionDiseaseFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.disease.predictionresult.PredictionDiseaseFragment"
         android:label="fragment_prediction_disease"
         tools:layout="@layout/fragment_prediction_disease" >
         <argument

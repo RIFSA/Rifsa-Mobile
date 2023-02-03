@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.disease
+package com.example.rifsa_mobile.view.fragment.disease.predictionresult
 
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -24,6 +24,7 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.view.fragment.disease.adapter.DiseaseMiscRecyclerViewAdapter
 import com.example.rifsa_mobile.view.fragment.disease.detail.DiseaseDetailFragment
+import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseDetailViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
@@ -32,7 +33,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit

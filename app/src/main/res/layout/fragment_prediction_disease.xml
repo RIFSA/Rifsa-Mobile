@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.disease.PredictionDiseaseFragment"
+    tools:context=".view.fragment.disease.predictionresult.PredictionDiseaseFragment"
     >
 
     <LinearLayout
@@ -15,7 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1200dp">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar17"
@@ -69,7 +69,7 @@
                         android:id="@+id/btn_save_disease2"
                         android:layout_width="27dp"
                         android:layout_height="26dp"
-                        android:layout_marginEnd="35dp"
+                        android:layout_marginEnd="20dp"
                         android:src="@drawable/ic_vector_save"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_harvestresult_insertdetail"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/dmsans_regular"
                 android:gravity="center|start"
@@ -153,7 +153,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView51" />
+                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_indication2" />
 
             <ImageView
                 android:id="@+id/img_disase_detail2"
@@ -174,18 +174,19 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
                 android:autofillHints="name"
                 android:fontFamily="@font/dmsans_regular"
-                android:gravity="center"
+                android:gravity="start"
                 android:includeFontPadding="false"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail2"
+                app:layout_constraintTop_toBottomOf="@+id/textView51"
                 tools:ignore="LabelFor" />
 
             <TextView
@@ -197,12 +198,13 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
-                android:text="@string/deskripsi"
+                android:text="Indikasi"
                 android:textColor="@color/main_color"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvdisasae_detail_indication2" />
+                app:layout_constraintTop_toBottomOf="@+id/img_disase_detail2" />
 
             <include
                 android:id="@+id/recv_indefication"
@@ -221,7 +223,7 @@
                 android:id="@+id/recv_treatment"
                 layout="@layout/recyclerview_disease_treatments"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="300dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"

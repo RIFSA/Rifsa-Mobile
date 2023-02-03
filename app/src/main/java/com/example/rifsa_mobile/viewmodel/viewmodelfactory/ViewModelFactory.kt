@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
+import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
 import com.example.rifsa_mobile.model.repository.local.preferenceRepository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
-import com.example.rifsa_mobile.view.fragment.disease.DiseaseDetailViewModel
-import com.example.rifsa_mobile.view.fragment.disease.DiseaseViewModel
+import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseDetailViewModel
+import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestInsertViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel
@@ -21,11 +23,17 @@ class ViewModelFactory private constructor(
     private val firebaseRepository: FirebaseRepository,
     private val preferenceRepository : preferenceRepository,
     private val diseaseRepository: DiseaseRepository,
-    private val weatherRepository: WeatherRepository
-    ): ViewModelProvider.Factory {
+    private val weatherRepository: WeatherRepository,
+    private val harvestRepository: HarvestRepository,
+): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
+            modelClass.isAssignableFrom(HarvestInsertViewModel::class.java)->{
+                HarvestInsertViewModel(
+                    harvestRepository
+                ) as T
+            }
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
                 UserPrefrencesViewModel(preferenceRepository) as T
             }
@@ -79,7 +87,8 @@ class ViewModelFactory private constructor(
                     Injection.provideFirebaseRepsitory(),
                     Injection.provideLocalRepository(context),
                     Injection.provideDiseaseRepository(context),
-                    Injection.provideWeatherRepository()
+                    Injection.provideWeatherRepository(),
+                    Injection.provideHarvestRepository(context)
                 )
             }.also { instance = it }
     }

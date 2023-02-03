@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.disease
+package com.example.rifsa_mobile.view.fragment.disease.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.LiveData

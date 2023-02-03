@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.disease
+package com.example.rifsa_mobile.view.fragment.disease.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

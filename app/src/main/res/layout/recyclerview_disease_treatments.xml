@@ -16,7 +16,7 @@
         android:gravity="center|start"
         android:text="Pengobatan"
         android:textColor="@color/main_color"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:drawableEndCompat="@drawable/ic_baseline_healing_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
