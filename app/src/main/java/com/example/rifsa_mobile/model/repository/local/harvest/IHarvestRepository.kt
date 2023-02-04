@@ -12,5 +12,6 @@ interface IHarvestRepository {
     fun insertHarvestLocally(data : HarvestEntity)
     suspend fun readHarvestLocal(): LiveData<List<HarvestEntity>>
     fun deleteHarvestLocal(localId : Int)
-    fun updateHarvestStatus(currentId : String)
+    fun updateUploadStatus(currentId : String)
+    fun readNotUploaded(): List<HarvestEntity>
 }

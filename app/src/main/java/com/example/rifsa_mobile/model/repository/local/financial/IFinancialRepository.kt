@@ -13,4 +13,6 @@ interface IFinancialRepository {
     fun readFinancialLocal(): LiveData<List<FinancialEntity>>
     fun deleteFinancialLocal(localId : Int)
     fun updateFinancialStatus(currentId : String)
+    fun readNotUploaded(): List<FinancialEntity>
+    fun updateUploadStatus(currentId : String)
 }

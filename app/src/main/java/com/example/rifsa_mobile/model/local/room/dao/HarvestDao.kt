@@ -15,6 +15,9 @@ interface HarvestDao {
     @Query("delete from HarvestTable where localId like :localId")
     fun deleteHarvestLocal(localId : Int)
 
+    @Query("select * from HarvestTable where isUploaded = 0")
+    fun readNotUploaded(): List<HarvestEntity>
+
     @Query("update HarvestTable set isUploaded = 1 where id =:currentId")
-    fun updateHarvestStatus(currentId : String)
+    fun updateUploadStatus(currentId : String)
 }

@@ -26,5 +26,5 @@ interface DiseaseDao {
     fun getNotUploaded(): List<DiseaseEntity>
 
     @Query("update DiseaseTable set imageUrl=:imageUri,isUploaded = 1 where diseaseId=:idDisease")
-    fun updateDiseaseUpload(imageUri : String,idDisease : String)
+    fun updateUploadStatus(imageUri : String, idDisease : String)
 }

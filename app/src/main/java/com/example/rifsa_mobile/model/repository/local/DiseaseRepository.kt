@@ -32,5 +32,5 @@ class DiseaseRepository(
         dao.deleteDiseaseLocal(id)
 
     fun updateDiseaseUpload(imageUri : Uri, idDisease : String) =
-        dao.updateDiseaseUpload(imageUri.toString(), idDisease)
+        dao.updateUploadStatus(imageUri.toString(), idDisease)
 }

@@ -18,7 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.databinding.FragmentPredictionDiseaseBinding
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
-import com.example.rifsa_mobile.helpers.update.UploadDataWorker
+import com.example.rifsa_mobile.helpers.update.DiseaseUploadWorker
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseDetailEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
@@ -60,7 +60,7 @@ class PredictionDiseaseFragment : Fragment() {
     private var isUploaded = false
 
     private var uploadedReminderId = (1..1000).random()
-    private lateinit var uploadDataReceiver : UploadDataWorker
+    private lateinit var uploadDataReceiver : DiseaseUploadWorker
     private var alarmId = (1..1000).random()
 
     private var internetCheck by Delegates.notNull<Boolean>()
@@ -115,7 +115,7 @@ class PredictionDiseaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPredictionDiseaseBinding.inflate(layoutInflater)
-        uploadDataReceiver = UploadDataWorker()
+        uploadDataReceiver = DiseaseUploadWorker()
         internetCheck = Utils.internetChecker(requireContext())
         classification = DiseasePrediction(requireContext())
         fusedLocation = LocationServices.getFusedLocationProviderClient(

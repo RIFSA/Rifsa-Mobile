@@ -36,4 +36,11 @@ class FinancialInsertViewModel(
         repository.updateFinancialStatus(currentId)
     }
 
+    override fun readNotUploaded(): List<FinancialEntity> =
+        repository.readNotUploaded()
+
+    override fun updateUploadStatus(currentId: String) {
+       repository.updateFinancialStatus(currentId)
+    }
+
 }

@@ -9,29 +9,33 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 
 class HarvestInsertViewModel(
-    private var harvestRepository: HarvestRepository,
+    private var repository: HarvestRepository,
 ): ViewModel(),IHarvestRepository {
     override fun insertUpdateHarvestResult(data : HarvestEntity, userId : String): Task<Void> =
-        harvestRepository.insertUpdateHarvestResult(data,userId)
+        repository.insertUpdateHarvestResult(data,userId)
 
     override fun readHarvestResult(userId: String): DatabaseReference =
-        harvestRepository.readHarvestResult(userId)
+        repository.readHarvestResult(userId)
 
     override fun deleteHarvestResult(date : String, dataId : String, userId : String): Task<Void> =
-        harvestRepository.deleteHarvestResult(date, dataId, userId)
+        repository.deleteHarvestResult(date, dataId, userId)
 
     override fun insertHarvestLocally(data : HarvestEntity) {
-        harvestRepository.insertHarvestLocally(data)
+        repository.insertHarvestLocally(data)
     }
 
     override suspend fun readHarvestLocal(): LiveData<List<HarvestEntity>> =
-        harvestRepository.readHarvestLocal()
+        repository.readHarvestLocal()
 
     override fun deleteHarvestLocal(localId : Int){
-        harvestRepository.deleteHarvestLocal(localId)
+        repository.deleteHarvestLocal(localId)
     }
 
-    override fun updateHarvestStatus(currentId : String){
-        harvestRepository.updateHarvestStatus(currentId)
+    override fun updateUploadStatus(currentId : String){
+        repository.updateUploadStatus(currentId)
     }
+
+    override fun readNotUploaded(): List<HarvestEntity> =
+        repository.readNotUploaded()
+
 }

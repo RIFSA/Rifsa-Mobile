@@ -18,7 +18,7 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import java.util.*
 import java.util.concurrent.Executors
 
-class UploadDataWorker: BroadcastReceiver() {
+class DiseaseUploadWorker: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         //todo uploadchecker by live data
@@ -48,7 +48,7 @@ class UploadDataWorker: BroadcastReceiver() {
         uploadId : Int
     ){
         val workManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context,UploadDataWorker::class.java)
+        val intent = Intent(context,DiseaseUploadWorker::class.java)
         intent.putExtra("uploadId",uploadId)
 
         val calendar = Calendar.getInstance()
@@ -165,7 +165,7 @@ class UploadDataWorker: BroadcastReceiver() {
             context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val intent =
-            Intent(context,UploadDataWorker::class.java)
+            Intent(context,DiseaseUploadWorker::class.java)
 
         val pendingIntent = PendingIntent.getBroadcast(
             context,

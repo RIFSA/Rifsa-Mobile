@@ -1,7 +1,6 @@
 package com.example.rifsa_mobile.model.repository.local.harvest
 
 import androidx.lifecycle.LiveData
-import androidx.room.Query
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.model.local.room.dbconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
@@ -32,11 +31,15 @@ class HarvestRepository(
     override suspend fun readHarvestLocal(): LiveData<List<HarvestEntity>> =
         dao.readHarvestLocal()
 
+    override fun readNotUploaded(): List<HarvestEntity> =
+        dao.readNotUploaded()
+
+
     override fun deleteHarvestLocal(localId : Int){
         dao.deleteHarvestLocal(localId)
     }
 
-    override fun updateHarvestStatus(currentId : String){
-        dao.updateHarvestStatus(currentId)
+    override fun updateUploadStatus(currentId : String){
+        dao.updateUploadStatus(currentId)
     }
 }

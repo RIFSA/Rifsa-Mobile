@@ -38,4 +38,12 @@ class FinancialRepository(
     override fun updateFinancialStatus(currentId: String) {
         dao.updateFinancialStatus(currentId)
     }
+
+    override fun readNotUploaded(): List<FinancialEntity> =
+        dao.readNotUploaded()
+
+
+    override fun updateUploadStatus(currentId: String) {
+        dao.updateUploadStatus(currentId)
+    }
 }

@@ -21,4 +21,10 @@ interface FinancialDao {
 
     @Query("update FinancialTable set isUploaded = 1 where idFinance =:currentId")
     fun updateFinancialStatus(currentId : String)
+
+    @Query("select * from FinancialTable where isUploaded = 0")
+    fun readNotUploaded(): List<FinancialEntity>
+
+    @Query("update FinancialTable set isUploaded = 1 where idFinance =:currentId")
+    fun updateUploadStatus(currentId : String)
 }

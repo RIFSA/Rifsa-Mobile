@@ -59,7 +59,17 @@
         </activity>
 
         <receiver
-            android:name=".helpers.update.UploadDataWorker"
+            android:name=".helpers.update.DiseaseUploadWorker"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="alarm" />
+        <receiver
+            android:name=".helpers.update.HarvestUploadWorker"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="alarm" />
+        <receiver
+            android:name=".helpers.update.FinanceUploadWorker"
             android:enabled="true"
             android:exported="false"
             android:permission="alarm" />
