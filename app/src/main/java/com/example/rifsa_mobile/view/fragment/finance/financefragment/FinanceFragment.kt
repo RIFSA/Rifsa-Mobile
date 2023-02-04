@@ -26,8 +26,12 @@ import kotlinx.coroutines.launch
 
 class FinanceFragment : Fragment() {
     private lateinit var binding : FragmentFinanceBinding
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val viewModel : RemoteViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var dataList = ArrayList<FinancialEntity>()
 
@@ -60,7 +64,7 @@ class FinanceFragment : Fragment() {
 
     private fun getFinanceList(userId : String){
         lifecycleScope.launch{
-            remoteViewModel.readFinancial(userId).addValueEventListener(object : ValueEventListener{
+            viewModel.readFinancial(userId).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
                         snapshot.children.forEach { child ->
