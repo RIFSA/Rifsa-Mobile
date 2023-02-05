@@ -23,7 +23,6 @@
         android:id="@+id/main_bottommenu"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_margin="5dp"
         android:background="@color/green"
         android:padding="5dp"
         app:itemIconTint="@color/white"

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
+import com.example.rifsa_mobile.view.fragment.finance.FinanceViewModel
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -23,15 +24,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
-
 class FinanceFragment : Fragment() {
     private lateinit var binding : FragmentFinanceBinding
-    private val viewModel : RemoteViewModel by viewModels{
+
+    private val viewModel : FinanceViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
-    private val authViewModel : UserPrefrencesViewModel by viewModels {
-        ViewModelFactory.getInstance(requireContext())
-    }
+
 
     private var dataList = ArrayList<FinancialEntity>()
 
@@ -53,37 +52,22 @@ class FinanceFragment : Fragment() {
             )
         }
 
-        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
-            binding.pgbFinanceBar.visibility = View.VISIBLE
-            getFinanceList(userId)
-        }
+        getFinanceList()
 
         return binding.root
     }
 
 
-    private fun getFinanceList(userId : String){
+    private fun getFinanceList(){
         lifecycleScope.launch{
-            viewModel.readFinancial(userId).addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        snapshot.children.forEach { child ->
-                            child.children.forEach { main ->
-                                val data = main.getValue(FinancialEntity::class.java)
-                                data?.let { dataList.add(data) }
-                                showFinancialList(dataList)
-                                dataChecker(dataList.size)
-                            }
-                        }
-                    }else{
-                        dataChecker(0)
-                    }
+            try {
+                viewModel.readFinancial().observe(viewLifecycleOwner){ data ->
+                    showFinancialList(data)
+                    dataChecker(data.size)
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    showStatus(error.message)
-                }
-            })
+            }catch (e : Exception){
+                Log.d("FinanceFragment",e.toString())
+            }
         }
     }
 

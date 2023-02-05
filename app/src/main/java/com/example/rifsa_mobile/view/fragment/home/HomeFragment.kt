@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHomeBinding
+import com.example.rifsa_mobile.helpers.utils.Utils.internetChecker
 import com.example.rifsa_mobile.model.entity.openweatherapi.WeatherDetailResponse
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
@@ -21,9 +22,6 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 import kotlin.math.round
@@ -31,7 +29,9 @@ import kotlin.math.round
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
-    private val viewModel : HomeFragmentViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
+    private val viewModel : HomeFragmentViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var harvestList = ArrayList<HarvestEntity>()
     private var diseaseList = ArrayList<DiseaseEntity>()
@@ -51,9 +51,6 @@ class HomeFragment : Fragment() {
             getUserName().observe(viewLifecycleOwner){ name ->
                 binding.tvhomeName.text = name
             }
-            getUserId().observe(viewLifecycleOwner){ token ->
-                getHarvestRemote(token)
-            }
         }
 
         viewModel.getUserLocation().observe(viewLifecycleOwner){ location->
@@ -65,6 +62,11 @@ class HomeFragment : Fragment() {
             }
         }
 
+        if (internetChecker(requireContext())){
+            binding.cardWeather.visibility = View.VISIBLE
+        }
+
+        readHarvestData()
         return binding.root
     }
 
@@ -108,25 +110,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getHarvestRemote(token : String){
-        viewModel.readHarvestResult(token).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    snapshot.children.forEach { child ->
-                        child.children.forEach { main ->
-                            val data = main.getValue(HarvestEntity::class.java)
-                            data?.let { harvestList.add(data) }
-                            showHarvestList(harvestList)
-                        }
-                    }
-                }else{
-                    showStatus(requireContext().getString(R.string.tidak_ada_data))
+    private fun readHarvestData(){
+        lifecycleScope.launch {
+            try {
+                viewModel.readHarvestLocal().observe(viewLifecycleOwner){ data ->
+                    showHarvestList(data)
                 }
+            }catch ( e : Exception){
+                Log.d("homefragment",e.toString())
             }
-            override fun onCancelled(error: DatabaseError) {
-                showStatus(error.message)
-            }
-        })
+        }
+
     }
 
     private fun showHarvestList(data : List<HarvestEntity>){
@@ -159,25 +153,13 @@ class HomeFragment : Fragment() {
             .load(icon)
             .into(binding.imgWeatherhomeIcon)
     }
-    private fun diseaseCount(){
-        viewModel.getUserId().observe(viewLifecycleOwner){ userId ->
-            viewModel.readDiseaseResult(userId).addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        snapshot.children.forEach { child->
-                            child.children.forEach{ main ->
-                                val data = main.getValue(DiseaseEntity::class.java)
-                                data?.let { diseaseList.add(it) }
-                                showDiseaseTotal(diseaseList.size)
-                            }
-                        }
-                    }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("homeFragment",error.message.toString())
-                }
-            })
+
+    private fun diseaseCount(){
+        lifecycleScope.launch {
+            viewModel.readDiseaseLocal().observe(viewLifecycleOwner){ data ->
+                showDiseaseTotal(data.size)
+            }
         }
     }
 

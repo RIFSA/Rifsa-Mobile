@@ -10,31 +10,7 @@ import com.google.firebase.database.DatabaseReference
 
 class HarvestResultViewModel(
     private val repository : HarvestRepository
-): ViewModel(),IHarvestRepository {
-    override fun insertUpdateHarvestResult(data : HarvestEntity, userId : String): Task<Void> =
-        repository.insertUpdateHarvestResult(data,userId)
-
-    override fun readHarvestResult(userId: String): DatabaseReference =
-        repository.readHarvestResult(userId)
-
-    override fun deleteHarvestResult(date : String, dataId : String, userId : String): Task<Void> =
-        repository.deleteHarvestResult(date, dataId, userId)
-
-    override fun insertHarvestLocally(data : HarvestEntity) {
-        repository.insertHarvestLocally(data)
-    }
-
-    override suspend fun readHarvestLocal(): LiveData<List<HarvestEntity>> =
+): ViewModel(){
+    suspend fun readHarvestResult(): LiveData<List<HarvestEntity>> =
         repository.readHarvestLocal()
-
-    override fun deleteHarvestLocal(localId : Int){
-        repository.deleteHarvestLocal(localId)
-    }
-
-    override fun updateUploadStatus(currentId : String){
-        repository.updateUploadStatus(currentId)
-    }
-
-    override fun readNotUploaded(): List<HarvestEntity> =
-        repository.readNotUploaded()
 }

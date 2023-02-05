@@ -89,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/harvetResultFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.harvestresultfragment.HarvetResultFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.result.HarvetResultFragment"
         android:label="fragment_harvet_result"
         tools:layout="@layout/fragment_harvet_result" >
         <action

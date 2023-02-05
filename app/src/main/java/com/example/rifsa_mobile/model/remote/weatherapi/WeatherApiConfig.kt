@@ -11,7 +11,7 @@ object WeatherApiConfig {
     fun setApiService(): WeatherApiService {
         val loggingInterceptor =
             if (BuildConfig.DEBUG){
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS)
             }else{
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }

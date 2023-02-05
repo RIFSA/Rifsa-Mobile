@@ -199,7 +199,7 @@
                 android:id="@+id/btn_home_hasil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="15dp"
                 android:fontFamily="@font/dmsans_medium"
                 android:gravity="center"
                 android:includeFontPadding="false"
@@ -214,7 +214,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
@@ -240,12 +240,13 @@
                 android:id="@+id/barhome_harvest"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="32dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_home_hasil" />
+                app:layout_constraintBottom_toBottomOf="@+id/textView13"
+                app:layout_constraintStart_toEndOf="@+id/textView13"
+                app:layout_constraintTop_toTopOf="@+id/textView13"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/card_weather"
@@ -255,6 +256,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/bg_card_stroke_green"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView_two">
@@ -262,7 +264,7 @@
                 <TextView
                     android:id="@+id/tv_city_name"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dmsans_regular"
@@ -276,7 +278,7 @@
                 <TextView
                     android:id="@+id/tv_weatherhome_desc"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dmsans_bold"
                     android:gravity="center|end"
@@ -299,14 +301,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.529"
-                    tools:src="@drawable/ic_sunny" />
+                    app:layout_constraintVertical_bias="0.529" />
 
                 <TextView
                     android:id="@+id/tv_weatherhome_temp"
                     android:layout_width="83dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="40sp"
@@ -325,6 +327,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

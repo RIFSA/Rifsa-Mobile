@@ -12,8 +12,10 @@ import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseViewModel
+import com.example.rifsa_mobile.view.fragment.finance.FinanceViewModel
 import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestInsertViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel
@@ -37,9 +39,19 @@ class ViewModelFactory private constructor(
                     harvestRepository
                 ) as T
             }
+            modelClass.isAssignableFrom(HarvestResultViewModel::class.java)->{
+                HarvestResultViewModel(
+                    harvestRepository
+                ) as T
+            }
             modelClass.isAssignableFrom(FinancialInsertViewModel::class.java)->{
                 FinancialInsertViewModel(
                     FinancialRepository,
+                ) as T
+            }
+            modelClass.isAssignableFrom(FinanceViewModel::class.java)->{
+                FinanceViewModel(
+                    FinancialRepository
                 ) as T
             }
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
@@ -56,8 +68,9 @@ class ViewModelFactory private constructor(
             }
             modelClass.isAssignableFrom(HomeFragmentViewModel::class.java)->{
                 HomeFragmentViewModel(
+                    harvestRepository,
+                    diseaseRepository,
                     weatherRepository,
-                    firebaseRepository,
                     preferenceRepository
                 ) as T
             }
