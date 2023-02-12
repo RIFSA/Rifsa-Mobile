@@ -99,7 +99,9 @@ class ViewModelFactory private constructor(
                 LoginViewModel(
                     PreferenceRespository,
                     firebaseRepository,
-                    harvestRepository
+                    harvestRepository,
+                    diseaseRepository,
+                    FinancialRepository
                 ) as T
             }
 
