@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rifsa_mobile.injection.Injection
-import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
+import com.example.rifsa_mobile.model.repository.local.disease.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
 import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
-import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.local.preference.PreferenceRespository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
+import com.example.rifsa_mobile.view.activity.authetication.login.LoginViewModel
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseDetailViewModel
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseViewModel
 import com.example.rifsa_mobile.view.fragment.finance.FinanceViewModel
@@ -25,7 +26,7 @@ import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewMode
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
     private val firebaseRepository: FirebaseRepository,
-    private val preferenceRepository : preferenceRepository,
+    private val PreferenceRespository : PreferenceRespository,
     private val diseaseRepository: DiseaseRepository,
     private val weatherRepository: WeatherRepository,
     private val harvestRepository: HarvestRepository,
@@ -55,7 +56,7 @@ class ViewModelFactory private constructor(
                 ) as T
             }
             modelClass.isAssignableFrom(UserPrefrencesViewModel::class.java) ->{
-                UserPrefrencesViewModel(preferenceRepository) as T
+                UserPrefrencesViewModel(PreferenceRespository) as T
             }
             modelClass.isAssignableFrom(RemoteViewModel::class.java)->{
                 RemoteViewModel(firebaseRepository) as T
@@ -63,7 +64,7 @@ class ViewModelFactory private constructor(
             modelClass.isAssignableFrom(WeatherFragmentViewModel::class.java)->{
                 WeatherFragmentViewModel(
                     weatherRepository,
-                    preferenceRepository
+                    PreferenceRespository
                 ) as T
             }
             modelClass.isAssignableFrom(HomeFragmentViewModel::class.java)->{
@@ -71,20 +72,20 @@ class ViewModelFactory private constructor(
                     harvestRepository,
                     diseaseRepository,
                     weatherRepository,
-                    preferenceRepository
+                    PreferenceRespository
                 ) as T
             }
             modelClass.isAssignableFrom(SettingViewModel::class.java)->{
                 SettingViewModel(
                     firebaseRepository,
                     diseaseRepository,
-                    preferenceRepository
+                    PreferenceRespository
                 ) as T
             }
             modelClass.isAssignableFrom(DiseaseDetailViewModel::class.java)->{
                 DiseaseDetailViewModel(
                     diseaseRepository,
-                    preferenceRepository,
+                    PreferenceRespository,
                     firebaseRepository,
                 ) as T
             }
@@ -92,6 +93,13 @@ class ViewModelFactory private constructor(
                 DiseaseViewModel(
                     diseaseRepository,
                     firebaseRepository
+                ) as T
+            }
+            modelClass.isAssignableFrom(LoginViewModel::class.java)->{
+                LoginViewModel(
+                    PreferenceRespository,
+                    firebaseRepository,
+                    harvestRepository
                 ) as T
             }
 

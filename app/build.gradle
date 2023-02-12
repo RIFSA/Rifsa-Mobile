@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.rifsa_mobile"
-        minSdk 26
+        minSdk 25
         targetSdk 33
         versionCode 1
         versionName "1.0"

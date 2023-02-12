@@ -4,8 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
-import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
-import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.local.disease.DiseaseRepository
+import com.example.rifsa_mobile.model.repository.local.preference.PreferenceRespository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
@@ -13,7 +13,7 @@ import com.google.firebase.storage.UploadTask
 
 class DiseaseDetailViewModel(
     private val diseaseRepository: DiseaseRepository,
-    private val referenceRepository : preferenceRepository,
+    private val referenceRepository : PreferenceRespository,
     private val remoteRespository: FirebaseRepository
 ): ViewModel() {
     fun getUserId(): LiveData<String> =

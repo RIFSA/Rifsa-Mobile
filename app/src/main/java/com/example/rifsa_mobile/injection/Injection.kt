@@ -6,10 +6,10 @@ import com.example.rifsa_mobile.model.local.preferences.dataStore
 import com.example.rifsa_mobile.model.local.room.dbconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiConfig
-import com.example.rifsa_mobile.model.repository.local.DiseaseRepository
+import com.example.rifsa_mobile.model.repository.local.disease.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
 import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
-import com.example.rifsa_mobile.model.repository.local.preferenceRepository
+import com.example.rifsa_mobile.model.repository.local.preference.PreferenceRespository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
 
@@ -23,13 +23,13 @@ object Injection {
         return  WeatherRepository(WeatherApiConfig.setApiService())
     }
 
-    fun provideLocalRepository(context: Context): preferenceRepository {
-        return preferenceRepository(
+    fun provideLocalRepository(context: Context): PreferenceRespository {
+        return PreferenceRespository(
             AuthenticationPreference.getInstance(context.dataStore)
         )
     }
 
-    fun provideDiseaseRepository(context: Context): DiseaseRepository{
+    fun provideDiseaseRepository(context: Context): DiseaseRepository {
         return DiseaseRepository(DatabaseConfig.setDatabase(context))
     }
 

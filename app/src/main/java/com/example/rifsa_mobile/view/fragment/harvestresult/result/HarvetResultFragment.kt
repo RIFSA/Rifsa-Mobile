@@ -40,10 +40,8 @@ class HarvetResultFragment : Fragment() {
         binding = FragmentHarvetResultBinding.inflate(layoutInflater)
         isConnected = Utils.internetChecker(requireContext())
 
-
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
-
 
         lifecycleScope.launch {
             viewModel.readHarvestResult().observe(viewLifecycleOwner){data->
@@ -58,13 +56,16 @@ class HarvetResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.fabHarvestToinsert.setOnClickListener {
             findNavController().navigate(
-                HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(
+                HarvetResultFragmentDirections
+                    .actionHarvetResultFragmentToHarvestInsertDetailFragment(
                     null
                 )
             )
         }
         binding.btnHarvestBackhome.setOnClickListener {
-            findNavController().navigate(HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment())
+            findNavController().navigate(
+                HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
+            )
         }
 
     }

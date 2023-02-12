@@ -13,4 +13,5 @@ class HarvestResultViewModel(
 ): ViewModel(){
     suspend fun readHarvestResult(): LiveData<List<HarvestEntity>> =
         repository.readHarvestLocal()
+
 }
