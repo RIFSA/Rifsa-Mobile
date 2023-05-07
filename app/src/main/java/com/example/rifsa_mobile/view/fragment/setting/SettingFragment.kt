@@ -1,9 +1,11 @@
 package com.example.rifsa_mobile.view.fragment.setting
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +26,7 @@ import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class SettingFragment : Fragment() {
@@ -70,25 +73,33 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.switchLocation.apply {
-            setOnCheckedChangeListener { _, checked ->
-                if(checked){
-                    createLocationRequest()
-                    setUpdatelocation()
-                    locationListener(true)
-                }else{
-                    stopTracking()
-                    locationListener(false)
+        binding.apply {
+            switchLocation.apply {
+                setOnCheckedChangeListener { _, checked ->
+                    if(checked){
+                        createLocationRequest()
+                        setUpdatelocation()
+                        locationListener(true)
+                    }else{
+                        stopTracking()
+                        locationListener(false)
+                    }
                 }
             }
-        }
-        binding.btnSettingBackhome.setOnClickListener {
-            findNavController().navigate(
-                SettingFragmentDirections.actionSettingFragmentToProfileFragment()
-            )
-        }
-        binding.btnUnggahdata.setOnClickListener {
-            setUploadReminder()
+            btnSettingBackhome.setOnClickListener {
+                findNavController().navigate(
+                    SettingFragmentDirections.actionSettingFragmentToProfileFragment()
+                )
+            }
+            btnUnggahdata.setOnClickListener {
+                setUploadReminder()
+            }
+            btnLanguage.setOnClickListener {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+            }
+            Locale.getDefault().language.also {
+                btnLanguage.text = it
+            }
         }
     }
 
