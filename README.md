@@ -103,7 +103,9 @@ Apps Demo
 <!-- ROADMAP -->
 ## Roadmap
 
-Old
+V1 (master)
+first version of the apps
+
  - [x] Designing User interface
  - [x] OnBoard page
  - [x] Authetication page (JWT token)
@@ -114,18 +116,19 @@ Old
  - [x] Inventory Page
  - [x] Detect Page
  - [x] Profile Page
- - [x] Remote CRUD (SQL)
+ - [x] Remote GCP
 
-Rework
+V2 (master-v2)
+rework version of the apps due to db problem
+we change with firebase
 
  - [x] Authentication with Firebase Auth
- - [x] Remote CRUD (NO SQL)
+ - [x] Remote Firebase
  - [x] Firebase Realtime Database
  - [x] Firebase Storage
- - [ ] Room database
- - [ ] Disease detection
- - [ ] offline and online mode
- 
+ - [x] Room database
+ - [x] Disease detection
+ - [x] offline and online mode
 
 <!-- LICENSE -->
 ## License
