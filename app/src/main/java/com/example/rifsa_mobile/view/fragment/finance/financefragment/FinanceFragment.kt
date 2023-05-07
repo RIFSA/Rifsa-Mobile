@@ -31,7 +31,6 @@ class FinanceFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-
     private var dataList = ArrayList<FinancialEntity>()
 
     override fun onCreateView(

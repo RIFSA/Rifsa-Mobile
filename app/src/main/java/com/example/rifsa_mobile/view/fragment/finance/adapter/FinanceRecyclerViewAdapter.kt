@@ -19,7 +19,6 @@ class FinanceRecyclerViewAdapter(private var dataList : List<FinancialEntity>): 
         return ViewHolder(ItemcardFinanceBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.tvcardFinanceTitle.text = item.name

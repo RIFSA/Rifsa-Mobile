@@ -29,11 +29,9 @@
         android:theme="@style/Theme.RifsaMobile"
         android:usesCleartextTraffic="true">
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCxBUaI25cpMZFaM89OdA_Uzc_6O1edq28" />
-
 
         <activity
             android:name=".view.activity.authetication.signup.SignUpActivity"
