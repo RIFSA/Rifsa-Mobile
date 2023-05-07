@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.harvestresult.insert
+package com.example.rifsa_mobile.view.fragment.harvestresult.insertdetail
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -14,7 +14,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvestInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
-import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestInsertViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestInsertViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -44,8 +44,9 @@ class HarvestInsertDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHarvestInsertDetailBinding.inflate(layoutInflater)
         isConnected = Utils.internetChecker(requireContext())
-        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
-        bottomMenu.visibility = View.GONE
+        requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu).apply {
+            visibility = View.GONE
+        }
 
         authViewModel.getUserId().observe(viewLifecycleOwner){ firebaseUserId = it}
         try {
@@ -67,6 +68,7 @@ class HarvestInsertDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnHarvestSave.setOnClickListener {
+            binding.pgbarStatus.visibility = View.VISIBLE
             if (!isConnected){
                 insertHarvestLocally()
             }else{

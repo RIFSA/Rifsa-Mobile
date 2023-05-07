@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.fragment.harvestresult
+package com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

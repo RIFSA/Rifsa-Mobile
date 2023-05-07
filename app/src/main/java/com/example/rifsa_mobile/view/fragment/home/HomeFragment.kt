@@ -22,6 +22,7 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.model.remote.utils.FetchResult
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 import kotlin.math.round
@@ -41,7 +42,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-
         binding.mainHomeLayout.fullScroll(ScrollView.FOCUS_UP)
 
         binding.imageView2.setImageResource(R.drawable.mockprofile)

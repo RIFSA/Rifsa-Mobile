@@ -15,8 +15,8 @@ import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseDetailVie
 import com.example.rifsa_mobile.view.fragment.disease.viewmodel.DiseaseViewModel
 import com.example.rifsa_mobile.view.fragment.finance.FinanceViewModel
 import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
-import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestInsertViewModel
-import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestResultViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestInsertViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel

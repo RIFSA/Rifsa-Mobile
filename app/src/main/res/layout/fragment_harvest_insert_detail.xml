@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:id="@+id/harvest_insert_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/harvest_insert_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.harvestresult.insert.HarvestInsertDetailFragment">
+    android:layout_height="1000dp"
+    android:scrollbars="none"
+    tools:context=".view.fragment.harvestresult.insertdetail.HarvestInsertDetailFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="24dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar4"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="50dp"
             android:contentInsetStart="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
@@ -25,10 +25,7 @@
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:contentInsetStart="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -75,192 +72,194 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="@string/jenis_panen"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pgbar_title" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/tvharvest_insert_hasil"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
-            android:autofillHints="name"
-            android:background="@drawable/bg_tvcorner_stroke_gray"
-            android:fontFamily="@font/dmsans_regular"
-            android:includeFontPadding="false"
-            android:inputType="number|text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17"
-            tools:ignore="LabelFor" />
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="center|start"
+                android:text="@string/jenis_panen"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pgbar_title" />
 
-        <EditText
-            android:id="@+id/tvharvest_insert_berat"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
-            android:autofillHints="name"
-            android:background="@drawable/bg_tvcorner_stroke_gray"
-            android:fontFamily="@font/dmsans_regular"
-            android:includeFontPadding="false"
-            android:inputType="number|text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16"
-            tools:ignore="LabelFor" />
+            <EditText
+                android:id="@+id/tvharvest_insert_hasil"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_tvcorner_stroke_gray"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:inputType="number|text"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView17"
+                tools:ignore="LabelFor" />
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="@string/berat"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_name" />
+            <EditText
+                android:id="@+id/tvharvest_insert_berat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_tvcorner_stroke_gray"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:inputType="number|text"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView16"
+                tools:ignore="LabelFor" />
 
-        <EditText
-            android:id="@+id/tvharvest_insert_catatan"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
-            android:autofillHints="name"
-            android:background="@drawable/bg_tvcorner_stroke_gray"
-            android:fontFamily="@font/dmsans_regular"
-            android:includeFontPadding="false"
-            android:inputType="text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18"
-            tools:ignore="LabelFor" />
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="center|start"
+                android:text="@string/berat"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_name" />
 
-        <EditText
-            android:id="@+id/tvharvest_insert_name"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
-            android:autofillHints="name"
-            android:background="@drawable/bg_tvcorner_stroke_gray"
-            android:fontFamily="@font/dmsans_regular"
-            android:includeFontPadding="false"
-            android:inputType="textPersonName"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14"
-            tools:ignore="LabelFor" />
+            <EditText
+                android:id="@+id/tvharvest_insert_catatan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_tvcorner_stroke_gray"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:padding="10dp"
+                android:singleLine="false"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView18"
+                tools:ignore="LabelFor" />
 
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="@string/catatan"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_hasil" />
+            <EditText
+                android:id="@+id/tvharvest_insert_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_tvcorner_stroke_gray"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
+                tools:ignore="LabelFor" />
 
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/dmsans_bold"
-            android:gravity="center|start"
-            android:text="@string/hasil_jual"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_berat" />
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="center|start"
+                android:text="@string/catatan"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_hasil" />
 
-        <Button
-            android:id="@+id/btnharvest_insert_delete"
-            android:layout_width="0dp"
-            android:layout_height="68dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:backgroundTint="@color/red"
-            android:fontFamily="@font/dmsans_bold"
-            android:includeFontPadding="false"
-            android:text="@string/hapus"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_catatan" />
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="center|start"
+                android:text="@string/hasil_jual"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_berat" />
 
-        <TextView
-            android:id="@+id/pgbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:text="Status bar"
-            android:textColor="#2E3131"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar4" />
+            <Button
+                android:id="@+id/btnharvest_insert_delete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/dmsans_bold"
+                android:includeFontPadding="false"
+                android:text="@string/hapus"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvharvest_insert_catatan" />
 
-        <ProgressBar
-            android:id="@+id/pgbar_status"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="30dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/pgbar_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/pgbar_title"
-            app:layout_constraintVertical_bias="0.909" />
+            <TextView
+                android:id="@+id/pgbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:text="Status bar"
+                android:textColor="#2E3131"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar4" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ProgressBar
+                android:id="@+id/pgbar_status"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="30dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/pgbar_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/pgbar_title"
+                app:layout_constraintVertical_bias="0.909" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 
 </ScrollView>

@@ -16,7 +16,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar9"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="50dp"
             android:contentInsetStart="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
@@ -37,9 +37,12 @@
                 <TextView
                     android:id="@+id/tv_finance_insertdetail"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/dmsans_bold"
+                    android:gravity="center"
                     android:includeFontPadding="false"
                     android:text="@string/detail_keuangan"
                     android:textColor="@color/black"
@@ -51,25 +54,25 @@
                 <ImageView
                     android:id="@+id/btn_finance_backhome"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="24dp"
                     android:contentDescription="@string/back"
                     android:src="@drawable/ic_back"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_finance_insertdetail"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_finance_insertdetail"
                     app:tint="@color/black" />
 
                 <ImageView
                     android:id="@+id/btn_Finance_save"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@string/save"
                     android:src="@drawable/ic_vector_save"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_finance_insertdetail"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_finance_insertdetail" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -14,14 +14,10 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
-import com.example.rifsa_mobile.view.fragment.harvestresult.HarvestResultViewModel
+import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
-import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 class HarvetResultFragment : Fragment() {

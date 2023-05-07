@@ -119,7 +119,7 @@
     </fragment>
     <fragment
         android:id="@+id/harvestInsertDetailFragment"
-        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.insert.HarvestInsertDetailFragment"
+        android:name="com.example.rifsa_mobile.view.fragment.harvestresult.insertdetail.HarvestInsertDetailFragment"
         android:label="fragment_harvest_insert_detail"
         tools:layout="@layout/fragment_harvest_insert_detail" >
         <argument
