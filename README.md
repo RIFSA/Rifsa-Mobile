@@ -97,13 +97,14 @@ Android Studio
 ## Usage
 
 Apps Demo
-
+click the banner for demo video
 [![apps demo](https://i.ibb.co/H2qcKwj/rifsa-banner.png)](https://www.youtube.com/watch?v=E3uuOiXUytQ&ab_channel=Batata "Rifsa demo")
 
 <!-- ROADMAP -->
 ## Roadmap
 
 V1 (master)
+
 first version of the apps
 
  - [x] Designing User interface
@@ -119,6 +120,7 @@ first version of the apps
  - [x] Remote GCP
 
 V2 (master-v2)
+
 rework version of the apps due to db problem
 we change with firebase
 
