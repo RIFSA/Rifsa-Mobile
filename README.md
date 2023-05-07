@@ -105,7 +105,7 @@ click the banner for demo video
 
 V1 (master)
 
-first version of the apps
+first version
 
  - [x] Designing User interface
  - [x] OnBoard page
@@ -121,7 +121,7 @@ first version of the apps
 
 V2 (master-v2)
 
-rework version of the apps due to db problem
+rework version due to db problem
 we change with firebase
 
  - [x] Authentication with Firebase Auth
