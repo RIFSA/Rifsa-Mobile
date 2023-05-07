@@ -11,5 +11,29 @@
     <string name="profile_picture">profile_picture</string>
     <string name="home_harvestres_title">Hasil Panen</string>
     <string name="back">back</string>
-    <string name="title_maps_fragment">Peta penyakit</string>
+    <string name="title_maps_fragment" translatable="false">Peta penyakit</string>
+    <string name="status_baar" translatable="false">Status bar</string>
+    <string name="kenali">Kenali</string>
+    <string name="pengobatan">Pengobatan</string>
+    <string name="detail">detail</string>
+    <string name="hasil_indetifikasi">Hasil Indetifikasi</string>
+    <string name="savedisease">saveDisease</string>
+    <string name="progressbarcheck">progressBarCheck</string>
+    <string name="ringkasan">Ringkasan</string>
+    <string name="setting">setting</string>
+    <string name="total">Total</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="lokasi_terkini">Lokasi terkini</string>
+    <string name="data_berhasil_diunggah">Data Berhasil diunggah</string>
+    <string name="unggah_data">Backup data</string>
+    <string name="kota">kota</string>
+    <string name="nama_kota">Nama Kota</string>
+    <string name="ramalan_cuaca">Ramalan Cuaca</string>
+    <string name="unggah">unggah</string>
+    <string name="kelembapan">Kelembapan</string>
+    <string name="kecepatan_angin">kecepatan Angin</string>
+    <string name="awan">Awan</string>
+    <string name="prakiraan_cuaca">Prakiraan Cuaca</string>
+    <string name="kondisi">Kondisi</string>
+    <string name="picdisease">picDisease</string>
 </resources>

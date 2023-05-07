@@ -55,7 +55,8 @@
                     android:src="@drawable/ic_baseline_settings_24"
                     app:layout_constraintBottom_toBottomOf="@+id/textView15"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView15" />
+                    app:layout_constraintTop_toTopOf="@+id/textView15"
+                    android:contentDescription="@string/setting" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -128,7 +129,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/dmsans_bold"
             android:includeFontPadding="false"
-            android:text="Ringkasan"
+            android:text="@string/ringkasan"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,15 +142,15 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="32dp"
-            android:drawableRight="@drawable/ic_maps"
             android:fontFamily="@font/dmsans_bold"
             android:includeFontPadding="false"
-            android:text="Lihat lahan"
+            android:text="@string/lihat_lahan"
             android:textColor="@color/green"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvprofile_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tvprofile_name"
+            app:drawableRightCompat="@drawable/ic_maps" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_profile_one"
@@ -232,7 +233,6 @@
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView37"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -247,7 +247,6 @@
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="0 kg"
                     android:textColor="@color/gray"
                     app:layout_constraintBottom_toBottomOf="@+id/textView33"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -261,7 +260,6 @@
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="0 kg"
                     android:textColor="@color/gray"
                     app:layout_constraintBottom_toBottomOf="@+id/textView35"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -294,7 +292,7 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/dmsans_medium"
                     android:includeFontPadding="false"
-                    android:text="total"
+                    android:text="@string/total"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -309,7 +307,6 @@
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView40"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -387,7 +384,6 @@
                     android:fontFamily="@font/dmsans_medium"
                     android:gravity="end"
                     android:includeFontPadding="false"
-                    android:text="0"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView45"
                     app:layout_constraintEnd_toEndOf="parent"

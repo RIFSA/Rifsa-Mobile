@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">RIFSA</string>
-
-
     <string name="Login_title">Selamat Datang !</string>
     <string name="login_subtitle">Kami hadir untuk membantu aktivitas \n pertanian anda</string>
-
     <string name="tv_email_title">Email</string>
     <string name="tv_password_title">Password</string>
     <string name="btn_enter_title">Masuk</string>
@@ -12,24 +9,20 @@
     <string name="signup_title">Daftar Sekarang !</string>
     <string name="signup_subtitle">Buat akun untuk bisa bergabung \n bersama kami</string>
     <string name="tv_nama_title">Nama</string>
-
     <string-array name="type_finance">
         <item>Pengeluaran</item>
         <item>Pemasukan</item>
     </string-array>
-
     <string-array name="title_pic">
         <item>@drawable/onboard_pic1</item>
         <item>@drawable/onboard_pic2</item>
         <item>@drawable/onboard_pic3</item>
     </string-array>
-
     <string-array name="title">
         <item>Semua Jadi Mudah</item>
         <item>Pantau Perkembangan</item>
         <item>Inventaris</item>
     </string-array>
-
     <string-array name="subTitle">
         <item>
             Mari atur semua rencana pertanian anda \n dengan mudah dalam satu genggaman
@@ -41,8 +34,6 @@
             Mempermudah pengaturan inventari \n milik anda
         </item>
     </string-array>
-
-
     <string-array name="hasil_mock">
         <item>Beras</item>
         <item>Beras</item>
@@ -51,7 +42,6 @@
         <item>Beras</item>
         <item>Beras</item>
     </string-array>
-
     <string-array name="berat_mock">
         <item>20</item>
         <item>30</item>
@@ -60,7 +50,6 @@
         <item>30</item>
         <item>50</item>
     </string-array>
-
     <string-array name="tanggal_mock">
         <item>20 May 2020</item>
         <item>20 May 2020</item>
@@ -122,6 +111,34 @@
     <string name="proses">Proses</string>
     <string name="deksripsi_penyakit">Deksripsi penyakit</string>
     <string name="lokasi_ditemukan">Lokasi ditemukan</string>
-    <string name="selesai">Selesai</string>
-
+    <string name="selesai" translatable="false">Selesai</string>
+    <string name="status_baar">Status bar</string>
+    <string name="status">Status</string>
+    <string name="penyakit_tanaman">Penyakit Tanaman</string>
+    <string name="kenali">Kenali</string>
+    <string name="pengobatan">Pengobatan</string>
+    <string name="detail">detail</string>
+    <string name="hasil_indetifikasi">Hasil Indetifikasi</string>
+    <string name="savedisease">saveDisease</string>
+    <string name="progressbarcheck">progressBarCheck</string>
+    <string name="ringkasan">Ringkasan</string>
+    <string name="lihat_lahan">Lihat lahan</string>
+    <string name="setting">setting</string>
+    <string name="total">Total</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="lokasi_terkini">Lokasi terkini</string>
+    <string name="data_berhasil_diunggah">Data Berhasil diunggah</string>
+    <string name="unggah_data">Backup data</string>
+    <string name="kota">Masukan nama</string>
+    <string name="nama_kota">Lokasi</string>
+    <string name="ramalan_cuaca">Ramalan Cuaca</string>
+    <string name="data">Backup Data</string>
+    <string name="atur_lokasi">Atur Lokasi</string>
+    <string name="unggah">unggah</string>
+    <string name="kelembapan">Kelembapan</string>
+    <string name="kecepatan_angin">kecepatan Angin</string>
+    <string name="awan">Awan</string>
+    <string name="prakiraan_cuaca">Prakiraan Cuaca</string>
+    <string name="kondisi">Kondisi</string>
+    <string name="picdisease">picDisease</string>
 </resources>

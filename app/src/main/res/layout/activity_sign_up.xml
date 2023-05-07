@@ -24,7 +24,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_layoutcorner_fill">
 
             <TextView
@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="48dp"
+                android:layout_marginEnd="10dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center"
                 android:text="@string/signup_title"
@@ -53,8 +53,8 @@
                 android:fontFamily="@font/dmsans_regular"
                 android:gravity="center"
                 android:text="@string/signup_subtitle"
-                android:textSize="14sp"
                 android:textColor="@color/gray"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -108,10 +108,10 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
-                android:hint="@string/name"
                 android:autofillHints="Name"
                 android:background="@drawable/bg_tvcorner_stroke_gray"
                 android:fontFamily="@font/dmsans_regular"
+                android:hint="@string/name"
                 android:includeFontPadding="false"
                 android:inputType="textPersonName"
                 android:paddingStart="16dp"
@@ -120,7 +120,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
-                tools:ignore="LabelFor"/>
+                tools:ignore="LabelFor" />
 
             <com.example.rifsa_mobile.view.componen.EmailBoxCustom
                 android:id="@+id/tv_signup_email"
@@ -162,8 +162,8 @@
                 android:layout_width="0dp"
                 android:layout_height="68dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
@@ -179,8 +179,8 @@
                 android:id="@+id/pgtitle_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:text="@string/proses"
                 android:textColor="@color/green"

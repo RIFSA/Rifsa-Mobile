@@ -10,13 +10,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar16"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="50dp"
             android:contentInsetStart="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
@@ -33,15 +33,16 @@
 
                 <TextView
                     android:id="@+id/tv_weather_city"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dmsans_bold"
                     android:includeFontPadding="false"
-                    android:text="City Name"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_backhome"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_backhome"
                     app:layout_constraintTop_toTopOf="@+id/btn_backhome" />
 
@@ -65,244 +66,226 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/tv_weather_city11"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/prakiraan_cuaca"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_weather_city9" />
+
+            <TextView
+                android:id="@+id/tv_weather_city7"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:text="@string/kelembapan"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_weather_city2" />
+
+            <TextView
+                android:id="@+id/tv_weather_city9"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:text="@string/kecepatan_angin"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_weather_city7" />
+
+            <TextView
+                android:id="@+id/tv_weather_cloud"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="end"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_weather_city2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tv_weather_city2"
+                app:layout_constraintTop_toTopOf="@+id/tv_weather_city2"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/tv_weather_city2"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/dmsans_regular"
+                android:includeFontPadding="false"
+                android:text="@string/awan"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <TextView
+                android:id="@+id/tv_weather_humid"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="end"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_weather_city7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_weather_city7"
+                app:layout_constraintTop_toTopOf="@+id/tv_weather_city7" />
+
+            <TextView
+                android:id="@+id/tv_weather_wind"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="end"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_weather_city9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/tv_weather_city7"
+                app:layout_constraintTop_toTopOf="@+id/tv_weather_city9"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="700dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/card_weather"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_weather_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/dmsans_bold"
+                        android:gravity="center|end"
+                        android:paddingEnd="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/tv_weather_temp"
+                        app:layout_constraintTop_toTopOf="@+id/tv_weather_temp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/tv_weather_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/dmsans_bold"
+                        android:gravity="center|end"
+                        android:paddingEnd="5dp"
+                        android:text="@string/kondisi"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_weather_temp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/tv_weather_temp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_weather_date" />
+
+                    <ImageView
+                        android:id="@+id/img_weather_icon"
+                        android:layout_width="53dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_sunny" />
+
+                    <TextView
+                        android:id="@+id/tv_weather_temp"
+                        android:layout_width="83dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="35sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/img_weather_icon"
+                        app:layout_constraintStart_toEndOf="@+id/img_weather_icon"
+                        app:layout_constraintTop_toTopOf="@+id/img_weather_icon"
+                        app:layout_constraintVertical_bias="0.0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview_forecast"
+                android:layout_width="0dp"
+                android:layout_height="500dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar16">
-
-                <TextView
-                    android:id="@+id/tv_weather_city11"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/dmsans_medium"
-                    android:includeFontPadding="false"
-                    android:text="Prakiraan Cuaca"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_city9" />
-
-                <TextView
-                    android:id="@+id/tv_weather_city7"
-                    android:layout_width="200dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/dmsans_regular"
-                    android:includeFontPadding="false"
-                    android:text="Kelembapan"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_city2" />
-
-                <TextView
-                    android:id="@+id/tv_weather_city9"
-                    android:layout_width="200dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/dmsans_regular"
-                    android:includeFontPadding="false"
-                    android:text="kecepatan angin"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_city7" />
-
-                <TextView
-                    android:id="@+id/tv_weather_cloud"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/dmsans_bold"
-                    android:gravity="end"
-                    android:includeFontPadding="false"
-                    android:text="awan"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_weather_city2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/tv_weather_city2"
-                    app:layout_constraintTop_toTopOf="@+id/tv_weather_city2"
-                    app:layout_constraintVertical_bias="1.0" />
-
-                <TextView
-                    android:id="@+id/tv_weather_city2"
-                    android:layout_width="200dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/dmsans_regular"
-                    android:includeFontPadding="false"
-                    android:text="awan"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-                <TextView
-                    android:id="@+id/tv_weather_humid"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/dmsans_bold"
-                    android:gravity="end"
-                    android:includeFontPadding="false"
-                    android:text="0 Km/h"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_weather_city7"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_weather_city7"
-                    app:layout_constraintTop_toTopOf="@+id/tv_weather_city7" />
-
-                <TextView
-                    android:id="@+id/tv_weather_wind"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/dmsans_bold"
-                    android:gravity="end"
-                    android:includeFontPadding="false"
-                    android:text="0 Km/h"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_weather_city9"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/tv_weather_city7"
-                    app:layout_constraintTop_toTopOf="@+id/tv_weather_city9"
-                    app:layout_constraintVertical_bias="1.0" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="20dp"
-                    app:cardCornerRadius="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/card_weather"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/tv_weather_date"
-                            android:layout_width="0dp"
-                            android:layout_height="25sp"
-                            android:layout_marginEnd="10dp"
-                            android:fontFamily="@font/dmsans_bold"
-                            android:gravity="center|end"
-                            android:paddingEnd="5dp"
-                            android:text="date"
-                            android:textColor="@color/black"
-                            android:textSize="10sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toEndOf="@+id/tv_weather_temp"
-                            app:layout_constraintTop_toTopOf="@+id/tv_weather_temp" />
-
-                        <TextView
-                            android:id="@+id/tv_weather_desc"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginEnd="10dp"
-                            android:fontFamily="@font/dmsans_bold"
-                            android:gravity="center|end"
-                            android:paddingEnd="5dp"
-                            android:text="Kondisi"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_weather_temp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toEndOf="@+id/tv_weather_temp"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_weather_date" />
-
-                        <ImageView
-                            android:id="@+id/img_weather_icon"
-                            android:layout_width="53dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:src="@drawable/ic_sunny" />
-
-                        <TextView
-                            android:id="@+id/tv_weather_temp"
-                            android:layout_width="83dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:gravity="center"
-                            android:text="30c"
-                            android:textColor="@color/black"
-                            android:textSize="35sp"
-                            app:layout_constraintBottom_toBottomOf="@+id/img_weather_icon"
-                            app:layout_constraintStart_toEndOf="@+id/img_weather_icon"
-                            app:layout_constraintTop_toTopOf="@+id/img_weather_icon"
-                            app:layout_constraintVertical_bias="0.0" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recview_forecast"
-                    android:layout_width="0dp"
-                    android:layout_height="430dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_city11"
-                    tools:listitem="@layout/itemcard_forecast" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ProgressBar
-                android:id="@+id/pgbar_weather"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:background="#FFFF"
-
-                android:padding="190dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ProgressBar
-                android:id="@+id/pgbar_forecast"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="100dp"
-
-                android:background="#FFFF"
-                android:padding="190dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pgbar_weather" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_weather_city11"
+                tools:listitem="@layout/itemcard_forecast" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/pgbar_weather"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="#FFFF"
+
+            android:padding="190dp"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/pgbar_forecast"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="100dp"
+
+            android:background="#FFFF"
+            android:padding="190dp"
+            android:visibility="gone" />
+
     </LinearLayout>
 </ScrollView>

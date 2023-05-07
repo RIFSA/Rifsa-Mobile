@@ -38,7 +38,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:includeFontPadding="false"
-                android:text="Penyakit Tanaman"
+                android:text="@string/penyakit_tanaman"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"

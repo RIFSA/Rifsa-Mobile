@@ -31,7 +31,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="688dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_layoutcorner_fill">
 
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center"
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="42dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:text="@string/tv_email_title"
                 android:textColor="@color/black"
@@ -149,7 +149,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
                 android:backgroundTint="@color/light_green"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
@@ -157,8 +156,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/green"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_login_enter" />
 

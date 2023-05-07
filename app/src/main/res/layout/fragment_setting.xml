@@ -32,7 +32,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
-                android:text="Pengaturan"
+                android:text="@string/pengaturan"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -59,47 +59,37 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:text="Lokasi terkini"
+        android:layout_marginTop="5dp"
+        android:text="@string/lokasi_terkini"
         app:fontFamily="@font/dmsans_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
     <TextView
-        android:id="@+id/textView55"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:text="Unggah Data"
-        app:fontFamily="@font/dmsans_bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView54" />
-
-    <TextView
         android:id="@+id/tv_notif_upload"
         android:layout_width="0dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:gravity="center"
-        android:text="Data Berhasil diunggah"
+        android:text="@string/data_berhasil_diunggah"
         android:visibility="gone"
         app:fontFamily="@font/dmsans_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView55" />
+        app:layout_constraintTop_toBottomOf="@+id/textView54" />
 
     <TextView
         android:id="@+id/textView48"
         android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:text="Nama Kota"
+        android:text="@string/nama_kota"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:fontFamily="@font/dmsans_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,18 +98,19 @@
     <EditText
         android:id="@+id/et_weathersetting_cityname"
         android:layout_width="0dp"
-        android:layout_height="35dp"
+        android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:background="@color/white"
-        android:hint="kota"
+        android:hint="@string/kota"
+        android:textSize="14sp"
         app:fontFamily="@font/dmsans_bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_simpanlokasi"
         app:layout_constraintEnd_toStartOf="@+id/btn_simpanlokasi"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView48" />
+        app:layout_constraintTop_toTopOf="@+id/btn_simpanlokasi" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_location"
         android:layout_width="80dp"
         android:layout_height="0dp"
@@ -138,7 +129,7 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/dmsans_bold"
         android:includeFontPadding="false"
-        android:text="Ramalan Cuaca"
+        android:text="@string/ramalan_cuaca"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +146,7 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/dmsans_bold"
         android:includeFontPadding="false"
-        android:text="Data"
+        android:text="@string/data"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -166,26 +157,29 @@
     <Button
         android:id="@+id/btn_simpanlokasi"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:insetTop="2dp"
         android:insetBottom="2dp"
-        android:text="atur"
-        app:layout_constraintBottom_toBottomOf="@+id/et_weathersetting_cityname"
+        android:text="@string/atur_lokasi"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et_weathersetting_cityname" />
+        app:layout_constraintTop_toBottomOf="@+id/textView48" />
 
     <Button
         android:id="@+id/btn_unggahdata"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:insetTop="2dp"
         android:insetBottom="2dp"
-        android:text="unggah"
-        app:layout_constraintBottom_toBottomOf="@+id/textView55"
+        android:text="@string/unggah"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView55" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_notif_upload" />
 
     <ProgressBar
         android:id="@+id/pgbar_unggah"

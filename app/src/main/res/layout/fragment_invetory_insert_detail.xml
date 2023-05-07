@@ -249,7 +249,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/pgInventory_title"
             app:layout_constraintEnd_toEndOf="parent"

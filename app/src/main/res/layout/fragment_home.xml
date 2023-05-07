@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rumah"
             android:layout_width="match_parent"
-            android:layout_height="600dp">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar2"
@@ -183,7 +183,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home_harvest"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"

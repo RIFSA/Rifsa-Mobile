@@ -46,7 +46,7 @@
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/dmsans_bold"
                         android:includeFontPadding="false"
-                        android:text="Hasil Indetifikasi"
+                        android:text="@string/hasil_indetifikasi"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_harvestresult_insertdetail"
-                        app:layout_constraintTop_toTopOf="@+id/tv_harvestresult_insertdetail" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_harvestresult_insertdetail"
+                        android:contentDescription="@string/savedisease" />
 
                     <ProgressBar
                         android:id="@+id/pgbar_disease"
@@ -98,7 +99,8 @@
                         app:layout_constraintBottom_toBottomOf="@+id/tv_harvestresult_insertdetail"
                         app:layout_constraintStart_toEndOf="@+id/tv_harvestresult_insertdetail"
                         app:layout_constraintTop_toTopOf="@+id/tv_harvestresult_insertdetail"
-                        app:layout_constraintVertical_bias="0.578" />
+                        app:layout_constraintVertical_bias="0.578"
+                        android:contentDescription="@string/progressbarcheck" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
 
@@ -198,7 +200,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
-                android:text="Indikasi"
+                android:text="@string/indikasi"
                 android:textColor="@color/main_color"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
