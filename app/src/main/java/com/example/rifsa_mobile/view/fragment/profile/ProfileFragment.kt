@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.databinding.FragmentProfileBinding
 
 import com.example.rifsa_mobile.view.activity.authetication.login.LoginActivity
-import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
 
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
-
-    private val remoteViewModel : RemoteViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val viewModel : ProfileViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,7 @@ class ProfileFragment : Fragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
-        authViewModel.getUserName().observe(viewLifecycleOwner){
+        viewModel.getUserName().observe(viewLifecycleOwner){
             binding.tvprofileName.text = it
         }
 
@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnprofileLogout.setOnClickListener {
-            authViewModel.saveUserPrefrences(
+            viewModel.saveUserPrefrences(
                 true,
                 "",
                 "",
@@ -65,16 +65,36 @@ class ProfileFragment : Fragment() {
 
 
     private fun showSummaryRemote(){
-        authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
+        var weight = arrayListOf<Int>()
+        var price = arrayListOf<Int>()
+        var financeResult = arrayListOf<Int>()
+        lifecycleScope.launch {
+            viewModel.apply {
+                readHarvestResult().observe(viewLifecycleOwner){ harvest ->
+                    harvest.forEach {
+                        weight.add(it.weight.toInt())
+                        price.add(it.income.toInt())
+                        binding.apply {
+                            tvsumHarvestWeight.text = weight.sum().toString()
+                            tvsumHarvestAmount.text = harvest.size.toString()
+                            tvsumHarvestHarga.text = price.sum().toString()
+                        }
+                    }
+                }
+                readFinancial().observe(viewLifecycleOwner){finance->
+                    finance.forEach {
+                        financeResult.add(it.price.toInt())
+                        binding.tvsumFinanceOut.text = financeResult.sum().toString()
+                    }
+                }
+            }
 
         }
     }
 
-
     companion object{
         const val map_key = "profile"
     }
-
 
 
 }
