@@ -3,6 +3,7 @@ package com.example.rifsa_mobile.view.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.rifsa_mobile.R
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         binding.mainBottommenu.visibility = View.VISIBLE
         val navControl = findNavController(R.id.mainnav_framgent)
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         binding.mainBottommenu.apply {
             setupWithNavController(navControl)
         }

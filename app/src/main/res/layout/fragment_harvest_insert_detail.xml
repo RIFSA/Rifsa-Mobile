@@ -39,7 +39,7 @@
                     android:fontFamily="@font/dmsans_bold"
                     android:includeFontPadding="false"
                     android:text="@string/detail_panen"
-                    android:textColor="@color/black"
+                    style="@style/tvTitle"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_harvestdetail_backhome"
@@ -55,7 +55,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black" />
+                    style="@style/iconNav"
+                    />
 
                 <ImageView
                     android:id="@+id/btnHarvest_save"
@@ -66,7 +67,9 @@
                     android:src="@drawable/ic_vector_save"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/green"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -86,7 +89,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/jenis_panen"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +108,7 @@
                 android:includeFontPadding="false"
                 android:inputType="number|text"
                 android:padding="10dp"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -124,7 +127,7 @@
                 android:includeFontPadding="false"
                 android:inputType="number|text"
                 android:padding="10dp"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16"
@@ -140,7 +143,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/berat"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +162,7 @@
                 android:includeFontPadding="false"
                 android:padding="10dp"
                 android:singleLine="false"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView18"
@@ -177,7 +180,7 @@
                 android:fontFamily="@font/dmsans_regular"
                 android:includeFontPadding="false"
                 android:padding="10dp"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView14"
@@ -193,7 +196,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/catatan"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +212,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/hasil_jual"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

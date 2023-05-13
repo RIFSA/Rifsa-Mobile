@@ -38,7 +38,7 @@
                 android:gravity="center|start"
                 android:includeFontPadding="false"
                 android:text="@string/keuangan"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

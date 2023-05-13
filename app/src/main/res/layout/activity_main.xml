@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    style="@style/Theme.RifsaMobile"
     android:layout_height="match_parent"
     tools:context=".view.activity.MainActivity">
 
@@ -23,9 +24,8 @@
         android:id="@+id/main_bottommenu"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:background="@color/green"
+        style="@style/bottomNav"
         android:padding="5dp"
-        app:itemIconTint="@color/white"
         app:labelVisibilityMode="unlabeled"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:layout_constraintBottom_toBottomOf="parent"

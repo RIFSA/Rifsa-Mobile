@@ -69,7 +69,7 @@ class ProfileFragment : Fragment() {
         var price = arrayListOf<Int>()
         var financeResult = arrayListOf<Int>()
         lifecycleScope.launch {
-            viewModel.apply {
+            viewModel.apply { 
                 readHarvestResult().observe(viewLifecycleOwner){ harvest ->
                     harvest.forEach {
                         weight.add(it.weight.toInt())

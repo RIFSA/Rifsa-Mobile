@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusableInTouchMode="false"
+    style="@style/Theme.RifsaMobile"
     android:isScrollContainer="false"
     tools:context=".view.fragment.home.HomeFragment">
 
@@ -59,7 +60,7 @@
                         android:fontFamily="@font/dmsans_regular"
                         android:includeFontPadding="false"
                         android:text="@string/Login_title"
-                        android:textColor="@color/gray"
+                        style="@style/TvSubtitle"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -72,7 +73,7 @@
                         android:fontFamily="@font/dmsans_bold"
                         android:includeFontPadding="false"
                         android:text="@string/nama_dummy"
-                        android:textColor="@color/black"
+                        style="@style/TvGreen"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -97,18 +98,17 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="135dp"
-                    android:background="@color/light_green">
+                    android:layout_height="135dp">
 
                     <TextView
                         android:id="@+id/textView28"
+                        style="@style/TvGreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/dmsans_bold"
                         android:text="@string/apa_itu_rifsa"
-                        android:textColor="@color/green"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -150,6 +150,7 @@
 
                     <TextView
                         android:id="@+id/textView26"
+                        style="@style/TvSubtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginStart="24dp"
@@ -157,7 +158,6 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:text="@string/penyakit_terdeteksi"
-                        android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -204,7 +204,7 @@
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="@string/lihat_semua"
-                android:textColor="@color/green"
+                style="@style/TvGreen"
                 app:layout_constraintBottom_toBottomOf="@+id/textView13"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView13"
@@ -219,7 +219,7 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:includeFontPadding="false"
                 android:text="@string/home_harvestres_title"
-                android:textColor="@color/black"
+                style="@style/tvTitle"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card_weather" />
@@ -263,13 +263,13 @@
 
                 <TextView
                     android:id="@+id/tv_city_name"
+                    style="@style/tvTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dmsans_regular"
                     android:gravity="center|end"
-                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_weatherhome_temp"
@@ -277,13 +277,13 @@
 
                 <TextView
                     android:id="@+id/tv_weatherhome_desc"
+                    style="@style/TvSubtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dmsans_bold"
                     android:gravity="center|end"
                     android:paddingEnd="5dp"
-                    android:textColor="@color/black"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_weatherhome_temp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -305,12 +305,12 @@
 
                 <TextView
                     android:id="@+id/tv_weatherhome_temp"
+                    style="@style/tvTitle"
                     android:layout_width="83dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textColor="@color/black"
                     android:textSize="40sp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_weatherhome_icon"
                     app:layout_constraintStart_toEndOf="@+id/img_weatherhome_icon"
