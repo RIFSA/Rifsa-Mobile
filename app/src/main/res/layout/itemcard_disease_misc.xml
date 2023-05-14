@@ -14,7 +14,7 @@
         android:fontFamily="@font/dmsans_regular"
         android:includeFontPadding="false"
         android:text="Text"
-        android:textColor="#2A2828"
+        style="@style/tvTitle"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

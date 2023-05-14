@@ -1,4 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <declare-styleable name="customAttr">
+        <attr name="ic_maps" format="reference"/>
+    </declare-styleable>
+
     <!-- Base application theme. -->
     <style name="Theme.RifsaMobile" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
@@ -30,6 +34,7 @@
         <item name="itemIconTint">@color/green</item>
     </style>
     <style name="iconNav" parent="Theme.RifsaMobile">
+        <item name="ic_maps">@drawable/ic_maps</item>
         <item name="android:iconTint">@color/green</item>
     </style>
 </resources>
