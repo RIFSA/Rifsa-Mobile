@@ -67,7 +67,7 @@ class FinanceUploadWorker : BroadcastReceiver() {
         data : FinancialEntity
     ){
         val firebase = Injection.provideFirebaseRepsitory()
-        firebase.insertUpdateFinancial(data,data.firebaseUserId)
+        firebase.insertUpdateFinancial(data.date,data,data.firebaseUserId)
             .addOnSuccessListener {
                 updateFinancialLocal(context,data.idFinance)
             }

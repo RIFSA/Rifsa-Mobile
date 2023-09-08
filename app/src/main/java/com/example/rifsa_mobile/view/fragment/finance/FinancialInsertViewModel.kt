@@ -12,8 +12,8 @@ import com.google.firebase.database.DatabaseReference
 class FinancialInsertViewModel(
     private var repository: FinancialRepository,
 ): ViewModel(),IFinancialRepository {
-    override fun insertUpdateFinancial(data: FinancialEntity, userId: String): Task<Void> =
-        repository.insertUpdateFinancial(data,userId)
+    override fun insertUpdateFinancial(date : String,data: FinancialEntity, userId: String): Task<Void> =
+        repository.insertUpdateFinancial(date,data,userId)
 
     override fun readFinancial(userId: String): DatabaseReference =
         repository.readFinancial(userId)
@@ -41,6 +41,30 @@ class FinancialInsertViewModel(
 
     override fun updateUploadStatus(currentId: String) {
        repository.updateFinancialStatus(currentId)
+    }
+
+    override fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>> {
+       return repository.readFinancialByNameAsc()
+    }
+
+    override fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>> {
+        return repository.readFinancialByNameDesc()
+    }
+
+    override fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>> {
+        return repository.readFinancialByPriceAsc()
+    }
+
+    override fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>> {
+        return repository.readFinancialByPriceDesc()
+    }
+
+    override fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>> {
+        return repository.readFinancialByDateAsc()
+    }
+
+    override fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>> {
+        return repository.readFinancialByDateDesc()
     }
 
 }

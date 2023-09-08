@@ -22,6 +22,7 @@ class FinanceRecyclerViewAdapter(private var dataList : List<FinancialEntity>): 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
         holder.binding.tvcardFinanceTitle.text = item.name
+        holder.binding.tvcardFinanceDate.text = "${item.date}"
         ("Rp "+ item.price).also { holder.binding.tvcardFinancePrice.text = it }
 
         if (item.type == "Pengeluaran"){

@@ -5,7 +5,7 @@
         android:id="@+id/homeFragment"
         android:visible="true"
         android:enabled="true"
-        android:icon="?attr/ic_maps"
+        android:icon="@drawable/ic_home_line"
         >
     </item>
     <item

@@ -9,6 +9,8 @@ plugins {
 }
 
 android {
+    namespace 'com.example.rifsa_mobile'
+
     compileSdk 33
 
     defaultConfig {

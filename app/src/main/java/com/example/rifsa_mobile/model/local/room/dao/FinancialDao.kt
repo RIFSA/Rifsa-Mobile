@@ -27,4 +27,27 @@ interface FinancialDao {
 
     @Query("update FinancialTable set isUploaded = 1 where idFinance =:currentId")
     fun updateUploadStatus(currentId : String)
+
+
+    //sort financial
+    @Query("select * from FinancialTable order by name asc")
+    fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>>
+
+    @Query("select * from FinancialTable order by name desc")
+    fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>>
+
+    @Query("select * from FinancialTable order by price asc")
+    fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>>
+
+    @Query("select * from FinancialTable order by price desc")
+    fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>>
+
+    @Query("select * from FinancialTable order by day asc")
+    fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>>
+
+    @Query("select * from FinancialTable order by day desc")
+    fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>>
+
+
+
 }

@@ -20,7 +20,7 @@ object Injection {
         )
     }
     fun provideWeatherRepository(): WeatherRepository{
-        return  WeatherRepository(WeatherApiConfig.setApiService())
+        return WeatherRepository(WeatherApiConfig.setApiService())
     }
 
     fun provideLocalRepository(context: Context): PreferenceRespository {

@@ -14,8 +14,8 @@ class FinancialRepository(
 ): IFinancialRepository {
     val dao = database.financialDao()
 
-    override fun insertUpdateFinancial(data: FinancialEntity, userId: String): Task<Void> =
-        firebase.insertUpdateFinancial(data,userId)
+    override fun insertUpdateFinancial(date : String,data: FinancialEntity, userId: String): Task<Void> =
+        firebase.insertUpdateFinancial(date,data,userId)
 
     override fun readFinancial(userId: String): DatabaseReference =
         firebase.queryFinancial(userId)
@@ -45,5 +45,29 @@ class FinancialRepository(
 
     override fun updateUploadStatus(currentId: String) {
         dao.updateUploadStatus(currentId)
+    }
+
+    override fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>> {
+       return dao.readFinancialByNameAsc()
+    }
+
+    override fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>> {
+       return dao.readFinancialByNameDesc()
+    }
+
+    override fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>> {
+       return dao.readFinancialByPriceAsc()
+    }
+
+    override fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>> {
+      return dao.readFinancialByPriceDesc()
+    }
+
+    override fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>> {
+        return dao.readFinancialByDateAsc()
+    }
+
+    override fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>> {
+        return dao.readFinancialByDateDesc()
     }
 }

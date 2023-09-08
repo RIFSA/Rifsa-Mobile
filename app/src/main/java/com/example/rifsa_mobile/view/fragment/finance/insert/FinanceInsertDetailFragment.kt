@@ -2,12 +2,14 @@ package com.example.rifsa_mobile.view.fragment.finance.insert
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -42,7 +44,11 @@ class FinanceInsertDetailFragment : Fragment() {
 
     private var type = ""
     private var firebaseId = ""
-    private var currentDate = LocalDate.now().toString()
+    private var pickerDate = ""
+    private var currentDate = ""
+    private var dayPick = 0
+    private var monthPick = 0
+    private var yearPick = 0
     private var detailId = UUID.randomUUID().toString()
     private val uploadReminderId = (1..1000).random()
     private var isDetail = false
@@ -102,6 +108,12 @@ class FinanceInsertDetailFragment : Fragment() {
         }
 
         binding.btnFinanceSave.setOnClickListener {
+            if(pickerDate.isNotEmpty()){
+                currentDate = pickerDate
+            }else{
+                currentDate = LocalDate.now().toString()
+            }
+
             if(!isConnected){
                 insertFinancialLocally()
             }else{
@@ -145,14 +157,18 @@ class FinanceInsertDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun insertUpdateFinanceRemote(){
         val tempData = FinancialEntity(
             localId = 0,
             firebaseUserId = "",
             idFinance = detailId,
             date = currentDate,
+            day = dayPick,
+            month = monthPick,
+            year = yearPick,
             name = binding.tvfinanceInsertNama.text.toString(),
-            price = binding.tvfinanceInsertHarga.text.toString(),
+            price = binding.tvfinanceInsertHarga.text.toString().toInt(),
             type = type,
             noted = binding.tvfinanceInsertCatatan.text.toString(),
             isUploaded = true,
@@ -160,7 +176,7 @@ class FinanceInsertDetailFragment : Fragment() {
         )
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
             lifecycleScope.launch {
-                viewModel.insertUpdateFinancial(tempData,userId)
+                viewModel.insertUpdateFinancial(currentDate,tempData,userId)
                     .addOnSuccessListener {
                         showStatus("berhasil menambahkan")
                         isUploaded = true
@@ -177,7 +193,7 @@ class FinanceInsertDetailFragment : Fragment() {
 
     private fun deleteFinanceRemote(){
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
-            viewModel.deleteFinancial(currentDate,detailId,userId)
+            viewModel.deleteFinancial(currentDate.toString(),detailId,userId)
                 .addOnSuccessListener {
                     showStatus("data terhapus")
                     findNavController().navigate(
@@ -201,7 +217,10 @@ class FinanceInsertDetailFragment : Fragment() {
             calendar.set(Calendar.YEAR,year)
             val setDate = formatDate.format(calendar.time)
             binding.tvfinanceInsertDate.text = setDate.toString()
-            currentDate = setDate
+            pickerDate = setDate
+            dayPick = dayOfMonth
+            monthPick = month
+            yearPick = year
         },
             instance.get(Calendar.YEAR),
             instance.get(Calendar.MONTH),
@@ -210,14 +229,18 @@ class FinanceInsertDetailFragment : Fragment() {
         datePicker.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun insertFinancialLocally(){
         val data = FinancialEntity(
             localId = 0,
             firebaseUserId = firebaseId,
             idFinance = detailId,
             date = currentDate,
+            day = dayPick,
+            month = monthPick,
+            year = yearPick,
             name = binding.tvfinanceInsertNama.text.toString(),
-            price = binding.tvfinanceInsertHarga.text.toString(),
+            price = binding.tvfinanceInsertHarga.text.toString().toInt(),
             type = type,
             noted = binding.tvfinanceInsertCatatan.text.toString(),
             isUploaded = isUploaded,

@@ -28,8 +28,8 @@ class FirebaseRepository(private val firebaseService: FirebaseService) {
         return firebaseService.deleteHarvestResult(date, dataId, userId)
     }
 
-    fun insertUpdateFinancial(data : FinancialEntity, userId: String): Task<Void>{
-        return firebaseService.insertUpdateFinancial(data, userId)
+    fun insertUpdateFinancial(date : String,data : FinancialEntity, userId: String): Task<Void>{
+        return firebaseService.insertUpdateFinancial(date,data, userId)
     }
 
     fun queryFinancial(userId: String): DatabaseReference{

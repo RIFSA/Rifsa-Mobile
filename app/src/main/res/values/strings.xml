@@ -59,6 +59,15 @@
         <item>20 May 2020</item>
     </string-array>
 
+    <string-array name="data_sort">
+        <item>Nama A-Z</item>
+        <item>Nama Z-A</item>
+        <item>Price A-Z</item>
+        <item>Price Z-A</item>
+        <item>Date Old</item>
+        <item>Date New</item>
+    </string-array>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_picture">profile_picture</string>
     <string name="home_harvestres_title">Hasil Panen</string>

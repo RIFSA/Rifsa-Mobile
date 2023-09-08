@@ -27,8 +27,8 @@ class RemoteViewModel(private val firebaseRepository: FirebaseRepository): ViewM
     fun deleteHarvestResult(date : String,dataId : String, userId : String): Task<Void> =
         firebaseRepository.deleteHarvestResult(date, dataId, userId)
 
-    fun insertUpdateFinancial(data : FinancialEntity, userId: String): Task<Void> =
-        firebaseRepository.insertUpdateFinancial(data, userId)
+    fun insertUpdateFinancial(date : String,data : FinancialEntity, userId: String): Task<Void> =
+        firebaseRepository.insertUpdateFinancial(date,data, userId)
 
     fun readFinancial(userId: String): DatabaseReference =
         firebaseRepository.queryFinancial(userId)

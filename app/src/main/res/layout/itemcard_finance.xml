@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
     android:background="@drawable/bg_card_stroke_green">
 
     <TextView
         android:id="@+id/tvcard_finance_title"
+        style="@style/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -15,34 +17,48 @@
         android:fontFamily="@font/dmsans_bold"
         android:includeFontPadding="false"
         android:text="@string/title"
-        style="@style/tvTitle"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvcard_finance_price"
+        style="@style/TvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/dmsans_regular"
         android:gravity="center|start"
         android:includeFontPadding="false"
         android:text="@string/subtitle"
-        style="@style/TvSubtitle"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/tvcard_finance_date"
+        app:layout_constraintTop_toBottomOf="@+id/tvcard_finance_date" />
+
+    <TextView
+        android:id="@+id/tvcard_finance_date"
+        style="@style/TvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/dmsans_regular"
+        android:gravity="center|start"
+        android:includeFontPadding="false"
+        android:text="date"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tvcard_finance_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvcard_finance_title" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/finance_out"
         android:src="@drawable/ic_finance_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/finance_out" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,12 +47,12 @@ class FirebaseService {
             .removeValue()
     }
 
-    fun insertUpdateFinancial(data : FinancialEntity, userId: String): Task<Void>{
+    fun insertUpdateFinancial(date : String,data : FinancialEntity, userId: String): Task<Void>{
         return FirebaseDatabase.getInstance()
             .getReference(mainPath)
             .child(userId)
             .child(financePath)
-            .child(data.date)
+            .child(date)
             .child(data.idFinance)
             .setValue(data)
     }
