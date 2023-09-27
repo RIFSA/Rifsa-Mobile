@@ -1,6 +1,7 @@
 package com.example.rifsa_mobile.view.fragment.harvestresult.insertdetail
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewMode
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 
@@ -31,8 +33,14 @@ class HarvestInsertDetailFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
+    private var formatDate = SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH)
     private var date = LocalDate.now().toString()
     private var firebaseUserId = ""
+    private var pickerDate = ""
+    private var currentDate = ""
+    private var dayPick = 0
+    private var monthPick = 0
+    private var yearPick = 0
     private var harvestId = UUID.randomUUID().toString()
     private var uploadedReminderId = (1..1000).random()
     private var localId = 0
@@ -61,6 +69,11 @@ class HarvestInsertDetailFragment : Fragment() {
         }catch (e : Exception){
             Log.d("HarvestInsertDetail",e.toString())
         }
+
+        binding.tvfinanceInsertDate2.setOnClickListener {
+            datePicker()
+        }
+
         return binding.root
     }
 
@@ -69,6 +82,12 @@ class HarvestInsertDetailFragment : Fragment() {
 
         binding.btnHarvestSave.setOnClickListener {
             binding.pgbarStatus.visibility = View.VISIBLE
+            if(pickerDate.isNotEmpty()){
+                currentDate = pickerDate
+            }else{
+                currentDate = LocalDate.now().toString()
+            }
+
             if (!isConnected){
                 insertHarvestLocally()
             }else{
@@ -122,7 +141,10 @@ class HarvestInsertDetailFragment : Fragment() {
             localId = 0,
             id = harvestId,
             firebaseUserId = firebaseUserId,
-            date = date,
+            date = currentDate,
+            day = dayPick,
+            month = monthPick,
+            year = yearPick,
             typeOfGrain = binding.tvharvestInsertName.text.toString(),
             weight = binding.tvharvestInsertBerat.text.toString(),
             income = binding.tvharvestInsertHasil.text.toString(),
@@ -176,7 +198,10 @@ class HarvestInsertDetailFragment : Fragment() {
             localId = 0,
             id = harvestId,
             firebaseUserId = firebaseUserId,
-            date = date,
+            date = currentDate,
+            day = dayPick,
+            month = monthPick,
+            year = yearPick,
             typeOfGrain = binding.tvharvestInsertName.text.toString(),
             weight = binding.tvharvestInsertBerat.text.toString(),
             income = binding.tvharvestInsertHasil.text.toString(),
@@ -191,6 +216,29 @@ class HarvestInsertDetailFragment : Fragment() {
             Log.d("HarvestInsert",e.toString())
         }
     }
+
+    private fun datePicker(){
+        val instance = Calendar.getInstance()
+        val datePicker = DatePickerDialog(requireContext(),{_,year,month,dayOfMonth ->
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+            calendar.set(Calendar.MONTH,month)
+            calendar.set(Calendar.YEAR,year)
+            val setDate = formatDate.format(calendar.time)
+            binding.tvfinanceInsertDate2.text = setDate.toString()
+            pickerDate = setDate
+            dayPick = dayOfMonth
+            monthPick = month
+            yearPick = year
+        },
+            instance.get(Calendar.YEAR),
+            instance.get(Calendar.MONTH),
+            instance.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
+    }
+
+
 
     private fun deleteHarvest(localid : Int){
         try {

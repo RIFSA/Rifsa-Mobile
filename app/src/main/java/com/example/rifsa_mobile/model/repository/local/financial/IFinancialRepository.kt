@@ -1,6 +1,8 @@
 package com.example.rifsa_mobile.model.repository.local.financial
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.PagedList
 import androidx.room.Query
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.google.android.gms.tasks.Task
@@ -17,17 +19,21 @@ interface IFinancialRepository {
     fun readNotUploaded(): List<FinancialEntity>
     fun updateUploadStatus(currentId : String)
 
-    fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>>
+    //paging
+    fun readFinancialPaging(): LiveData<PagedList<FinancialEntity>>
+    fun readPagingFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>>
 
-    fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>>
 
-    fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>>
+    //sort
+    fun readFinancialByNameAsc(): LiveData<PagedList<FinancialEntity>>
 
-    fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByNameDesc(): LiveData<PagedList<FinancialEntity>>
 
-    @Query("select * from FinancialTable order by day and month asc")
-    fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByPriceAsc(): LiveData<PagedList<FinancialEntity>>
 
-    @Query("select * from FinancialTable order by day and month desc")
-    fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByPriceDesc(): LiveData<PagedList<FinancialEntity>>
+
+    fun readFinancialByDateAsc(): LiveData<PagedList<FinancialEntity>>
+
+    fun readFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>>
 }

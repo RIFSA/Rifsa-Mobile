@@ -34,6 +34,38 @@ class HarvestRepository(
     override fun readNotUploaded(): List<HarvestEntity> =
         dao.readNotUploaded()
 
+    override fun readHarvestByNameAsc(): LiveData<List<HarvestEntity>> {
+        return dao.readHarvestByNameAsc()
+    }
+
+    override fun readHarvestByNameDesc(): LiveData<List<HarvestEntity>> {
+        return dao.readHarvestByNameDesc()
+    }
+
+    override fun readHarvestByPriceAsc(): LiveData<List<HarvestEntity>> {
+        return dao.readHarvestByPriceAsc()
+    }
+
+    override fun readHarvestByPriceDesc(): LiveData<List<HarvestEntity>> {
+        return dao.readHarvestByPriceDesc()
+    }
+
+    override fun readHarvestByDateAsc(): LiveData<List<HarvestEntity>> {
+        return dao.readHarvestByDateAsc()
+    }
+
+    override fun readHarvestByDateDesc(): LiveData<List<HarvestEntity>> {
+       return dao.readHarvestByDateDesc()
+    }
+
+    override fun readHarvestByWeightAsc(): LiveData<List<HarvestEntity>> {
+        return dao.readHarvestByWeightAsc()
+    }
+
+    override fun readHarvestByWeightDesc(): LiveData<List<HarvestEntity>> {
+       return dao.readHarvestByWeightDesc()
+    }
+
 
     override fun deleteHarvestLocal(localId : Int){
         dao.deleteHarvestLocal(localId)

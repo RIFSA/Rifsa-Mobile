@@ -129,12 +129,12 @@
     <Spinner
         android:id="@+id/sp_sort"
         android:layout_width="0dp"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
-        android:visibility="gone"
-        android:entries="@array/data_sort"
+        android:entries="@array/finance_sort"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar8" />

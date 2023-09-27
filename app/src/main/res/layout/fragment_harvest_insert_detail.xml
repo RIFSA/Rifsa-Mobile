@@ -80,7 +80,32 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvfinance_insert_date2"
+                style="@style/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_tvcorner_stroke_gray"
+                android:drawablePadding="16dp"
+                android:fontFamily="@font/dmsans_regular"
+                android:gravity="center|start"
+                android:includeFontPadding="false"
+                android:inputType="textPersonName"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_month_24"
+                app:drawableTint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView52"
+                tools:ignore="LabelFor,TextViewEdits" />
+
+            <TextView
                 android:id="@+id/textView14"
+                style="@style/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -89,11 +114,28 @@
                 android:fontFamily="@font/dmsans_bold"
                 android:gravity="center|start"
                 android:text="@string/jenis_panen"
-                style="@style/tvTitle"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pgbar_title" />
+                app:layout_constraintTop_toBottomOf="@+id/tvfinance_insert_date2" />
+
+            <TextView
+                android:id="@+id/textView52"
+                style="@style/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/dmsans_bold"
+                android:gravity="center|start"
+                android:text="Tanggal masuk"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/tvharvest_insert_hasil"

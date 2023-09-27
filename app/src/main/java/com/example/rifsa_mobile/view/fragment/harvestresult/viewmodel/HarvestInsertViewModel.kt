@@ -38,4 +38,36 @@ class HarvestInsertViewModel(
     override fun readNotUploaded(): List<HarvestEntity> =
         repository.readNotUploaded()
 
+    override fun readHarvestByNameAsc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByNameAsc()
+    }
+
+    override fun readHarvestByNameDesc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByNameDesc()
+    }
+
+    override fun readHarvestByPriceAsc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByPriceAsc()
+    }
+
+    override fun readHarvestByPriceDesc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByPriceDesc()
+    }
+
+    override fun readHarvestByDateAsc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByDateAsc()
+    }
+
+    override fun readHarvestByDateDesc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByDateDesc()
+    }
+
+    override fun readHarvestByWeightAsc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByWeightAsc()
+    }
+
+    override fun readHarvestByWeightDesc(): LiveData<List<HarvestEntity>> {
+        return repository.readHarvestByWeightDesc()
+    }
+
 }

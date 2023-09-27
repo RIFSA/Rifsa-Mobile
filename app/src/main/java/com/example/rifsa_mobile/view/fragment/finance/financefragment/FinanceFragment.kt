@@ -7,17 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.AdapterView
+import android.widget.ListView
+import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentFinanceBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
+import com.example.rifsa_mobile.view.componen.SortSpinnerAdapter
 import com.example.rifsa_mobile.view.fragment.finance.FinanceViewModel
 import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
 import com.example.rifsa_mobile.view.fragment.finance.adapter.FinanceRecyclerViewAdapter
+import com.example.rifsa_mobile.view.fragment.finance.adapter.FinancialPagedAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -35,6 +41,7 @@ class FinanceFragment : Fragment() {
     }
 
     private var dataList = ArrayList<FinancialEntity>()
+    private var popupWindow = PopupWindow()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +51,6 @@ class FinanceFragment : Fragment() {
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
-
 
         binding.apply {
             fabFiannceInsert.setOnClickListener {
@@ -64,20 +70,16 @@ class FinanceFragment : Fragment() {
             }
         }
 
-        sortData()
 
-        return binding.root
-    }
-
-    private fun sortData(){
-        showDefaultListData()
         binding.spSort.onItemSelectedListener = object : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
             override fun onItemClick(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
-            ) {  }
+            ) {
+
+            }
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -85,85 +87,61 @@ class FinanceFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                if (parent != null) {
-                    when(parent.getItemAtPosition(position)){
-                        "Nama A-Z" ->{
-                            viewModel.readFinancialByNameAsc().observe(viewLifecycleOwner){ data ->
-                                showFinancialList(data)
-                                dataChecker(data.size)
-                            }
+
+                when(position){
+                    1 ->{
+                        viewModel.readFinancialByNameAsc().observe(viewLifecycleOwner){ data->
+                            showFinancialList(data)
                         }
-                        "Nama Z-A" ->{
-                            viewModel.readFinancialByNameDesc().observe(viewLifecycleOwner){ data ->
-                                showFinancialList(data)
-                                dataChecker(data.size)
-                            }
+                    }
+                    2 ->{
+                        viewModel.readFinancialByNameDesc().observe(viewLifecycleOwner) { data ->
+                            showFinancialList(data)
                         }
-                        "Price A-Z"->{
-                            viewModel.readFinancialByPriceAsc().observe(viewLifecycleOwner){ data ->
-                                showFinancialList(data)
-                                dataChecker(data.size)
-                            }
+                    }
+                    3->{
+                        viewModel.readFinancialByPriceAsc().observe(viewLifecycleOwner) { data ->
+                            showFinancialList(data)
                         }
-                        "Price Z-A"->{
-                            viewModel.readFinancialByPriceDesc().observe(viewLifecycleOwner){ data ->
-                                showFinancialList(data)
-                                dataChecker(data.size)
-                            }
+                    }
+                    4->{
+                        viewModel.readFinancialByPriceDesc().observe(viewLifecycleOwner) { data ->
+                            showFinancialList(data)
                         }
-                        "Date Old"->{
-                            viewModel.readFinancialByDateAsc().observe(viewLifecycleOwner){ data ->
-                                showFinancialList(data)
-                                dataChecker(data.size)
-                            }
+                    }
+                    5->{
+                        viewModel.readFinancialByDateDesc().observe(viewLifecycleOwner) { data ->
+                            showFinancialList(data)
                         }
-                        "Date New"->{
-                            viewModel.readFinancialByDateDesc().observe(viewLifecycleOwner){ data ->
-                                showFinancialList(data)
-                                dataChecker(data.size)
-                            }
+                    }
+                    6->{
+                        viewModel.readFinancialByDateAsc().observe(viewLifecycleOwner) { data ->
+                            showFinancialList(data)
                         }
-                        else ->{
-                            showDefaultListData()
+                    }
+                    //when nothing sleected
+                    else->{
+                        viewModel.readFinancialByDateDesc().observe(viewLifecycleOwner) { data ->
+                            showFinancialList(data)
                         }
                     }
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                showDefaultListData()
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+        return binding.root
     }
 
 
-    private fun showDefaultListData(){
-        lifecycleScope.launch{
-            try {
-                viewModel.readFinancialLocal().observe(viewLifecycleOwner){ data ->
-                    showFinancialList(data)
-                    dataChecker(data.size)
-                }
-            }catch (e : Exception){
-                Log.d("FinanceFragment",e.toString())
-            }
-        }
-    }
-
-    private fun showFinancialList(data : List<FinancialEntity>){
+    private fun showFinancialList(data : PagedList<FinancialEntity>){
         try {
             binding.pgbFinanceBar.visibility = View.GONE
-            val adapter = FinanceRecyclerViewAdapter(data)
-            val recyclerView = binding.rvFinance
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            adapter.onItemCallBack(object : FinanceRecyclerViewAdapter.ItemDetailCallback{
-                override fun onItemCallback(data: FinancialEntity) {
-                    findNavController().navigate(
-                        FinanceFragmentDirections.actionFinanceFragmentToFinanceInsertDetailFragment(data)
-                    )
-                }
-            })
+            val adapter = FinancialPagedAdapter()
+            binding.rvFinance.layoutManager = LinearLayoutManager(context)
+            binding.rvFinance.adapter = adapter
+            adapter.submitList(data)
         }catch (e : Exception){
             Log.d("FinanceFragment",e.message.toString())
         }

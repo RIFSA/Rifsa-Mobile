@@ -1,10 +1,13 @@
 package com.example.rifsa_mobile.model.local.room.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 
@@ -28,26 +31,30 @@ interface FinancialDao {
     @Query("update FinancialTable set isUploaded = 1 where idFinance =:currentId")
     fun updateUploadStatus(currentId : String)
 
+    //paging
+    @Query("select*from FinancialTable")
+    fun readPagingFinancialLocal(): DataSource.Factory<Int,FinancialEntity>
+
+    @Query("select * from FinancialTable order by day desc")
+    fun readPagingFinancialByDateDesc(): DataSource.Factory<Int,FinancialEntity>
 
     //sort financial
     @Query("select * from FinancialTable order by name asc")
-    fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByNameAsc(): DataSource.Factory<Int,FinancialEntity>
 
     @Query("select * from FinancialTable order by name desc")
-    fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByNameDesc(): DataSource.Factory<Int,FinancialEntity>
 
     @Query("select * from FinancialTable order by price asc")
-    fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByPriceAsc(): DataSource.Factory<Int,FinancialEntity>
 
     @Query("select * from FinancialTable order by price desc")
-    fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByPriceDesc(): DataSource.Factory<Int,FinancialEntity>
 
     @Query("select * from FinancialTable order by day asc")
-    fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>>
+    fun readFinancialByDateAsc(): DataSource.Factory<Int,FinancialEntity>
 
     @Query("select * from FinancialTable order by day desc")
-    fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>>
-
-
+    fun readFinancialByDateDesc(): DataSource.Factory<Int,FinancialEntity>
 
 }

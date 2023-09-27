@@ -2,6 +2,7 @@ package com.example.rifsa_mobile.view.fragment.finance
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
 import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
@@ -43,27 +44,35 @@ class FinancialInsertViewModel(
        repository.updateFinancialStatus(currentId)
     }
 
-    override fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>> {
+    override fun readFinancialPaging(): LiveData<PagedList<FinancialEntity>> {
+       return repository.readFinancialPaging()
+    }
+
+    override fun readPagingFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>> {
+        return repository.readPagingFinancialByDateDesc()
+    }
+
+    override fun readFinancialByNameAsc(): LiveData<PagedList<FinancialEntity>> {
        return repository.readFinancialByNameAsc()
     }
 
-    override fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>> {
+    override fun readFinancialByNameDesc(): LiveData<PagedList<FinancialEntity>> {
         return repository.readFinancialByNameDesc()
     }
 
-    override fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>> {
+    override fun readFinancialByPriceAsc(): LiveData<PagedList<FinancialEntity>> {
         return repository.readFinancialByPriceAsc()
     }
 
-    override fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>> {
+    override fun readFinancialByPriceDesc(): LiveData<PagedList<FinancialEntity>> {
         return repository.readFinancialByPriceDesc()
     }
 
-    override fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>> {
+    override fun readFinancialByDateAsc(): LiveData<PagedList<FinancialEntity>> {
         return repository.readFinancialByDateAsc()
     }
 
-    override fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>> {
+    override fun readFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>> {
         return repository.readFinancialByDateDesc()
     }
 

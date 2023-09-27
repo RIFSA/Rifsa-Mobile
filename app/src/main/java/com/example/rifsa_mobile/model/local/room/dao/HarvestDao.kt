@@ -20,4 +20,31 @@ interface HarvestDao {
 
     @Query("update HarvestTable set isUploaded = 1 where id =:currentId")
     fun updateUploadStatus(currentId : String)
+
+
+    //sort harvest
+    @Query("select * from HarvestTable order by typeOfGrain asc")
+    fun readHarvestByNameAsc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by typeOfGrain desc")
+    fun readHarvestByNameDesc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by income asc")
+    fun readHarvestByPriceAsc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by income desc")
+    fun readHarvestByPriceDesc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by day asc")
+    fun readHarvestByDateAsc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by day desc")
+    fun readHarvestByDateDesc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by weight asc")
+    fun readHarvestByWeightAsc(): LiveData<List<HarvestEntity>>
+
+    @Query("select * from HarvestTable order by weight desc")
+    fun readHarvestByWeightDesc(): LiveData<List<HarvestEntity>>
+
 }

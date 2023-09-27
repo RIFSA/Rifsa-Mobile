@@ -9,20 +9,24 @@
     <string name="signup_title">Daftar Sekarang !</string>
     <string name="signup_subtitle">Buat akun untuk bisa bergabung \n bersama kami</string>
     <string name="tv_nama_title">Nama</string>
+
     <string-array name="type_finance">
         <item>Pengeluaran</item>
         <item>Pemasukan</item>
     </string-array>
+
     <string-array name="title_pic">
         <item>@drawable/onboard_pic1</item>
         <item>@drawable/onboard_pic2</item>
         <item>@drawable/onboard_pic3</item>
     </string-array>
+
     <string-array name="title">
         <item>Semua Jadi Mudah</item>
         <item>Pantau Perkembangan</item>
         <item>Inventaris</item>
     </string-array>
+
     <string-array name="subTitle">
         <item>
             Mari atur semua rencana pertanian anda \n dengan mudah dalam satu genggaman
@@ -34,6 +38,7 @@
             Mempermudah pengaturan inventari \n milik anda
         </item>
     </string-array>
+
     <string-array name="hasil_mock">
         <item>Beras</item>
         <item>Beras</item>
@@ -59,13 +64,27 @@
         <item>20 May 2020</item>
     </string-array>
 
-    <string-array name="data_sort">
+    <!--sort data-->
+    <string-array name="finance_sort">
+        <item>Urutkan</item>
         <item>Nama A-Z</item>
         <item>Nama Z-A</item>
-        <item>Price A-Z</item>
-        <item>Price Z-A</item>
-        <item>Date Old</item>
-        <item>Date New</item>
+        <item>Harga A-Z</item>
+        <item>Harga Z-A</item>
+        <item>Terbaru</item>
+        <item>Lama</item>
+    </string-array>
+
+    <string-array name="harvest_sort">
+        <item>Sort By</item>
+        <item>Type A-Z</item>
+        <item>Jenis Z-A</item>
+        <item>Pendapatan terendah</item>
+        <item>Pendapatan tertinggi</item>
+        <item>Terbaru</item>
+        <item>Terlama</item>
+        <item>Berat</item>
+        <item>Ringan</item>
     </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

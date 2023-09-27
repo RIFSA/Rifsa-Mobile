@@ -1,10 +1,11 @@
 package com.example.rifsa_mobile.model.repository.local.financial
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.local.room.dbconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
-import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 
@@ -12,7 +13,12 @@ class FinancialRepository(
     database : DatabaseConfig,
     private var firebase: FirebaseService,
 ): IFinancialRepository {
-    val dao = database.financialDao()
+    private val dao = database.financialDao()
+    private val pagingConfig = PagedList.Config.Builder()
+        .setEnablePlaceholders(true)
+        .setInitialLoadSizeHint(10)
+        .setPageSize(5)
+        .build()
 
     override fun insertUpdateFinancial(date : String,data: FinancialEntity, userId: String): Task<Void> =
         firebase.insertUpdateFinancial(date,data,userId)
@@ -47,27 +53,43 @@ class FinancialRepository(
         dao.updateUploadStatus(currentId)
     }
 
-    override fun readFinancialByNameAsc(): LiveData<List<FinancialEntity>> {
-       return dao.readFinancialByNameAsc()
+    override fun readFinancialPaging(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readPagingFinancialLocal()
+        return LivePagedListBuilder(dao,pagingConfig).build()
     }
 
-    override fun readFinancialByNameDesc(): LiveData<List<FinancialEntity>> {
-       return dao.readFinancialByNameDesc()
+    override fun readPagingFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readPagingFinancialByDateDesc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
     }
 
-    override fun readFinancialByPriceAsc(): LiveData<List<FinancialEntity>> {
-       return dao.readFinancialByPriceAsc()
+    override fun readFinancialByNameAsc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readFinancialByNameAsc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
     }
 
-    override fun readFinancialByPriceDesc(): LiveData<List<FinancialEntity>> {
-      return dao.readFinancialByPriceDesc()
+    override fun readFinancialByNameDesc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readFinancialByNameDesc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
     }
 
-    override fun readFinancialByDateAsc(): LiveData<List<FinancialEntity>> {
-        return dao.readFinancialByDateAsc()
+    override fun readFinancialByPriceAsc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readFinancialByPriceAsc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
     }
 
-    override fun readFinancialByDateDesc(): LiveData<List<FinancialEntity>> {
-        return dao.readFinancialByDateDesc()
+    override fun readFinancialByPriceDesc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readFinancialByPriceDesc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
+    }
+
+    override fun readFinancialByDateAsc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readFinancialByDateAsc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
+    }
+
+    override fun readFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>> {
+        val dao = dao.readFinancialByDateDesc()
+        return LivePagedListBuilder(dao,pagingConfig).build()
     }
 }

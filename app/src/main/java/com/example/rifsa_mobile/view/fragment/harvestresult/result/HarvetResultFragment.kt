@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestInsertViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -23,7 +25,7 @@ import kotlinx.coroutines.launch
 class HarvetResultFragment : Fragment() {
     private lateinit var binding : FragmentHarvetResultBinding
 
-    private val viewModel : HarvestResultViewModel by viewModels{
+    private val viewModel : HarvestInsertViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
 
@@ -39,31 +41,95 @@ class HarvetResultFragment : Fragment() {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.main_bottommenu)
         bottomMenu.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
-            viewModel.readHarvestResult().observe(viewLifecycleOwner){data->
-                showResult(data)
-            }
-        }
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fabHarvestToinsert.setOnClickListener {
-            findNavController().navigate(
-                HarvetResultFragmentDirections
-                    .actionHarvetResultFragmentToHarvestInsertDetailFragment(
-                    null
+        binding.apply {
+            fabHarvestToinsert.setOnClickListener {
+                findNavController().navigate(
+                    HarvetResultFragmentDirections
+                        .actionHarvetResultFragmentToHarvestInsertDetailFragment(
+                            null
+                        )
                 )
-            )
-        }
-        binding.btnHarvestBackhome.setOnClickListener {
-            findNavController().navigate(
-                HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
-            )
-        }
+            }
+            btnHarvestBackhome.setOnClickListener {
+                findNavController().navigate(
+                    HarvetResultFragmentDirections.actionHarvetResultFragmentToHomeFragment()
+                )
+            }
 
+            spSort2.onItemSelectedListener = object : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
+                override fun onItemClick(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {}
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                   if(parent != null ){
+                       when(position){
+                           1->{
+                               viewModel.readHarvestByNameAsc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           2->{
+                               viewModel.readHarvestByNameDesc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           3->{
+                               viewModel.readHarvestByPriceAsc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           4->{
+                               viewModel.readHarvestByPriceDesc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           5->{
+                               viewModel.readHarvestByDateAsc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           6->{
+                               viewModel.readHarvestByDateDesc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           7->{
+                               viewModel.readHarvestByWeightDesc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           8->{
+                               viewModel.readHarvestByWeightAsc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                           else->{
+                               viewModel.readHarvestByNameAsc().observe(viewLifecycleOwner){data->
+                                   showResult(data)
+                               }
+                           }
+                       }
+                   }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) { }
+            }
+        }
     }
 
     private fun showResult(data : List<HarvestEntity>){
@@ -99,7 +165,4 @@ class HarvetResultFragment : Fragment() {
             binding.harvestEmptyState.emptyState.visibility = View.VISIBLE
         }
     }
-
-
-
 }
