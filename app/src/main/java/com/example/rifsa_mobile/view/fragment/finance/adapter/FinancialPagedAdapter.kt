@@ -18,7 +18,7 @@ class FinancialPagedAdapter:
         this.itemCallBack = callback
     }
 
-    class ViewHolder(private var binding : ItemcardFinanceBinding) :
+    class ViewHolder(var binding : ItemcardFinanceBinding) :
         RecyclerView.ViewHolder(binding.root){
             fun bind(item: FinancialEntity){
                 binding.tvcardFinanceTitle.text = item.name
@@ -30,17 +30,15 @@ class FinancialPagedAdapter:
                 }else{
                     binding.imageView5.setImageResource(R.drawable.ic_finance_in)
                 }
-
-                //itemcallback
-                binding.tvcardFinanceTitle.setOnClickListener {
-//                    onItemCallback(item)
-                }
             }
    }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position) as FinancialEntity
+        holder.binding.tvcardFinanceTitle.setOnClickListener {
+           itemCallBack.onItemCallback(item)
+        }
         holder.bind(item)
     }
 
@@ -66,7 +64,7 @@ class FinancialPagedAdapter:
             oldItem: FinancialEntity,
             newItem: FinancialEntity
         ): Boolean {
-            return oldItem === newItem
+            return oldItem.localId === newItem.localId
         }
 
     }

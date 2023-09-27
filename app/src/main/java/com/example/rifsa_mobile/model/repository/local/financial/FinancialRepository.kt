@@ -6,8 +6,11 @@ import androidx.paging.PagedList
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.local.room.dbconfig.DatabaseConfig
 import com.example.rifsa_mobile.model.remote.firebase.FirebaseService
+import com.example.rifsa_mobile.model.repository.utils.RepoUtils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
+import com.example.rifsa_mobile.model.repository.utils.RepoUtils.initialLoadSize
+import com.example.rifsa_mobile.model.repository.utils.RepoUtils.pagedSize
 
 class FinancialRepository(
     database : DatabaseConfig,
@@ -16,8 +19,8 @@ class FinancialRepository(
     private val dao = database.financialDao()
     private val pagingConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(true)
-        .setInitialLoadSizeHint(10)
-        .setPageSize(5)
+        .setInitialLoadSizeHint(initialLoadSize)
+        .setPageSize(pagedSize)
         .build()
 
     override fun insertUpdateFinancial(date : String,data: FinancialEntity, userId: String): Task<Void> =

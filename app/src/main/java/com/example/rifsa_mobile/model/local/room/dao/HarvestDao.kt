@@ -1,7 +1,9 @@
 package com.example.rifsa_mobile.model.local.room.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 
 @Dao
@@ -24,27 +26,27 @@ interface HarvestDao {
 
     //sort harvest
     @Query("select * from HarvestTable order by typeOfGrain asc")
-    fun readHarvestByNameAsc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByNameAsc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by typeOfGrain desc")
-    fun readHarvestByNameDesc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByNameDesc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by income asc")
-    fun readHarvestByPriceAsc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByPriceAsc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by income desc")
-    fun readHarvestByPriceDesc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByPriceDesc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by day asc")
-    fun readHarvestByDateAsc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByDateAsc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by day desc")
-    fun readHarvestByDateDesc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByDateDesc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by weight asc")
-    fun readHarvestByWeightAsc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByWeightAsc(): DataSource.Factory<Int, HarvestEntity>
 
     @Query("select * from HarvestTable order by weight desc")
-    fun readHarvestByWeightDesc(): LiveData<List<HarvestEntity>>
+    fun readHarvestByWeightDesc(): DataSource.Factory<Int, HarvestEntity>
 
 }

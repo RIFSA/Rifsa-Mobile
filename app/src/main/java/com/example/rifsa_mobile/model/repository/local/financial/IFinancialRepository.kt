@@ -23,8 +23,7 @@ interface IFinancialRepository {
     fun readFinancialPaging(): LiveData<PagedList<FinancialEntity>>
     fun readPagingFinancialByDateDesc(): LiveData<PagedList<FinancialEntity>>
 
-
-    //sort
+    //sort data
     fun readFinancialByNameAsc(): LiveData<PagedList<FinancialEntity>>
 
     fun readFinancialByNameDesc(): LiveData<PagedList<FinancialEntity>>

@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentHarvetResultBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
 import com.example.rifsa_mobile.helpers.utils.Utils
+import com.example.rifsa_mobile.view.fragment.finance.adapter.FinancialPagedAdapter
+import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultPagedAdapter
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.adapter.HarvestResultRecyclerViewAdapter
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestInsertViewModel
@@ -132,15 +135,15 @@ class HarvetResultFragment : Fragment() {
         }
     }
 
-    private fun showResult(data : List<HarvestEntity>){
+    private fun showResult(data : PagedList<HarvestEntity>){
         try {
             binding.pgbHasilBar.visibility = View.GONE
-            val adapter = HarvestResultRecyclerViewAdapter(data)
-            val recyclerView = binding.rvHarvestresult
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            adapter.onDetailCallBack(object : HarvestResultRecyclerViewAdapter.OnDetailCallback{
-                override fun onDetailCallback(data: HarvestEntity) {
+            val adapter = HarvestResultPagedAdapter()
+            binding.rvHarvestresult.layoutManager = LinearLayoutManager(context)
+            binding.rvHarvestresult.adapter = adapter
+            adapter.submitList(data)
+            adapter.onItemCallBack(object : HarvestResultPagedAdapter.ItemDetailCallback{
+                override fun onItemCallback(data: HarvestEntity) {
                     findNavController().navigate(
                         HarvetResultFragmentDirections.actionHarvetResultFragmentToHarvestInsertDetailFragment(data)
                     )
