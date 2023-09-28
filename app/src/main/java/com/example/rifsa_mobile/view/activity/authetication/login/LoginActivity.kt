@@ -13,6 +13,7 @@ import com.example.rifsa_mobile.databinding.ActivityLoginBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
+import com.example.rifsa_mobile.view.activity.MainActivity
 import com.example.rifsa_mobile.view.activity.authetication.signup.SignUpActivity
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.firebase.database.DataSnapshot
@@ -79,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                     retriveHarvestData(userID)
                     retriveFinancialData(userID)
                     retrieveDiseaseData(userID)
-                    //todo retrive data from firebase
+                    startActivity(Intent(this, MainActivity::class.java))
                 }
                 .addOnFailureListener {
                     showStatus(it.message.toString())
@@ -116,7 +117,6 @@ class LoginActivity : AppCompatActivity() {
                         child.children.forEach { main ->
                             val data = main.getValue(HarvestEntity::class.java)
                             if (data != null) { harvestList.add(data) }
-                            Log.d("login_acitivty",harvestList[0].typeOfGrain)
                             harvestList.forEach { value ->
                                 viewModel.insertHarvestLocal(value)
                             }

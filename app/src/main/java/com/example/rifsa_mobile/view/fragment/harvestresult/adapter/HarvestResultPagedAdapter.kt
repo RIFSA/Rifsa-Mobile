@@ -31,7 +31,7 @@ class HarvestResultPagedAdapter :
         fun bind(item : HarvestEntity){
             binding.tvCardhasilTitle.text = item.typeOfGrain
             binding.tvCardhasilDate.text = item.date
-            (item.weight + " Kg").also { binding.tvCardhasilWeight.text = it }
+            ("${item.weight}" + " Kg").also { binding.tvCardhasilWeight.text = it }
         }
     }
 

@@ -23,7 +23,7 @@ class HarvestResultRecyclerViewAdapter(private var dataList : List<HarvestEntity
         val item = dataList[position]
         holder.binding.tvCardhasilTitle.text = item.typeOfGrain
         holder.binding.tvCardhasilDate.text = item.date
-        (item.weight + " Kg").also { holder.binding.tvCardhasilWeight.text = it }
+        ("${item.weight}" + " Kg").also { holder.binding.tvCardhasilWeight.text = it }
 
         holder.binding.tvCardhasilTitle.setOnClickListener {
             itemCallBak.onDetailCallback(item)

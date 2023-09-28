@@ -17,8 +17,8 @@ class HarvestEntity(
     val month : Int = 0,
     val year : Int = 0,
     var typeOfGrain : String="",
-    var weight : String="",
-    var income : String="",
+    var weight : Int = 0,
+    var income : Int = 0,
     var note : String="",
     var isUploaded : Boolean = true,
     var uploadReminderId : Int = 0

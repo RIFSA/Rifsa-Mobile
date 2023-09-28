@@ -29,4 +29,22 @@ object LoadDummyJson {
         return null
     }
 
+    fun loadHarvestjson(context : Context): JSONArray?{
+        val builder = StringBuilder()
+        val resources = context.resources.openRawResource(R.raw.harvest_dummy)
+        val reader = BufferedReader(InputStreamReader(resources))
+        var line : String?
+        try {
+            while (reader.readLine().also { line = it } != null){
+                builder.append(line)
+            }
+            val json = JSONObject(builder.toString())
+            return json.getJSONArray("harvest")
+        }catch (exception: IOException) {
+            exception.printStackTrace()
+        } catch (exception: JSONException) {
+            exception.printStackTrace()
+        }
+        return null
+    }
 }

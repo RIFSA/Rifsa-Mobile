@@ -49,6 +49,10 @@ abstract class DatabaseConfig: RoomDatabase() {
                                 context,
                                 setDatabase(context).financialDao()
                             )
+                            fillDataHarvest(
+                                context,
+                                setDatabase(context).harvestDao()
+                            )
                         }
                     }
                 })
@@ -81,6 +85,39 @@ abstract class DatabaseConfig: RoomDatabase() {
                             name = item.getString("name"),
                             type = item.getString("type"),
                             noted = item.getString("noted"),
+                            isUploaded = item.getBoolean("isUploaded"),
+                            uploadReminderId = item.getInt("uploadReminderId")
+                        ))
+                    }
+                }
+            }catch (e : Error){
+                Log.d("databaseConfig",e.message.toString())
+            }
+        }
+
+        private fun fillDataHarvest(
+            context: Context,
+            harvestDao : HarvestDao
+        ){
+            val harvest = LoadDummyJson.loadHarvestjson(context)
+
+            try {
+                if (harvest != null){
+                    for (i in 0 until harvest.length()){
+                        val item = harvest.getJSONObject(i)
+                        harvestDao.insertHarvestLocally(
+                            HarvestEntity(
+                            localId = item.getInt("localId"),
+                            id = item.getString("id"),
+                            firebaseUserId = item.getString("firebaseUserId"),
+                            date = item.getString("date"),
+                            day = item.getInt("day"),
+                            month = item.getInt("month"),
+                            year = item.getInt("year"),
+                            typeOfGrain = item.getString("typeOfGrain"),
+                            weight= item.getInt("weight"),
+                            income = item.getInt("income"),
+                            note = item.getString("note"),
                             isUploaded = item.getBoolean("isUploaded"),
                             uploadReminderId = item.getInt("uploadReminderId")
                         ))

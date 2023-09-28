@@ -146,8 +146,8 @@ class HarvestInsertDetailFragment : Fragment() {
             month = monthPick,
             year = yearPick,
             typeOfGrain = binding.tvharvestInsertName.text.toString(),
-            weight = binding.tvharvestInsertBerat.text.toString(),
-            income = binding.tvharvestInsertHasil.text.toString(),
+            weight = binding.tvharvestInsertBerat.text.toString().toInt(),
+            income = binding.tvharvestInsertHasil.text.toString().toInt(),
             note = binding.tvharvestInsertCatatan.text.toString(),
             isUploaded = true,
             uploadReminderId = uploadedReminderId
@@ -203,8 +203,8 @@ class HarvestInsertDetailFragment : Fragment() {
             month = monthPick,
             year = yearPick,
             typeOfGrain = binding.tvharvestInsertName.text.toString(),
-            weight = binding.tvharvestInsertBerat.text.toString(),
-            income = binding.tvharvestInsertHasil.text.toString(),
+            weight = binding.tvharvestInsertBerat.text.toString().toInt(),
+            income = binding.tvharvestInsertHasil.text.toString().toInt(),
             note = binding.tvharvestInsertCatatan.text.toString(),
             isUploaded = isUploaded,
             uploadReminderId = uploadedReminderId
