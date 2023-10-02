@@ -106,7 +106,6 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.saveUserPreferences(onBoard,name,pass,userId)
         }
-
     }
 
     private fun retriveHarvestData(userId: String){
