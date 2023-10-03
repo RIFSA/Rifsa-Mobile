@@ -38,7 +38,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back"
                 app:tint="@color/black"
-                android:contentDescription="@string/back" />
+                android:contentDescription="@string/activity_onboarding_back" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -77,7 +77,7 @@
         android:layout_marginBottom="60dp"
         android:fontFamily="@font/dmsans_regular"
         android:includeFontPadding="false"
-        android:text="@string/lewati"
+        android:text="@string/activity_onboarding_skip"
         android:textColor="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Login_title">Selamat Datang !</string>
-    <string name="tv_email_title">Email</string>
-    <string name="tv_password_title">Password</string>
-    <string name="login_subtitle">Kami hadir untuk membantu aktivitas pertanian anda</string>
-    <string name="btn_enter_title">Masuk</string>
-    <string name="btn_signup_title">Daftar</string>
-    <string name="signup_title">Daftar Sekarang !</string>
-    <string name="tv_nama_title">Nama</string>
-    <string name="profile_picture">profile_picture</string>
-    <string name="home_harvestres_title">Hasil Panen</string>
-    <string name="back">back</string>
+    <string name="activity_login_title">Selamat Datang !</string>
+    <string name="activity_login_tvemail_title">Email</string>
+    <string name="activity_login_tvpassword_title">Password</string>
+    <string name="activity_login_subtitle">Kami hadir untuk membantu aktivitas pertanian anda</string>
+    <string name="acitivity_login_btnsignin_title">Masuk</string>
+    <string name="activity_login_btnsignup_title">Daftar</string>
+    <string name="activity_signup_title">Daftar Sekarang !</string>
+    <string name="activity_signup_tvname_title">Nama</string>
+    <string name="fragment_profile_picture">profile_picture</string>
+    <string name="fragment_home_harvest_title">Hasil Panen</string>
+    <string name="activity_onboarding_back">back</string>
     <string name="title_maps_fragment" translatable="false">Peta penyakit</string>
     <string name="status_baar" translatable="false">Status bar</string>
     <string name="kenali">Kenali</string>

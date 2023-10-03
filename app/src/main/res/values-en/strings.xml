@@ -3,36 +3,47 @@
 <!--          https://asrt.gluege.boerde.de             -->
 <string name="app_name">RIFSA</string>
     <!--onboarding screen-->
-    <string name="Login_title">Welcome !</string>
-    <string name="login_subtitle">We are here to help your agricultural activities</string>
-
-    <!--authentication page-->
-    <string name="tv_email_title">Email</string>
-    <string name="tv_password_title">Password</string>
-    <string name="btn_enter_title">Enter</string>
-    <string name="btn_signup_title">List</string>
-    <string name="signup_title">Sign up now !</string>
-    <string name="signup_subtitle">Create an account to be able to join \nwith us</string>
-    <string name="tv_nama_title">No</string>
-
-    <string-array name="type_finance">
-        <item>Production</item>
-        <item>Income</item>
-    </string-array>
-    <string-array name="title_pic">
+    <string-array name="activity_onboarding_slidepic">
         <item>@drawable/onboard_pic1</item>
         <item>@drawable/onboard_pic2</item>
         <item>@drawable/onboard_pic3</item>
     </string-array>
-    <string-array name="title">
+    <string-array name="activity_onboarding_subtitle">
         <item>Everything So Easy</item>
         <item>Monitor Progress</item>
         <item>Inventory</item>
     </string-array>
-    <string-array name="subTitle">
+    <string-array name="activity_onboarding_subtitle2">
         <item>Let\'s manage all your agricultural plans \neasily in one hand</item>
         <item>Help you in monitoring \nthe development of your agriculture</item>
         <item>Simplify your inventory management \n</item>
+    </string-array>
+
+    <!--authentication page-->
+    <string name="activity_login_title">Welcome !</string>
+    <string name="activity_login_subtitle">We are here to help your agricultural activities</string>
+    <string name="activity_login_tvemail_title">Email</string>
+    <string name="activity_login_tvpassword_title">Password</string>
+    <string name="acitivity_login_btnsignin_title">Sign In</string>
+    <string name="activity_login_btnsignup_title">Sign Up</string>
+
+    <string name="activity_signup_title">Sign up now !</string>
+    <string name="activity_signup_subtitle">Create an account to be able to join \nwith us</string>
+    <string name="activity_signup_tvname_title">No</string>
+
+    <!--finance-->
+    <string-array name="fragment_insertfinance_incometype">
+        <item>Production</item>
+        <item>Income</item>
+    </string-array>
+    <string-array name="fragment_finance_sortdata">
+        <item>Sort By</item>
+        <item>Name A-Z</item>
+        <item>Name Z-A</item>
+        <item>Price Lowest</item>
+        <item>Price Highest</item>
+        <item>Newest</item>
+        <item>Oldest</item>
     </string-array>
     <string-array name="hasil_mock">
         <item>Rice</item>
@@ -59,39 +70,41 @@
         <item>20 May 2020</item>
     </string-array>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="profile_picture">profile_picture</string>
-    <string name="home_harvestres_title">Yields</string>
-    <string name="back">back</string>
-    <string name="lewati">Skip</string>
     <string name="subtitle">subtitle</string>
     <string name="title">title</string>
     <string name="image">image</string>
     <string name="name">No</string>
     <string name="rumah">House</string>
-    <string name="keuangan">Finance</string>
-    <string name="deteksi">Detection</string>
-    <string name="inventaris">Inventory</string>
-    <string name="profile">Profile</string>
     <string name="nama_dummy">Nama Dummy</string>
-    <string name="apa_itu_rifsa">What is Rifsa?</string>
-    <string name="desc_card_home">Rifsa is an application to make it easier for farmers to monitor the progress of their crops.</string>
-    <string name="lihat_semua">View all</string>
-    <string name="finance_out">finance out</string>
-    <string name="add">add</string>
-    <string name="save">save</string>
-    <string name="jenis_panen">Harvest Type</string>
-    <string name="berat">Weight (kg)</string>
-    <string name="hasil_jual">Sales Results (Rp)</string>
-    <string name="catatan">Notes</string>
-    <string name="detail_keuangan">New Data</string>
-    <string name="detail_panen">New Data</string>
+
+    <string name="fragment_profile_picture">profile_picture</string>
+    <string name="fragment_home_harvest_title">Yields</string>
+    <string name="activity_onboarding_back">back</string>
+    <string name="activity_onboarding_skip">Skip</string>
+
+    <string name="fragment_finance_title">Finance</string>
+    <string name="fragment_detection_title">Detection</string>
+    <string name="fragment_inventory_title">Inventory</string>
+    <string name="fragment_profile_title">Profile</string>
+
+    <string name="fragment_home_about_title">What is Rifsa?</string>
+    <string name="fragment_home_desc_about">Rifsa is an application to make it easier for farmers to monitor the progress of their crops.</string>
+    <string name="fragment_home_harvestdata">View all</string>
+    <string name="fragment_finance_out_title">finance out</string>
+    <string name="btn_add_title">add</string>
+    <string name="btn_save_title">save</string>
+    <string name="fragment_harvest_type_title">Harvest Type</string>
+    <string name="fragment_harvest_weight_title">Weight (kg)</string>
+    <string name="fragment_harvest_income_title">Sales Results</string>
+    <string name="fragment_harvest_noted">Notes</string>
+    <string name="fragment_finance_detail_title">New Data</string>
+    <string name="fragment_harvest_detail_title">New Data</string>
     <string name="tanggal">Date</string>
-    <string name="pengeluaran_pemasukan">Expenditures /Entries</string>
+    <string name="fragment_finance_type_spinner">Expenditures /Entries</string>
     <string name="kegiatan">Activity</string>
     <string name="harga">Price (IDR)</string>
-    <string name="hapus">happy</string>
-    <string name="keluar">Get out</string>
+    <string name="hapus">Delete</string>
+    <string name="keluar">Log Out</string>
     <string name="detail_inventaris">New Data</string>
     <string name="foto">Photo</string>
     <string name="jumlah">Amount</string>
@@ -111,7 +124,7 @@
     <string name="proses">Process</string>
     <string name="deksripsi_penyakit">Disease description</string>
     <string name="lokasi_ditemukan">Location found</string>
-    <string name="selesai" translatable="false">Selesai</string>
+    <string name="selesai" >Done</string>
     <string name="status_baar">Status bar</string>
     <string name="status">Status</string>
     <string name="penyakit_tanaman">Plant Diseases</string>
@@ -142,18 +155,6 @@
     <string name="kondisi">Condition</string>
     <string name="picdisease">picDisease</string>
     <string name="bahasa">Language</string>
-
-
-    <!--sort data-->
-    <string-array name="data_sort">
-        <item>Sort By</item>
-        <item>Name A-Z</item>
-        <item>Name Z-A</item>
-        <item>Harga A-Z</item>
-        <item>Harga Z-A</item>
-        <item>Terbaru</item>
-        <item>Lama</item>
-    </string-array>
 
     <string-array name="harvest_sort">
         <item>Sort By</item>

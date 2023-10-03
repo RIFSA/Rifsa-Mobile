@@ -30,9 +30,9 @@ class OnBoarding : AppCompatActivity() {
     private val getOnBoarding: ArrayList<OnBoardingPreference>
         @SuppressLint("Recycle")
         get(){
-            val photo = resources.obtainTypedArray(R.array.title_pic)
-            val title = resources.getStringArray(R.array.title)
-            val subTitle = resources.getStringArray(R.array.subTitle)
+            val photo = resources.obtainTypedArray(R.array.activity_onboarding_slidepic)
+            val title = resources.getStringArray(R.array.activity_onboarding_subtitle)
+            val subTitle = resources.getStringArray(R.array.activity_onboarding_subtitle2)
             val listOnBoard = ArrayList<OnBoardingPreference>()
             for (i in title.indices){
                 val onBoard = OnBoardingPreference(

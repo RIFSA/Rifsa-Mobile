@@ -9,7 +9,7 @@
         >
     </item>
     <item
-        android:title="@string/keuangan"
+        android:title="@string/fragment_finance_title"
         android:id="@+id/financeFragment"
         android:visible="true"
         android:enabled="true"
@@ -17,7 +17,7 @@
         >
     </item>
     <item
-        android:title="@string/deteksi"
+        android:title="@string/fragment_detection_title"
         android:id="@+id/disaseFragment"
         android:visible="true"
         android:enabled="true"
@@ -25,7 +25,7 @@
         >
     </item>
     <item
-        android:title="@string/inventaris"
+        android:title="@string/fragment_inventory_title"
         android:id="@+id/inventoryFragment"
         android:visible="true"
         android:enabled="true"
@@ -33,7 +33,7 @@
         >
     </item>
     <item
-        android:title="@string/profile"
+        android:title="@string/fragment_profile_title"
         android:id="@+id/profileFragment"
         android:visible="true"
         android:enabled="true"
