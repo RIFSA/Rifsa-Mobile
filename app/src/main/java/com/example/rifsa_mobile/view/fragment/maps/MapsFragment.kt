@@ -1,16 +1,15 @@
 package com.example.rifsa_mobile.view.fragment.maps
 
+import android.Manifest
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -45,10 +44,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
     private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var gMap : GoogleMap
+    private lateinit var googleMap : GoogleMap
     private var diseaseList = ArrayList<DiseaseEntity>()
 
-    private var fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
+    private var fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
 
     private var requestPermissionLaunch =
         registerForActivityResult(ActivityResultContracts.RequestPermission()){
@@ -109,30 +108,33 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
             ) {
                 when(position){
                     0->{
-                        gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
                         binding.tvDiseaseMapsTitle.setTextColor(Color.BLACK)
                         binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back)
                         true
                     }
                     1->{
-                        gMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                        googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
                         binding.tvDiseaseMapsTitle.setTextColor(Color.WHITE)
-                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back)
+                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back_white)
                         true
                     }
                     2->{
-                        gMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                        googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
                         binding.tvDiseaseMapsTitle.setTextColor(Color.BLACK)
+                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back)
                         true
                     }
                     3->{
-                        gMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+                        googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
                         binding.tvDiseaseMapsTitle.setTextColor(Color.WHITE)
+                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back_white)
                         true
                     }
                     else->{
-                        gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
                         binding.tvDiseaseMapsTitle.setTextColor(Color.BLACK)
+                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back)
                         true
                     }
                 }
@@ -143,13 +145,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
     }
 
     override fun onMapReady(maps: GoogleMap) {
-        gMap = maps
+        googleMap = maps
         getCurrentLocation()
-        gMap.uiSettings.apply {
+
+        //check location
+        setupMapLocation()
+
+        //enable gmaps button
+        googleMap.uiSettings.apply {
             isZoomControlsEnabled = true
             isMapToolbarEnabled = true
             isCompassEnabled = true
-            isMyLocationButtonEnabled = true
+        }
+    }
+
+    private fun setupMapLocation() {
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            googleMap.isMyLocationEnabled = true
+            googleMap.uiSettings.isMyLocationButtonEnabled = true
+
+        } else {
+            requestPermissionLaunch.launch(fineLocation)
         }
     }
 
@@ -182,7 +200,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
     private fun showDiseaseMarker(lattidue : Double, longtidue : Double, title : String, id : String) {
         if (lattidue != 0.0){
-            gMap.apply {
+            googleMap.apply {
                 addMarker(MarkerOptions()
                     .position(LatLng(lattidue, longtidue))
                     .snippet(id)
@@ -213,7 +231,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
     private fun showFarmingField(data : FieldDetailEntity){
         val location = LatLng(data.longitude, data.latitude)
-        gMap.apply {
+        googleMap.apply {
             addMarker(MarkerOptions()
                 .position(location)
                 .snippet(data.idField)
@@ -262,11 +280,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
             fusedLocationProviderClient.lastLocation
                 .addOnSuccessListener { maps ->
                     if (maps != null){
-                        gMap.isMyLocationEnabled = true
-                        gMap.moveCamera(CameraUpdateFactory.newLatLng(
+                        //save last position as reference
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(
                             LatLng(maps.latitude,maps.longitude)
                         ))
-                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                             LatLng(maps.latitude,maps.longitude),19f
                         ))
                     }
