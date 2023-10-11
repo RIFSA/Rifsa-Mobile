@@ -21,7 +21,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar11"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="50dp"
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:contentInsetEnd="0dp"
@@ -62,7 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,6 +81,17 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar11" />
+
+    <Spinner
+        android:id="@+id/spin_type_map"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginEnd="5dp"
+        android:entries="@array/map_type"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar11" />
 

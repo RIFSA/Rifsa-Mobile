@@ -24,7 +24,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="30dp"
-        android:contentDescription="@string/button_camera"
+        android:contentDescription="@string/btn_camera_title"
         android:src="@drawable/baseline_camera_alt_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

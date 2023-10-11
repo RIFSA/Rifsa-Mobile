@@ -1,10 +1,15 @@
 package com.example.rifsa_mobile.view.fragment.maps
 
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -56,9 +61,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMapsBinding.inflate(layoutInflater)
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
+        setHasOptionsMenu(true)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
@@ -82,25 +86,73 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         binding.btnDiseaseMapsBackhome.setOnClickListener {
             findNavController().navigate(
                 MapsFragmentDirections.actionMapsDiseaseFragmentToDisaseFragment()
             )
+        }
+
+        binding.spinTypeMap.onItemSelectedListener = object :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
+            override fun onItemClick(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {}
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when(position){
+                    0->{
+                        gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        binding.tvDiseaseMapsTitle.setTextColor(Color.BLACK)
+                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back)
+                        true
+                    }
+                    1->{
+                        gMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                        binding.tvDiseaseMapsTitle.setTextColor(Color.WHITE)
+                        binding.btnDiseaseMapsBackhome.setBackgroundResource(R.drawable.ic_back)
+                        true
+                    }
+                    2->{
+                        gMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                        binding.tvDiseaseMapsTitle.setTextColor(Color.BLACK)
+                        true
+                    }
+                    3->{
+                        gMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+                        binding.tvDiseaseMapsTitle.setTextColor(Color.WHITE)
+                        true
+                    }
+                    else->{
+                        gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        binding.tvDiseaseMapsTitle.setTextColor(Color.BLACK)
+                        true
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
     }
 
     override fun onMapReady(maps: GoogleMap) {
         gMap = maps
         getCurrentLocation()
-        gMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
         gMap.uiSettings.apply {
             isZoomControlsEnabled = true
             isMapToolbarEnabled = true
             isCompassEnabled = true
             isMyLocationButtonEnabled = true
         }
-
     }
+
     private fun getDiseaseData(userId : String){
         remoteViewModel.readDiseaseList(userId).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -227,13 +279,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-
-
     private fun showStatus(title: String){
         binding.tvMapsTitle.visibility = View.VISIBLE
         binding.tvMapsTitle.text = title
     }
-
-
-
 }

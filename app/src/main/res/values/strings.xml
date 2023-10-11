@@ -119,24 +119,25 @@
 
     <string name="fragment_finance_detail_title">Data Baru</string>
     <string name="fragment_harvest_detail_title">Data Baru</string>
-    <string name="tanggal">Tanggal</string>
+    <string name="fragment_harvest_date_title">Tanggal</string>
     <string name="fragment_finance_type_spinner">Pengeluaran / Pemasukan</string>
-    <string name="kegiatan">Kegiatan</string>
-    <string name="harga">Harga (Rp)</string>
-    <string name="hapus">Hapus</string>
-    <string name="keluar">Keluar</string>
-    <string name="detail_inventaris">Data Baru</string>
-    <string name="foto">Foto</string>
-    <string name="jumlah">Jumlah</string>
-    <string name="button_camera">Button Camera</string>
-    <string name="rekam_penyakit">Rekam Penyakit</string>
-    <string name="maps">Maps</string>
+    <string name="fragment_home_activites_title">Kegiatan</string>
+    <string name="fragment_harvest_price_title">Harga (Rp)</string>
+    <string name="btn_delete_title">Hapus</string>
+    <string name="btn_logout_title">Keluar</string>
+    <string name="fragment_inventory_new_title">Data Baru</string>
+    <string name="fragment_inventory_photo">Foto</string>
+    <string name="fragment_inventory_amount_title">Jumlah</string>
+    <string name="btn_camera_title">Button Camera</string>
+    <string name="fragment_disease_title">Rekam Penyakit</string>
+
+    <string name="fragment_maps_desc">Maps</string>
     <string name="_0">0</string>
-    <string name="penyakit_terdeteksi">Penyakit Terdeteksi</string>
-    <string name="tidak_ada_data">data kosong</string>
-    <string name="pengeluaran">Pengeluaran</string>
-    <string name="pemasukan">Pemasukan</string>
-    <string name="jumlah_barang">Jumlah Barang</string>
+    <string name="fragment_disease_amount_title">Penyakit Terdeteksi</string>
+    <string name="fragment_disease_empty_title">data kosong</string>
+    <string name="fragment_finance_outcome_title">Pengeluaran</string>
+    <string name="fragment_finance_income_title">Pemasukan</string>
+    <string name="fragment_inventory_amount_title2">Jumlah Barang</string>
     <string name="detail_penyakit">Detail Penyakit</string>
     <string name="indikasi">Indikasi</string>
     <string name="deskripsi">Deskripsi</string>
@@ -175,4 +176,16 @@
     <string name="kondisi">Kondisi</string>
     <string name="picdisease">picDisease</string>
     <string name="bahasa">Bahasa</string>
+    <string name="fragment_maps_type_normal_map">Normal Map</string>
+    <string name="fragment_maps_type_satelite_map">satelite map</string>
+    <string name="fragment_maps_type_terrain_map">terrain map</string>
+    <string name="fragment_maps_type_hybrid_map">hybrid map</string>
+
+    <!--map type-->
+    <string-array name="map_type">
+        <item>Normal Map</item>
+        <item>Satelite Map</item>
+        <item>Terrain Map</item>
+        <item>Hybrid Map</item>
+    </string-array>
 </resources>

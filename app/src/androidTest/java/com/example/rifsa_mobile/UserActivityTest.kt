@@ -21,7 +21,6 @@ class UserActivityTest {
         ActivityScenario.launch(MainActivity::class.java)
     }
 
-
     @Test
     fun harvestResultAct(){
         onView(withId(R.id.main_home_layout))

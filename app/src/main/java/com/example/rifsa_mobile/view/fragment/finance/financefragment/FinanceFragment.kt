@@ -77,9 +77,7 @@ class FinanceFragment : Fragment() {
                 view: View?,
                 position: Int,
                 id: Long
-            ) {
-
-            }
+            ) { }
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,

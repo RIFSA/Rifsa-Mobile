@@ -157,7 +157,7 @@
                         android:fontFamily="@font/dmsans_bold"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@string/penyakit_terdeteksi"
+                        android:text="@string/fragment_disease_amount_title"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

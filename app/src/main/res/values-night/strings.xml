@@ -37,4 +37,8 @@
     <string name="kondisi">Kondisi</string>
     <string name="picdisease">picDisease</string>
     <string name="bahasa">Bahasa</string>
+    <string name="fragment_maps_type_normal_map">Normal Map</string>
+    <string name="fragment_maps_type_satelite_map">satelite map</string>
+    <string name="fragment_maps_type_terrain_map">terrain map</string>
+    <string name="fragment_maps_type_hybrid_map">hybrid map</string>
 </resources>
