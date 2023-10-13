@@ -10,7 +10,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.ActivityOnBoardingBinding
 import com.example.rifsa_mobile.view.activity.authetication.login.LoginActivity
 import com.example.rifsa_mobile.view.activity.onboarding.adapter.OnBoardAdapter
-import com.example.rifsa_mobile.model.entity.local.onboarding.OnBoardingPreference
+import com.example.rifsa_mobile.model.entity.preferences.OnBoardingPreference
 
 
 class OnBoarding : AppCompatActivity() {

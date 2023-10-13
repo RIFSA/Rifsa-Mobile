@@ -18,6 +18,7 @@ import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestInsertViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
+import com.example.rifsa_mobile.view.fragment.maps.MapsFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.profile.ProfileViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
 import com.example.rifsa_mobile.view.fragment.weather.WeatherFragmentViewModel
@@ -110,6 +111,11 @@ class ViewModelFactory private constructor(
                     harvestRepository,
                     FinancialRepository,
                     PreferenceRespository,
+                ) as T
+            }
+            modelClass.isAssignableFrom(MapsFragmentViewModel::class.java)->{
+                MapsFragmentViewModel(
+                    PreferenceRespository
                 ) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

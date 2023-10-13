@@ -13,9 +13,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentMapsBinding
+import com.example.rifsa_mobile.model.entity.preferences.LastLocationPref
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FieldDetailEntity
 import com.example.rifsa_mobile.view.fragment.disease.diseasefragment.DisaseFragment
@@ -34,14 +36,19 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
 
 
 class MapsFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var binding : FragmentMapsBinding
 
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val remoteViewModel : RemoteViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : MapsFragmentViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var googleMap : GoogleMap
@@ -60,7 +67,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMapsBinding.inflate(layoutInflater)
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+            requireContext()
+        )
         setHasOptionsMenu(true)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -70,11 +79,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         authViewModel.apply {
             when(mapType){
                 DisaseFragment.map_key ->{
-                    getUserId().observe(viewLifecycleOwner){getDiseaseData(it)}
+                    getUserIdKey().observe(viewLifecycleOwner){getDiseaseData(it)}
                     binding.tvDiseaseMapsTitle.text = "Peta persebaran penyakit"
                 }
                 ProfileFragment.map_key ->{
-                    getUserId().observe(viewLifecycleOwner){getFarmingData(it)}
+                    getUserIdKey().observe(viewLifecycleOwner){getFarmingData(it)}
                     binding.tvDiseaseMapsTitle.text = "Ladang pertanian"
                 }
             }
@@ -92,7 +101,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
             )
         }
 
-        binding.spinTypeMap.onItemSelectedListener = object :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
+        binding.spinTypeMap.onItemSelectedListener = object
+            :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
             override fun onItemClick(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -198,7 +208,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
         })
     }
 
-    private fun showDiseaseMarker(lattidue : Double, longtidue : Double, title : String, id : String) {
+    private fun showDiseaseMarker(
+        lattidue : Double,
+        longtidue : Double,
+        title : String,
+        id : String
+    ) {
         if (lattidue != 0.0){
             googleMap.apply {
                 addMarker(MarkerOptions()
@@ -252,14 +267,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
 
     private fun detailDisease(id : String){
-        authViewModel.getUserId().observe(viewLifecycleOwner){userId->
-            remoteViewModel.readDiseaseList(userId).addValueEventListener(object : ValueEventListener{
+        //fetch disease record from firebase
+        authViewModel.getUserIdKey().observe(viewLifecycleOwner){userId->
+            remoteViewModel.readDiseaseList(userId).addValueEventListener(object
+                : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { child ->
                         val data = child.child(id).getValue(DiseaseEntity::class.java)
                         if (data != null){
                             findNavController().navigate(
-                                MapsFragmentDirections.actionMapsDiseaseFragmentToDisaseDetailFragment(
+                                MapsFragmentDirections
+                                    .actionMapsDiseaseFragmentToDisaseDetailFragment(
                                     data
                                 )
                             )
@@ -281,12 +299,24 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                 .addOnSuccessListener { maps ->
                     if (maps != null){
                         //save last position as reference
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(
-                            LatLng(maps.latitude,maps.longitude)
-                        ))
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                            LatLng(maps.latitude,maps.longitude),19f
-                        ))
+                        directToLastPosition(
+                            langtitude = maps.longitude,
+                            lattidue = maps.latitude
+                        )
+                        lifecycleScope.launch {
+                            authViewModel.saveLastLocation(LastLocationPref(
+                                langitude = maps.longitude,
+                                lattidue = maps.latitude
+                            ))
+                        }
+                    }else{
+                        //direct to last position if gps off
+                        authViewModel.getUserLastLocation().observe(viewLifecycleOwner){coordinate->
+                            directToLastPosition(
+                                langtitude = coordinate.langitude,
+                                lattidue = coordinate.lattidue
+                            )
+                        }
                     }
                 }
                 .addOnFailureListener {
@@ -296,6 +326,19 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
             requestPermissionLaunch.launch(fineLocation)
         }
     }
+
+    private fun directToLastPosition(
+        langtitude : Double,
+        lattidue: Double
+    ){
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(
+            LatLng(lattidue,langtitude)
+        ))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+            LatLng(lattidue,langtitude),19f
+        ))
+    }
+
 
     private fun showStatus(title: String){
         binding.tvMapsTitle.visibility = View.VISIBLE

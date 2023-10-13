@@ -3,10 +3,13 @@ package com.example.rifsa_mobile.model.repository.local.preference
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.rifsa_mobile.model.entity.openweatherapi.request.UserLocation
+import com.example.rifsa_mobile.model.entity.preferences.LastLocationPref
 import com.example.rifsa_mobile.model.local.preferences.AuthenticationPreference
+import com.example.rifsa_mobile.model.local.preferences.LastLocationPreference
 
 class PreferenceRespository(
-    private val preferences : AuthenticationPreference
+    private val preferences : AuthenticationPreference,
+    private val lastLocationPreferences : LastLocationPreference
 ) {
 
     fun getOnBoardStatus(): LiveData<Boolean> = preferences.getOnBoardKey().asLiveData()
@@ -20,6 +23,7 @@ class PreferenceRespository(
     fun getLocationUser(): LiveData<UserLocation> = preferences.getUserLocation().asLiveData()
 
     fun getLocationReceiver(): LiveData<Boolean> = preferences.getLocationListener().asLiveData()
+
 
     suspend fun savePrefrences(onBoard : Boolean, userName: String,pass: String,token : String){
         preferences.savePreferences(onBoard,userName,pass,token)
@@ -37,5 +41,17 @@ class PreferenceRespository(
         preferences.setGetLocation(location)
     }
 
+    fun getUserLastLocation(): LiveData<LastLocationPref> = lastLocationPreferences
+        .getUserLastLocation()
+        .asLiveData()
+
+
+    suspend fun saveLastLocation(location : LastLocationPref){
+        lastLocationPreferences.saveLastLocation(
+            longitude = location.langitude,
+            latitude = location.lattidue
+        )
+    }
+    
 
 }

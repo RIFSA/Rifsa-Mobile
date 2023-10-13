@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.model.entity.local.onboarding
+package com.example.rifsa_mobile.model.entity.preferences
 
 data class OnBoardingPreference(
     val pic : Int,
