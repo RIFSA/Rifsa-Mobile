@@ -115,6 +115,7 @@ class ViewModelFactory private constructor(
             }
             modelClass.isAssignableFrom(MapsFragmentViewModel::class.java)->{
                 MapsFragmentViewModel(
+                    firebaseRepository,
                     PreferenceRespository
                 ) as T
             }

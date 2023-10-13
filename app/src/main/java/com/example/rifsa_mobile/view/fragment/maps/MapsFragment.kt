@@ -22,8 +22,6 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FieldDetailEntity
 import com.example.rifsa_mobile.view.fragment.disease.diseasefragment.DisaseFragment
 import com.example.rifsa_mobile.view.fragment.profile.ProfileFragment
-import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
-import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -43,10 +41,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var binding : FragmentMapsBinding
 
-    private val remoteViewModel : RemoteViewModel by viewModels{
-        ViewModelFactory.getInstance(requireContext())
-    }
-    private val authViewModel : MapsFragmentViewModel by viewModels {
+    private val viewModel : MapsFragmentViewModel by viewModels{
         ViewModelFactory.getInstance(requireContext())
     }
 
@@ -76,7 +71,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
         val mapType = MapsFragmentArgs.fromBundle(requireArguments()).maptype
 
-        authViewModel.apply {
+        this.viewModel.apply {
             when(mapType){
                 DisaseFragment.map_key ->{
                     getUserIdKey().observe(viewLifecycleOwner){getDiseaseData(it)}
@@ -182,7 +177,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
     }
 
     private fun getDiseaseData(userId : String){
-        remoteViewModel.readDiseaseList(userId).addValueEventListener(object : ValueEventListener{
+        this.viewModel.readDiseaseList(userId).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach { child ->
                     child.children.forEach { main ->
@@ -231,7 +226,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
     }
 
     private fun getFarmingData(userId : String){
-        remoteViewModel.readFarming(userId).addValueEventListener(object : ValueEventListener{
+        this.viewModel.readFarming(userId).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val data = snapshot.getValue(FieldDetailEntity::class.java)
                 if (data != null) {
@@ -268,8 +263,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
 
     private fun detailDisease(id : String){
         //fetch disease record from firebase
-        authViewModel.getUserIdKey().observe(viewLifecycleOwner){userId->
-            remoteViewModel.readDiseaseList(userId).addValueEventListener(object
+        this.viewModel.getUserIdKey().observe(viewLifecycleOwner){ userId->
+            this.viewModel.readDiseaseList(userId).addValueEventListener(object
                 : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { child ->
@@ -304,14 +299,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback{
                             lattidue = maps.latitude
                         )
                         lifecycleScope.launch {
-                            authViewModel.saveLastLocation(LastLocationPref(
+                            this@MapsFragment.viewModel.saveLastLocation(LastLocationPref(
                                 langitude = maps.longitude,
                                 lattidue = maps.latitude
                             ))
                         }
                     }else{
                         //direct to last position if gps off
-                        authViewModel.getUserLastLocation().observe(viewLifecycleOwner){coordinate->
+                        this.viewModel.getUserLastLocation().observe(viewLifecycleOwner){ coordinate->
                             directToLastPosition(
                                 langtitude = coordinate.langitude,
                                 lattidue = coordinate.lattidue
