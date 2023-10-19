@@ -91,7 +91,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_login_email" />
 
-            <com.example.rifsa_mobile.view.componen.EmailBoxCustom
+            <com.example.rifsa_mobile.view.activity.authetication.component.EmailBoxCustom
                 android:id="@+id/tv_login_email"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
@@ -108,7 +108,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-            <com.example.rifsa_mobile.view.componen.PasswordBoxCustom
+            <com.example.rifsa_mobile.view.activity.authetication.component.PasswordBoxCustom
                 android:id="@+id/tv_login_password"
                 android:layout_width="0dp"
                 android:layout_height="56dp"

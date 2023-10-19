@@ -159,17 +159,26 @@
     <string name="fragment_maps_type_satelite_map">satelite map</string>
     <string name="fragment_maps_type_terrain_map">terrain map</string>
     <string name="fragment_maps_type_hybrid_map">hybrid map</string>
+    <string name="activity_login_password_warn">Password min 6 Characters</string>
+    <string name="acitivty_login_email_warn">Email not Valid</string>
 
     <string-array name="harvest_sort">
         <item>Sort By</item>
         <item>Type A-Z</item>
         <item>Jenis Z-A</item>
-        <item>Pendapatan terendah</item>
-        <item>Pendapatan tertinggi</item>
-        <item>Terbaru</item>
-        <item>Terlama</item>
-        <item>Berat</item>
-        <item>Ringan</item>
+        <item>lowest income</item>
+        <item>highest income</item>
+        <item>new</item>
+        <item>old</item>
+        <item>heavy</item>
+        <item>light</item>
+    </string-array>
+
+    <string-array name="disease_sort">
+        <item>Name A-Z</item>
+        <item>Name Z-A</item>
+        <item>Oldest</item>
+        <item>Newest</item>
     </string-array>
 
     <!--map type-->

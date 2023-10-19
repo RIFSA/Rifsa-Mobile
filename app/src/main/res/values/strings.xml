@@ -87,6 +87,13 @@
         <item>Ringan</item>
     </string-array>
 
+    <string-array name="disease_sort">
+        <item>Nama A-Z</item>
+        <item>Nama Z-A</item>
+        <item>Terbaru</item>
+        <item>Lama</item>
+    </string-array>
+
     <string name="subtitle">subtitle</string>
     <string name="title">title</string>
     <string name="image">image</string>
@@ -180,6 +187,8 @@
     <string name="fragment_maps_type_satelite_map">satelite map</string>
     <string name="fragment_maps_type_terrain_map">terrain map</string>
     <string name="fragment_maps_type_hybrid_map">hybrid map</string>
+    <string name="activity_login_password_warn">Password min 6 karakter</string>
+    <string name="acitivty_login_email_warn">Email tidak valid</string>
 
     <!--map type-->
     <string-array name="map_type">

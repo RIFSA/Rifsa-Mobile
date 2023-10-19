@@ -1,8 +1,9 @@
-package com.example.rifsa_mobile.view.componen
+package com.example.rifsa_mobile.view.activity.authetication.component
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.provider.Settings.Global.getString
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -14,11 +15,10 @@ import com.example.rifsa_mobile.R
 
 class PasswordBoxCustom: AppCompatEditText, View.OnTouchListener {
     private lateinit var iconTextImage: Drawable
-
-
-
+    private lateinit var contextApp : Context
 
     constructor(context: Context) : super(context) {
+        contextApp = context
         init()
     }
 
@@ -64,7 +64,7 @@ class PasswordBoxCustom: AppCompatEditText, View.OnTouchListener {
     }
 
     private fun warnText(){
-        error = invalid_pass
+        error = context.getString(R.string.activity_login_password_warn)
         iconTextImage = ContextCompat.getDrawable(context,  R.drawable.ic_hidepass) as Drawable
     }
 
@@ -116,10 +116,6 @@ class PasswordBoxCustom: AppCompatEditText, View.OnTouchListener {
 
     interface SetHideCallBack{
         fun setHideCallback(status : Boolean)
-    }
-
-    companion object{
-        const val invalid_pass = "Password min 6 karakter"
     }
 
 }

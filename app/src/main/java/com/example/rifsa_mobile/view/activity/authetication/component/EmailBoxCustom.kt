@@ -1,4 +1,4 @@
-package com.example.rifsa_mobile.view.componen
+package com.example.rifsa_mobile.view.activity.authetication.component
 
 import android.content.Context
 import android.graphics.Canvas
@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.helpers.utils.Utils.validEmailChecker
 
 class EmailBoxCustom: AppCompatEditText,View.OnTouchListener {
@@ -40,7 +41,7 @@ class EmailBoxCustom: AppCompatEditText,View.OnTouchListener {
                     if (word.validEmailChecker()){
                         Log.d("edit","safe")
                     }else{
-                        error = "Email tidak valid"
+                        error = context.getString(R.string.acitivty_login_email_warn)
                     }
                 }
             }

@@ -2,7 +2,10 @@ package com.example.rifsa_mobile.view.fragment.disease.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.DataSource
+import androidx.paging.PagedList
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.repository.local.disease.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 
@@ -15,7 +18,18 @@ class DiseaseViewModel(
         return diseaseRepository.readLocalDisease()
     }
 
-    suspend fun deleteDiseaseLocal(id : String){
-       diseaseRepository.deleteLocalDisease(id)
-    }
+    //sort data
+    fun readDiseaseSortNameAsc(): LiveData<PagedList<DiseaseEntity>> =
+        diseaseRepository.readDiseaseSortNameDesc()
+
+    fun readDiseaseSortNameDesc(): LiveData<PagedList<DiseaseEntity>> =
+        diseaseRepository.readDiseaseSortNameDesc()
+
+    fun readDiseaseSortDateAsc(): LiveData<PagedList<DiseaseEntity>> =
+        diseaseRepository.readDiseaseSortDateAsc()
+
+    fun readDiseaseSortDateDesc(): LiveData<PagedList<DiseaseEntity>> =
+        diseaseRepository.readDiseaseSortDateDesc()
+
+
 }

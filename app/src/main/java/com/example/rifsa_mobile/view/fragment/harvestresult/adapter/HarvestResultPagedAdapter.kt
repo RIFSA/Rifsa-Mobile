@@ -18,10 +18,10 @@ class HarvestResultPagedAdapter :
     ) {
 
     private lateinit var itemCallBack
-    : HarvestResultPagedAdapter.ItemDetailCallback
+    : ItemDetailCallback
 
     fun onItemCallBack(
-        callback : HarvestResultPagedAdapter.ItemDetailCallback
+        callback : ItemDetailCallback
     ){
         this.itemCallBack = callback
     }

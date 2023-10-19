@@ -2,8 +2,10 @@ package com.example.rifsa_mobile.model.local.room.dao
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 
 @Dao
 interface DiseaseDao {
@@ -27,4 +29,18 @@ interface DiseaseDao {
 
     @Query("update DiseaseTable set imageUrl=:imageUri,isUploaded = 1 where diseaseId=:idDisease")
     fun updateUploadStatus(imageUri : String, idDisease : String)
+
+    //sort data
+    @Query("select * from DiseaseTable order by nameDisease asc")
+    fun readDiseaseSortNameAsc(): DataSource.Factory<Int, DiseaseEntity>
+
+    @Query("select * from DiseaseTable order by nameDisease desc")
+    fun readDiseaseSortNameDesc(): DataSource.Factory<Int, DiseaseEntity>
+
+    @Query("select * from DiseaseTable order by nameDisease asc")
+    fun readDiseaseSortDateAsc(): DataSource.Factory<Int, DiseaseEntity>
+
+    @Query("select * from DiseaseTable order by nameDisease desc")
+    fun readDiseaseSortDateDesc(): DataSource.Factory<Int, DiseaseEntity>
+
 }

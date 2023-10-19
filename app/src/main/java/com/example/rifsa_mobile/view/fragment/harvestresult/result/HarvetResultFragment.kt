@@ -65,7 +65,8 @@ class HarvetResultFragment : Fragment() {
                 )
             }
 
-            spSort2.onItemSelectedListener = object : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
+            spSort2.onItemSelectedListener = object : AdapterView.OnItemClickListener,
+                AdapterView.OnItemSelectedListener{
                 override fun onItemClick(
                     parent: AdapterView<*>?,
                     view: View?,

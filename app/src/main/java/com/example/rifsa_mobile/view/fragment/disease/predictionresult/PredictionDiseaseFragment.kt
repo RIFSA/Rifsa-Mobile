@@ -37,6 +37,7 @@ import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
 import kotlin.properties.Delegates
 
 
@@ -54,6 +55,10 @@ class PredictionDiseaseFragment : Fragment() {
     private var indicationList = ArrayList<String>()
 
     private var currentDate = LocalDate.now().toString()
+    private var currentDay = LocalDate.now().dayOfMonth
+    private var currentMonth = LocalDate.now().month.value
+    private var currentYear = LocalDate.now().year
+
     private var diseaseId = UUID.randomUUID().toString()
     private var diseaseIndex = 0
     private var indicationName = ""
@@ -201,6 +206,9 @@ class PredictionDiseaseFragment : Fragment() {
             nameDisease = indicationName,
             indexDisease = diseaseIndex,
             dateDisease = currentDate,
+            day = currentDay,
+            month = currentMonth,
+            year = currentYear,
             latitude = curLatitude.toString(),
             longitude = curLongitude.toString(),
             imageUrl = imageUrl.toString(),
@@ -230,6 +238,9 @@ class PredictionDiseaseFragment : Fragment() {
                 nameDisease = indicationName,
                 indexDisease = diseaseIndex,
                 dateDisease = currentDate,
+                day = currentDay,
+                month = currentMonth,
+                year = currentYear,
                 latitude = curLatitude.toString(),
                 longitude = curLongitude.toString(),
                 imageUrl = imageUri.toString(),

@@ -41,4 +41,6 @@
     <string name="fragment_maps_type_satelite_map">satelite map</string>
     <string name="fragment_maps_type_terrain_map">terrain map</string>
     <string name="fragment_maps_type_hybrid_map">hybrid map</string>
+    <string name="activity_login_password_warn">Password min 6 karakter</string>
+    <string name="acitivty_login_email_warn">Email tidak valid</string>
 </resources>
