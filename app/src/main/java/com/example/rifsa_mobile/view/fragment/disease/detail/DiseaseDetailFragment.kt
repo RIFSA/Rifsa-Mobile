@@ -117,17 +117,6 @@ class DiseaseDetailFragment : Fragment() {
             .into(binding.imgDisaseDetail)
     }
 
-
-    private fun deleteImageRemote(){
-        viewModel.deleteDiseaseImage(diseaseId,firebaseUserId)
-            .addOnSuccessListener {
-                deleteDataRemote()
-            }
-            .addOnFailureListener {
-                showStatus(it.message.toString())
-            }
-    }
-
     private fun deleteDataRemote(){
         viewModel.deleteDisease(dateRecord,diseaseId,firebaseUserId)
             .addOnSuccessListener {

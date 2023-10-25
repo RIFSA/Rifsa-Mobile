@@ -37,10 +37,10 @@ interface DiseaseDao {
     @Query("select * from DiseaseTable order by nameDisease desc")
     fun readDiseaseSortNameDesc(): DataSource.Factory<Int, DiseaseEntity>
 
-    @Query("select * from DiseaseTable order by nameDisease asc")
+    @Query("select * from DiseaseTable order by day asc")
     fun readDiseaseSortDateAsc(): DataSource.Factory<Int, DiseaseEntity>
 
-    @Query("select * from DiseaseTable order by nameDisease desc")
+    @Query("select * from DiseaseTable order by day desc")
     fun readDiseaseSortDateDesc(): DataSource.Factory<Int, DiseaseEntity>
 
 }

@@ -40,7 +40,7 @@ class InventoryFragment : Fragment() {
 
         binding.fabInventoryAdd.setOnClickListener {
             findNavController().navigate(
-                InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(null)
+                InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(null,false)
             )
         }
         authViewModel.getUserId().observe(viewLifecycleOwner){ token->
@@ -84,7 +84,8 @@ class InventoryFragment : Fragment() {
                 override fun onDetailCallback(data: InventoryEntity) {
                     findNavController().navigate(
                         InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(
-                            data
+                            data,
+                            true
                         )
                     )
                 }

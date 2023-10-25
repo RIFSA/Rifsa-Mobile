@@ -12,6 +12,7 @@ import com.example.rifsa_mobile.model.remote.weatherapi.WeatherApiConfig
 import com.example.rifsa_mobile.model.repository.local.disease.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
 import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
+import com.example.rifsa_mobile.model.repository.local.inventory.InventoryRepository
 import com.example.rifsa_mobile.model.repository.local.preference.PreferenceRespository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
@@ -51,5 +52,10 @@ object Injection {
         )
     }
 
+    fun provideInventoryRepository(context: Context): InventoryRepository{
+        return InventoryRepository(
+            DatabaseConfig.setDatabase(context)
+        )
+    }
 
 }

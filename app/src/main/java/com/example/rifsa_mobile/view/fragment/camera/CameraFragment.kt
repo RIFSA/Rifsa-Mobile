@@ -22,6 +22,7 @@ import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentCameraBinding
 import com.example.rifsa_mobile.helpers.diseasedetection.DiseasePrediction
 import com.example.rifsa_mobile.helpers.utils.Utils
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 import com.example.rifsa_mobile.view.fragment.inventory.insert.InvetoryInsertFragment.Companion.camera_key_inventory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -76,16 +77,19 @@ class CameraFragment : Fragment() {
 
         startCamera()
 
-        binding.btncameraCapture.setOnClickListener {
-            capturePhoto()
+        binding.apply{
+            btncameraCapture.setOnClickListener {
+                capturePhoto()
+            }
+
+            btnGallery.setOnClickListener {
+                val intent = Intent()
+                intent.action = Intent.ACTION_GET_CONTENT
+                intent.type = "*/*"
+                launchIntentGallery.launch(intent)
+            }
         }
 
-        binding.btnGallery.setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-            intent.type = "*/*"
-            launchIntentGallery.launch(intent)
-        }
 
         return binding.root
     }
@@ -172,10 +176,18 @@ class CameraFragment : Fragment() {
 
     private fun goToDetailDisease(data : Uri,diseaseName : String,diseaseId : Int){
         if (type == "back"){
-            findNavController()
-                .previousBackStackEntry?.savedStateHandle
-                ?.set(camera_key_inventory,data)
-            findNavController()
+            findNavController().apply {
+                previousBackStackEntry?.savedStateHandle?.set(camera_key_inventory,data)
+                    navigate(CameraFragmentDirections.actionCameraFragmentToInvetoryInsertFragment(
+                        InventoryEntity(
+                            "",
+                            imageUrl = data.toString()
+                        ),
+                        false
+                    )
+                )
+            }
+
         }else{
             findNavController().navigate(
                 CameraFragmentDirections.actionCameraFragmentToPredictionDiseaseFragment(

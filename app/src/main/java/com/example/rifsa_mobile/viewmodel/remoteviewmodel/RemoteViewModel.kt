@@ -9,7 +9,9 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.UploadTask
 
-class RemoteViewModel(private val firebaseRepository: FirebaseRepository): ViewModel() {
+class RemoteViewModel(
+    private val firebaseRepository: FirebaseRepository
+): ViewModel() {
 
     fun authLogin(email : String,password : String): Task<AuthResult> =
         firebaseRepository.authLogin(email, password)

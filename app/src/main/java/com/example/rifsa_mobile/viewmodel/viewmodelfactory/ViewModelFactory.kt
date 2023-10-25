@@ -7,6 +7,7 @@ import com.example.rifsa_mobile.injection.Injection
 import com.example.rifsa_mobile.model.repository.local.disease.DiseaseRepository
 import com.example.rifsa_mobile.model.repository.local.financial.FinancialRepository
 import com.example.rifsa_mobile.model.repository.local.harvest.HarvestRepository
+import com.example.rifsa_mobile.model.repository.local.inventory.InventoryRepository
 import com.example.rifsa_mobile.model.repository.local.preference.PreferenceRespository
 import com.example.rifsa_mobile.model.repository.remote.FirebaseRepository
 import com.example.rifsa_mobile.model.repository.remote.WeatherRepository
@@ -18,6 +19,7 @@ import com.example.rifsa_mobile.view.fragment.finance.FinancialInsertViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestInsertViewModel
 import com.example.rifsa_mobile.view.fragment.harvestresult.viewmodel.HarvestResultViewModel
 import com.example.rifsa_mobile.view.fragment.home.HomeFragmentViewModel
+import com.example.rifsa_mobile.view.fragment.inventory.InventoryViewModel
 import com.example.rifsa_mobile.view.fragment.maps.MapsFragmentViewModel
 import com.example.rifsa_mobile.view.fragment.profile.ProfileViewModel
 import com.example.rifsa_mobile.view.fragment.setting.SettingViewModel
@@ -33,6 +35,7 @@ class ViewModelFactory private constructor(
     private val weatherRepository: WeatherRepository,
     private val harvestRepository: HarvestRepository,
     private val FinancialRepository : FinancialRepository,
+    private val inventoryRepository: InventoryRepository
 ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -119,6 +122,12 @@ class ViewModelFactory private constructor(
                     PreferenceRespository
                 ) as T
             }
+            modelClass.isAssignableFrom(InventoryViewModel::class.java)->{
+                InventoryViewModel(
+                    inventoryRepository,
+                    firebaseRepository
+                ) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
@@ -134,7 +143,8 @@ class ViewModelFactory private constructor(
                     Injection.provideDiseaseRepository(context),
                     Injection.provideWeatherRepository(),
                     Injection.provideHarvestRepository(context),
-                    Injection.provideFinancialRepository(context)
+                    Injection.provideFinancialRepository(context),
+                    Injection.provideInventoryRepository(context)
                 )
             }.also { instance = it }
     }

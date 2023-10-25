@@ -2,11 +2,14 @@ package com.example.rifsa_mobile.view.fragment.inventory.insert
 
 import android.app.AlertDialog
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInvetoryInsertDetailBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
+import com.example.rifsa_mobile.view.fragment.inventory.InventoryViewModel
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
@@ -26,16 +30,30 @@ import java.util.*
 class InvetoryInsertFragment : Fragment() {
     private lateinit var binding : FragmentInvetoryInsertDetailBinding
 
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
-
+    private val remoteViewModel : RemoteViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val inventoryViewModel : InventoryViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private lateinit var currentImage : Uri
     private var isDetail = false
 
-    private var date = LocalDate.now().toString()
     private var detailId = UUID.randomUUID().toString()
     private var fileName = ""
+
+    //date
+    @RequiresApi(Build.VERSION_CODES.O)
+    private var date = LocalDate.now().toString()
+    private var currentDate = LocalDate.now().toString()
+    private var currentDay = LocalDate.now().dayOfMonth
+    private var currentMonth = LocalDate.now().month.value
+    private var currentYear = LocalDate.now().year
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,15 +65,24 @@ class InvetoryInsertFragment : Fragment() {
 
 
         try {
+            val detail= InvetoryInsertFragmentArgs.fromBundle(requireArguments()).isDetail
             val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
-            if (data != null){
-                showDetail(data)
-                isDetail = true
-                detailId = data.idInventory
-                date = data.dated
-                fileName = data.name
-                binding.btninventoryInsertDelete.visibility = View.VISIBLE
-                binding.btnInventorySave.visibility = View.GONE
+            if (detail){
+                if (data != null) {
+                    showDetail(data)
+                    isDetail = true
+                    detailId = data.idInventory
+                    date = data.dated
+                    fileName = data.name
+                    binding.btninventoryInsertDelete.visibility = View.VISIBLE
+                    binding.btnInventorySave.visibility = View.GONE
+                }
+            }else{
+                if (data != null) {
+//                    showDetail(data)
+                    fileName = data.name
+                    currentImage = data.name.toUri()
+                }
             }
             showCameraImage()
         }catch (e : Exception){ }
@@ -70,39 +97,40 @@ class InvetoryInsertFragment : Fragment() {
             showCameraImage()
         }
 
-        binding.imgInventory.setOnClickListener {
-            gotoCameraFragment()
-        }
+        binding.apply {
+            imgInventory.setOnClickListener {
+                gotoCameraFragment()
+            }
 
-        binding.btnInventoryBackhome.setOnClickListener {
-            findNavController().navigate(
-                InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
-            )
-        }
+            btnInventoryBackhome.setOnClickListener {
+                findNavController().navigate(
+                    InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
+                )
+            }
 
-        binding.btninventoryInsertDelete.setOnClickListener {
-            AlertDialog.Builder(requireActivity()).apply {
-                setTitle("Hapus data")
-                setMessage("apakah anda ingin menghapus data ini ?")
-                apply {
-                    setPositiveButton("ya") { _, _ ->
-                        binding.pgInventoryBar.visibility = View.VISIBLE
-                        deleteInventory()
+            btninventoryInsertDelete.setOnClickListener {
+                AlertDialog.Builder(requireActivity()).apply {
+                    setTitle("Hapus data")
+                    setMessage("apakah anda ingin menghapus data ini ?")
+                    apply {
+                        setPositiveButton("ya") { _, _ ->
+                            binding.pgInventoryBar.visibility = View.VISIBLE
+                            deleteInventory()
+                        }
+                        setNegativeButton("tidak") { dialog, _ ->
+                            dialog.dismiss()
+                        }
                     }
-                    setNegativeButton("tidak") { dialog, _ ->
-                        dialog.dismiss()
-                    }
+                    create()
+                    show()
                 }
-                create()
-                show()
+            }
+
+            btnInventorySave.setOnClickListener {
+                binding.pgInventoryBar.visibility = View.VISIBLE
+                uploadInventoryFile()
             }
         }
-
-        binding.btnInventorySave.setOnClickListener {
-            binding.pgInventoryBar.visibility = View.VISIBLE
-            uploadInventoryFile()
-        }
-
     }
 
     private fun showDetail(data : InventoryEntity){
@@ -124,32 +152,35 @@ class InvetoryInsertFragment : Fragment() {
     private fun showCameraImage(){
         if (!isDetail){
             val uriImage = findNavController().currentBackStackEntry?.savedStateHandle?.get<Uri>(camera_key_inventory)
-            if (uriImage != null) {
-                currentImage = uriImage
-                binding.imgInventory.setImageURI(uriImage)
+            val data = InvetoryInsertFragmentArgs.fromBundle(requireArguments()).detailInventory
+            if (data != null) {
+                currentImage = data.imageUrl.toUri()
+                binding.imgInventory.setImageURI(data.imageUrl.toUri())
             }
         }
-
     }
 
-
-
+    
     private fun uploadInventoryFile(){
         val name = binding.tvinventarisInsertName.text.toString()
         authViewModel.getUserId().observe(viewLifecycleOwner){ userId ->
-            remoteViewModel.uploadInventoryFile(name,currentImage,userId)
-                .addOnSuccessListener {
-                    it.storage.downloadUrl
-                        .addOnSuccessListener { url ->
-                           insertInventory(url,name, userId)
-                        }
-                        .addOnFailureListener {
-                            showStatus("gagal menadapatkan link")
-                        }
-                }
-                .addOnFailureListener{
-                    showStatus(it.message.toString())
-                }
+            if(currentImage != null){
+                remoteViewModel.uploadInventoryFile(name,currentImage,userId)
+                    .addOnSuccessListener {
+                        it.storage.downloadUrl
+                            .addOnSuccessListener { url ->
+                                insertInventory(url,name, userId)
+                            }
+                            .addOnFailureListener {
+                                showStatus("gagal menadapatkan link")
+                            }
+                    }
+                    .addOnFailureListener{
+                        showStatus(it.message.toString())
+                    }
+            }else{
+                showStatus("image null")
+            }
         }
     }
 
@@ -158,23 +189,36 @@ class InvetoryInsertFragment : Fragment() {
         val note = binding.tvinventarisInsertNote.text.toString()
 
         val tempData = InventoryEntity(
-            detailId,
-            name,
-            note,
-            imageUrl.toString(),
-            amount,
-            date
+            idInventory = detailId,
+            localId = 0,
+            name = name,
+            noted = note,
+            imageUrl = imageUrl.toString(),
+            amount = amount,
+            dated = date,
+            day = currentDay,
+            month = currentMonth,
+            year = currentYear
         )
+
         remoteViewModel.insertInventory(tempData,userId)
             .addOnSuccessListener {
                 showStatus("berhasil menambahkan")
                 findNavController().navigate(
                     InvetoryInsertFragmentDirections.actionInvetoryInsertFragmentToInventoryFragment()
                 )
+                insertInventoryLocal(tempData)
             }
             .addOnFailureListener {
                 showStatus(it.message.toString())
             }
+    }
+
+    //todo insert local warning
+    private fun insertInventoryLocal(
+        data : InventoryEntity
+    ){
+        inventoryViewModel.insertInventory(data)
     }
 
     private fun deleteInventory(){

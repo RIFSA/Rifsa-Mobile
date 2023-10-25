@@ -13,6 +13,7 @@ import com.example.rifsa_mobile.model.local.room.LoadDummyJson
 import com.example.rifsa_mobile.model.local.room.dao.DiseaseDao
 import com.example.rifsa_mobile.model.local.room.dao.FinancialDao
 import com.example.rifsa_mobile.model.local.room.dao.HarvestDao
+import com.example.rifsa_mobile.model.local.room.dao.InventoryDao
 import com.example.rifsa_mobile.model.repository.local.mediator.RemoteKeys
 import java.util.concurrent.Executors
 
@@ -29,6 +30,7 @@ abstract class DatabaseConfig: RoomDatabase() {
     abstract fun diseaseDao(): DiseaseDao
     abstract fun harvestDao(): HarvestDao
     abstract fun financialDao(): FinancialDao
+    abstract  fun inventoryDao(): InventoryDao
 
 
     companion object{
