@@ -132,7 +132,8 @@ class DisaseFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-            adapter.onItemCallBack(object : DiseasePagedAdapter.ItemDetailCallback{
+            adapter.onItemCallBack(
+                object : DiseasePagedAdapter.ItemDetailCallback {
 
                 override fun onItemCallback(data: DiseaseEntity) {
                     findNavController().navigate(

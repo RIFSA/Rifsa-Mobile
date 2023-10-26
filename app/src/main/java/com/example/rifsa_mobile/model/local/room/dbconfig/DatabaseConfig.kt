@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.rifsa_mobile.model.entity.remotefirebase.DiseaseEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.FinancialEntity
 import com.example.rifsa_mobile.model.entity.remotefirebase.HarvestEntity
+import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 import com.example.rifsa_mobile.model.local.room.LoadDummyJson
 import com.example.rifsa_mobile.model.local.room.dao.DiseaseDao
 import com.example.rifsa_mobile.model.local.room.dao.FinancialDao
@@ -22,6 +23,7 @@ import java.util.concurrent.Executors
         HarvestEntity::class,
         FinancialEntity::class,
         DiseaseEntity::class,
+        InventoryEntity::class
     ],
     version = 1,
     exportSchema = false

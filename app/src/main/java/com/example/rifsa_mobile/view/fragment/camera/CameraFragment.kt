@@ -180,7 +180,7 @@ class CameraFragment : Fragment() {
                 previousBackStackEntry?.savedStateHandle?.set(camera_key_inventory,data)
                     navigate(CameraFragmentDirections.actionCameraFragmentToInvetoryInsertFragment(
                         InventoryEntity(
-                            "",
+                            0,
                             imageUrl = data.toString()
                         ),
                         false

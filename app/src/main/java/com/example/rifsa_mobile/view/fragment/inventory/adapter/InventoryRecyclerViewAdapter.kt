@@ -9,14 +9,19 @@ import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 
 class InventoryRecyclerViewAdapter(private val dataList : List<InventoryEntity>)
     : RecyclerView.Adapter<InventoryRecyclerViewAdapter.ViewHolder>() {
-    class ViewHolder(val binding : ItemcardInventoryBinding): RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(
+        val binding : ItemcardInventoryBinding
+    ): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemCallback : OnDetailItemCallback
 
     fun onItemDetailCallback(callback : OnDetailItemCallback){
         this.itemCallback = callback
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
         return ViewHolder(ItemcardInventoryBinding.inflate(
             LayoutInflater.from(parent.context
             )

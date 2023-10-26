@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
+import com.example.rifsa_mobile.view.fragment.inventory.InventoryViewModel
+import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryPagedAdapter
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
@@ -25,8 +28,15 @@ import com.google.firebase.database.ValueEventListener
 class InventoryFragment : Fragment() {
     private lateinit var binding : FragmentInventoryBinding
 
-    private val remoteViewModel : RemoteViewModel by viewModels{ ViewModelFactory.getInstance(requireContext()) }
-    private val authViewModel : UserPrefrencesViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
+    private val remoteViewModel : RemoteViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val authViewModel : UserPrefrencesViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private val inventoryViewModel : InventoryViewModel by viewModels{
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var dataList = ArrayList<InventoryEntity>()
     override fun onCreateView(
@@ -43,45 +53,25 @@ class InventoryFragment : Fragment() {
                 InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(null,false)
             )
         }
-        authViewModel.getUserId().observe(viewLifecycleOwner){ token->
-            inventoryList(token)
+
+        inventoryViewModel.readInventorySortDateAsc().observe(viewLifecycleOwner){data->
+            showInventoryList(data)
         }
         return binding.root
     }
 
-    private fun inventoryList(token : String){
-        remoteViewModel.readInventory(token).addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    snapshot.children.forEach { child ->
-                        child.children.forEach { main ->
-                            binding.pgbInventoryBar.visibility = View.GONE
-                            val data = main.getValue(InventoryEntity::class.java)
-                            data?.let { dataList.add(data) }
-                            showInventoryList(dataList)
-                            dataChecker(dataList.size)
-                        }
-                    }
-                }else{
-                    dataChecker(0)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                showStatus(error.message)
-            }
-        })
-    }
 
-    private fun showInventoryList(data : List<InventoryEntity>) {
+    private fun showInventoryList(data : PagedList<InventoryEntity>) {
         try {
             binding.pgbInventoryBar.visibility = View.GONE
-            val adapter = InventoryRecyclerViewAdapter(data)
+            val adapter = InventoryPagedAdapter()
             val recyclerView = binding.recviewInventory
+            adapter.submitList(data)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-            adapter.onItemDetailCallback(object : InventoryRecyclerViewAdapter.OnDetailItemCallback{
-                override fun onDetailCallback(data: InventoryEntity) {
+            adapter.onItemCallBack(object : InventoryPagedAdapter.ItemDetailCallback{
+                override fun onItemCallback(data: InventoryEntity) {
                     findNavController().navigate(
                         InventoryFragmentDirections.actionInventoryFragmentToInvetoryInsertFragment(
                             data,
