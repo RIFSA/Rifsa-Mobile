@@ -2,7 +2,7 @@ package com.example.rifsa_mobile.view.fragment.inventory.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,20 +10,18 @@ import com.example.rifsa_mobile.databinding.ItemcardInventoryBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 
 class InventoryPagedAdapter:
-    PagedListAdapter<InventoryEntity,InventoryPagedAdapter.ViewHolder>(
+    PagingDataAdapter<InventoryEntity,InventoryPagedAdapter.ViewHolder>(
         InventoryComprator()
     )
 {
 
-    private lateinit var itemCallBack
-            : ItemDetailCallback
+    private lateinit var itemCallBack: ItemDetailCallback
 
     fun onItemCallBack(
         callback : ItemDetailCallback
     ){
         this.itemCallBack = callback
     }
-
 
     class ViewHolder(
         val binding : ItemcardInventoryBinding
@@ -71,7 +69,7 @@ class InventoryPagedAdapter:
             oldItem: InventoryEntity,
             newItem: InventoryEntity
         ): Boolean {
-            return oldItem.localId === newItem.localId
+            return oldItem === newItem
         }
     }
 

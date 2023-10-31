@@ -5,24 +5,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rifsa_mobile.R
 import com.example.rifsa_mobile.databinding.FragmentInventoryBinding
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
 import com.example.rifsa_mobile.view.fragment.inventory.InventoryViewModel
 import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryPagedAdapter
-import com.example.rifsa_mobile.view.fragment.inventory.adapter.InventoryRecyclerViewAdapter
 import com.example.rifsa_mobile.viewmodel.remoteviewmodel.RemoteViewModel
 import com.example.rifsa_mobile.viewmodel.userpreferences.UserPrefrencesViewModel
 import com.example.rifsa_mobile.viewmodel.viewmodelfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
 
 
 class InventoryFragment : Fragment() {
@@ -54,19 +54,81 @@ class InventoryFragment : Fragment() {
             )
         }
 
-        inventoryViewModel.readInventorySortDateAsc().observe(viewLifecycleOwner){data->
-            showInventoryList(data)
-        }
+
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            spinnerSortData.onItemSelectedListener = object : AdapterView.OnItemClickListener,
+            AdapterView.OnItemSelectedListener{
+                override fun onItemClick(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) { }
 
-    private fun showInventoryList(data : PagedList<InventoryEntity>) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                   if(parent != null){
+                       when(position){
+                           1 ->{
+                               inventoryViewModel.readInventorySortNameAsc().observe(
+                                   viewLifecycleOwner
+                               ){ data ->
+                                   lifecycleScope.launch {
+                                       showInventoryList(data)
+                                   }
+                               }
+                           }
+                           2 ->{
+                               inventoryViewModel.readInventorySortNameDesc().observe(
+                                   viewLifecycleOwner
+                               ){ data ->
+                                   lifecycleScope.launch {
+                                       showInventoryList(data)
+                                   }
+                               }
+                           }
+                           3 ->{
+                               inventoryViewModel.readInventorySortDateAsc().observe(
+                                   viewLifecycleOwner
+                               ){ data ->
+                                   lifecycleScope.launch {
+                                       showInventoryList(data)
+                                   }
+                               }
+                           }
+                           4 ->{
+                               inventoryViewModel.readInventorySortDateDesc().observe(
+                                   viewLifecycleOwner
+                               ){ data ->
+                                   lifecycleScope.launch {
+                                       showInventoryList(data)
+                                   }
+                               }
+                           }
+                       }
+                   }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {  }
+            }
+        }
+    }
+
+    private suspend fun showInventoryList(data : PagingData<InventoryEntity>) {
         try {
             binding.pgbInventoryBar.visibility = View.GONE
             val adapter = InventoryPagedAdapter()
             val recyclerView = binding.recviewInventory
-            adapter.submitList(data)
+            adapter.submitData(data)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

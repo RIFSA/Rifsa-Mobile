@@ -94,6 +94,13 @@
         <item>Lama</item>
     </string-array>
 
+    <string-array name="inventory_sort">
+        <item>Nama A-Z</item>
+        <item>Nama Z-A</item>
+        <item>Terbaru</item>
+        <item>Lama</item>
+    </string-array>
+
     <string name="subtitle">subtitle</string>
     <string name="title">title</string>
     <string name="image">image</string>
