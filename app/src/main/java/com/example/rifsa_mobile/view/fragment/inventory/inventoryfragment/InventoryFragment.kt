@@ -54,6 +54,13 @@ class InventoryFragment : Fragment() {
             )
         }
 
+        inventoryViewModel.readInventorySortNameAsc().observe(
+            viewLifecycleOwner
+        ){ data ->
+            lifecycleScope.launch {
+                showInventoryList(data)
+            }
+        }
 
         return binding.root
     }

@@ -28,7 +28,9 @@ class InventoryRepository(
         return liveData {
             Pager(
                 config = PagingConfig(
-                    pageSize = 5
+                    pageSize = 5,
+                    enablePlaceholders = true,
+                    initialLoadSize = 10
                 ),
             ) {
                 PagingSource(dao)

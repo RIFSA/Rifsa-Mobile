@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.model.repository.local.inventory
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.rifsa_mobile.model.entity.remotefirebase.InventoryEntity
@@ -24,9 +25,10 @@ class PagingSource(
         return try{
             val position = params.key ?: 0
             val data = dao.readInventorySortNameAsc(
-                params.loadSize, position * params.loadSize
+                1, 10
             )
 
+            Log.d("tes Inventory",data.size.toString())
             LoadResult.Page(
                 data = data,
                 prevKey = if (position == 1) null else position - 1,

@@ -1,5 +1,6 @@
 package com.example.rifsa_mobile.view.fragment.inventory.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -27,6 +28,7 @@ class InventoryPagedAdapter:
         val binding : ItemcardInventoryBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item : InventoryEntity){
+            Log.d("tes Inventory",item.name)
             binding.tvcardInventTitle.text = item.name
             binding.tvcardInventAmount.text = item.amount
 
